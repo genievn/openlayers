@@ -348,34 +348,25 @@ define('Core/Cartesian2',[],function() {
     };
 
     /**
-     * Creates a Cartesian2 instance initialized to (0, 0).
+     * An immutable Cartesian2 instance initialized to (0.0, 0.0).
      *
      * @memberof Cartesian2
-     * @return {Cartesian2} A new Cartesian2 instance.
      */
-    Cartesian2.getZero = function() {
-        return new Cartesian2(0, 0);
-    };
+    Cartesian2.ZERO = Object.freeze(new Cartesian2(0.0, 0.0));
 
     /**
-     * Creates a Cartesian2 instance initialized to (1, 0).
+     * An immutable Cartesian2 instance initialized to (1, 0).
      *
      * @memberof Cartesian2
-     * @return {Cartesian2} A new Cartesian2 instance.
      */
-    Cartesian2.getUnitX = function() {
-        return new Cartesian2(1, 0);
-    };
+    Cartesian2.UNIT_X = Object.freeze(new Cartesian2(1.0, 0.0));
 
     /**
-     * Creates a Cartesian2 instance initialized to (0, 1).
+     * An immutable Cartesian2 instance initialized to (0.0, 1.0).
      *
      * @memberof Cartesian2
-     * @return {Cartesian2} A new Cartesian2 instance.
      */
-    Cartesian2.getUnitY = function() {
-        return new Cartesian2(0, 1);
-    };
+    Cartesian2.UNIT_Y = Object.freeze(new Cartesian2(0.0, 1.0));
 
     /**
      * Returns the Cartesian's squared magnitude (length).
@@ -596,44 +587,32 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
     };
 
     /**
-     * Creates a Cartesian3 instance initialized to (0, 0, 0).
+     * An immutable Cartesian3 instance initialized to (0.0, 0.0, 0.0).
      *
      * @memberof Cartesian3
-     * @return {Cartesian3} A new Cartesian3 instance.
      */
-    Cartesian3.getZero = function() {
-        return new Cartesian3(0, 0, 0);
-    };
+    Cartesian3.ZERO = Object.freeze(new Cartesian3(0.0, 0.0, 0.0));
 
     /**
-     * Creates a Cartesian3 instance initialized to (1, 0, 0).
+     * An immutable Cartesian3 instance initialized to (1.0, 0.0, 0.0).
      *
      * @memberof Cartesian3v
-     * @return {Cartesian3} A new Cartesian3 instance.
      */
-    Cartesian3.getUnitX = function() {
-        return new Cartesian3(1, 0, 0);
-    };
+    Cartesian3.UNIT_X = Object.freeze(new Cartesian3(1.0, 0.0, 0.0));
 
     /**
-     * Creates a Cartesian3 instance initialized to (0, 1, 0).
+     * An immutable Cartesian3 instance initialized to (0.0, 1.0, 0.0).
      *
      * @memberof Cartesian3
-     * @return {Cartesian3} A new Cartesian3 instance.
      */
-    Cartesian3.getUnitY = function() {
-        return new Cartesian3(0, 1, 0);
-    };
+    Cartesian3.UNIT_Y = Object.freeze(new Cartesian3(0.0, 1.0, 0.0));
 
     /**
-     * Creates a Cartesian3 instance initialized to (0, 0, 1).
+     * An immutable Cartesian3 instance initialized to (0.0, 0.0, 1.0).
      *
      * @memberof Cartesian3
-     * @return {Cartesian3} A new Cartesian3 instance.
      */
-    Cartesian3.getUnitZ = function() {
-        return new Cartesian3(0, 0, 1);
-    };
+    Cartesian3.UNIT_Z = Object.freeze(new Cartesian3(0.0, 0.0, 1.0));
 
     /**
      * Returns a new array, where each {@link Cartesian3}
@@ -815,11 +794,11 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
         var z = Math.abs(this.z);
 
         if ((x < y) && (x < z)) {
-            return Cartesian3.getUnitX();
+            return Cartesian3.UNIT_X;
         } else if ((y < x) && (y < z)) {
-            return Cartesian3.getUnitY();
+            return Cartesian3.UNIT_Y;
         } else {
-            return Cartesian3.getUnitZ();
+            return Cartesian3.UNIT_Z;
         }
     };
 
@@ -827,11 +806,11 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
      * Returns the angle, in radians, between this Cartesian and the Cartesian passed in.
      *
      * @memberof Cartesian3
-     * @param {Cartesian3} scalar The Cartesian used to compute the angle.
+     * @param {Cartesian3} cartesian The Cartesian used to compute the angle.
      * @return {Number} The angle between the two Cartesians.
      */
-    Cartesian3.prototype.angleBetween = function(Cartesian) {
-        var c = Cartesian3.clone(Cartesian);
+    Cartesian3.prototype.angleBetween = function(cartesian) {
+        var c = Cartesian3.clone(cartesian);
         return Math.acos(this.normalize().dot(c.normalize()));
     };
 
@@ -1045,54 +1024,39 @@ define('Core/Cartesian4',[
     };
 
     /**
-     * Creates a Cartesian4 instance initialized to (0, 0, 0, 0).
+     * An immutable Cartesian4 instance initialized to (0.0, 0.0, 0.0, 0.0).
      *
      * @memberof Cartesian4
-     * @return {Cartesian4} A new Cartesian4 instance.
      */
-    Cartesian4.getZero = function() {
-        return new Cartesian4(0, 0, 0, 0);
-    };
+    Cartesian4.ZERO = Object.freeze(new Cartesian4(0.0, 0.0, 0.0, 0.0));
 
     /**
-     * Creates a Cartesian4 instance initialized to (1, 0, 0, 0).
+     * An immutable Cartesian4 instance initialized to (1.0, 0.0, 0.0, 0.0).
      *
      * @memberof Cartesian4
-     * @return {Cartesian4} A new Cartesian4 instance.
      */
-    Cartesian4.getUnitX = function() {
-        return new Cartesian4(1, 0, 0, 0);
-    };
+    Cartesian4.UNIT_X = Object.freeze(new Cartesian4(1.0, 0.0, 0.0, 0.0));
 
     /**
-     * Creates a Cartesian4 instance initialized to (0, 1, 0, 0).
+     * An immutable Cartesian4 instance initialized to (0.0, 1.0, 0.0, 0.0).
      *
      * @memberof Cartesian4
-     * @return {Cartesian4} A new Cartesian4 instance.
      */
-    Cartesian4.getUnitY = function() {
-        return new Cartesian4(0, 1, 0, 0);
-    };
+    Cartesian4.UNIT_Y = Object.freeze(new Cartesian4(0.0, 1.0, 0.0, 0.0));
 
     /**
-     * Creates a Cartesian4 instance initialized to (0, 0, 1, 0).
+     * An immutable Cartesian4 instance initialized to (0.0, 0.0, 1.0, 0.0).
      *
      * @memberof Cartesian4
-     * @return {Cartesian4} A new Cartesian4 instance.
      */
-    Cartesian4.getUnitZ = function() {
-        return new Cartesian4(0, 0, 1, 0);
-    };
+    Cartesian4.UNIT_Z = Object.freeze(new Cartesian4(0.0, 0.0, 1.0, 0.0));
 
     /**
-     * Creates a Cartesian4 instance initialized to (0, 0, 0, 1).
+     * An immutable Cartesian4 instance initialized to (0.0, 0.0, 0.0, 1.0).
      *
      * @memberof Cartesian4
-     * @return {Cartesian4} A new Cartesian4 instance.
      */
-    Cartesian4.getUnitW = function() {
-        return new Cartesian4(0, 0, 0, 1);
-    };
+    Cartesian4.UNIT_W = Object.freeze(new Cartesian4(0.0, 0.0, 0.0, 1.0));
 
     /**
      * Returns the Cartesian's x and y components as a Cartesian2.
@@ -1246,13 +1210,13 @@ define('Core/Cartesian4',[
         var w = Math.abs(this.w);
 
         if ((x < y) && (x < z) && (x < w)) {
-            return Cartesian4.getUnitX();
+            return Cartesian4.UNIT_X;
         } else if ((y < x) && (y < z) && (y < w)) {
-            return Cartesian4.getUnitY();
+            return Cartesian4.UNIT_Y;
         } else if ((z < x) && (z < y) && (z < w)) {
-            return Cartesian4.getUnitZ();
+            return Cartesian4.UNIT_Z;
         } else {
-            return Cartesian4.getUnitW();
+            return Cartesian4.UNIT_W;
         }
     };
 
@@ -1379,14 +1343,11 @@ define('Core/Cartographic2',[],function() {
     }
 
     /**
-     * Creates a Cartographic2 instance initialized to (0.0, 0.0).
+     * An immutable Cartographic2 instance initialized to (0.0, 0.0).
      *
      * @memberof Cartographic2
-     * @return {Cartographic2} A new Cartographic2 instance.
      */
-    Cartographic2.getZero = function() {
-        return new Cartographic2(0.0, 0.0);
-    };
+    Cartographic2.ZERO = Object.freeze(new Cartographic2(0.0, 0.0));
 
     /**
      * Returns a duplicate of a Cartographic2 instance.
@@ -1402,7 +1363,7 @@ define('Core/Cartographic2',[],function() {
      * Returns <code>true</code> if this instance equals other.
      *
      * @memberof Cartographic2
-     * 
+     *
      * @param {Cartographic2} other The cartographic position to compare for equality.
      *
      * @return {Boolean} <code>true</code> if the positions are equal; otherwise, false.
@@ -1415,7 +1376,7 @@ define('Core/Cartographic2',[],function() {
      * Returns <code>true</code> if this instance equals other within the specified epsilon.
      *
      * @memberof Cartographic2
-     * 
+     *
      * @param {Cartographic2} other The cartographic position to compare for equality.
      * @param {Number} [epsilon=0.0] The epsilon to use for equality testing.
      *
@@ -1501,14 +1462,11 @@ define('Core/Cartographic3',[],function() {
     }
 
     /**
-     * Creates a Cartographic3 instance initialized to (0.0, 0.0, 0.0).
+     * An immutable Cartographic3 instance initialized to (0.0, 0.0, 0.0).
      *
      * @memberof Cartographic3
-     * @return {Cartographic3} A new Cartographic3 instance.
      */
-    Cartographic3.getZero = function() {
-        return new Cartographic3(0.0, 0.0, 0.0);
-    };
+    Cartographic3.ZERO = Object.freeze(new Cartographic3(0.0, 0.0, 0.0));
 
     /**
      * Returns a duplicate of a Cartographic3 instance.
@@ -1524,7 +1482,7 @@ define('Core/Cartographic3',[],function() {
      * Returns <code>true</code> if this instance equals other.
      *
      * @memberof Cartographic3
-     * 
+     *
      * @param {Cartographic3} other The cartographic position to compare for equality.
      *
      * @return {Boolean} <code>true</code> if the positions are equal; otherwise, false.
@@ -1537,7 +1495,7 @@ define('Core/Cartographic3',[],function() {
      * Returns <code>true</code> if this instance equals other within the specified epsilon.
      *
      * @memberof Cartographic3
-     * 
+     *
      * @param {Cartographic3} other The cartographic position to compare for equality.
      * @param {Number} [epsilon=0.0] The epsilon to use for equality testing.
      *
@@ -1545,7 +1503,7 @@ define('Core/Cartographic3',[],function() {
      */
     Cartographic3.prototype.equalsEpsilon = function(other, epsilon) {
         epsilon = epsilon || 0.0;
-        return (Math.abs(this.longitude - other.longitude) <= epsilon) && 
+        return (Math.abs(this.longitude - other.longitude) <= epsilon) &&
                (Math.abs(this.latitude - other.latitude) <= epsilon) &&
                (Math.abs(this.height - other.height) <= epsilon);
     };
@@ -1554,7 +1512,7 @@ define('Core/Cartographic3',[],function() {
      * Returns a string representing this instance in the format (longitude, latitude, height).
      *
      * @memberof Cartographic3
-     * 
+     *
      * @return {String} Returns a string representing this instance.
      */
     Cartographic3.prototype.toString = function() {
@@ -1565,9 +1523,38 @@ define('Core/Cartographic3',[],function() {
 });
 
 /*global define*/
+define('Core/Color',[],function() {
+    
+
+    /**
+     * A color, specified using red, green, blue, and alpha values,
+     * which range from <code>0</code> (no intensity) to <code>1.0</code> (full intensity).
+     *
+     * @constructor
+     * @name Color
+     */
+    function Color(red, green, blue, alpha) {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+        this.alpha = alpha;
+    }
+
+    /**
+     * Returns a string containing a CSS color value for this color.
+     */
+    Color.prototype.toCSSColor = function() {
+        var r = this.red * 255 | 0;
+        var g = this.green * 255 | 0;
+        var b = this.blue * 255 | 0;
+        return 'rgba(' + r + ',' + g + ',' + b + ',' + this.alpha + ')';
+    };
+
+    return Color;
+});
+/*global define*/
 define('Core/DefaultProxy',[],function() {
     
-    /*global encodeURIComponent*/
 
     /**
      * A simple proxy that appends the desired resource as the sole query parameter
@@ -1643,92 +1630,6 @@ define('Core/DeveloperError',[],function() {
 });
 
 /*global define*/
-define('Core/AxisAlignedBoundingRectangle',[
-        './DeveloperError',
-        './Cartesian2'
-    ], function(
-        DeveloperError,
-        Cartesian2) {
-    
-
-    /**
-     * DOC_TBA
-     *
-     * @name AxisAlignedBoundingRectangle
-     *
-     * @exception {DeveloperError} <code>positions</code> is required.
-     *
-     * @constructor
-     */
-    function AxisAlignedBoundingRectangle(positions) {
-        if (!positions) {
-            throw new DeveloperError("positions is required.", "positions");
-        }
-
-        this.minimum = undefined;
-        this.maximum = undefined;
-        this.center = undefined;
-
-        var length = positions.length;
-        if (length > 0) {
-            var minimumX = positions[0].x;
-            var minimumY = positions[0].y;
-
-            var maximumX = positions[0].x;
-            var maximumY = positions[0].y;
-
-            for ( var i = 1; i < length; i++) {
-                var p = positions[i];
-                var x = p.x;
-                var y = p.y;
-
-                if (x < minimumX) {
-                    minimumX = x;
-                }
-
-                if (x > maximumX) {
-                    maximumX = x;
-                }
-
-                if (y < minimumY) {
-                    minimumY = y;
-                }
-
-                if (y > maximumY) {
-                    maximumY = y;
-                }
-            }
-
-            var min = new Cartesian2(minimumX, minimumY);
-            var max = new Cartesian2(maximumX, maximumY);
-
-            /**
-             * DOC_TBA
-             *
-             * @type Cartesian2
-             */
-            this.minimum = min;
-
-            /**
-             * DOC_TBA
-             *
-             * @type Cartesian2
-             */
-            this.maximum = max;
-
-            /**
-             * DOC_TBA
-             *
-             * @type Cartesian2
-             */
-            this.center = (min.add(max)).multiplyWithScalar(0.5);
-        }
-    }
-
-    return AxisAlignedBoundingRectangle;
-});
-
-/*global define*/
 define('Core/Enumeration',[],function() {
     
 
@@ -1798,7 +1699,6 @@ define('Core/Enumeration',[],function() {
 /*global define*/
 define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
     
-    /*global Int8Array,Uint8Array,Int16Array,Uint16Array,Float32Array*/
 
     // Earlier versions of IE do not support typed arrays, and as a result,
     // using them below will cause the setup function itself to fail, causing
@@ -1966,6 +1866,241 @@ define('Core/FAR',[],function() {
     var FAR = 5906376272000.0;
 
     return FAR;
+});
+/*global define*/
+define('Core/FullScreen',['Core/DeveloperError'
+       ],function(
+         DeveloperError) {
+    
+    var _prefix, _supportsFullScreen;
+
+    /**
+     * Encapsulates browser dependent methods for working with the
+     * full screen standard.
+     *
+     * @exports FullScreen
+     *
+     * @see <a href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">W3C Fullscreen Living Specification</a>
+     */
+    var FullScreen = {
+        /**
+         * Detects whether the browser supports the full screen standard.
+         *
+         * @returns <code>true</code> if the supports the full screen standard, <code>false</code> if otherwise.
+         */
+        supportsFullScreen : function() {
+            if (typeof _supportsFullScreen === 'undefined') {
+                _supportsFullScreen = false;
+                // check for native support
+                if (typeof document.exitFullscreen !== 'undefined') {
+                    _supportsFullScreen = true;
+                    _prefix = '';
+                } else {
+                    // check for full screen support by vendor prefix
+                    var prefixes = ['webkit', 'moz', 'o', 'ms', 'khtml'];
+                    for ( var i = 0; i < prefixes.length; i++) {
+                        _prefix = prefixes[i];
+
+                        if (typeof document[_prefix + 'CancelFullScreen'] !== 'undefined') {
+                            _supportsFullScreen = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            return _supportsFullScreen;
+        },
+
+        /**
+         * Gets the name of the event that is fired when full screen is entered or exited or <code>undefined</code> if full screen is not supported.
+         *
+         * @returns the name of the event that is fired when full screen is entered or exited or <code>undefined</code> if full screen is not supported.
+         */
+        getFullScreenChangeEventName : function() {
+            return FullScreen.supportsFullScreen() ? 'on' + _prefix + 'fullscreenchange' : undefined;
+        },
+
+        /**
+         * Gets the name of the event that is fired when a full screen error occurs or <code>undefined</code> if full screen is not supported.
+         *
+         * @returns the name of the event that is fired when a full screen error occurs or <code>undefined</code> if full screen is not supported.
+         */
+        getFullScreenErrorEventName : function() {
+            return FullScreen.supportsFullScreen() ? 'on' + _prefix + 'fullscreenerror' : undefined;
+        },
+
+        /**
+         * Detects whether the browser is currently in full screen mode.
+         *
+         * @returns <code>true</code> if the browser is in full screen mode, <code>false</code> if not, and <code>undefined</code> if the browser does not support full screen mode.
+         */
+        isFullscreenEnabled : function() {
+            if (FullScreen.supportsFullScreen()) {
+                switch (_prefix) {
+                case '':
+                    return document.fullscreenEnabled;
+                case 'webkit':
+                    return document.webkitIsFullScreen;
+                default:
+                    return document[_prefix + 'FullScreen'];
+                }
+            }
+            return undefined;
+        },
+
+        /**
+         * Queues a request for full screen mode if the browser is currently not in full screen, does nothing otherwise.
+         * @param {Object} element The HTML element which will be placed into full-screen.
+         *
+         * @example
+         * // Put the entire page into full screen.
+         * FullScreen.requestFullScreen(document.body)
+         *
+         * // Place only the Cesium canvas into full screen.
+         * FullScreen.requestFullScreen(scene.getCanvas())
+         */
+        requestFullScreen : function(element) {
+            if (FullScreen.supportsFullScreen()) {
+                return (_prefix === '') ? element.requestFullScreen() : element[_prefix + 'RequestFullScreen']();
+            }
+        },
+
+        /**
+         * Exits full screen mode if the browser is currently in full screen, does nothing otherwise.
+         */
+        exitFullscreen : function() {
+            if (FullScreen.supportsFullScreen()) {
+                return (_prefix === '') ? document.exitFullscreen() : document[_prefix + 'CancelFullScreen']();
+            }
+        }
+    };
+
+    return FullScreen;
+});
+/*global define*/
+define('Core/FeatureDetection',['Core/FullScreen'
+       ], function(
+         FullScreen) {
+    
+
+    /**
+     * A set of functions to detect whether the current browser supports
+     * various features.
+     *
+     * @exports FeatureDetection
+     */
+    var FeatureDetection = {};
+
+    function extractVersion(versionString) {
+        return versionString.split('.').map(function(v) {
+            return parseInt(v, 10);
+        });
+    }
+
+    var _isChrome;
+    var _chromeVersion;
+    function isChrome() {
+        if (typeof _isChrome === 'undefined') {
+            var fields = (/ Chrome\/([\.0-9]+)/).exec(navigator.userAgent);
+            if (!fields) {
+                return (_isChrome = false);
+            }
+
+            _isChrome = true;
+            _chromeVersion = extractVersion(fields[1]);
+        }
+
+        return _isChrome;
+    }
+
+    function chromeVersion() {
+        return isChrome() && _chromeVersion;
+    }
+
+    var _isSafari;
+    var _safariVersion;
+    function isSafari() {
+        if (typeof _isSafari === 'undefined') {
+            // Chrome contains Safari in the user agent too
+            if (isChrome() || !(/ Safari\/[\.0-9]+/).test(navigator.userAgent)) {
+                return (_isSafari = false);
+            }
+
+            var fields = (/ Version\/([\.0-9]+)/).exec(navigator.userAgent);
+            if (!fields) {
+                return (_isSafari = false);
+            }
+
+            _isSafari = true;
+            _safariVersion = extractVersion(fields[1]);
+        }
+
+        return _isSafari;
+    }
+
+    function safariVersion() {
+        return isSafari() && _safariVersion;
+    }
+
+    var _isWebkit;
+    var _webkitVersion;
+    function isWebkit() {
+        if (typeof _isWebkit === 'undefined') {
+            var fields = (/ AppleWebKit\/([\.0-9]+)(\+?)/).exec(navigator.userAgent);
+            if (!fields) {
+                return (_isWebkit = false);
+            }
+
+            _isWebkit = true;
+            _webkitVersion = extractVersion(fields[1]);
+            _webkitVersion.isNightly = !!fields[2];
+        }
+
+        return _isWebkit;
+    }
+
+    function webkitVersion() {
+        return isWebkit() && _webkitVersion;
+    }
+
+    var _supportsCrossOriginImagery;
+
+    /**
+     * Detects whether the current browser supports the use of cross-origin
+     * requests to load streaming imagery.
+     *
+     * @returns true if the browser can load cross-origin streaming imagery, false if not.
+     *
+     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
+     */
+    FeatureDetection.supportsCrossOriginImagery = function() {
+        if (typeof _supportsCrossOriginImagery === 'undefined') {
+            if (isSafari() && webkitVersion()[0] < 536) {
+                // versions of Safari below this incorrectly throw a DOM error when calling
+                // readPixels on a canvas containing a cross-origin image.
+                _supportsCrossOriginImagery = false;
+            } else {
+                // any other versions of browsers that incorrectly block
+                // readPixels on canvas containing crossOrigin images?
+                _supportsCrossOriginImagery = 'withCredentials' in new XMLHttpRequest();
+            }
+        }
+        return _supportsCrossOriginImagery;
+    };
+
+    /**
+     * Detects whether the current browser supports the full screen standard.
+     *
+     * @returns true if the supports the full screen standard, false if not.
+     *
+     * @see FullScreen
+     * @see <a href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">W3C Fullscreen Living Specification</a>
+     */
+    FeatureDetection.supportsFullScreen = function() {
+        return FullScreen.supportsFullScreen();
+    };
+
+    return FeatureDetection;
 });
 /*global define*/
 define('Core/IndexDatatype',['./Enumeration'], function(Enumeration) {
@@ -2384,13 +2519,12 @@ define('Core/BoundingSphere',[
 /*global define*/
 define('Core/Jobs',[],function() {
     
-    /*global Image*/
 
     // TODO:  Need tests for this when interface is solid.
 
     /**
      * Jobs for use with {@link <a href="https://github.com/chriso/chain.js">chain.js</a>}.
-     * Jobs can be used to asynchronously download resources, such as images, and create 
+     * Jobs can be used to asynchronously download resources, such as images, and create
      * function dependencies, e.g., download these images asynchronously, and create a texture for
      * each when the download completes.
      * @exports Jobs
@@ -2402,26 +2536,26 @@ define('Core/Jobs',[],function() {
          * This allows multiple images to be downloaded in parallel, and other functions to depend on the download as shown in the example below.
          * <br /><br />
          * When a download completes, the image object is available to functions later in the chain via <code>this.images[url]</code>.
-         * 
+         *
          * @param {String} url The url of the image relative the document, i.e., the host html file.
-         * 
+         *
          * @returns {Object} A function to asynchronously download the image for use with chain.js.
-         * 
+         *
          * @see <a href="https://github.com/chriso/chain.js">chain.js</a>
-         * 
+         *
          * @example
          * // Asynchronously download two images, then create textures.
-         * run(     
+         * run(
          *     Jobs.downloadImage("diffuse.jpg"),
          *     Jobs.downloadImage("specular.jpg")).thenRun(
          * function() {
-         *     var diffuseTexture = context.createTexture2D({ 
+         *     var diffuseTexture = context.createTexture2D({
          *          source      : this.images["diffuse.jpg"],
-         *          pixelFormat : PixelFormat.RGB 
+         *          pixelFormat : PixelFormat.RGB
          *      });
-         *     var specularTexture = context.createTexture2D({ 
+         *     var specularTexture = context.createTexture2D({
          *          source      : this.images["specular.jpg"],
-         *          pixelFormat : PixelFormat.RGB 
+         *          pixelFormat : PixelFormat.RGB
          *      });
          *     // ...
          * });
@@ -2440,7 +2574,7 @@ define('Core/Jobs',[],function() {
             };
         }
     };
-    
+
     return Jobs;
 });
 /*global define*/
@@ -3238,9 +3372,7 @@ define('Core/Ellipsoid',[
      *
      * @see agi_getWgs84EllipsoidEC
      */
-    Ellipsoid.getWgs84 = function() {
-        return new Ellipsoid(new Cartesian3(6378137.0, 6378137.0, 6356752.314245));
-    };
+    Ellipsoid.WGS84 = Object.freeze(new Ellipsoid(new Cartesian3(6378137.0, 6378137.0, 6356752.314245)));
 
     /**
      * DOC_TBA
@@ -3249,20 +3381,7 @@ define('Core/Ellipsoid',[
      *
      * @return {Ellipsoid} DOC_TBA
      */
-    Ellipsoid.getScaledWgs84 = function() {
-        return new Ellipsoid(new Cartesian3(1.0, 1.0, 6356752.314245 / 6378137.0));
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof Ellipsoid
-     *
-     * @return {Ellipsoid} DOC_TBA
-     */
-    Ellipsoid.getUnitSphere = function() {
-        return new Ellipsoid(new Cartesian3(1.0, 1.0, 1.0));
-    };
+    Ellipsoid.UNIT_SPHERE = Object.freeze(new Ellipsoid(new Cartesian3(1.0, 1.0, 1.0)));
 
     /**
      * DOC_TBA
@@ -3658,7 +3777,7 @@ define('Core/EquidistantCylindricalProjection',[
      * @immutable
      */
     function EquidistantCylindricalProjection(ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         var radii = ellipsoid.getRadii();
 
@@ -4037,7 +4156,7 @@ define('Core/Matrix2',[
      * @see Matrix2#setColumn0
      *
      * @example
-     * var m = Matrix2.getIdentity();
+     * var m = Matrix2.IDENTITY;
      * var c = m.getColumn0(); // (x, y) == (1.0, 0.0)
      */
     Matrix2.prototype.getColumn0 = function() {
@@ -4074,7 +4193,7 @@ define('Core/Matrix2',[
      * @see Matrix2#setColumn1
      *
      * @example
-     * var m = Matrix2.getIdentity();
+     * var m = Matrix2.IDENTITY;
      * var c = m.getColumn1(); // (x, y) == (0.0, 1.0)
      */
     Matrix2.prototype.getColumn1 = function() {
@@ -4111,7 +4230,7 @@ define('Core/Matrix2',[
      * @see Matrix2#setRow0
      *
      * @example
-     * var m = Matrix2.getIdentity();
+     * var m = Matrix2.IDENTITY;
      * var c = m.getRow0(); // (x, y) == (1.0, 0.0)
      */
     Matrix2.prototype.getRow0 = function() {
@@ -4148,7 +4267,7 @@ define('Core/Matrix2',[
      * @see Matrix2#setRow1
      *
      * @example
-     * var m = Matrix2.getIdentity();
+     * var m = Matrix2.IDENTITY;
      * var c = m.getRow1(); // (x, y) == (0.0, 1.0)
      */
     Matrix2.prototype.getRow1 = function() {
@@ -4196,15 +4315,11 @@ define('Core/Matrix2',[
     };
 
     /**
-     * Creates a Matrix2 instance initialized to the identity matrix.
+     * An immutable Matrix2 instance initialized to the identity matrix.
      *
      * @memberof Matrix2
-     *
-     * @return {Matrix2} A new Matrix2 instance initialized to the identity matrix.
      */
-    Matrix2.getIdentity = function() {
-        return new Matrix2(1);
-    };
+    Matrix2.IDENTITY = Object.freeze(new Matrix2(1));
 
     /**
      * Returns 4, the number of elements in a Matrix2.
@@ -4524,7 +4639,7 @@ define('Core/Matrix3',[
      * @see Matrix3#setColumn0
      *
      * @example
-     * var m = Matrix3.getIdentity();
+     * var m = Matrix3.IDENTITY;
      * var c = m.getColumn0(); // (x, y, z) == (1.0, 0.0, 0.0)
      */
     Matrix3.prototype.getColumn0 = function() {
@@ -4562,7 +4677,7 @@ define('Core/Matrix3',[
      * @see Matrix3#setColumn1
      *
      * @example
-     * var m = Matrix3.getIdentity();
+     * var m = Matrix3.IDENTITY;
      * var c = m.getColumn1(); // (x, y, z) == (0.0, 1.0, 0.0)
      */
     Matrix3.prototype.getColumn1 = function() {
@@ -4600,7 +4715,7 @@ define('Core/Matrix3',[
      * @see Matrix3#setColumn2
      *
      * @example
-     * var m = Matrix3.getIdentity();
+     * var m = Matrix3.IDENTITY;
      * var c = m.getColumn2(); // (x, y, z) == (0.0, 0.0, 1.0)
      */
     Matrix3.prototype.getColumn2 = function() {
@@ -4638,7 +4753,7 @@ define('Core/Matrix3',[
      * @see Matrix3#setRow0
      *
      * @example
-     * var m = Matrix3.getIdentity();
+     * var m = Matrix3.IDENTITY;
      * var c = m.getRow0(); // (x, y, z) == (1.0, 0.0, 0.0)
      */
     Matrix3.prototype.getRow0 = function() {
@@ -4676,7 +4791,7 @@ define('Core/Matrix3',[
      * @see Matrix3#setRow1
      *
      * @example
-     * var m = Matrix3.getIdentity();
+     * var m = Matrix3.IDENTITY;
      * var c = m.getRow1(); // (x, y, z) == (0.0, 1.0, 0.0)
      */
     Matrix3.prototype.getRow1 = function() {
@@ -4714,7 +4829,7 @@ define('Core/Matrix3',[
      * @see Matrix3#setRow2
      *
      * @example
-     * var m = Matrix3.getIdentity();
+     * var m = Matrix3.IDENTITY;
      * var c = m.getRow2(); // (x, y, z) == (0.0, 0.0, 1.0)
      */
     Matrix3.prototype.getRow2 = function() {
@@ -4764,15 +4879,11 @@ define('Core/Matrix3',[
     };
 
     /**
-     * Creates a Matrix3 instance initialized to the identity matrix.
+     * An immutable Matrix3 instance initialized to the identity matrix.
      *
      * @memberof Matrix3
-     *
-     * @return {Matrix3} A new Matrix3 instance initialized to the identity matrix.
      */
-    Matrix3.getIdentity = function() {
-        return new Matrix3(1);
-    };
+    Matrix3.IDENTITY = Object.freeze(new Matrix3(1));
 
     /**
      * Returns 9, the number of elements in a Matrix3.
@@ -5078,7 +5189,7 @@ define('Core/MercatorProjection',[
      * @immutable
      */
     function MercatorProjection(ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         var radii = ellipsoid.getRadii();
 
@@ -5675,383 +5786,6 @@ define('Core/CubeMapEllipsoidTessellator',[
     return CubeMapEllipsoidTessellator;
 });
 /*global define*/
-define('Core/ExtentTessellator',[
-        './DeveloperError',
-        './Math',
-        './Ellipsoid',
-        './Cartesian3',
-        './Cartographic3',
-        './ComponentDatatype',
-        './PrimitiveType'
-    ], function(
-        DeveloperError,
-        CesiumMath,
-        Ellipsoid,
-        Cartesian3,
-        Cartographic3,
-        ComponentDatatype,
-        PrimitiveType) {
-    
-
-    /**
-     * Contains class functions to create a mesh or vertex array from a cartographic extent.
-     *
-     * @exports ExtentTessellator
-     *
-     * @see CubeMapEllipsoidTessellator
-     * @see BoxTessellator
-     * @see PlaneTessellator
-     */
-    var ExtentTessellator = {};
-
-    ExtentTessellator._validateExtent = function(extent) {
-        if (!extent ||
-            typeof extent.north === "undefined" ||
-            typeof extent.south === "undefined" ||
-            typeof extent.west === "undefined" ||
-            typeof extent.east === "undefined") {
-            throw new DeveloperError("extent is required and must have north, south, east and west attributes.", "extent");
-        }
-
-        if (extent.north < -CesiumMath.PI_OVER_TWO || extent.north > CesiumMath.PI_OVER_TWO) {
-            throw new DeveloperError("extent.north must be in the interval [-Pi/2, Pi/2].", "extent.north");
-        }
-
-        if (extent.south < -CesiumMath.PI_OVER_TWO || extent.south > CesiumMath.PI_OVER_TWO) {
-            throw new DeveloperError("extent.south must be in the interval [-Pi/2, Pi/2].", "extent.south");
-        }
-
-        if (extent.north < extent.south) {
-            throw new DeveloperError("extent.north must be greater than extent.south.", "extent");
-        }
-
-        if (extent.west < -CesiumMath.PI || extent.west > CesiumMath.PI) {
-            throw new DeveloperError("extent.west must be in the interval [-Pi, Pi].", "extent.west");
-        }
-
-        if (extent.east < -CesiumMath.PI || extent.east > CesiumMath.PI) {
-            throw new DeveloperError("extent.east must be in the interval [-Pi, Pi].", "extent.east");
-        }
-
-        if (extent.west > extent.east) {
-            throw new DeveloperError("extent.west must be greater than extent.east.", "extent");
-        }
-    };
-
-    ExtentTessellator._computeVertices = function(description) {
-        var desc = description || {};
-
-        var extent = desc.extent;
-        var boundExtent = desc.boundaryExtent;
-        var ellipsoid = desc.ellipsoid;
-        var granularity = desc.granularity;
-        var altitude = desc.altitude;
-        var genTexCoords = desc.generateTextureCoords;
-        var interleave = desc.interleave;
-        var relativeToCenter = desc.relativeToCenter;
-
-        var vertices = desc.vertices;
-        var texCoords = desc.texCoords;
-        var indices = desc.indices;
-
-        // for computing texture coordinates
-        var lonScalar = 1.0 / (extent.east - extent.west);
-        var latScalar = 1.0 / (extent.north - extent.south);
-
-        var i;
-        var j;
-        var rows = 0;
-        var cols = 0;
-
-        for (i = boundExtent.north;; i = i - granularity) {
-            if (i < boundExtent.south) {
-                i = boundExtent.south;
-            }
-
-            cols = 0;
-            for (j = boundExtent.west;; j = j + granularity) {
-                if (j > boundExtent.east) {
-                    j = boundExtent.east;
-                }
-
-                var cartPosition = new Cartographic3(j, i, altitude);
-                var position = ellipsoid.toCartesian(cartPosition).subtract(relativeToCenter);
-                vertices.push(position.x, position.y, position.z);
-
-                if (genTexCoords) {
-                    var u = (cartPosition.longitude - extent.west) * lonScalar;
-                    var v = (cartPosition.latitude - extent.south) * latScalar;
-                    if (interleave) {
-                        vertices.push(u, v);
-                    } else {
-                        texCoords.push(u, v);
-                    }
-                }
-
-                ++cols;
-
-                if (j === boundExtent.east) {
-                    break;
-                }
-            }
-            ++rows;
-
-            if (i === boundExtent.south) {
-                break;
-            }
-        }
-
-        var index = 0;
-        for (i = 0; i < rows - 1; ++i) {
-            for (j = 0; j < cols - 1; ++j) {
-                var upperLeft = index;
-                var lowerLeft = upperLeft + cols;
-                var lowerRight = lowerLeft + 1;
-                var upperRight = upperLeft + 1;
-
-                indices.push(upperLeft, lowerLeft, upperRight);
-                indices.push(upperRight, lowerLeft, lowerRight);
-
-                ++index;
-            }
-            ++index;
-        }
-    };
-
-    /**
-     * Creates a mesh from a cartographic extent.
-     *
-     * @param {Ellipsoid} description.ellipsoid The ellipsoid on which the extent lies. Defaults to a WGS84 ellipsoid.
-     * @param {Object} description.extent A cartographic extent with north, south, east and west properties in radians.
-     * @param {Number} description.granularity The distance, in radians, between each latitude and longitude.
-     * Determines the number of positions in the buffer. Defaults to 0.1.
-     * @param {Number} description.altitude The height from the surface of the ellipsoid. Defaults to 0.
-     * @param {Boolean} description.generateTextureCoords A truthy value will cause texture coordinates to be generated.
-     * @param {Cartesian3} description.relativetoCenter If this parameter is provided, the positions will be
-     * computed as <code>worldPosition.subtract(relativeToCenter)</code>. Defaults to (0, 0, 0).
-     *
-     * @exception {DeveloperError} <code>description.extent</code> is required and must have north, south, east and west attributes.
-     * @exception {DeveloperError} <code>description.extent.north</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
-     * @exception {DeveloperError} <code>description.extent.south</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
-     * @exception {DeveloperError} <code>description.extent.east</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
-     * @exception {DeveloperError} <code>description.extent.west</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
-     * @exception {DeveloperError} <code>description.extent.north</code> must be greater than <code>extent.south</code>.
-     * @exception {DeveloperError} <code>description.extent.east</code> must be greater than <code>extent.west</code>.
-     * @exception {DeveloperError} <code>description.context</code> is required.
-     *
-     * @return {Object} A mesh containing attributes for positions, possibly texture coordinates and indices
-     * from the extent for creating a vertex array.
-     *
-     * @see Context#createVertexArrayFromMesh
-     * @see MeshFilters#createAttributeIndices
-     * @see MeshFilters#toWireframeInPlace
-     *
-     * @example
-     * // Create a vertex array for rendering a wireframe extent.
-     * var mesh = ExtentTessellator.compute({
-     *     ellipsoid : Ellipsoid.getWgs84(),
-     *     extent : {
-     *         north : CesiumMath.toRadians(42.0),
-     *         south : CesiumMath.toRadians(39.0),
-     *         east : CesiumMath.toRadians(-74.0),
-     *         west : CesiumMath.toRadians(-80.0)
-     *     },
-     *     granularity : 0.01,
-     *     altitude : 10000.0
-     * });
-     * mesh = MeshFilters.toWireframeInPlace(mesh);
-     * var va = context.createVertexArrayFromMesh({
-     *     mesh             : mesh,
-     *     attributeIndices : MeshFilters.createAttributeIndices(mesh)
-     * });
-     */
-    ExtentTessellator.compute = function(description) {
-        var desc = description || {};
-
-        ExtentTessellator._validateExtent(desc.extent);
-
-        desc.ellipsoid = desc.ellipsoid || Ellipsoid.getWgs84();
-        desc.granularity = (desc.granularity && desc.granularity > 0.0) ? desc.granularity : 0.1;
-        desc.altitude = (desc.altitude && desc.altitude > 0.0) ? desc.altitude : 0.0;
-        desc.relativeToCenter = (desc.relativeToCenter) ? Cartesian3.clone(desc.relativeToCenter) : Cartesian3.getZero();
-        desc.boundaryWidth = desc.boundaryWidth || 0; // NOTE: may want to expose in the future.
-        desc.interleave = false;
-        desc.positionName = desc.positionName || "position";
-        desc.textureCoordName = desc.textureCoordName || "textureCoordinates";
-
-        var vertices = [];
-        var indices = [];
-        var texCoords = [];
-
-        desc.vertices = vertices;
-        desc.texCoords = texCoords;
-        desc.indices = indices;
-        desc.boundaryExtent = {
-            north : desc.extent.north + desc.granularity * desc.boundaryWidth,
-            south : desc.extent.south - desc.granularity * desc.boundaryWidth,
-            west : desc.extent.west - desc.granularity * desc.boundaryWidth,
-            east : desc.extent.east + desc.granularity * desc.boundaryWidth
-        };
-
-        ExtentTessellator._computeVertices(desc);
-
-        var mesh = {};
-        mesh.attributes = {};
-        mesh.indexLists = [];
-
-        mesh.attributes[desc.positionName] = {
-            componentDatatype : ComponentDatatype.FLOAT,
-            componentsPerAttribute : 3,
-            values : vertices
-        };
-
-        if (desc.generateTextureCoords) {
-            mesh.attributes[desc.textureCoordName] = {
-                componentDatatype : ComponentDatatype.FLOAT,
-                componentsPerAttribute : 2,
-                values : texCoords
-            };
-        }
-
-        mesh.indexLists.push({
-            primitiveType : PrimitiveType.TRIANGLES,
-            values : indices
-        });
-
-        return mesh;
-    };
-
-    /**
-     * Creates arrays of vertex attributes and indices from a cartographic extent.
-     *
-     * @param {Ellipsoid} description.ellipsoid The ellipsoid on which the extent lies. Defaults to a WGS84 ellipsoid.
-     * @param {Object} description.extent A cartographic extent with north, south, east and west properties in radians.
-     * @param {Number} description.granularity The distance, in radians, between each latitude and longitude.
-     * Determines the number of positions in the buffer. Defaults to 0.1.
-     * @param {Number} description.altitude The height from the surface of the ellipsoid. Defaults to 0.
-     * @param {Boolean} description.generateTextureCoords A truthy value will cause texture coordinates to be generated.
-     * @param {Boolean} description.interleave If both this parameter and <code>generateTextureCoords</code> are truthy,
-     * the positions and texture coordinates will be interleaved in a single buffer.
-     * @param {Object} description.attributeIndices An object with possibly two numeric attributes, <code>position</code>
-     * and <code>textureCoordinates</code>, used to index the shader attributes of the same names.
-     * <code>position</code> defaults to 0 and <code>textureCoordinates</code> defaults to 1.
-     * @param {Cartesian3} description.relativetoCenter If this parameter is provided, the positions will be
-     * computed as <code>worldPosition.subtract(relativeToCenter)</code>. Defaults to (0, 0, 0).
-     *
-     * @exception {DeveloperError} <code>description.extent</code> is required and must have north, south, east and west attributes.
-     * @exception {DeveloperError} <code>description.extent.north</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
-     * @exception {DeveloperError} <code>description.extent.south</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
-     * @exception {DeveloperError} <code>description.extent.east</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
-     * @exception {DeveloperError} <code>description.extent.west</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
-     * @exception {DeveloperError} <code>description.extent.north</code> must be greater than <code>extent.south</code>.     *
-     * @exception {DeveloperError} <code>description.extent.east</code> must be greater than <code>extent.west</code>.
-     *
-     * @return {Object} An object with flattened arrays for vertex attributes and indices.
-     *
-     * @example
-     * // Example 1:
-     * // Create a vertex array for a solid extent, with separate positions and texture coordinates.
-     * var buffers = ExtentTessellator.computeBuffers({
-     *     ellipsoid : ellipsoid,
-     *     extent : extent,
-     *     generateTextureCoords : true
-     * });
-     *
-     * var datatype = ComponentDatatype.FLOAT;
-     * var usage = BufferUsage.STATIC_DRAW;
-     * var positionBuffer = context.createVertexBuffer(datatype.toTypedArray(buffers.positions), usage);
-     * var texCoordBuffer = context.createVertexBuffer(datatype.toTypedArray(buffers.textureCoords), usage);
-     * attributes = [{
-     *         index : attributeIndices.position,
-     *         vertexBuffer : positionBuffer,
-     *         componentDatatype : datatype,
-     *         componentsPerAttribute : 3
-     *     }, {
-     *         index : attributeIndices.textureCoordinates,
-     *         vertexBuffer : texCoordBuffer,
-     *         componentDatatype : datatype,
-     *         componentsPerAttribute : 2
-     *     }];
-     * var indexBuffer = context.createIndexBuffer(new Uint16Array(buffers.indices), usage, IndexDatatype.UNSIGNED_SHORT);
-     * var va = context.createVertexArray(attributes, indexBuffer);
-     *
-     * @example
-     * // Example 2:
-     * // Create a vertex array for a solid extent, with interleaved positions and texture coordinates.
-     * var buffers = ExtentTessellator.computeBuffers({
-     *     ellipsoid : ellipsoid,
-     *     extent : extent,
-     *     generateTextureCoords : true,
-     *     interleave : true
-     * });
-     *
-     * var datatype = ComponentDatatype.FLOAT;
-     * var usage = BufferUsage.STATIC_DRAW;
-     * var typedArray = datatype.toTypedArray(buffers.vertices);
-     * var buffer = context.createVertexBuffer(typedArray, usage);
-     * var stride = 5 * datatype.sizeInBytes;
-     * var attributes = [{
-     *         index : attributeIndices.position3D,
-     *         vertexBuffer : buffer,
-     *         componentDatatype : datatype,
-     *         componentsPerAttribute : 3,
-     *         normalize : false,
-     *         offsetInBytes : 0,
-     *         strideInBytes : stride
-     *     }, {
-     *         index : attributeIndices.textureCoordinates,
-     *         vertexBuffer : buffer,
-     *         componentDatatype : datatype,
-     *         componentsPerAttribute : 2,
-     *         normalize : false,
-     *         offsetInBytes : 3 * datatype.sizeInBytes,
-     *         strideInBytes : stride
-     *     }];
-     * var indexBuffer = context.createIndexBuffer(new Uint16Array(buffers.indices), usage, IndexDatatype.UNSIGNED_SHORT);
-     * var vacontext.createVertexArray(attributes, indexBuffer);
-     *
-     */
-    ExtentTessellator.computeBuffers = function(description) {
-        var desc = description || {};
-
-        ExtentTessellator._validateExtent(desc.extent);
-
-        desc.ellipsoid = desc.ellipsoid || Ellipsoid.getWgs84();
-        desc.granularity = (typeof desc.granularity !== "undefined" && desc.granularity > 0.0) ? desc.granularity : 0.1;
-        desc.altitude = (typeof desc.altitude !== "undefined" && desc.altitude > 0.0) ? desc.altitude : 0.0;
-        desc.relativeToCenter = (desc.relativeToCenter) ? Cartesian3.clone(desc.relativeToCenter) : Cartesian3.getZero();
-        desc.boundaryWidth = desc.boundaryWidth || 0; // NOTE: may want to expose in the future.
-
-        desc.vertices = [];
-        desc.texCoords = [];
-        desc.indices = [];
-        desc.boundaryExtent = {
-            north : desc.extent.north + desc.granularity * desc.boundaryWidth,
-            south : desc.extent.south - desc.granularity * desc.boundaryWidth,
-            west : desc.extent.west - desc.granularity * desc.boundaryWidth,
-            east : desc.extent.east + desc.granularity * desc.boundaryWidth
-        };
-
-        ExtentTessellator._computeVertices(desc);
-
-        var result = {};
-        if (desc.interleave) {
-            result.vertices = desc.vertices;
-        } else {
-            result.positions = desc.vertices;
-            if (desc.generateTextureCoords) {
-                result.textureCoords = desc.texCoords;
-            }
-        }
-
-        result.indices = desc.indices;
-        return result;
-    };
-
-    return ExtentTessellator;
-});
-
-/*global define*/
 define('Core/PlaneTessellator',[
         './DeveloperError',
         './Cartesian2',
@@ -6210,26 +5944,18 @@ define('Core/Quaternion',[
     };
 
     /**
-     * Creates a quaternion initialized to <code>(0.0, 0.0, 0.0, 0.0)</code>.
+     * An immutable Quaternion instance initialized to (0.0, 0.0, 0.0, 0.0).
      *
      * @memberof Quaternion
-     *
-     * @return {Quaternion} A new quaternion initialized to <code>(0.0, 0.0, 0.0, 0.0)</code>.
      */
-    Quaternion.getZero = function() {
-        return new Quaternion(0.0, 0.0, 0.0, 0.0);
-    };
+    Quaternion.ZERO = Object.freeze(new Quaternion(0.0, 0.0, 0.0, 0.0));
 
     /**
-     * Creates a quaternion initialized to <code>(0.0, 0.0, 0.0, 1.0)</code>.
+     * An immutable Quaternion instance initialized to (0.0, 0.0, 0.0, 1.0).
      *
      * @memberof Quaternion
-     *
-     * @return {Quaternion} A new quaternion initialized to <code>(0.0, 0.0, 0.0, 1.0)</code>.
      */
-    Quaternion.getIdentity = function() {
-        return new Quaternion(0.0, 0.0, 0.0, 1.0);
-    };
+    Quaternion.IDENTITY = Object.freeze(new Quaternion(0.0, 0.0, 0.0, 1.0));
 
     /**
      * Returns the conjugate of this quaternion.
@@ -6427,7 +6153,7 @@ define('Core/Quaternion',[
      */
     Quaternion.prototype.getAxis = function() {
         if (Math.abs(this.w - 1.0) < CesiumMath.EPSILON6) {
-            return Cartesian3.getZero();
+            return Cartesian3.ZERO;
         }
 
         var scalar = 1.0 / Math.sqrt(1.0 - (this.w * this.w));
@@ -6880,6 +6606,8 @@ define('Core/OrientationInterpolator',[
 });
 /*global define*/
 define('Core/Queue',[],function() {
+    
+
     /**
      * A queue that can enqueue items at the end, and dequeue items from the front.
      */
@@ -6963,14 +6691,14 @@ define('Core/Queue',[],function() {
     return Queue;
 });
 /*global define*/
-define('Core/Rectangle',[],function() {
+define('Core/Rectangle',['./DeveloperError'], function(DeveloperError) {
     
 
     /**
      * DOC_TBA
-     * 
+     *
      * @name Rectangle
-     * 
+     *
      * @param {Number} [x=0.0] The x coordinate of the rectangle.
      * @param {Number} [y=0.0] The y coordinate of the rectangle.
      * @param {Number} [width=0.0] The width of the rectangle.
@@ -7016,11 +6744,53 @@ define('Core/Rectangle',[],function() {
         this.height = height || 0.0;
     }
 
+    Rectangle.createAxisAlignedBoundingRectangle = function(positions) {
+        if (typeof positions === 'undefined') {
+            throw new DeveloperError("positions is required.", "positions");
+        }
+
+        if (typeof positions.length === 'undefined' || positions.length <= 0) {
+            throw new DeveloperError("The length of positions must be greater than zero.", "positions");
+        }
+
+        var length = positions.length;
+
+        var minimumX = positions[0].x;
+        var minimumY = positions[0].y;
+
+        var maximumX = positions[0].x;
+        var maximumY = positions[0].y;
+
+        for ( var i = 1; i < length; i++) {
+            var p = positions[i];
+            var x = p.x;
+            var y = p.y;
+
+            if (x < minimumX) {
+                minimumX = x;
+            }
+
+            if (x > maximumX) {
+                maximumX = x;
+            }
+
+            if (y < minimumY) {
+                minimumY = y;
+            }
+
+            if (y > maximumY) {
+                maximumY = y;
+            }
+        }
+
+        return new Rectangle(minimumX, minimumY, maximumX - minimumX, maximumY - minimumY);
+    };
+
     /**
      * Returns a copy of this rectangle.
      *
      * @memberof Rectangle
-     * 
+     *
      * @return {Rectangle} A copy of this rectangle.
      */
     Rectangle.prototype.clone = function() {
@@ -7031,15 +6801,15 @@ define('Core/Rectangle',[],function() {
      * Returns <code>true</code> if this rectangle equals <code>other</code>, property for property.
      *
      * @memberof Rectangle
-     * 
+     *
      * @param {Rectangle} other The rectangle to compare for equality.
      *
      * @return {Boolean} <code>true</code> if the rectangles are equal; otherwise, <code>false</code>.
      */
     Rectangle.prototype.equals = function(other) {
-        return (this.x === other.x) && 
-               (this.y === other.y) && 
-               (this.width === other.width) && 
+        return (this.x === other.x) &&
+               (this.y === other.y) &&
+               (this.width === other.width) &&
                (this.height === other.height);
     };
 
@@ -7047,7 +6817,7 @@ define('Core/Rectangle',[],function() {
      * Returns <code>true</code> if this rectangle equals <code>other</code>, property for property, within the specified epsilon.
      *
      * @memberof Rectangle
-     * 
+     *
      * @param {Rectangle} other The rectangle to compare for equality.
      * @param {Number} [epsilon=0.0] The epsilon to use for equality testing.
      *
@@ -7055,9 +6825,9 @@ define('Core/Rectangle',[],function() {
      */
     Rectangle.prototype.equalsEpsilon = function(other, epsilon) {
         epsilon = epsilon || 0.0;
-        return (Math.abs(this.x - other.x) <= epsilon) && 
+        return (Math.abs(this.x - other.x) <= epsilon) &&
                (Math.abs(this.y - other.y) <= epsilon) &&
-               (Math.abs(this.width - other.width) <= epsilon) && 
+               (Math.abs(this.width - other.width) <= epsilon) &&
                (Math.abs(this.height - other.height) <= epsilon);
     };
 
@@ -7065,7 +6835,7 @@ define('Core/Rectangle',[],function() {
      * Returns a string representing this rectangle in the format (x, y, width, height).
      *
      * @memberof Rectangle
-     * 
+     *
      * @return {String} A string representing this rectangle.
      */
     Rectangle.prototype.toString = function() {
@@ -7077,9 +6847,9 @@ define('Core/Rectangle',[],function() {
      * @memberof Rectangle
      */
     Rectangle.rectangleRectangleIntersect = function(rect1, rect2) {
-        return !(rect1.x > rect2.x + rect2.width || 
-                 rect1.x + rect1.width < rect2.x || 
-                 rect1.y + rect1.height < rect2.y || 
+        return !(rect1.x > rect2.x + rect2.width ||
+                 rect1.x + rect1.width < rect2.x ||
+                 rect1.y + rect1.height < rect2.y ||
                  rect1.y > rect2.y + rect2.height);
     };
 
@@ -7439,7 +7209,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setColumn0
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getColumn0(); // (x, y, z, w) == (1.0, 0.0, 0.0, 0.0)
      */
     Matrix4.prototype.getColumn0 = function() {
@@ -7478,7 +7248,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setColumn1
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getColumn1(); // (x, y, z, w) == (0.0, 1.0, 0.0, 0.0)
      */
     Matrix4.prototype.getColumn1 = function() {
@@ -7517,7 +7287,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setColumn2
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getColumn2(); // (x, y, z, w) == (0.0, 0.0, 1.0, 0.0)
      */
     Matrix4.prototype.getColumn2 = function() {
@@ -7556,7 +7326,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setColumn3
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getColumn3(); // (x, y, z, w) == (0.0, 0.0, 0.0, 1.0)
      */
     Matrix4.prototype.getColumn3 = function() {
@@ -7595,7 +7365,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setRow0
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getRow0(); // (x, y, z, w) == (1.0, 0.0, 0.0, 0.0)
      */
     Matrix4.prototype.getRow0 = function() {
@@ -7634,7 +7404,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setRow1
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getRow1(); // (x, y, z, w) == (0.0, 1.0, 0.0, 0.0)
      */
     Matrix4.prototype.getRow1 = function() {
@@ -7673,7 +7443,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setRow2
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getRow2(); // (x, y, z, w) == (0.0, 0.0, 1.0, 0.0)
      */
     Matrix4.prototype.getRow2 = function() {
@@ -7712,7 +7482,7 @@ define('Core/Matrix4',[
      * @see Matrix4#setRow3
      *
      * @example
-     * var m = Matrix4.getIdentity();
+     * var m = Matrix4.IDENTITY;
      * var c = m.getRow3(); // (x, y, z, w) == (0.0, 0.0, 0.0, 1.0)
      */
     Matrix4.prototype.getRow3 = function() {
@@ -8037,15 +7807,11 @@ define('Core/Matrix4',[
     };
 
     /**
-     * Creates a Matrix4 instance initialized to the identity matrix.
+     * An immutable Matrix4 instance initialized to the identity matrix.
      *
      * @memberof Matrix4
-     *
-     * @return {Matrix4} A new Matrix4 instance initialized to the identity matrix.
      */
-    Matrix4.getIdentity = function() {
-        return new Matrix4(1);
-    };
+    Matrix4.IDENTITY = Object.freeze(new Matrix4(1));
 
     /**
      * Returns 16, the number of elements in a Matrix4.
@@ -8599,14 +8365,14 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
     /**
      * Calculates the average cache miss ratio (ACMR) for a given set of indices.
      *
-     * @param {Array} indices Lists triads of numbers corresponding to the indices of the vertices
+     * @param {Array} description.indices Lists triads of numbers corresponding to the indices of the vertices
      *                        in the vertex buffer that define the mesh's triangles.
-     * @param {Number} maximumIndex The maximum value of the elements in <code>indices</code>.
-     * @param {Number} cacheSize The number of vertices that can be stored in the cache at any one time.
+     * @param {Number} [description.maximumIndex] The maximum value of the elements in <code>args.indices</code>.
+     *                                     If not supplied, this value will be computed.
+     * @param {Number} [description.cacheSize=24] The number of vertices that can be stored in the cache at any one time.
      *
      * @exception {DeveloperError} indices is required.
      * @exception {DeveloperError} indices length must be a multiple of three.
-     * @exception {DeveloperError} maximumIndex must be greater than zero.
      * @exception {DeveloperError} cacheSize must be greater than two.
      *
      * @return {Number} The average cache miss ratio (ACMR).
@@ -8617,7 +8383,12 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
      * var cacheSize = 3;
      * var acmr = Tipsify.calculateACMR(indices, maxIndex, cacheSize);
      */
-    Tipsify.calculateACMR = function(indices, maximumIndex, cacheSize) {
+    Tipsify.calculateACMR = function(description) {
+        description = description || {};
+        var indices = description.indices;
+        var maximumIndex = description.maximumIndex;
+        var cacheSize = description.cacheSize || 24;
+
         if (!indices) {
             throw new DeveloperError("indices is required.", "indices");
         }
@@ -8632,6 +8403,20 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
         }
         if (cacheSize < 3) {
             throw new DeveloperError("cacheSize must be greater than two.", "cachSize");
+        }
+
+        // Compute the maximumIndex if not given
+        if(!maximumIndex) {
+            maximumIndex = 0;
+            var currentIndex = 0;
+            var intoIndices = indices[currentIndex];
+            while (currentIndex < numIndices) {
+                if (intoIndices > maximumIndex) {
+                    maximumIndex = intoIndices;
+                }
+                ++currentIndex;
+                intoIndices = indices[currentIndex];
+            }
         }
 
         // Vertex time stamps
@@ -8655,14 +8440,14 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
     /**
      * Optimizes triangles for the post-vertex shader cache.
      *
-     * @param {Array} indices Lists triads of numbers corresponding to the indices of the vertices
+     * @param {Array} description.indices Lists triads of numbers corresponding to the indices of the vertices
      *                        in the vertex buffer that define the mesh's triangles.
-     * @param {Number} maximumIndex The maximum value of the elements in <code>indices</code>.
-     * @param {Number} cacheSize The number of vertices that can be stored in the cache at any one time.
+     * @param {Number} [description.maximumIndex] The maximum value of the elements in <code>args.indices</code>.
+     *                                     If not supplied, this value will be computed.
+     * @param {Number} [description.cacheSize=24] The number of vertices that can be stored in the cache at any one time.
      *
      * @exception {DeveloperError} indices is required.
      * @exception {DeveloperError} indices length must be a multiple of three.
-     * @exception {DeveloperError} maximumIndex must be greater than zero.
      * @exception {DeveloperError} cacheSize must be greater than two.
      *
      * @return {Array} A list of the input indices in an optimized order.
@@ -8673,7 +8458,12 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
      * var cacheSize = 3;
      * var reorderedIndices = Tipsify.tipsify(indices, maxIndex, cacheSize);
      */
-    Tipsify.tipsify = function(indices, maximumIndex, cacheSize) {
+    Tipsify.tipsify = function(description) {
+        description = description || {};
+        var indices = description.indices;
+        var maximumIndex = description.maximumIndex;
+        var cacheSize = description.cacheSize || 24;
+
         var cursor;
 
         function skipDeadEnd(vertices, deadEnd, indices, maximumIndexPlusOne) {
@@ -8742,7 +8532,7 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
         var currentIndex = 0;
         var intoIndices = indices[currentIndex];
         var endIndex = numIndices;
-        if (maximumIndex !== -1) {
+        if (maximumIndex) {
             maximumIndexPlusOne = maximumIndex + 1;
         } else {
             while (currentIndex < endIndex) {
@@ -9143,7 +8933,9 @@ define('Core/MeshFilters',[
                             maximumIndex = indices[j];
                         }
                     }
-                    indexLists[i].values = Tipsify.tipsify(indices, maximumIndex, cacheCapacity || 24);
+                    indexLists[i].values = Tipsify.tipsify({indices : indices,
+                                                            maximumIndex : maximumIndex,
+                                                            cacheSize : cacheCapacity});
                 }
             }
         }
@@ -9966,7 +9758,7 @@ define('Core/Occluder',[
      *
      * @example
      * // Construct an occluder one unit away from the origin with a radius of one.
-     * var cameraPosition = new Cartesian3.getZero();
+     * var cameraPosition = new Cartesian3.ZERO;
      * var occluderBS = new BoundingSphere(new Cartesian3(0, 0, -1), 1);
      * var occluder = new Occluder(occluderBS, cameraPosition);
      */
@@ -10254,17 +10046,17 @@ define('Core/Occluder',[
             tempVec0.x = occluderPosition.x;
             tempVec0.y = occluderPosition.y + 1.0;
             tempVec0.z = occluderPosition.z + 1.0;
-            tempVec1 = Cartesian3.getUnitX();
+            tempVec1 = Cartesian3.UNIT_X;
         } else if (majorAxis === 1) {
             tempVec0.x = occluderPosition.x + 1.0;
             tempVec0.y = occluderPosition.y;
             tempVec0.z = occluderPosition.z + 1.0;
-            tempVec1 = Cartesian3.getUnitY();
+            tempVec1 = Cartesian3.UNIT_Y;
         } else {
             tempVec0.x = occluderPosition.x + 1.0;
             tempVec0.y = occluderPosition.y + 1.0;
             tempVec0.z = occluderPosition.z;
-            tempVec1 = Cartesian3.getUnitZ();
+            tempVec1 = Cartesian3.UNIT_Z;
         }
         var u = ((occluderPlaneNormal.dot(tempVec0)) + occluderPlaneD) / -(occluderPlaneNormal.dot(tempVec1));
         return ((tempVec0.add(tempVec1.multiplyWithScalar(u))).subtract(occluderPosition)).normalize();
@@ -10329,6 +10121,624 @@ define('Core/Occluder',[
 
     return Occluder;
 });
+/*global define*/
+define('Core/Extent',[
+        '../Core/BoundingSphere',
+        '../Core/Cartesian3',
+        '../Core/Cartographic2',
+        '../Core/Cartographic3',
+        '../Core/DeveloperError',
+        '../Core/Ellipsoid',
+        '../Core/Math',
+        '../Core/Occluder',
+        '../Core/Rectangle'
+    ], function(
+        BoundingSphere,
+        Cartesian3,
+        Cartographic2,
+        Cartographic3,
+        DeveloperError,
+        Ellipsoid,
+        CesiumMath,
+        Occluder,
+        Rectangle) {
+    
+
+    /**
+     * Two-dimensional coordinates given in latitude and longitude.
+     *
+     * @name Extent
+     * @constructor
+     *
+     * @param {Number} north The northernmost latitude in the range [-Pi/2, Pi/2].
+     * @param {Number} east The easternmost longitude in the range [-Pi, Pi].
+     * @param {Number} south The southernmost latitude in the range [-Pi/2, Pi/2].
+     * @param {Number} west The westernmost longitude in the range [-Pi, Pi].
+     *
+     * @exception {DeveloperError} One of the parameters is out of range.
+     */
+    function Extent(west, south, east, north) {
+        /**
+         * The northernmost latitude.
+         *
+         * @type Number
+         */
+        this.north = north;
+
+        /**
+         * The southernmost latitude.
+         *
+         * @type Number
+         */
+        this.south = south;
+
+        /**
+         * The westernmost longitude.
+         *
+         * @type Number
+         */
+        this.west = west;
+
+        /**
+         * The easternmost longitude.
+         *
+         * @type Number
+         */
+        this.east = east;
+
+        Extent.validate(this);
+    }
+
+    /**
+     * Returns a duplicate of this Extent.
+     *
+     * @return {Extent} A new Extent instance.
+     */
+    Extent.prototype.clone = function() {
+        return new Extent(this.west, this.south, this.east, this.north);
+    };
+
+    /**
+     * Checks that an {@link Extent}'s members are in the proper ranges, north is greater than south and east is greater than west.
+     *
+     * @param {Extent} extent The extent to be checked for validity.
+     *
+     * @exception {DeveloperError} <code>extent</code> is required and must have north, south, east and west attributes.
+     * @exception {DeveloperError} <code>extent.north</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
+     * @exception {DeveloperError} <code>extent.south</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
+     * @exception {DeveloperError} <code>extent.east</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
+     * @exception {DeveloperError} <code>extent.west</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
+     */
+    Extent.validate = function(extent) {
+        if (!extent ||
+                typeof extent.north === "undefined" ||
+                typeof extent.south === "undefined" ||
+                typeof extent.west === "undefined" ||
+                typeof extent.east === "undefined") {
+            throw new DeveloperError("extent is required and must have north, south, east and west attributes.", "extent");
+        }
+
+        if (extent.north < -CesiumMath.PI_OVER_TWO || extent.north > CesiumMath.PI_OVER_TWO) {
+            throw new DeveloperError("extent.north must be in the interval [-Pi/2, Pi/2].", "extent.north");
+        }
+
+        if (extent.south < -CesiumMath.PI_OVER_TWO || extent.south > CesiumMath.PI_OVER_TWO) {
+            throw new DeveloperError("extent.south must be in the interval [-Pi/2, Pi/2].", "extent.south");
+        }
+
+        if (extent.west < -CesiumMath.PI || extent.west > CesiumMath.PI) {
+            throw new DeveloperError("extent.west must be in the interval [-Pi, Pi].", "extent.west");
+        }
+
+        if (extent.east < -CesiumMath.PI || extent.east > CesiumMath.PI) {
+            throw new DeveloperError("extent.east must be in the interval [-Pi, Pi].", "extent.east");
+        }
+    };
+
+    function getPosition(lla, ellipsoid, time, projection) {
+        if (typeof time === 'undefined' || time === 0.0 || typeof projection === 'undefined') {
+            return ellipsoid.toCartesian(lla);
+        }
+
+        var twod = projection.project(lla);
+        twod = new Cartesian3(0.0, twod.x, twod.y);
+        return twod.lerp(ellipsoid.toCartesian(lla), time);
+    }
+
+    Extent._computePositions = function(extent, ellipsoid, time, projection) {
+        if (typeof extent === 'undefined') {
+            throw new DeveloperError("extent is required.", "extent");
+        }
+
+        Extent.validate(extent);
+
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
+        var positions = [];
+
+        var lla = new Cartographic3(extent.west, extent.north, 0.0);
+        positions.push(getPosition(lla, ellipsoid, time, projection));
+        lla.longitude = extent.east;
+        positions.push(getPosition(lla, ellipsoid, time, projection));
+        lla.latitude = extent.south;
+        positions.push(getPosition(lla, ellipsoid, time, projection));
+        lla.longitude = extent.west;
+        positions.push(getPosition(lla, ellipsoid, time, projection));
+
+        if (extent.north < 0.0) {
+            lla.latitude = extent.north;
+        } else if (extent.south > 0.0) {
+            lla.latitude = extent.south;
+        } else {
+            lla.latitude = 0.0;
+        }
+
+        for ( var i = 1; i < 8; ++i) {
+            var temp = -Math.PI + i * CesiumMath.PI_OVER_TWO;
+            if (extent.west < temp && temp < extent.east) {
+                lla.longitude = temp;
+                positions.push(getPosition(lla, ellipsoid, time, projection));
+            }
+        }
+
+        if (lla.latitude === 0.0) {
+            lla.longitude = extent.west;
+            positions.push(getPosition(lla, ellipsoid, time, projection));
+            lla.longitude = extent.east;
+            positions.push(getPosition(lla, ellipsoid, time, projection));
+        }
+
+        return positions;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @param {Extent} extent DOC_TBA
+     * @param {Ellipsoid} ellipsoid DOC_TBA
+     * @param {Number} time DOC_TBA
+     * @param {Object} projection DOC_TBA
+     *
+     * @returns {BoundingSphere} DOC_TBA
+     */
+    Extent.computeMorphBoundingSphere = function(extent, ellipsoid, time, projection) {
+        return new BoundingSphere(Extent._computePositions(extent, ellipsoid, time, projection));
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @param {Extent} extent DOC_TBA
+     * @param {Ellipsoid} ellipsoid DOC_TBA
+     * @returns {BoundingSphere} DOC_TBA
+     */
+    Extent.compute3DBoundingSphere = function(extent, ellipsoid) {
+        return new BoundingSphere(Extent._computePositions(extent, ellipsoid));
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @param {Extent} extent DOC_TBA
+     * @param {Ellipsoid} ellipsoid DOC_TBA
+     *
+     * @returns {Object} DOC_TBA
+     */
+    Extent.computeOccludeePoint = function(extent, ellipsoid) {
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
+        var positions = Extent._computePositions(extent, ellipsoid);
+        var bs = new BoundingSphere(positions);
+
+        // TODO: get correct ellipsoid center
+        var ellipsoidCenter = Cartesian3.ZERO;
+        if (!ellipsoidCenter.equals(bs.center)) {
+            return Occluder.getOccludeePoint(new BoundingSphere(ellipsoidCenter, ellipsoid.getMinimumRadius()), bs.center, positions);
+        }
+        return {
+            valid : false
+        };
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @param {Extent} extent DOC_TBA
+     * @param {Object} projection DOC_TBA
+     * @returns {Rectangle} DOC_TBA
+     */
+    Extent.computeBoundingRectangle = function(extent, projection) {
+        if (typeof extent === 'undefined') {
+            throw new DeveloperError("extent is required.", "extent");
+        }
+
+        Extent.validate(extent);
+
+        if (typeof projection === 'undefined') {
+            throw new DeveloperError("projection is required.", "projection");
+        }
+
+        var lla = new Cartographic2(extent.west, extent.south);
+        var lowerLeft = projection.project(lla);
+        lla.longitude = extent.east;
+        lla.latitude = extent.north;
+        var upperRight = projection.project(lla);
+
+        var diagonal = upperRight.subtract(lowerLeft);
+        return new Rectangle(lowerLeft.x, lowerLeft.y, diagonal.x, diagonal.y);
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @param {Extent} extent DOC_TBA
+     * @param {Object} projection DOC_TBA
+     * @returns {BoundingSphere} DOC_TBA
+     */
+    Extent.compute2DBoundingSphere = function(extent, projection) {
+        var rect = Extent.computeBoundingRectangle(extent, projection);
+        var center = new Cartesian3((2.0 * rect.x + rect.width) * 0.5, (2.0 * rect.y + rect.height) * 0.5, 0.0);
+        var radius = Math.sqrt(rect.width * rect.width + rect.height * rect.height) * 0.5;
+        return new BoundingSphere(center, radius);
+    };
+
+    return Extent;
+});
+
+/*global define*/
+define('Core/ExtentTessellator',[
+        './DeveloperError',
+        './Math',
+        './Ellipsoid',
+        './Extent',
+        './Cartesian3',
+        './Cartographic3',
+        './ComponentDatatype',
+        './PrimitiveType'
+    ], function(
+        DeveloperError,
+        CesiumMath,
+        Ellipsoid,
+        Extent,
+        Cartesian3,
+        Cartographic3,
+        ComponentDatatype,
+        PrimitiveType) {
+    
+
+    /**
+     * Contains class functions to create a mesh or vertex array from a cartographic extent.
+     *
+     * @exports ExtentTessellator
+     *
+     * @see CubeMapEllipsoidTessellator
+     * @see BoxTessellator
+     * @see PlaneTessellator
+     */
+    var ExtentTessellator = {};
+
+    ExtentTessellator._computeVertices = function(description) {
+        var desc = description || {};
+
+        var extent = desc.extent.clone();
+        var boundExtent = desc.boundaryExtent;
+        var ellipsoid = desc.ellipsoid;
+        var granularity = desc.granularity;
+        var altitude = desc.altitude;
+        var genTexCoords = desc.generateTextureCoords;
+        var interleave = desc.interleave;
+        var relativeToCenter = desc.relativeToCenter;
+
+        var vertices = desc.vertices;
+        var texCoords = desc.texCoords;
+        var indices = desc.indices;
+
+        if (boundExtent.south > boundExtent.north) {
+            boundExtent.north += CesiumMath.TWO_PI;
+            extent.north += CesiumMath.TWO_PI;
+        }
+
+        if (boundExtent.west > boundExtent.east) {
+            boundExtent.east += CesiumMath.TWO_PI;
+            extent.east += CesiumMath.TWO_PI;
+        }
+
+        // for computing texture coordinates
+        var lonScalar = 1.0 / (extent.east - extent.west);
+        var latScalar = 1.0 / (extent.north - extent.south);
+
+        var i;
+        var j;
+        var rows = 0;
+        var cols = 0;
+
+        for (i = boundExtent.north;; i = i - granularity) {
+            if (i < boundExtent.south) {
+                i = boundExtent.south;
+            }
+
+            cols = 0;
+            for (j = boundExtent.west;; j = j + granularity) {
+                if (j > boundExtent.east) {
+                    j = boundExtent.east;
+                }
+
+                var cartPosition = new Cartographic3(j, i, altitude);
+                var position = ellipsoid.toCartesian(cartPosition).subtract(relativeToCenter);
+                vertices.push(position.x, position.y, position.z);
+
+                if (genTexCoords) {
+                    var u = (j - extent.west) * lonScalar;
+                    var v = (i - extent.south) * latScalar;
+                    if (interleave) {
+                        vertices.push(u, v);
+                    } else {
+                        texCoords.push(u, v);
+                    }
+                }
+
+                ++cols;
+
+                if (j === boundExtent.east) {
+                    break;
+                }
+            }
+            ++rows;
+
+            if (i === boundExtent.south) {
+                break;
+            }
+        }
+
+        var index = 0;
+        for (i = 0; i < rows - 1; ++i) {
+            for (j = 0; j < cols - 1; ++j) {
+                var upperLeft = index;
+                var lowerLeft = upperLeft + cols;
+                var lowerRight = lowerLeft + 1;
+                var upperRight = upperLeft + 1;
+
+                indices.push(upperLeft, lowerLeft, upperRight);
+                indices.push(upperRight, lowerLeft, lowerRight);
+
+                ++index;
+            }
+            ++index;
+        }
+    };
+
+    /**
+     * Creates a mesh from a cartographic extent.
+     *
+     * @param {Ellipsoid} description.ellipsoid The ellipsoid on which the extent lies. Defaults to a WGS84 ellipsoid.
+     * @param {Extent} description.extent A cartographic extent with north, south, east and west properties in radians.
+     * @param {Number} description.granularity The distance, in radians, between each latitude and longitude.
+     * Determines the number of positions in the buffer. Defaults to 0.1.
+     * @param {Number} description.altitude The height from the surface of the ellipsoid. Defaults to 0.
+     * @param {Boolean} description.generateTextureCoords A truthy value will cause texture coordinates to be generated.
+     * @param {Cartesian3} description.relativetoCenter If this parameter is provided, the positions will be
+     * computed as <code>worldPosition.subtract(relativeToCenter)</code>. Defaults to (0, 0, 0).
+     *
+     * @exception {DeveloperError} <code>description.extent</code> is required and must have north, south, east and west attributes.
+     * @exception {DeveloperError} <code>description.extent.north</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
+     * @exception {DeveloperError} <code>description.extent.south</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
+     * @exception {DeveloperError} <code>description.extent.east</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
+     * @exception {DeveloperError} <code>description.extent.west</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
+     * @exception {DeveloperError} <code>description.extent.north</code> must be greater than <code>extent.south</code>.
+     * @exception {DeveloperError} <code>description.extent.east</code> must be greater than <code>extent.west</code>.
+     * @exception {DeveloperError} <code>description.context</code> is required.
+     *
+     * @return {Object} A mesh containing attributes for positions, possibly texture coordinates and indices
+     * from the extent for creating a vertex array.
+     *
+     * @see Context#createVertexArrayFromMesh
+     * @see MeshFilters#createAttributeIndices
+     * @see MeshFilters#toWireframeInPlace
+     * @see Extent
+     *
+     * @example
+     * // Create a vertex array for rendering a wireframe extent.
+     * var mesh = ExtentTessellator.compute({
+     *     ellipsoid : Ellipsoid.WGS84,
+     *     extent : new Extent(
+     *         CesiumMath.toRadians(-80.0),
+     *         CesiumMath.toRadians(39.0),
+     *         CesiumMath.toRadians(-74.0),
+     *         CesiumMath.toRadians(42.0)
+     *     ),
+     *     granularity : 0.01,
+     *     altitude : 10000.0
+     * });
+     * mesh = MeshFilters.toWireframeInPlace(mesh);
+     * var va = context.createVertexArrayFromMesh({
+     *     mesh             : mesh,
+     *     attributeIndices : MeshFilters.createAttributeIndices(mesh)
+     * });
+     */
+    ExtentTessellator.compute = function(description) {
+        var desc = description || {};
+
+        Extent.validate(desc.extent);
+
+        desc.ellipsoid = desc.ellipsoid || Ellipsoid.WGS84;
+        desc.granularity = (desc.granularity && desc.granularity > 0.0) ? desc.granularity : 0.1;
+        desc.altitude = (desc.altitude && desc.altitude > 0.0) ? desc.altitude : 0.0;
+        desc.relativeToCenter = (desc.relativeToCenter) ? Cartesian3.clone(desc.relativeToCenter) : Cartesian3.ZERO;
+        desc.boundaryWidth = desc.boundaryWidth || 0; // NOTE: may want to expose in the future.
+        desc.interleave = false;
+        desc.positionName = desc.positionName || "position";
+        desc.textureCoordName = desc.textureCoordName || "textureCoordinates";
+
+        var vertices = [];
+        var indices = [];
+        var texCoords = [];
+
+        desc.vertices = vertices;
+        desc.texCoords = texCoords;
+        desc.indices = indices;
+        desc.boundaryExtent = new Extent(
+            desc.extent.west - desc.granularity * desc.boundaryWidth,
+            desc.extent.south - desc.granularity * desc.boundaryWidth,
+            desc.extent.east + desc.granularity * desc.boundaryWidth,
+            desc.extent.north + desc.granularity * desc.boundaryWidth
+        );
+
+        ExtentTessellator._computeVertices(desc);
+
+        var mesh = {};
+        mesh.attributes = {};
+        mesh.indexLists = [];
+
+        mesh.attributes[desc.positionName] = {
+            componentDatatype : ComponentDatatype.FLOAT,
+            componentsPerAttribute : 3,
+            values : vertices
+        };
+
+        if (desc.generateTextureCoords) {
+            mesh.attributes[desc.textureCoordName] = {
+                componentDatatype : ComponentDatatype.FLOAT,
+                componentsPerAttribute : 2,
+                values : texCoords
+            };
+        }
+
+        mesh.indexLists.push({
+            primitiveType : PrimitiveType.TRIANGLES,
+            values : indices
+        });
+
+        return mesh;
+    };
+
+    /**
+     * Creates arrays of vertex attributes and indices from a cartographic extent.
+     *
+     * @param {Ellipsoid} description.ellipsoid The ellipsoid on which the extent lies. Defaults to a WGS84 ellipsoid.
+     * @param {Extent} description.extent A cartographic extent with north, south, east and west properties in radians.
+     * @param {Number} description.granularity The distance, in radians, between each latitude and longitude.
+     * Determines the number of positions in the buffer. Defaults to 0.1.
+     * @param {Number} description.altitude The height from the surface of the ellipsoid. Defaults to 0.
+     * @param {Boolean} description.generateTextureCoords A truthy value will cause texture coordinates to be generated.
+     * @param {Boolean} description.interleave If both this parameter and <code>generateTextureCoords</code> are truthy,
+     * the positions and texture coordinates will be interleaved in a single buffer.
+     * @param {Object} description.attributeIndices An object with possibly two numeric attributes, <code>position</code>
+     * and <code>textureCoordinates</code>, used to index the shader attributes of the same names.
+     * <code>position</code> defaults to 0 and <code>textureCoordinates</code> defaults to 1.
+     * @param {Cartesian3} description.relativetoCenter If this parameter is provided, the positions will be
+     * computed as <code>worldPosition.subtract(relativeToCenter)</code>. Defaults to (0, 0, 0).
+     *
+     * @exception {DeveloperError} <code>description.extent</code> is required and must have north, south, east and west attributes.
+     * @exception {DeveloperError} <code>description.extent.north</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
+     * @exception {DeveloperError} <code>description.extent.south</code> must be in the interval [<code>-Pi/2</code>, <code>Pi/2</code>].
+     * @exception {DeveloperError} <code>description.extent.east</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
+     * @exception {DeveloperError} <code>description.extent.west</code> must be in the interval [<code>-Pi</code>, <code>Pi</code>].
+     * @exception {DeveloperError} <code>description.extent.north</code> must be greater than <code>extent.south</code>.     *
+     * @exception {DeveloperError} <code>description.extent.east</code> must be greater than <code>extent.west</code>.
+     *
+     * @return {Object} An object with flattened arrays for vertex attributes and indices.
+     *
+     * @example
+     * // Example 1:
+     * // Create a vertex array for a solid extent, with separate positions and texture coordinates.
+     * var buffers = ExtentTessellator.computeBuffers({
+     *     ellipsoid : ellipsoid,
+     *     extent : extent,
+     *     generateTextureCoords : true
+     * });
+     *
+     * var datatype = ComponentDatatype.FLOAT;
+     * var usage = BufferUsage.STATIC_DRAW;
+     * var positionBuffer = context.createVertexBuffer(datatype.toTypedArray(buffers.positions), usage);
+     * var texCoordBuffer = context.createVertexBuffer(datatype.toTypedArray(buffers.textureCoords), usage);
+     * attributes = [{
+     *         index : attributeIndices.position,
+     *         vertexBuffer : positionBuffer,
+     *         componentDatatype : datatype,
+     *         componentsPerAttribute : 3
+     *     }, {
+     *         index : attributeIndices.textureCoordinates,
+     *         vertexBuffer : texCoordBuffer,
+     *         componentDatatype : datatype,
+     *         componentsPerAttribute : 2
+     *     }];
+     * var indexBuffer = context.createIndexBuffer(new Uint16Array(buffers.indices), usage, IndexDatatype.UNSIGNED_SHORT);
+     * var va = context.createVertexArray(attributes, indexBuffer);
+     *
+     * @example
+     * // Example 2:
+     * // Create a vertex array for a solid extent, with interleaved positions and texture coordinates.
+     * var buffers = ExtentTessellator.computeBuffers({
+     *     ellipsoid : ellipsoid,
+     *     extent : extent,
+     *     generateTextureCoords : true,
+     *     interleave : true
+     * });
+     *
+     * var datatype = ComponentDatatype.FLOAT;
+     * var usage = BufferUsage.STATIC_DRAW;
+     * var typedArray = datatype.toTypedArray(buffers.vertices);
+     * var buffer = context.createVertexBuffer(typedArray, usage);
+     * var stride = 5 * datatype.sizeInBytes;
+     * var attributes = [{
+     *         index : attributeIndices.position3D,
+     *         vertexBuffer : buffer,
+     *         componentDatatype : datatype,
+     *         componentsPerAttribute : 3,
+     *         normalize : false,
+     *         offsetInBytes : 0,
+     *         strideInBytes : stride
+     *     }, {
+     *         index : attributeIndices.textureCoordinates,
+     *         vertexBuffer : buffer,
+     *         componentDatatype : datatype,
+     *         componentsPerAttribute : 2,
+     *         normalize : false,
+     *         offsetInBytes : 3 * datatype.sizeInBytes,
+     *         strideInBytes : stride
+     *     }];
+     * var indexBuffer = context.createIndexBuffer(new Uint16Array(buffers.indices), usage, IndexDatatype.UNSIGNED_SHORT);
+     * var vacontext.createVertexArray(attributes, indexBuffer);
+     *
+     */
+    ExtentTessellator.computeBuffers = function(description) {
+        var desc = description || {};
+
+        Extent.validate(desc.extent);
+
+        desc.ellipsoid = desc.ellipsoid || Ellipsoid.WGS84;
+        desc.granularity = (typeof desc.granularity !== "undefined" && desc.granularity > 0.0) ? desc.granularity : 0.1;
+        desc.altitude = (typeof desc.altitude !== "undefined" && desc.altitude > 0.0) ? desc.altitude : 0.0;
+        desc.relativeToCenter = (desc.relativeToCenter) ? Cartesian3.clone(desc.relativeToCenter) : Cartesian3.ZERO;
+        desc.boundaryWidth = desc.boundaryWidth || 0; // NOTE: may want to expose in the future.
+
+        desc.vertices = [];
+        desc.texCoords = [];
+        desc.indices = [];
+        desc.boundaryExtent = new Extent(
+            desc.extent.west - desc.granularity * desc.boundaryWidth,
+            desc.extent.south - desc.granularity * desc.boundaryWidth,
+            desc.extent.east + desc.granularity * desc.boundaryWidth,
+            desc.extent.north + desc.granularity * desc.boundaryWidth
+        );
+
+        ExtentTessellator._computeVertices(desc);
+
+        var result = {};
+        if (desc.interleave) {
+            result.vertices = desc.vertices;
+        } else {
+            result.positions = desc.vertices;
+            if (desc.generateTextureCoords) {
+                result.textureCoords = desc.texCoords;
+            }
+        }
+
+        result.indices = desc.indices;
+        return result;
+    };
+
+    return ExtentTessellator;
+});
+
 /*global define*/
 define('Core/WindingOrder',['./Enumeration'], function(Enumeration) {
     
@@ -10596,6 +11006,7 @@ define('Core/Transforms',[
         './Matrix3',
         './Matrix4',
         './Cartesian3',
+        './Cartesian4',
         './TimeStandard',
         './TimeConstants',
         './Ellipsoid'
@@ -10606,6 +11017,7 @@ define('Core/Transforms',[
         Matrix3,
         Matrix4,
         Cartesian3,
+        Cartesian4,
         TimeStandard,
         TimeConstants,
         Ellipsoid) {
@@ -10638,8 +11050,8 @@ define('Core/Transforms',[
          *
          * @example
          * // Get the transform from local east-north-up at cartographic (0.0, 0.0) to Earth's fixed frame.
-         * var ellipsoid = Ellipsoid.getWgs84();
-         * var center = ellipsoid.cartographicDegreesToCartesian(Cartographic2.getZero());
+         * var ellipsoid = Ellipsoid.WGS84;
+         * var center = ellipsoid.cartographicDegreesToCartesian(Cartographic2.ZERO);
          * var transform = Transforms.eastNorthUpToFixedFrame(center);
          */
         eastNorthUpToFixedFrame : function(position, ellipsoid) {
@@ -10647,7 +11059,7 @@ define('Core/Transforms',[
                 throw new DeveloperError("position is required.", "position");
             }
 
-            ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+            ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
             if (CesiumMath.equalsEpsilon(position.x, 0.0, CesiumMath.EPSILON14) &&
                     CesiumMath.equalsEpsilon(position.y, 0.0, CesiumMath.EPSILON14)) {
@@ -10692,8 +11104,8 @@ define('Core/Transforms',[
          *
          * @example
          * // Get the transform from local north-east-down at cartographic (0.0, 0.0) to Earth's fixed frame.
-         * var ellipsoid = Ellipsoid.getWgs84();
-         * var center = ellipsoid.cartographicDegreesToCartesian(Cartographic2.getZero());
+         * var ellipsoid = Ellipsoid.WGS84;
+         * var center = ellipsoid.cartographicDegreesToCartesian(Cartographic2.ZERO);
          * var transform = Transforms.northEastDownToFixedFrame(center);
          */
         northEastDownToFixedFrame : function(position, ellipsoid) {
@@ -10701,7 +11113,7 @@ define('Core/Transforms',[
                 throw new DeveloperError("position is required.", "position");
             }
 
-            ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+            ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
             if (CesiumMath.equalsEpsilon(position.x, 0.0, CesiumMath.EPSILON14) &&
                     CesiumMath.equalsEpsilon(position.y, 0.0, CesiumMath.EPSILON14)) {
@@ -10723,6 +11135,44 @@ define('Core/Transforms',[
                 bitangent.y, tangent.y, -normal.y, position.y,
                 bitangent.z, tangent.z, -normal.z, position.z,
                 0.0,         0.0,        0.0,      1.0);
+        },
+
+        /**
+         * Transform a point from model coordinates to window coordinates.
+         *
+         * @param {Matrix4} modelViewProjectionMatrix The 4x4 model-view-projection matrix.
+         * @param {Matrix4} viewportTransformation The 4x4 viewport transformation.
+         * @param {Cartesian3} point The point to transform.
+         *
+         * @returns {Cartesian2} The point in window coordinates.
+         *
+         * @see UniformState#getModelViewProjection
+         * @see agi_modelViewProjection
+         * @see UniformState#getViewportTransformation
+         * @see agi_viewportTransformation
+         *
+         * @exception {DeveloperError} modelViewProjectionMatrix is required.
+         * @exception {DeveloperError} viewportTransformation is required.
+         * @exception {DeveloperError} point is required.
+         */
+        pointToWindowCoordinates : function (modelViewProjectionMatrix, viewportTransformation, point) {
+            if (typeof modelViewProjectionMatrix === 'undefined') {
+                throw new DeveloperError("modelViewProjectionMatrix is required.", "modelViewProjectionMatrix");
+            }
+
+            if (typeof viewportTransformation === 'undefined') {
+                throw new DeveloperError("viewportTransformation is required.", "viewportTransformation");
+            }
+
+            if (typeof point === 'undefined') {
+                throw new DeveloperError("point is required.", "point");
+            }
+
+            var pnt = new Cartesian4(point.x, point.y, point.z, 1.0);
+            pnt = modelViewProjectionMatrix.multiplyWithVector(pnt);
+            pnt = pnt.multiplyWithScalar(1.0 / pnt.w);
+            pnt = viewportTransformation.multiplyWithVector(pnt);
+            return pnt.getXY();
         }
     };
 
@@ -11142,14 +11592,14 @@ define('Core/createGuid',[],function() {
     function createGuid() {
         // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            var r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+            var r = Math.random() * 16 | 0;
+            var v = c === 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
     }
 
     return createGuid;
 });
-
 /*global define*/
 define('Core/destroyObject',['./DeveloperError'], function(DeveloperError) {
     
@@ -12554,7 +13004,6 @@ define('Core/EventHandler',[
         MouseEventType,
         EventModifier) {
     
-    /*global document*/
 
     /**
      * Handles user input events. Custom functions can be added to be executed on
@@ -12777,9 +13226,9 @@ define('Core/EventHandler',[
      * // Set the camera to a "home" position when 'h' is pressed.
      * customHandler.setKeyAction(
      *    function() {
-     *        var position = new Cartesian3(2.0 * Ellipsoid.getWgs84().getRadii().getMaximumComponent(), 0.0, 0.0);
-     *        var dir = Cartesian3.getZero().subtract(position).normalize();
-     *        var up = Cartesian3.getUnitZ();
+     *        var position = new Cartesian3(2.0 * Ellipsoid.WGS84.getRadii().getMaximumComponent(), 0.0, 0.0);
+     *        var dir = Cartesian3.ZERO.subtract(position).normalize();
+     *        var up = Cartesian3.UNIT_Z;
      *        camera.position = position;
      *        camera.direction = dir;
      *        camera.up = up;
@@ -13565,6 +14014,94 @@ define('Core/SunPosition',[
 });
 
 /*global define*/
+define('Core/jsonp',['./DeveloperError'], function(DeveloperError) {
+    
+
+    function pushQueryParameter(array, name, value) {
+        array.push(encodeURIComponent(name) + '=' + encodeURIComponent(value));
+    }
+
+    /**
+     * Requests a resource using JSONP.
+     *
+     * @param {String} url The URL to request.
+     * @param {Function} callback The callback function to call, passing the requested resource as the single parameter.
+     * @param {Object} [options.parameters] Any extra query parameters to append to the URL.
+     * @param {String} [options.callbackParameterName='callback'] The callback parameter name that the server expects.
+     * @param {Object} [options.proxy] A proxy to use for the request. This object is expected to have a getURL function which returns the proxied URL, if needed.
+     */
+    function jsonp(url, callback, options) {
+        if (typeof url === 'undefined') {
+            throw new DeveloperError('url is required.', 'url');
+        }
+
+        if (typeof callback === 'undefined') {
+            throw new DeveloperError('callback is required.', 'callback');
+        }
+
+        options = typeof options !== 'undefined' ? options : {};
+
+        //generate a unique function name
+        var functionName;
+        do {
+            functionName = 'jsonp' + Math.random().toString().substring(2, 8);
+        } while (typeof window[functionName] !== 'undefined');
+
+        //assign a function with that name in the global scope
+        window[functionName] = function(data) {
+            callback(data);
+
+            try {
+                delete window[functionName];
+            } catch (e) {
+                window[functionName] = undefined;
+            }
+        };
+
+        var callbackParameterName = typeof options.callbackParameterName !== 'undefined' ? options.callbackParameterName : 'callback';
+        var queryParts = [];
+        pushQueryParameter(queryParts, callbackParameterName, functionName);
+
+        var parameters = options.parameters;
+        if (typeof parameters !== 'undefined') {
+            for ( var name in parameters) {
+                if (parameters.hasOwnProperty(name)) {
+                    pushQueryParameter(queryParts, name, parameters[name]);
+                }
+            }
+        }
+
+        if (queryParts.length > 0) {
+            if (url.indexOf('?') === -1) {
+                url += '?';
+            } else {
+                url += '&';
+            }
+
+            url += queryParts.join('&');
+        }
+
+        var proxy = options.proxy;
+        if (typeof proxy !== 'undefined') {
+            url = proxy.getURL(url);
+        }
+
+        var script = document.createElement('script');
+        script.async = true;
+        script.src = url;
+
+        var head = document.getElementsByTagName('head')[0];
+        script.onload = function() {
+            script.onload = undefined;
+            head.removeChild(script);
+        };
+
+        head.appendChild(script);
+    }
+
+    return jsonp;
+});
+/*global define*/
 define('Core/pointInsideTriangle2D',['./DeveloperError'], function(DeveloperError) {
     
 
@@ -14052,7 +14589,6 @@ define('Core/PolygonPipeline',[
 /*global define*/
 define('Core/requestAnimationFrame',[],function() {
     
-    /*global window*/
 
     /**
      * A browser-independent function to request a new animation frame.  This is used to create
@@ -14328,16 +14864,16 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
 });
 /*global define*/
 define('Renderer/BlendingState',[
-        './BlendEquation', 
+        './BlendEquation',
         './BlendFunction'
     ], function(
-        BlendEquation, 
+        BlendEquation,
         BlendFunction) {
     
 
     /**
      * DOC_TBA
-     * 
+     *
      * @exports BlendingState
      */
     var BlendingState = {
@@ -15950,14 +16486,6 @@ define('Renderer/TextureAtlas',[
      * DOC_TBA
      * @memberof TextureAtlas
      */
-    TextureAtlas.prototype.getContext = function() {
-        return this._context;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof TextureAtlas
-     */
     TextureAtlas.prototype.getBorderWidthInPixels = function() {
         return this._borderWidthInPixels;
     };
@@ -17477,7 +18005,7 @@ define('Renderer/ShaderProgram',[
      * var mvp = sp.getAllUniforms().u_mvp;
      * console.log(mvp.getName());           // "u_mvp"
      * console.log(mvp.getDatatype().name);  // "FLOAT_MATRIX4"
-     * mvp.value = Matrix4.getIdentity();
+     * mvp.value = Matrix4.IDENTITY;
      *
      * //////////////////////////////////////////////////////////////////////
      *
@@ -17487,8 +18015,8 @@ define('Renderer/ShaderProgram',[
      *
      * // GLSL:  uniform vec4 u_vec4[2];
      * sp.getAllUniforms().u_vec4.value = [
-     *   Cartesian4.getUnitX(),
-     *   Cartesian4.getUnitY()
+     *   Cartesian4.UNIT_X,
+     *   Cartesian4.UNIT_Y
      * ];
      *
      * //////////////////////////////////////////////////////////////////////
@@ -17514,13 +18042,13 @@ define('Renderer/ShaderProgram',[
          * sp.getAllUniforms().u_float.value = 1.0;
          *
          * // GLSL:  uniform vec4 u_vec4;
-         * sp.getAllUniforms().u_vec4.value = Cartesian4.getZero();
+         * sp.getAllUniforms().u_vec4.value = Cartesian4.ZERO;
          *
          * // GLSL:  uniform bvec4 u_bvec4;
          * sp.getAllUniforms().u_bvec4.value = new Cartesian4(true, true, true, true);
          *
          * // GLSL:  uniform mat4 u_mat4;
-         * sp.getAllUniforms().u_mat4.value = Matrix4.getIdentity();
+         * sp.getAllUniforms().u_mat4.value = Matrix4.IDENTITY;
          *
          * // GLSL:  uniform sampler2D u_texture;
          * sp.getAllUniforms().u_texture.value = context.createTexture2D(...);
@@ -18161,6 +18689,46 @@ define('Renderer/ShaderProgram',[
                         return {
                             _set : function(uniformState) {
                                 uniform.value = uniformState.getProjection();
+                            }
+                        };
+                    }
+                },
+
+                /**
+                 * An automatic GLSL uniform representing a 4x4 inverse projection transformation matrix that
+                 * transforms from clip coordinates to eye coordinates. Clip coordinates is the
+                 * coordinate system for a vertex shader's <code>gl_Position</code> output.
+                 * <br /><br />
+                 * Like all automatic uniforms, <code>agi_inverseProjection</code> does not need to be explicitly declared.
+                 * However, it can be explicitly declared when a shader is also used by other applications such
+                 * as a third-party authoring tool.
+                 *
+                 * @name agi_inverseProjection
+                 * @glslUniform
+                 *
+                 * @see UniformState#getInverseProjection
+                 * @see agi_projection
+                 *
+                 * @example
+                 * // GLSL declaration
+                 * uniform mat4 agi_inverseProjection;
+                 *
+                 * // Example
+                 * vec4 eyePosition = agi_inverseProjection * clipPosition;
+                 */
+                agi_inverseProjection : {
+                    getSize : function() {
+                        return 1;
+                    },
+
+                    getDatatype : function() {
+                        return UniformDatatype.FLOAT_MATRIX4;
+                    },
+
+                    create : function(uniform) {
+                        return {
+                            _set : function(uniformState) {
+                                uniform.value = uniformState.getInverseProjection();
                             }
                         };
                     }
@@ -19196,7 +19764,7 @@ define('Renderer/ShaderProgram',[
             var i;
 
             if (uniformMap) {
-                uniformState.setModel(uniformMap.u_model ? uniformMap.u_model() : Matrix4.getIdentity());
+                uniformState.setModel(uniformMap.u_model ? uniformMap.u_model() : Matrix4.IDENTITY);
 
                 for ( var uniform in _manualUniforms) {
                     if (_manualUniforms.hasOwnProperty(uniform)) {
@@ -19319,20 +19887,21 @@ define('Renderer/UniformState',[
             width : 0,
             height : 0
         };
-        this._viewportOrthographicMatrix = Matrix4.getIdentity();
-        this._viewportTransformation = Matrix4.getIdentity();
+        this._viewportOrthographicMatrix = Matrix4.IDENTITY;
+        this._viewportTransformation = Matrix4.IDENTITY;
 
-        this._model = Matrix4.getIdentity();
-        this._view = Matrix4.getIdentity();
-        this._projection = Matrix4.getIdentity();
+        this._model = Matrix4.IDENTITY;
+        this._view = Matrix4.IDENTITY;
+        this._projection = Matrix4.IDENTITY;
 
-        this._infiniteProjection = Matrix4.getIdentity();
+        this._infiniteProjection = Matrix4.IDENTITY;
 
         // Arbitrary.  The user will explicitly set this later.
-        this._sunPosition = new Cartesian3(2.0 * Ellipsoid.getWgs84().getRadii().x, 0.0, 0.0);
+        this._sunPosition = new Cartesian3(2.0 * Ellipsoid.WGS84.getRadii().x, 0.0, 0.0);
 
         // Derived members
         this._inverseViewDirty = true;
+        this._inverseProjectionDirty = true;
         this._modelViewDirty = true;
         this._inverseModelViewDirty = true;
         this._viewProjectionDirty = true;
@@ -19405,7 +19974,7 @@ define('Renderer/UniformState',[
      * @see agi_model
      */
     UniformState.prototype.setModel = function(matrix) {
-        matrix = matrix || Matrix4.getIdentity();
+        matrix = matrix || Matrix4.IDENTITY;
 
         this._model = matrix;
         this._modelViewDirty = true;
@@ -19442,7 +20011,7 @@ define('Renderer/UniformState',[
      * @see agi_view
      */
     UniformState.prototype.setView = function(matrix) {
-        matrix = matrix || Matrix4.getIdentity();
+        matrix = matrix || Matrix4.IDENTITY;
 
         this._view = matrix;
         this._inverseViewDirty = true;
@@ -19504,9 +20073,10 @@ define('Renderer/UniformState',[
      * @see agi_projection
      */
     UniformState.prototype.setProjection = function(matrix) {
-        matrix = matrix || Matrix4.getIdentity();
+        matrix = matrix || Matrix4.IDENTITY;
 
         this._projection = matrix;
+        this._inverseProjectionDirty = true;
         this._viewProjectionDirty = true;
         this._modelViewProjectionDirty = true;
     };
@@ -19525,6 +20095,29 @@ define('Renderer/UniformState',[
         return this._projection;
     };
 
+    UniformState.prototype._cleanInverseProjection = function() {
+        if (this._inverseProjectionDirty) {
+            this._inverseProjectionDirty = false;
+
+            var n = this.getProjection().inverse();
+            this._inverseProjection = n;
+        }
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof UniformState
+     *
+     * @return {Matrix4} DOC_TBA.
+     *
+     * @see agi_inverseProjection
+     */
+    UniformState.prototype.getInverseProjection = function() {
+        this._cleanInverseProjection();
+        return this._inverseProjection;
+    };
+
     /**
      * DOC_TBA
      *
@@ -19536,7 +20129,7 @@ define('Renderer/UniformState',[
      * @see agi_infiniteProjection
      */
     UniformState.prototype.setInfiniteProjection = function(matrix) {
-        matrix = matrix || Matrix4.getIdentity();
+        matrix = matrix || Matrix4.IDENTITY;
 
         this._infiniteProjection = matrix;
         this._modelViewInfiniteProjectionDirty = true;
@@ -20183,7 +20776,6 @@ define('Renderer/VertexArrayFacade',[
         ComponentDatatype,
         BufferUsage) {
     
-    /*global Uint8Array,ArrayBuffer*/
 
     /**
      * DOC_TBA
@@ -20720,7 +21312,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        AERIAL : new Enumeration(0, "AERIAL"),
+        AERIAL : new Enumeration(0, "AERIAL", { imagerySetName : "Aerial" }),
 
         /**
          * Aerial imagery with a road overlay.
@@ -20728,7 +21320,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        AERIAL_WITH_LABELS : new Enumeration(1, "AERIAL_WITH_LABELS"),
+        AERIAL_WITH_LABELS : new Enumeration(1, "AERIAL_WITH_LABELS", { imagerySetName : "AerialWithLabels" }),
 
         /**
          * Roads without additional imagery.
@@ -20736,7 +21328,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ROAD : new Enumeration(2, "ROAD"),
+        ROAD : new Enumeration(2, "ROAD", { imagerySetName : "Road" }),
 
         /**
          * Ordnance Survey imagery
@@ -20744,7 +21336,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ORDNANCE_SURVEY : new Enumeration(3, "ORDNANCE_SURVEY"),
+        ORDNANCE_SURVEY : new Enumeration(3, "ORDNANCE_SURVEY", { imagerySetName : "OrdnanceSurvey" }),
 
         /**
          * Collins Bart imagery.
@@ -20752,7 +21344,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        COLLINS_BART : new Enumeration(4, "COLLINS_BART")
+        COLLINS_BART : new Enumeration(4, "COLLINS_BART", { imagerySetName : "CollinsBart" })
     };
 
     return BingMapsStyle;
@@ -21197,9 +21789,9 @@ define('Scene/CameraFlightController',[
 
         diff = this._start.getSecondsDifference(now);
         position = this._path.evaluate(diff);
-        normal = Cartesian3.getUnitZ().cross(position).normalize();
+        normal = Cartesian3.UNIT_Z.cross(position).normalize();
         tangent = position.cross(normal).normalize();
-        target = Cartesian3.getZero();
+        target = Cartesian3.ZERO;
         this._camera.lookAt(position, target, tangent);
 
         var isComplete = (now === this._end) || this._canceled;
@@ -21419,7 +22011,7 @@ define('Scene/Camera2DController',[
      * @internalConstructor
      */
     function Camera2DController(canvas, camera, ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         this._canvas = canvas;
         this._camera = camera;
@@ -21474,11 +22066,11 @@ define('Scene/Camera2DController',[
      * // Set the 2D controller's ellipsoid to a unit sphere for easy rotation around that point.
      * var center = ellipsoid.cartographicDegreesToCartesian(new Cartographic2(-75.59777, 40.03883));
      * var transform = Transforms.eastNorthUpToFixedFrame(center);
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(transform, Ellipsoid.getUnitSphere());
+     * scene.getCamera().getControllers().get(0).setReferenceFrame(transform, Ellipsoid.UNIT_SPHERE);
      *
      * // Example 2.
      * // Reset to the defaults.
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(Matrix4.getIdentity());
+     * scene.getCamera().getControllers().get(0).setReferenceFrame(Matrix4.IDENTITY);
      *
      */
     Camera2DController.prototype.setReferenceFrame = function (transform, ellipsoid) {
@@ -21509,7 +22101,7 @@ define('Scene/Camera2DController',[
      * @see Camera2DController#getEllipsoid
      */
     Camera2DController.prototype.setEllipsoid = function(ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         var radius = ellipsoid.getRadii().getMaximumComponent();
         this._ellipsoid = ellipsoid;
@@ -21978,10 +22570,10 @@ define('Scene/CameraFreeLookController',[
      * @param {Cartesian3} axis The axis to rotate around.
      * @param {Number} angle The angle, in radians, to rotate by.
      *
-     * @see CameraFreeLookcontroller#lookUp
-     * @see CameraFreeLookcontroller#lookDown
-     * @see CameraFreeLookcontroller#lookLeft
-     * @see CameraFreeLookcontroller#lookRight
+     * @see CameraFreeLookController#lookUp
+     * @see CameraFreeLookController#lookDown
+     * @see CameraFreeLookController#lookLeft
+     * @see CameraFreeLookController#lookRight
      */
     CameraFreeLookController.prototype.rotate = function(axis, angle) {
         var a = Cartesian3.clone(axis);
@@ -22052,10 +22644,10 @@ define('Scene/CameraFreeLookController',[
         dot = startY.dot(endY);
         angle = 0.0;
         axis = startY.cross(endY);
-        if (dot < 1.0 && !axis.equalsEpsilon(Cartesian3.getZero(), CesiumMath.EPSILON14)) { // dot is in [0, 1]
+        if (dot < 1.0 && !axis.equalsEpsilon(Cartesian3.ZERO, CesiumMath.EPSILON14)) { // dot is in [0, 1]
             angle = -Math.acos(dot);
         } else { // no rotation
-            axis = Cartesian3.getUnitX();
+            axis = Cartesian3.UNIT_X;
         }
         rotation = Quaternion.fromAxisAngle(axis, angle).toRotationMatrix();
 
@@ -22196,7 +22788,7 @@ define('Scene/CameraSpindleController',[
      * @internalConstructor
      */
     function CameraSpindleController(canvas, camera, ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         this._canvas = canvas;
         this._camera = camera;
@@ -22241,7 +22833,7 @@ define('Scene/CameraSpindleController',[
          */
         this.mode = CameraSpindleControllerMode.AUTO;
 
-        this._zAxis = Cartesian3.getUnitZ();
+        this._zAxis = Cartesian3.UNIT_Z;
 
         var radius = this._ellipsoid.getRadii().getMaximumComponent();
         this._zoomFactor = 5.0;
@@ -22275,11 +22867,11 @@ define('Scene/CameraSpindleController',[
      * // Set the spindle controller's ellipsoid to a unit sphere for easy rotation around that point.
      * var center = ellipsoid.cartographicDegreesToCartesian(new Cartographic2(-75.59777, 40.03883));
      * var transform = Transforms.eastNorthUpToFixedFrame(center);
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(transform, Ellipsoid.getUnitSphere());
+     * scene.getCamera().getControllers().get(0).setReferenceFrame(transform, Ellipsoid.UNIT_SPHERE);
      *
      * // Example 2.
      * // Reset to the defaults.
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(Matrix4.getIdentity());
+     * scene.getCamera().getControllers().get(0).setReferenceFrame(Matrix4.IDENTITY);
      *
      */
     CameraSpindleController.prototype.setReferenceFrame = function (transform, ellipsoid) {
@@ -22310,7 +22902,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#getEllipsoid
      */
     CameraSpindleController.prototype.setEllipsoid = function(ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         var radius = ellipsoid.getRadii().getMaximumComponent();
         this._ellipsoid = ellipsoid;
@@ -22335,7 +22927,7 @@ define('Scene/CameraSpindleController',[
     */
     CameraSpindleController.prototype.rotate = function(axis, angle) {
         var a = Cartesian3.clone(axis);
-        var turnAngle = angle || this._moveRate;
+        var turnAngle = (typeof angle !== 'undefined') ? angle : this._moveRate;
         var rotation = Quaternion.fromAxisAngle(a, turnAngle).toRotationMatrix();
 
         var camera = this._camera;
@@ -22356,7 +22948,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveDown = function(angle) {
-        angle = -angle || -this._moveRate;
+        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
         this._moveVertical(angle, false);
     };
 
@@ -22371,7 +22963,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveUp = function(angle) {
-        angle = angle || this._moveRate;
+        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
         this._moveVertical(angle, false);
     };
 
@@ -22387,7 +22979,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveDownWithConstrainedZ = function(angle) {
-        angle = -angle || -this._moveRate;
+        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
         this._moveVertical(angle, true);
     };
 
@@ -22403,22 +22995,24 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveUpWithConstrainedZ = function(angle) {
-        angle = angle || this._moveRate;
+        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
         this._moveVertical(angle, true);
     };
 
     CameraSpindleController.prototype._moveVertical = function(angle, constrainedZ) {
-        var direction = (angle > 0) ? 1.0 : -1.0;
         if (constrainedZ) {
             var p = this._camera.position.normalize();
-            if (CesiumMath.equalsEpsilon(direction, p.dot(this._zAxis), CesiumMath.EPSILON6)) {
+            var dot = p.dot(this._zAxis);
+            if (CesiumMath.equalsEpsilon(1.0, Math.abs(dot), CesiumMath.EPSILON3) && dot * angle < 0.0) {
                 return;
             }
 
-            this.rotate(p.cross(this._zAxis), angle);
-        } else {
-            this.rotate(this._camera.right, angle);
+            var angleToZ = Math.acos(dot);
+            if (Math.abs(angle) > Math.abs(angleToZ)) {
+                angle = angleToZ;
+            }
         }
+        this.rotate(this._camera.right, angle);
     };
 
     /**
@@ -22432,7 +23026,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveRight = function(angle) {
-        angle = angle || this._moveRate;
+        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
         this._moveHorizontal(angle, false);
     };
 
@@ -22447,7 +23041,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveLeft = function(angle) {
-        angle = -angle || -this._moveRate;
+        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
         this._moveHorizontal(angle, false);
     };
 
@@ -22463,7 +23057,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveRightWithConstrainedZ = function(angle) {
-        angle = angle || this._moveRate;
+        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
         this._moveHorizontal(angle, true);
     };
 
@@ -22479,7 +23073,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#rotate
      */
     CameraSpindleController.prototype.moveLeftWithConstrainedZ = function(angle) {
-        angle = -angle || -this._moveRate;
+        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
         this._moveHorizontal(angle, true);
     };
 
@@ -22501,7 +23095,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#zoomOut
      */
     CameraSpindleController.prototype.zoomIn = function(rate) {
-        zoom(this._camera, rate || this._zoomRate);
+        zoom(this._camera, (typeof rate !== 'undefined') ? rate : this._zoomRate);
     };
 
     /**
@@ -22515,7 +23109,7 @@ define('Scene/CameraSpindleController',[
      * @see CameraSpindleController#zoomIn
      */
     CameraSpindleController.prototype.zoomOut = function(rate) {
-        zoom(this._camera, -rate || -this._zoomRate);
+        zoom(this._camera, (typeof rate !== 'undefined') ? -rate : -this._zoomRate);
     };
 
     /**
@@ -22572,7 +23166,6 @@ define('Scene/CameraSpindleController',[
     CameraSpindleController.prototype._rotate = function(movement) {
         var position = this._camera.position;
         var rho = position.magnitude();
-        var theta = Math.acos(position.z / rho);
         var rotateRate = this._rotateFactor * (rho - this._rotateRateRangeAdjustment);
 
         if (rotateRate > this._maximumRotateRate) {
@@ -22589,14 +23182,13 @@ define('Scene/CameraSpindleController',[
         var deltaPhi = -rotateRate * phiWindowRatio * Math.PI * 2.0;
         var deltaTheta = -rotateRate * thetaWindowRatio * Math.PI;
 
-        theta += deltaTheta;
-
+        var theta = Math.acos(position.z / rho) + deltaTheta;
         if (this.mouseConstrainedZAxis && (theta < 0 || theta > Math.PI)) {
             deltaTheta = 0;
         }
 
         this._moveHorizontal(deltaPhi, this.mouseConstrainedZAxis);
-        this._moveVertical(deltaTheta);
+        this._moveVertical(deltaTheta, this.mouseConstrainedZAxis);
     };
 
     CameraSpindleController.prototype._pan = function(movement) {
@@ -22614,7 +23206,7 @@ define('Scene/CameraSpindleController',[
             var dot = p0.dot(p1);
             var axis = p0.cross(p1);
 
-            if (dot < 1.0 && !axis.equalsEpsilon(Cartesian3.getZero(), CesiumMath.EPSILON14)) { // dot is in [0, 1]
+            if (dot < 1.0 && !axis.equalsEpsilon(Cartesian3.ZERO, CesiumMath.EPSILON14)) { // dot is in [0, 1]
                 var angle = -Math.acos(dot);
                 this.rotate(axis, angle);
             }
@@ -22636,11 +23228,7 @@ define('Scene/CameraSpindleController',[
             }
 
             this._moveHorizontal(deltaPhi, this.mouseConstrainedZAxis);
-
-            var normal = camera.right.cross(this._zAxis);
-            if (p0.dot(normal) > 0) {
-                this._moveVertical(deltaTheta);
-            }
+            this._moveVertical(deltaTheta, this.mouseConstrainedZAxis);
         }
     };
 
@@ -22744,14 +23332,14 @@ define('Scene/CameraColumbusViewController',[
 
         this._translateHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
 
-        this._spindleController = new CameraSpindleController(canvas, camera, Ellipsoid.getUnitSphere());
+        this._spindleController = new CameraSpindleController(canvas, camera, Ellipsoid.UNIT_SPHERE);
 
         // TODO: Shouldn't change private variables like this, need to be able to change event modifiers
         //       on controllers.
         this._spindleController._spinHandler = this._spindleController._spinHandler && this._spindleController._spinHandler.destroy();
 
         this._freeLookController = new CameraFreeLookController(canvas, camera);
-        this._freeLookController.horizontalRotationAxis = Cartesian3.getUnitZ();
+        this._freeLookController.horizontalRotationAxis = Cartesian3.UNIT_Z;
 
         this._transform = this._camera.transform.clone();
 
@@ -22970,8 +23558,8 @@ define('Scene/CameraControllerCollection',[
      */
     CameraControllerCollection.prototype.addFlight = function(template) {
         var t = template || {};
-        var ellipsoid = t.ellipsoid || Ellipsoid.getWgs84();
-        var destination = t.destination || Ellipsoid.getWgs84().cartographicDegreesToCartesian(new Cartographic3(0.0, 0.0, 0.0));
+        var ellipsoid = t.ellipsoid || Ellipsoid.WGS84;
+        var destination = t.destination || Ellipsoid.WGS84.cartographicDegreesToCartesian(new Cartographic3(0.0, 0.0, 0.0));
         var duration = t.duration || 4.0;
         var complete = template.complete;
 		var flightController = new CameraFlightController(this._canvas, this._camera, ellipsoid, destination, duration, complete);
@@ -23671,7 +24259,7 @@ define('Scene/CompositeTileProvider',[
 
         this._camera = camera;
 
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
         this._radius = ellipsoid.getMaximumRadius();
 
         this._list = list;
@@ -23683,7 +24271,7 @@ define('Scene/CompositeTileProvider',[
          * west properties in radians.
          *
          * @constant
-         * @type {Object}
+         * @type {Extent}
          */
         this.maxExtent = this._list[0].provider.maxExtent;
 
@@ -23871,7 +24459,7 @@ define('Scene/GravityForce',['../Core/Ellipsoid'], function(Ellipsoid) {
      */
     function GravityForce(template) {
         template = template || {};
-        this.ellipsoid = template.ellipsoid || Ellipsoid.getWgs84();
+        this.ellipsoid = template.ellipsoid || Ellipsoid.WGS84;
         this.gravitationalConstant = template.gravitationalConstant || 1.0;
     }
 
@@ -24262,8 +24850,8 @@ define('Scene/Particle',[
      */
     function Particle(template) {
         template = template || {};
-        template.position = template.position || Cartesian3.getZero();
-        template.velocity = template.velocity || Cartesian3.getZero(); // initial velocity
+        template.position = template.position || Cartesian3.ZERO;
+        template.velocity = template.velocity || Cartesian3.ZERO; // initial velocity
         template.mass = (typeof template.mass === "undefined") ? 1.0 : template.mass;
 
         if (template.mass < 0) {
@@ -24273,7 +24861,7 @@ define('Scene/Particle',[
         this.position = new Cartesian3(template.position.x, template.position.y, template.position.z);
         this.velocity = new Cartesian3(template.velocity.x, template.velocity.y, template.velocity.z);
         this.mass = template.mass;
-        this.force = Cartesian3.getZero(); // force accumulator
+        this.force = Cartesian3.ZERO; // force accumulator
     }
 
     return Particle;
@@ -24286,7 +24874,6 @@ define('Scene/ParticleSystem',[
         DeveloperError,
         Cartesian3) {
     
-    /*global Float64Array*/
 
     // TODO:  This file belongs in Core, not here.
     // TODO:  Cloth simulation abstraction built on top of particle system
@@ -24309,7 +24896,7 @@ define('Scene/ParticleSystem',[
         var particles = this.particles;
         var length = particles.length;
         for ( var i = 0; i < length; ++i) {
-            particles[i].force = Cartesian3.getZero();
+            particles[i].force = Cartesian3.ZERO;
         }
     };
 
@@ -24739,8 +25326,8 @@ define('Scene/Camera',[
      * // with a field of view of 60 degrees, and 1:1 aspect ratio.
      * var camera = new Camera(canvas);
      * camera.position = new Cartesian3();
-     * camera.direction = Cartesian3.getUnitZ().negate();
-     * camera.up = Cartesian3.getUnitY();
+     * camera.direction = Cartesian3.UNIT_Z.negate();
+     * camera.up = Cartesian3.UNIT_Y;
      * camera.fovy = CesiumMath.PI_OVER_THREE;
      * camera.near = 1.0;
      * camera.far = 2.0;
@@ -24750,20 +25337,20 @@ define('Scene/Camera',[
             throw new DeveloperError("canvas is required.", "canvas");
         }
 
-        var maxRadii = Ellipsoid.getWgs84().getRadii().getMaximumComponent();
+        var maxRadii = Ellipsoid.WGS84.getRadii().getMaximumComponent();
 
         /**
          * DOC_TBA
          *
          * @type {Matrix4}
          */
-        this.transform = Matrix4.getIdentity();
+        this.transform = Matrix4.IDENTITY;
         this._transform = this.transform.clone();
-        this._invTransform = Matrix4.getIdentity();
+        this._invTransform = Matrix4.IDENTITY;
 
         var position = new Cartesian3(0.0, -2.0, 1.0).normalize().multiplyWithScalar(2.0 * maxRadii);
-        var direction = Cartesian3.getZero().subtract(position).normalize();
-        var right = direction.cross(Cartesian3.getUnitZ()).normalize();
+        var direction = Cartesian3.ZERO.subtract(position).normalize();
+        var right = direction.cross(Cartesian3.UNIT_Z).normalize();
         var up = right.cross(direction);
 
         /**
@@ -24916,8 +25503,8 @@ define('Scene/Camera',[
         lla.height += Math.max(screenViewDistanceX, screenViewDistanceY);
 
         this.position = ellipsoid.toCartesian(lla);
-        this.direction = Cartesian3.getZero().subtract(centerVector).normalize();
-        this.right = this.direction.cross(Cartesian3.getUnitZ()).normalize();
+        this.direction = Cartesian3.ZERO.subtract(centerVector).normalize();
+        this.right = this.direction.cross(Cartesian3.UNIT_Z).normalize();
         this.up = this.right.cross(this.direction);
     };
 
@@ -25158,7 +25745,6 @@ define('Scene/Projections',[
         DeveloperError,
         Enumeration) {
     
-    /*global document*/
 
     /**
      * DOC_TBA
@@ -25245,16 +25831,705 @@ define('Scene/Projections',[
     return Projections;
 });
 /*global define*/
+define('Scene/ArcGISTileProvider',[
+        '../Core/DeveloperError',
+        '../Core/Extent',
+        '../Core/Math',
+        '../Core/jsonp',
+        './Projections'
+    ], function(
+        DeveloperError,
+        Extent,
+        CesiumMath,
+        jsonp,
+        Projections) {
+    
+
+    /**
+     * Provides tile images hosted by an ArcGIS Server.
+     *
+     * @name ArcGISTileProvider
+     * @constructor
+     *
+     * @param {String} description.host The ArcGIS Server host name.
+     * @param {String} [description.instance='/arcgis/rest'] The instance name.
+     * @param {String} [description.folder=undefined] The folder where the service is located.
+     * @param {String} description.service The service name.
+     * @param {Object} [description.proxy=undefined] A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL, if needed.
+     *
+     * @exception {DeveloperError} <code>description.host</code> is required.
+     * @exception {DeveloperError} <code>description.service</code> is required.
+     *
+     * @see SingleTileProvider
+     * @see BingMapsTileProvider
+     * @see OpenStreetMapTileProvider
+     * @see CompositeTileProvider
+     *
+     * @see <a href="http://resources.esri.com/help/9.3/arcgisserver/apis/rest/">ArcGIS Server REST API</a>
+     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
+     *
+     * @example
+     * // ArcGIS World Street Maps tile provider
+     * var esri = new ArcGISTileProvider({
+     *     host : 'server.arcgisonline.com',
+     *     service : 'World_Street_Map'
+     * });
+     */
+    function ArcGISTileProvider(description) {
+        var desc = description || {};
+        var instance = desc.instance || 'arcgis/rest';
+
+        if (!desc.host) {
+            throw new DeveloperError("description.host is required.", "description.host");
+        }
+
+        if (!desc.service) {
+            throw new DeveloperError("description.service is required.", "description.service");
+        }
+
+        this._url = 'http://' + desc.host + '/' + instance + '/services/';
+
+        if (desc.folder) {
+            this._url += desc.folder + '/';
+        }
+
+        this._url += desc.service + '/MapServer';
+
+        /**
+         * The ArcGIS Server host name.
+         * @type {String}
+         */
+        this.host = desc.host;
+
+        /**
+         * The instance name. The default value is "/arcgis/rest".
+         * @type {String}
+         */
+        this.instance = instance;
+
+        /**
+         * The folder where the service is located.
+         * @type {String}
+         */
+        this.folder = desc.folder;
+
+        /**
+         * The service name.
+         * @type {String}
+         */
+        this.service = desc.service;
+
+        this._proxy = desc.proxy;
+
+        // TODO: Get this information from the server
+
+        /**
+         * The cartographic extent of the base tile, with north, south, east and
+         * west properties in radians.
+         *
+         * @type {Extent}
+         */
+        this.maxExtent = new Extent(
+            -CesiumMath.PI,
+            CesiumMath.toRadians(-85.05112878),
+            CesiumMath.PI,
+            CesiumMath.toRadians(85.05112878)
+        );
+
+        /**
+         * The width of every image loaded.
+         *
+         * @type {Number}
+         */
+        this.tileWidth = 256;
+
+        /**
+         * The height of every image loaded.
+         *
+         * @type {Number}
+         */
+        this.tileHeight = 256;
+
+        /**
+         * The maximum zoom level that can be requested.
+         *
+         * @type {Number}
+         */
+        this.zoomMax = 19;
+
+        /**
+         * The minimum zoom level that can be requested.
+         *
+         * @type {Number}
+         */
+        this.zoomMin = 0;
+
+        /**
+         * The map projection of the image.
+         *
+         * @type {Enumeration}
+         * @see Projections
+         */
+        this.projection = Projections.MERCATOR;
+
+        this._logo = undefined;
+        this._logoLoaded = false;
+
+        var that = this;
+        jsonp(this._url, function(data) {
+            var credit = data.copyrightText;
+
+            var canvas = document.createElement("canvas");
+            canvas.width = 800.0;
+            canvas.height = 20.0;
+
+            var context = canvas.getContext("2d");
+            context.fillStyle = "#fff";
+            context.font = '12px sans-serif';
+            context.textBaseline = 'top';
+            context.fillText(credit, 0, 0);
+
+            that._logo = canvas;
+            that._logoLoaded = true;
+        }, {
+            parameters : {
+                f : 'json'
+            },
+            proxy : this._proxy
+        });
+    }
+
+    /**
+     * Loads the image for <code>tile</code>.
+     *
+     * @memberof ArcGISTileProvider
+     *
+     * @param {Tile} tile The tile to load the image for.
+     * @param {Function} onload A function that will be called when the image is finished loading.
+     * @param {Function} onerror A function that will be called if there is an error loading the image.
+     *
+     * @exception {DeveloperError} <code>tile.zoom</code> is less than <code>zoomMin</code>
+     * or greater than <code>zoomMax</code>.
+     */
+    ArcGISTileProvider.prototype.loadTileImage = function(tile, onload, onerror) {
+        if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
+            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
+        }
+
+        var image = new Image();
+        image.onload = onload;
+        image.onerror = onerror;
+        image.crossOrigin = '';
+
+        var url = this._url + '/tile/' + tile.zoom + '/' + tile.y + '/' + tile.x;
+        if (typeof this._proxy !== 'undefined') {
+            url = this._proxy.getURL(url);
+        }
+
+        image.src = url;
+
+        return image;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof ArcGISTileProvider
+     */
+    ArcGISTileProvider.prototype.getLogo = function() {
+        return (this._logoLoaded) ? this._logo : undefined;
+    };
+
+    return ArcGISTileProvider;
+});
+/*!
+   Portions Copyright (c) 2006-2009 Microsoft Corporation.  All rights reserved.
+
+   http://msdn.microsoft.com/en-us/library/bb259689.aspx
+   http://msdn.microsoft.com/en-us/cc300389.aspx#O
+
+   MICROSOFT LIMITED PUBLIC LICENSE
+
+   This license governs use of code marked as "sample" or "example" available on
+   this web site without a license agreement, as provided under the section above
+   titled "NOTICE SPECIFIC TO SOFTWARE AVAILABLE ON THIS WEB SITE." If you use
+   such code (the "software"), you accept this license. If you do not accept the
+   license, do not use the software.
+
+   1. Definitions
+
+   The terms "reproduce," "reproduction," "derivative works," and "distribution"
+   have the same meaning here as under U.S. copyright law.
+
+   A "contribution" is the original software, or any additions or changes to the software.
+
+   A "contributor" is any person that distributes its contribution under this license.
+
+   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
+
+   2. Grant of Rights
+
+   (A) Copyright Grant - Subject to the terms of this license, including the license
+   conditions and limitations in section 3, each contributor grants you a non-exclusive,
+   worldwide, royalty-free copyright license to reproduce its contribution, prepare
+   derivative works of its contribution, and distribute its contribution or any
+   derivative works that you create.
+
+   (B) Patent Grant - Subject to the terms of this license, including the license
+   conditions and limitations in section 3, each contributor grants you a
+   non-exclusive, worldwide, royalty-free license under its licensed patents to
+   make, have made, use, sell, offer for sale, import, and/or otherwise dispose
+   of its contribution in the software or derivative works of the contribution
+   in the software.
+
+   3. Conditions and Limitations
+
+   (A) No Trademark License- This license does not grant you rights to use any
+   contributors' name, logo, or trademarks.
+
+   (B) If you bring a patent claim against any contributor over patents that
+   you claim are infringed by the software, your patent license from such
+   contributor to the software ends automatically.
+
+   (C) If you distribute any portion of the software, you must retain all
+   copyright, patent, trademark, and attribution notices that are present in
+   the software.
+
+   (D) If you distribute any portion of the software in source code form, you
+   may do so only under this license by including a complete copy of this license
+   with your distribution. If you distribute any portion of the software in
+   compiled or object code form, you may only do so under a license that
+   complies with this license.
+
+   (E) The software is licensed "as-is." You bear the risk of using it. The
+   contributors give no express warranties, guarantees or conditions. You may
+   have additional consumer rights under your local laws which this license
+   cannot change. To the extent permitted under your local laws, the contributors
+   exclude the implied warranties of merchantability, fitness for a particular
+   purpose and non-infringement.
+
+   (F) Platform Limitation - The licenses granted in sections 2(A) and 2(B)
+   extend only to the software or derivative works that you create that run
+   on a Microsoft Windows operating system product.
+ */
+/*global define*/
+define('Scene/BingMapsTileProvider',[
+        '../Core/DeveloperError',
+        '../Core/Extent',
+        '../Core/Math',
+        '../Core/jsonp',
+        './BingMapsStyle',
+        './Projections'
+    ], function(
+        DeveloperError,
+        Extent,
+        CesiumMath,
+        jsonp,
+        BingMapsStyle,
+        Projections) {
+    
+
+    /**
+     * Uses the Bing Map imagery API to load images for tiles.
+     *
+     * @name BingMapsTileProvider
+     * @constructor
+     *
+     * @param {String} description.server The name of the Bing Maps server hosting the imagery.
+     * @param {String} [description.key] An optional Bing Maps key, which can be created at <a href="https://www.bingmapsportal.com/">https://www.bingmapsportal.com/</a>.
+     * @param {Enumeration} [description.mapStyle=BingMapsStyle.AERIAL] The type of Bing Maps imagery to load.
+     * @param {Object} [description.proxy=undefined] A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL, if needed.
+     *
+     * @exception {DeveloperError} <code>description.server</code> is required.
+     *
+     * @see SingleTileProvider
+     * @see ArcGISTileProvider
+     * @see OpenStreetMapTileProvider
+     * @see CompositeTileProvider
+     *
+     * @see <a href="http://msdn.microsoft.com/en-us/library/ff701713.aspx">Bing Maps REST Services</a>
+     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
+     *
+     * @example
+     * // Bing Maps tile provider
+     * var bing = new BingMapsTileProvider({
+     *     server : "dev.virtualearth.net",
+     *     mapStyle : BingMapsStyle.AERIAL
+     * });
+     */
+    function BingMapsTileProvider(description) {
+        var desc = description || {};
+        var key = desc.key || "AquXz3981-1ND5jGs8qQn7R7YUP8qkWi77yZSVM7o3nIvzb-Mg0W2Ta57xuUyywX";
+        var mapStyle = desc.mapStyle || BingMapsStyle.AERIAL;
+
+        if (typeof desc.server === 'undefined') {
+            throw new DeveloperError("description.server is required.", "description.server");
+        }
+
+        /**
+         * The name of the Bing Maps server hosting the imagery.
+         * @type {String}
+         */
+        this.server = desc.server;
+        this._server = desc.server;
+
+        /**
+         * The Bing Maps key.
+         * @type {String}
+         */
+        this.key = key;
+        this._key = key;
+
+        /**
+         * The type of Bing Maps imagery to load.
+         * @type {Enumeration}
+         */
+        this.mapStyle = mapStyle;
+        this._mapStyle = mapStyle;
+
+        this._proxy = desc.proxy;
+
+        // TODO: The following 5 properties should be set in _requestTemplate.
+        //       The may be needed before the response so for now set the default values.
+
+        /**
+         * The cartographic extent of the base tile, with north, south, east and
+         * west properties in radians.
+         *
+         * @type {Extent}
+         */
+        this.maxExtent = new Extent(
+            -CesiumMath.PI,
+            CesiumMath.toRadians(-85.05112878),
+            CesiumMath.PI,
+            CesiumMath.toRadians(85.05112878)
+        );
+
+        /**
+         * The width of every image loaded.
+         *
+         * @type {Number}
+         */
+        this.tileWidth = 256;
+
+        /**
+         * The height of every image loaded.
+         *
+         * @type {Number}
+         */
+        this.tileHeight = 256;
+
+        /**
+         * The maximum zoom level that can be requested.
+         *
+         * @type {Number}
+         */
+        this.zoomMax = 23;
+
+        /**
+         * The minimum zoom level that can be requested.
+         *
+         * @type {Number}
+         */
+        this.zoomMin = 1;
+
+        /**
+         * The map projection of the image.
+         *
+         * @type {Enumeration}
+         * @see Projections
+         */
+        this.projection = Projections.MERCATOR;
+
+        this._url = undefined;
+        this._deferredQueue = [];
+        this._requestTemplate();
+    }
+
+    //for a given tile, if we have an element with the same tile in the queue, return the element.
+    function findInDeferredQueue(deferredQueue, tile) {
+        for ( var i = 0, len = deferredQueue.length; i < len; ++i) {
+            var element = deferredQueue[i];
+            var t = element.tile;
+            if (t.zoom === tile.zoom && t.x === tile.x && t.y === tile.y) {
+                return element;
+            }
+        }
+        return undefined;
+    }
+
+    /**
+     * Converts a tiles (x, y, zoom) position into a quadkey used to request an image
+     * from a Bing Maps server.
+     *
+     * @memberof BingMapsTileProvider
+     *
+     * @param {Number} x The tile's x coordinate.
+     * @param {Number} y The tile's y coordinate.
+     * @param {Number} zoom The tile's zoom level.
+     *
+     * @see <a href="http://msdn.microsoft.com/en-us/library/bb259689.aspx">Bing Maps Tile System</a>
+     * @see BingMapsTileProvider#quadKeyToTileXY
+     */
+    BingMapsTileProvider.tileXYToQuadKey = function(x, y, zoom) {
+        var quadkey = "";
+        for ( var i = zoom; i > 0; --i) {
+            var digit = "0".charCodeAt(0);
+            var mask = 1 << (i - 1);
+            if ((x & mask) !== 0) {
+                digit++;
+            }
+            if ((y & mask) !== 0) {
+                digit += 2;
+            }
+            quadkey += String.fromCharCode(digit);
+        }
+        return quadkey;
+    };
+
+    /**
+     * Converts a tile's quadkey used to request an image from a Bing Maps server into the
+     * (x, y, zoom) position.
+     *
+     * @memberof BingMapsTileProvider
+     *
+     * @param {String} quadkey The tile's quad key
+     *
+     * @see <a href="http://msdn.microsoft.com/en-us/library/bb259689.aspx">Bing Maps Tile System</a>
+     * @see BingMapsTileProvider#tileXYToQuadKey
+     */
+    BingMapsTileProvider.quadKeyToTileXY = function(quadkey) {
+        var result = {
+            x : 0,
+            y : 0,
+            zoom : quadkey.length
+        };
+
+        for ( var i = result.zoom; i > 0; --i) {
+            var mask = 1 << (i - 1);
+            var c = quadkey[result.lod - i];
+            if (c === '1') {
+                result.x |= mask;
+            } else if (c === '2') {
+                result.y |= mask;
+            } else if (c === '3') {
+                result.x |= mask;
+                result.y |= mask;
+            }
+        }
+
+        return result;
+    };
+
+    BingMapsTileProvider.prototype._getMetadataUrl = function() {
+        return 'http://' + this.server + '/REST/v1/Imagery/Metadata/' + this.mapStyle.imagerySetName + '?key=' + this.key;
+    };
+
+    BingMapsTileProvider.prototype._requestTemplate = function() {
+        var that = this;
+        jsonp(this._getMetadataUrl(), function(data) {
+            var resource = data.resourceSets[0].resources[0];
+
+            var url = resource.imageUrl;
+            url = url.replace('{subdomain}', resource.imageUrlSubdomains[0]);
+            url = url.replace('{culture}', "");
+            that._url = url;
+
+            that.tileWidth = resource.imageWidth;
+            that.tileHeight = resource.imageHeight;
+            that.zoomMin = resource.zoomMin;
+            that.zoomMax = resource.zoomMax;
+
+            that._deferredQueue.forEach(function(element) {
+                that._loadImage(element);
+            });
+            that._deferredQueue = [];
+        }, {
+            callbackParameterName : "jsonp",
+            proxy: this._proxy
+        });
+    };
+
+    /**
+     * Loads the image for <code>tile</code>.
+     *
+     * @memberof BingMapsTileProvider
+     *
+     * @param {Tile} tile The tile to load the image for.
+     * @param {Function} onload A function that will be called when the image is finished loading.
+     * @param {Function} onerror A function that will be called if there is an error loading the image.
+     * @param {Function} oninvalid A function that will be called if the image loaded is not valid.
+     *
+     * @exception {DeveloperError} <code>tile.zoom</code> is less than <code>zoomMin</code>
+     * or greater than <code>zoomMax</code>.
+     */
+    BingMapsTileProvider.prototype.loadTileImage = function(tile, onload, onerror, oninvalid) {
+        if (this.server !== this._server || this.key !== this._key || this.mapStyle !== this._mapStyle) {
+            this._server = this.server;
+            this._key = this.key;
+            this._mapStyle = this.mapStyle;
+
+            this._url = undefined;
+            this._requestTemplate();
+        }
+
+        if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
+            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
+        }
+
+        var image = new Image();
+        var element = {
+            tile : tile,
+            onload : onload,
+            onerror : onerror,
+            oninvalid : oninvalid,
+            image : image
+        };
+
+        if (typeof this._url === 'undefined') {
+            var existingElement = findInDeferredQueue(this._deferredQueue, tile);
+            if (typeof existingElement === 'undefined') {
+                this._deferredQueue.push(element);
+                return image;
+            }
+
+            //add the callbacks to the existing element so both are called
+            existingElement.onload = combineFunctions(existingElement.onload, onload);
+            existingElement.onerror = combineFunctions(existingElement.onerror, onerror);
+            existingElement.oninvalid = combineFunctions(existingElement.oninvalid, oninvalid);
+            return existingElement.image;
+        }
+
+        this._loadImage(element);
+        return image;
+    };
+
+    function combineFunctions(a, b) {
+        if (typeof a !== 'function' && typeof b !== 'function') {
+            return undefined;
+        }
+        if (typeof a !== 'function' && typeof b === 'function') {
+            return b;
+        }
+        if (typeof a === 'function' && typeof b !== 'function') {
+            return a;
+        }
+        return function() {
+            a();
+            b();
+        };
+    }
+
+    BingMapsTileProvider.prototype._loadImage = function(element) {
+        var tile = element.tile;
+        var lat = CesiumMath.toDegrees((tile.extent.north + tile.extent.south) * 0.5);
+        var lon = CesiumMath.toDegrees((tile.extent.east + tile.extent.west) * 0.5);
+        var zoomResponse = false;
+        var validZoom = false;
+        var loaded = false;
+
+        jsonp(this._getMetadataUrl(), function(data) {
+            if (typeof data.resourceSets[0] === 'undefined') {
+                if (typeof element.onerror === 'function') {
+                    element.onerror();
+                }
+                return;
+            }
+
+            var resource = data.resourceSets[0].resources[0];
+            if (resource.vintageStart && resource.vintageEnd) {
+                validZoom = true;
+                if (loaded && typeof element.onload === 'function') {
+                    element.onload();
+                }
+            } else if (typeof element.oninvalid === 'function') {
+                element.oninvalid();
+            }
+
+            zoomResponse = true;
+        }, {
+            parameters : {
+                centerPoint : lat + ',' + lon,
+                zoomLevel : tile.zoom
+            },
+            callbackParameterName : "jsonp",
+            proxy : this._proxy
+        });
+
+        var image = element.image;
+        image.onload = function() {
+            if (zoomResponse && validZoom && typeof element.onload === 'function') {
+                element.onload();
+            }
+            loaded = true;
+        };
+        image.onerror = element.onerror;
+        image.crossOrigin = '';
+
+        var quadkey = BingMapsTileProvider.tileXYToQuadKey(tile.x, tile.y, tile.zoom);
+        var url = this._url.replace('{quadkey}', quadkey);
+        if (typeof this._proxy !== 'undefined') {
+            url = this._proxy.getURL(url);
+        }
+
+        image.src = url;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof BingMapsTileProvider
+     */
+    BingMapsTileProvider.prototype.getIntensity = function(tile) {
+        if ((this.mapStyle === BingMapsStyle.AERIAL || this.mapStyle === BingMapsStyle.AERIAL_WITH_LABELS) && tile.zoom <= 8.0) {
+            return 1.0;
+        }
+        return 0.1;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof BingMapsTileProvider
+     */
+    BingMapsTileProvider.prototype.getPoleIntensity = function() {
+        return 1.0;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof BingMapsTileProvider
+     */
+    BingMapsTileProvider.prototype.getLogo = function() {
+        if (typeof BingMapsTileProvider._logo === 'undefined') {
+            var image = new Image();
+            image.loaded = false;
+            image.onload = function() {
+                BingMapsTileProvider._logo.loaded = true;
+            };
+            image.src = BingMapsTileProvider._logoData;
+            BingMapsTileProvider._logo = image;
+        }
+
+        var logo = BingMapsTileProvider._logo;
+        return (logo && logo.loaded) ? logo : undefined;
+    };
+
+    BingMapsTileProvider._logo = undefined;
+    BingMapsTileProvider._logoLoaded = false;
+    BingMapsTileProvider._logoData = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF0AAAAdCAYAAADIKWCvAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAABBZSURBVHja1FoJdFTVGZ6ZzJZlskMgsrcEoqAQrBhBliKBiBDAgFUL5RQkgIDaKCoqGEBAFkGSgEYrCKgoYtWICLIZBBEOFkX0YEKoDSQo2SczmX36fS/3xscUBAKxp/ecl5eZd99/7/3+/37/cker0Wi0moami4qKCvJ6vVqj0RjEL4KCgvwul8vLe3l5uRdf+cXV2CZPnqwJbHl5eZSpjY2NDcL7Oj2a3+9XxtFqtX632+3FV76qqirK9Ak5fs3/oGGu11Qe1nnJPlpx6cLDw4mNPiQkxARggggSLi8AcuOzG8rwqIC/pFwoUA9lEWyj2Ww28X8+8Hg8EOV1QawTz9xq4C/VrkQxQvHN0fzXAnRauB7AGiIiIsJCQ0PDAFIIPusAjKO+vt5WU1Njs1qtDpvN5v4VgORoioXjboAcc3BwsAWKDA8LCwuFTK3D4aiHrBorBeJ/nU7nUilTeyULlkq4CMDaS6xbGofuUiBxp2P3+7Ecf3FxsXq3+5sCurQ+WroZ4FhGpI1Mur1vvyGYltZaa/156dLF7wDscxhUoR3SDYBsXBCU4gdwftIGJwfL9TudziD00ZtMpuCYmJjY8SmdUgYl1N3H/ierwg4/t+nHPEzOh34eXARcg8VrSW3cYT6fT6seA318Kvk+SXMqalCDGHQhOZynAEX5zLXwOebeCDrH4Fr4v8FgUPrxM+T5eIcRemBQPmDlA/i+pm4Vgq7FAJyoEXdLn9v6pg4dOngCH1ZX19SsXLn8MwzoxoI5OTeA9NJipQB89omJeXH3RUZGerkYNDPkhfXvGX/jA4mfL9D765XFJcRoulnTUirmr69Zh/5OLhSL8IvF6zAOwdCpx4AcjuEDYB6A6qHiAZpXKEDBy2KxBHEdMCCK0As5FKOMC4PSYIp+QZuKAZFG0bRgVfbhQ2UN7AdZjSDxO/QlL7oxVzd2qFso2t9k0LlINAJv9njcRtVW0eFZFC4bJmbARN0EGBcthO9xEfyDf31eLNhJ7heWacD35vjIoNaBg7o9XgPHQp9gAgXZ3ML410DuV/wJ72IX+gQQ0he48MjFBgV4OZYA0IDvjbBsI+4mvEPK1EnQOVeuVewCOncDqNQEZbA/n9F/2bGr6+h3VIATXBqaC3fg7eCO83Xq1IlU0yTg9WJCnAwtg8DrfyFQRV4wJhaHxUTDmrSwbJ2YiFSMH5NUQLDb7XW1tbV15GkuDhM0rt1WeKzOcfPKkTc5h7H/8Z9Cvl35XlEBFmfAQsIgz4/FG8n5bADDjIuAy22vKBTi3fQvGMNah4Y+9QDcRZ6FsvQY04h5QkyYBWIskGumIiX1kGsBqg9yaCF6KMr88COZw264PrGb0Iv/ZHHxwdlPPv7qoUOHsiXdQHarwsLCtR07dhzaq1evUfjswfserE17NfSiyBccGET6UrstbKew4cNH3DBq9OjU1q1axUdGRoQHCqmrs9kBdtWJEyeOZmU9uw7bHr63xsGtDpCCvNFJnvdLg3aUlZbWdu9+YyuH40U9xgphpAQ6CoHFRi5YsCijffu2v4+Ojm6BYMeolk9rr6ioqjx16tR3mzZtevfgwQNFGKOSSqBPYHQEgwiHnJhHH52V3qtX0gD6kkA5DofTda68vMLpcDrbtLkuPvB5YWHREe6YpKSkBwoKCp4aMGDAc9u2bZvSoUOHVKLBXSMM9KoiI73ao0sno+JS/VtvbZofHR1lCQC5HkCQ1zQwUBppCK/4+NbXJSdvH1yw7/PdT81+YmNlZWU9I6H0u9NHJCZ26cr+lVVV1ry8l/bh+1iAZH755Vce6t79hh6CVxtBxhh1Uj6fxcW1iMXV7+abk/oWFRWfyM5elbdnz+4f6BdgGKGPPPLonaNGpd2rNopAOQS5bZvrWl8MjBUrln0MC3Zx82JH/Iw7Zcfl5+cvSklJGQPQvcLR0qleE9D/q1ksYcFqKzly5KvD72x++71vvv66hE5FOCLj+PETBtwx+I67YDyK9aQMHjQ0MfH9m+4ZO2YOF+5Xh2/4wFCSBP7O5nfnqUEoOX2mbNfOXfnr16/bS/4W4ZoxNXVYj3vvu/fPlE8FdO2akPj8888vzMzMXHD48KHTU6ZO6z9u3H0TpOJoFPsPfLHv+cUL3wA49cKAgqdOm56WOnRIKhTQuK4jR/75bfGpUyfhpRwwkiqAbsOcbQMHDlxCeklOTn6YQM+dO/cgeR2WztTFR1prKugEQ09LgRDs7Oj28+cvfDA9fVS6utPp06Vl999/79zq6uoyTKoaW9pOXuN2w2KM4M8wyIjNzJx1z8iRw0fKxZeUnCmbMGH8wuzs3BnXX981QbH0yiprevrds5ctWz4xKalnD2mRa9et3/BK3ks7QNc/Q75Vgk6HxyiI8tPSRiXPmDk9wxLWYAxU0qSJf13ywQcfLKEe+R0Iv37WY7OeO3Bg/3HIqpSgQ3nB4PoorDFu87tbFsa1bBEjx54586GsgoLPjsHPnMbY5RjbjnG9MoIh+HQs+I6Ri4evlZaW+i6Us1x2nC77U3hgh59+Plcxdmz6M+fOnSthvI4J0bs7pNfGO0xk7Viga8GCrLf5HZQ2mve2ba9rnTF12h2BtAUlGTt37txFfj745eGDq3Ozd8LSSrGoSsi3cmFCPsMaDG1zvPXWG/sTEhLapaePVuS3bhUXN2lSxiAJOFv2qpy8vXv3FCL3qgSAVcDKLuSYIZvRjiHr2axVq1fnZAml6tLSRvYBVR2ilTMe4Dt03gwdIZu0qyiHpQsCLQBvsqXr1IBfCPQPP8j/EBljJRwlF1FNS8cEajGpGt7xuRYOrRqgwLdVVSxfvmQrt7d8P6lnz56BuSHjaDV1lZWVnYWMGsqHZXInUXYNxqgGCByzis8IZHb2i582WgwAg5zz/M2OHZ+cgCwH3qMjd9L3MLrizuFnfO88duzrsyLWVlqbtm3aITojXyulCVInI1vMk1SihKkA340QkRZ+wRrUFXO6zChxIUXTnrdl3nxzw2EsuB4AKBN3NjSX2FrM+FgQ08sYGs/cJSUl/05M7KpYcjS85Vm08zStCjkFx1GWA2PUQw4VVg8lS1AArIVxI+N+ZR7qd9u1axuv/pySMrTLhg2vVwBgM/qbmE0KYzJBSSb6kzvvvCtRvTvKSs+eJI+jP52oG8r14LqYNV91YU4nrZzZGBdktdZWqDsMHjwkgXQgkg2m9ibwK4tYRoR7TCyMMjFRshuTydAKoaV832az2y6rQqZVlO3morFrZBGMFyuSHkYUzAoZQajf++77738gj8vP4PzJAwYOTEC6Hot5RoHHoxGaxkRERMQijIzD3KKnTMmYqA4QsrLmbCB/cVcwEQuwZH/ApbkmoDOtFlZsf+3vr+7iRGSH8ePH3wNjjcLEI5FQ8GI5Mhygh2OCESwd4ArH4qCDyGg402EIuy2/8PWXhy89VcXwvSqKO2+R8nsqRoCidlwehLWbyblKxAUnu+KFFc/k5q75G+Lrjrg6tG/fviOuTstfWJmxdevHK+T8+M6GjRs3IECoRj5BSvKw7PxrBa1r0fSCY5nK0zMz2Svfv//Ap4MGDVQyyDZt4luvWfPywzNmPLgCCY+B3EsFMXqhgwQIBlYS0WInT56Syuil0Qn/dK5izeqcHTk5q7v8quZ1SqHJJ6w9cLGyoOaTV8Bm98JQCuDoy6dNnfoAAWXY2qdPcp9du3b1qa6uqWW3wKSOUdSWLe/9Izc3ey+ozEYeF/WdZq/rE3Q/BvUilKLDIZeWP/307NXBwSvCb7vt1tsVZ5jUo8dHH23N2bNn7yc5Oavy2Y90JONocGTP4SOGp4HGu0rBVVXV1jlz57xAC9IEOGgoLIBaFMCVYlOgJasrgKQXPPcGPsOc7Rs3rD/wUf6HRzIypvXr379fSgvkUkzYLpRBs4WHW0LbtWsXH9TQdDLCCoy0ms3SiYOnodVjYdWMvzMzH1n4+BOzxw3o3+8uTpwWNHr0yDEjRtx1t8zyZBytTja4ZQuLTv6A+HlRRUWFjY5Lq9UEgu49P/PVuyCHTsyroheNurSL3cSdRWt0BERCbkY5rNGzGLV06eKSl17KfZ++hzmEKOixiGaGf7px4qSJ4xijM/IZMmTwHUing6dPn7YI1GJiSRp37dVUEC/b0oW1eFjQohfHAgiM59m5z6yBA9qcmfnYGHU9I9B6Amsj+/fvKwRN1jEsY2JTW2M9g23OzFOLHVDBwhjutaJ660eEV8pKpgjTAi3dz/hYJGMMAatramqrpUXa7Ha+a8X3dSyKQbYGY1eyeikiJRbyGAQEr1v3WvnWrfnH33578zzSJp/37v2H5D59b+/86Y7tZ0ExDAR08KnNaunawGM7AM8JMjoJxmKDydes3PH0h4cSDLvG/2VCHzjNKK1G69+9e/fho0e/KmNZVFYB0eyMK0WtPBh9w3lAwrMD+AzWpVnt4skSlWtn7I9Wjjifcb9ThIuNloZAhKgbMbewli1bxsBpx0A5oQDZR2qBr7G7GqIB7gaWmLljqCifTOAAfigunmDFDRkytNvq1blZUv6BL74smDY14ynszB9FvsHd5G2KtV9JRip7+gAYC/Us6JByXOLIrhZgl7N8SjpZvGhhMbcna9T0+FwwLRGLpiU6leIEKISgQ56NoMLyzKzbs5bNgQCUErEAPNaxmcg4eBaL6MgnKsYyctEiOeNpDUuq9XSYAIWOz4guPKwwsTQMhZg4H44N4OqZHPkaGg8naPFOzIF+y33s2DdKciRjdeQSsSwnywOO34rT1cD7haV5eUqCuxJKMkrhVmW8ztMWeczla6gA0cEpFMBLfJagBeF9ngjZ1YvicZg8oBDveHkqJc5LA5sPFuqFopysibDwRLDFcWDIcwsXTxTJkKaosLDw9dfXHmDxCruOPsotDkXMrKFjh5lT7xx2XnJ05kxpMRO7i/mU5gQ9MFTzAnxanUecO9KCdeQ8eQYpowrubIJM7gVNBGZybtCD8o66Do3/Gw99eTEDxOVXW7k8JKG1y/SbZ5SsofPwg6VngKi/tXfvsRERlsiGZOePSPfdKzZvfucg5s+SglOciYaw4NW7d3LXmTNmZKjPAubNm7sWu6PW03DW52tuS9dewXPtr7xzzZKJi8XJ6jNT6grg87QpLA5t0KDBt8ye/eSLoaEhodKxFxWdPJGfn//h9u2fHBflgW7Dhw8f0bnz7xJkFZRJYE5O7pKNG9dvA22dYc2HVUmVT2kWTtdeQwVpLiexUIPXlEREvK8F9RkY7oHLI3G17D9gYM/pD06f1aFDu06XIweUUrps2bLFe/fuOQra+glUxGKbDbTkbKoTbQ7QmzzINd2aAnT+toYRDaMsUAcjrCgoosUtvXt3uWfsn+7u2LHj9SaT0cgTI0EjdU6ny3X27Nl/7dy1c9t7W94l/TB8rQS11LCkS/8FJ+25mjrLbwL6hX5W19xN/mxP/kiK1USEtiHgeQuPB3lAzViXzl8cciu/LGMkg6iFoW0dwGbtnGesdvgXhwBcFtr8zWmE/5egq4GnxQNERlT8iYjy8wv5cw6Gp+L3OhpR4vXJErQ4mXLhXZf4DY36533NCvp/BBgAjIr8TQiNmVwAAAAASUVORK5CYII=';
+
+    return BingMapsTileProvider;
+});
+/*global define*/
 define('Scene/OpenStreetMapTileProvider',[
         '../Core/DeveloperError',
+        '../Core/Extent',
         '../Core/Math',
         './Projections'
     ], function(
         DeveloperError,
+        Extent,
         CesiumMath,
         Projections) {
     
-    /*global document,Image*/
 
     /**
      * Provides tile images hosted by OpenStreetMap.
@@ -25263,6 +26538,7 @@ define('Scene/OpenStreetMapTileProvider',[
      * @constructor
      *
      * @param {String} description.url The OpenStreetMap url.
+     * @param {String} [description.fileExtension='png'] The file extension for images on the server.
      * @param {Object} [description.proxy=undefined] A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL.
      * @param {String} [description.credit='MapQuest, Open Street Map and contributors, CC-BY-SA'] A string crediting the data source, which is displayed on the canvas.
      *
@@ -25284,12 +26560,13 @@ define('Scene/OpenStreetMapTileProvider',[
         var desc = description || {};
 
         this._url = desc.url || 'http://tile.openstreetmap.org/';
+        this._fileExtension = desc.fileExtension || 'png';
 
         /**
          * A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL.
          * @type {Object}
          */
-        this.proxy = desc.proxy;
+        this._proxy = desc.proxy;
 
         this._credit = desc.credit || 'MapQuest, Open Street Map and contributors, CC-BY-SA';
 
@@ -25299,14 +26576,14 @@ define('Scene/OpenStreetMapTileProvider',[
          * The cartographic extent of the base tile, with north, south, east and
          * west properties in radians.
          *
-         * @type {Object}
+         * @type {Extent}
          */
-        this.maxExtent = {
-            north : CesiumMath.toRadians(85.05112878),
-            south : CesiumMath.toRadians(-85.05112878),
-            west : -CesiumMath.PI,
-            east : CesiumMath.PI
-        };
+        this.maxExtent = new Extent(
+            -CesiumMath.PI,
+            CesiumMath.toRadians(-85.05112878),
+            CesiumMath.PI,
+            CesiumMath.toRadians(85.05112878)
+        );
 
         /**
          * The width of every image loaded.
@@ -25347,14 +26624,6 @@ define('Scene/OpenStreetMapTileProvider',[
         this._logo = undefined;
     }
 
-    OpenStreetMapTileProvider.prototype._getUrl = function(tile) {
-        var url = this._url + tile.zoom + '/' + tile.x + '/' + tile.y + '.png';
-        if (this.proxy) {
-            url = this.proxy.getURL(url);
-        }
-        return url;
-    };
-
     /**
      * Loads the image for <code>tile</code>.
      *
@@ -25373,18 +26642,16 @@ define('Scene/OpenStreetMapTileProvider',[
         }
 
         var image = new Image();
-        if (onload && typeof onload === "function") {
-            image.onload = function() {
-                onload();
-            };
-        }
-        if (onerror && typeof onerror === "function") {
-            image.onerror = function() {
-                onerror();
-            };
-        }
+        image.onload = onload;
+        image.onerror = onerror;
         image.crossOrigin = '';
-        image.src = this._getUrl(tile);
+
+        var url = this._url + tile.zoom + '/' + tile.x + '/' + tile.y + '.' + this._fileExtension;
+        if (typeof this._proxy !== 'undefined') {
+            url = this._proxy.getURL(url);
+        }
+
+        image.src = url;
 
         return image;
     };
@@ -25412,39 +26679,6 @@ define('Scene/OpenStreetMapTileProvider',[
     };
 
     return OpenStreetMapTileProvider;
-});
-
-/*global define*/
-define('Scene/ProxyUsagePolicy',['../Core/Enumeration'], function(Enumeration) {
-    
-
-    /**
-     * An enumeration describing when to use a proxy URL to load images.
-     *
-     * @exports ProxyUsagePolicy
-     *
-     * @see BingMapsTileProvider
-     */
-    var ProxyUsagePolicy = {
-        /**
-         * Use CORS (Cross-Origin Resource Sharing) for all images that are
-         * known to support it, fall back on the proxy for other images.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        USE_CORS : new Enumeration(0, "USE_CORS"),
-
-        /**
-         * Request all images through the proxy.
-         *
-         * @constant
-         * @type {Enumeration}
-         */
-        ALWAYS : new Enumeration(1, "ALWAYS")
-    };
-
-    return ProxyUsagePolicy;
 });
 /*global define*/
 define('Scene/SceneMode',['../Core/Enumeration'], function(Enumeration) {
@@ -25494,14 +26728,15 @@ define('Scene/SceneMode',['../Core/Enumeration'], function(Enumeration) {
 /*global define*/
 define('Scene/SingleTileProvider',[
         '../Core/DeveloperError',
+        '../Core/Extent',
         '../Core/Math',
         './Projections'
     ], function(
         DeveloperError,
+        Extent,
         CesiumMath,
         Projections) {
     
-    /*global Image*/
 
     /**
      * Provides a single, top-level tile.
@@ -25510,6 +26745,7 @@ define('Scene/SingleTileProvider',[
      * @constructor
      *
      * @param {String} url The url for the tile.
+     * @param {Object} [proxy=undefined] A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL, if needed.
      *
      * @exception {DeveloperError} url is required.
      *
@@ -25518,26 +26754,27 @@ define('Scene/SingleTileProvider',[
      * @see OpenStreetMapTileProvider
      * @see CompositeTileProvider
      */
-    function SingleTileProvider(url) {
-        if (!url) {
+    function SingleTileProvider(url, proxy) {
+        if (typeof url === 'undefined') {
             throw new DeveloperError("url is required.", "url");
         }
 
         this._url = url;
+        this._proxy = proxy;
 
         /**
          * The cartographic extent of the base tile, with north, south, east and
          * west properties in radians.
          *
          * @constant
-         * @type {Object}
+         * @type {Extent}
          */
-        this.maxExtent = {
-            north : CesiumMath.PI_OVER_TWO,
-            south : -CesiumMath.PI_OVER_TWO,
-            west : -CesiumMath.PI,
-            east : CesiumMath.PI
-        };
+        this.maxExtent = new Extent(
+            -CesiumMath.PI,
+            -CesiumMath.PI_OVER_TWO,
+            CesiumMath.PI,
+            CesiumMath.PI_OVER_TWO
+        );
 
         /**
          * The maximum zoom level that can be requested.
@@ -25582,24 +26819,163 @@ define('Scene/SingleTileProvider',[
         }
 
         var image = new Image();
-
-        if (onload && typeof onload === "function") {
-            image.onload = function() {
-                onload();
-            };
-        }
-        if (onerror && typeof onerror === "function") {
-            image.onerror = function() {
-                onerror();
-            };
-        }
+        image.onload = onload;
+        image.onerror = onerror;
         image.crossOrigin = '';
-        image.src = this._url;
+
+        var url = this._url;
+        if (typeof this._proxy !== 'undefined') {
+            url = this._proxy.getURL(url);
+        }
+        image.src = url;
 
         return image;
     };
 
     return SingleTileProvider;
+});
+/*global define*/
+define('Scene/SolidColorTileProvider',[
+        '../Core/DeveloperError',
+        '../Core/Extent',
+        '../Core/Math',
+        './Projections'
+    ], function(
+        DeveloperError,
+        Extent,
+        CesiumMath,
+        Projections) {
+    
+
+    /**
+     * Provides tile images with a different solid color for each zoom level.
+     * Useful for debugging or testing different {@link CentralBody} options.
+     *
+     * @name SolidColorTileProvider
+     * @constructor
+     *
+     * @param {Number} [maxZoom=23] The maximum zoom level to generate tiles.
+     *
+     * @see SingleTileProvider
+     * @see BingMapsTileProvider
+     * @see OpenStreetMapTileProvider
+     * @see CompositeTileProvider
+     */
+    function SolidColorTileProvider(maxZoom) {
+        var width = 256;
+        var height = 256;
+        maxZoom = maxZoom || 23;
+
+        this._images = [];
+        for (var i = 0; i <= maxZoom; ++i) {
+            var color = { r : 0, g : 0, b : 0 };
+            var x = i / maxZoom;
+            if (x < 0.25) {
+                // blue to cyan
+                color.g = Math.floor(255.0 * 4.0 * x);
+                color.b = 255;
+            } else if (x < 0.5) {
+                // cyan to green
+                color.g = 255;
+                color.b = Math.floor(256.0 - 4.0 * x);
+            } else if (x < 0.75) {
+                // green to yellow
+                color.r = Math.floor(255.0 * 4.0 * x - 255.0 * 2.0);
+                color.g = 255;
+            } else {
+                // yellow to red
+                color.r = 255;
+                color.g = Math.floor(255.0 * 4.0 * (1.0 - x));
+            }
+            this._images.push(this._createImage(color, width, height));
+        }
+
+        /**
+         * The cartographic extent of the base tile, with north, south, east and
+         * west properties in radians.
+         *
+         * @type {Extent}
+         */
+        this.maxExtent = new Extent(
+            -CesiumMath.PI,
+            -CesiumMath.PI_OVER_TWO,
+            CesiumMath.PI,
+            CesiumMath.PI_OVER_TWO
+        );
+
+        /**
+         * The width of every image loaded.
+         *
+         * @type {Number}
+         */
+        this.tileWidth = width;
+
+        /**
+         * The height of every image loaded.
+         *
+         * @type {Number}
+         */
+        this.tileHeight = height;
+
+        /**
+         * The maximum zoom level that can be requested.
+         *
+         * @type {Number}
+         */
+        this.zoomMax = maxZoom;
+
+        /**
+         * The minimum zoom level that can be requested.
+         *
+         * @type {Number}
+         */
+        this.zoomMin = 0;
+
+        /**
+         * The map projection of the image.
+         *
+         * @type {Enumeration}
+         * @see Projections
+         */
+        this.projection = Projections.WGS84;
+    }
+
+    SolidColorTileProvider.prototype._createImage = function(color, width, height) {
+        var canvas = document.createElement("canvas");
+        canvas.width = width;
+        canvas.height = height;
+
+        var context = canvas.getContext("2d");
+        context.fillStyle = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 1.0)";
+        context.fillRect(0, 0, width, height);
+
+        return canvas;
+    };
+
+    /**
+     * Loads the image for <code>tile</code>.
+     *
+     * @memberof SolidColorTileProvider
+     *
+     * @param {Tile} tile The tile to load the image for.
+     * @param {Function} onload A function that will be called when the image is finished loading.
+     * @param {Function} onerror A function that will be called if there is an error loading the image.
+     *
+     * @exception {DeveloperError} <code>tile.zoom</code> must be in [<code>zoomMin</code>, <code>zoomMax</code>].
+     */
+    SolidColorTileProvider.prototype.loadTileImage = function(tile, onload, onerror) {
+        if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
+            throw new DeveloperError("tile.zoom must be in [zoomMin, zoomMax].", "tile.zoom");
+        }
+
+        if (typeof onload === "function") {
+            onload();
+        }
+
+        return this._images[tile.zoom];
+    };
+
+    return SolidColorTileProvider;
 });
 /*global define*/
 define('Scene/SphericalRepulsionForce',[
@@ -25617,7 +26993,7 @@ define('Scene/SphericalRepulsionForce',[
      */
     function SphericalRepulsionForce(template) {
         template = template || {};
-        template.center = template.center || Cartesian3.getZero();
+        template.center = template.center || Cartesian3.ZERO;
         template.radius = (typeof template.radius === "undefined") ? 1.0 : template.radius;
 
         if (template.radius < 0) {
@@ -25711,284 +27087,99 @@ define('Scene/SpringForce',['../Core/DeveloperError'], function(DeveloperError) 
 /*global define*/
 define('Scene/Texture2DPool',[
         '../Core/DeveloperError',
-        '../Core/destroyObject'
+        '../Core/destroyObject',
+        '../Renderer/PixelDatatype',
+        '../Renderer/PixelFormat',
+        '../Renderer/Texture'
     ], function(
         DeveloperError,
-        destroyObject) {
+        destroyObject,
+        PixelDatatype,
+        PixelFormat,
+        Texture) {
     
 
+    function PooledTexture(texture, textureTypeKey, pool) {
+        this._texture = texture;
+        this._textureTypeKey = textureTypeKey;
+        this._pool = pool;
+    }
+
+    //pass through all methods to the underlying texture
+    Object.keys(Texture.prototype).forEach(function(methodName) {
+        PooledTexture.prototype[methodName] = function() {
+            var texture = this._texture;
+            return texture[methodName].apply(texture, arguments);
+        };
+    });
+
+    //except for destroy, which releases back into the pool
+    PooledTexture.prototype.destroy = function() {
+        var freeList = this._pool._free[this._textureTypeKey];
+        if (typeof freeList === 'undefined') {
+            freeList = this._pool._free[this._textureTypeKey] = [];
+        }
+        freeList.push(this);
+    };
+
     /**
-     * A collection of textures with the same width and height. Textures can be added and removed to
-     * the texture pool, but the textures will not be destroyed until the entire texture pool is
-     * destroyed. The pool can be queried for available textures and be marked as unavailable when
-     * the texture is to be used.
+     * A pool of textures.  Textures created from the pool will be released back into the pool
+     * when destroy() is called, so future calls to create may re-use a released texture.
      * <br/><br/>
-     * Texture pools are useful when textures are being created and released repeatedly.
+     * Texture pools are useful when textures are being created and destroyed repeatedly.
      *
      * @name Texture2DPool
      * @constructor
      *
-     * @exception {DeveloperError} width is required and must be greater than 0.
-     * @exception {DeveloperError} height is required and must be greater than 0.
+     * @param {Context} context The context to use to create textures when needed.
      *
      * @see Texture
-     * @see Context#createTexture2D
      */
-    function Texture2DPool(width, height) {
-        if (typeof width === "undefined" || width <= 0) {
-            throw new DeveloperError("width is required and must be greater than 0.", "width");
+    function Texture2DPool(context) {
+        if (typeof context === 'undefined') {
+            throw new DeveloperError('context is required.', 'context');
         }
 
-        if (typeof height === "undefined" || height <= 0) {
-            throw new DeveloperError("height is required and must be greater than 0.", "height");
-        }
-
-        this._width = width;
-        this._height = height;
-
-        this._used = {
-            head : null,
-            tail : null
-        };
-        this._unused = {
-            head : null,
-            tail : null
-        };
-
-        this._usedCount = 0;
-        this._unusedCount = 0;
+        this._context = context;
+        this._free = {};
     }
 
     /**
-     * Returns the width of every texture in the pool.
+     * Create a texture.  This function takes the same arguments as {@link Context#createTexture2D},
+     * but may return a pooled texture if there are any available.  If a pooled texture is re-used,
+     * and no source is provided, the new texture will still retain its old contents.
      *
      * @memberof Texture2DPool
      *
-     * @return {Number} The width of the textures.
+     * @exception {DeveloperError} description is required.
      *
-     * @see Texture2DPool#getHeight
+     * @see Context#createTexture2D
      */
-    Texture2DPool.prototype.getWidth = function() {
-        return this._width;
-    };
-
-    /**
-     * Returns the height of every texture in the pool.
-     *
-     * @memberof Texture2DPool
-     *
-     * @return {Number} The height of the textures.
-     *
-     * @see Texture2DPool#getWidth
-     */
-    Texture2DPool.prototype.getHeight = function() {
-        return this._height;
-    };
-
-    Texture2DPool.prototype._addBack = function(list, texture) {
-        var node = {
-            texture : texture,
-            previous : list.tail,
-            next : null
-        };
-
-        if (list.tail) {
-            list.tail.next = node;
-            list.tail = node;
-        } else {
-            list.head = node;
-            list.tail = node;
-        }
-    };
-
-    /**
-     * Add a texture to the pool.
-     *
-     * @memberof Texture2DPool
-     *
-     * @param {Texture} texture The texture to be added to the pool.
-     * @param {Boolean} unused If left undefined or has a falsy value, the texture is currently being used.
-     * Otherwise, the texture will be marked as available for use.
-     *
-     * @exception {DeveloperError} The texture width and/or height does not match that of every
-     * other texture in the pool.
-     *
-     * @see Texture2DPool#remove
-     * @see Texture2DPool#removeAll
-     * @see Texture2DPool#getTexture
-     */
-    Texture2DPool.prototype.add = function(texture, unused) {
-        if (!texture) {
-            return;
+    Texture2DPool.prototype.createTexture2D = function(description) {
+        if (!description) {
+            throw new DeveloperError('description is required.', 'description');
         }
 
-        if (texture.getWidth() !== this._width || texture.getHeight() !== this._height) {
-            throw new DeveloperError("All textures in this pool must have the same dimensions.", "texture");
-        }
+        var source = description.source;
+        var width = typeof source !== 'undefined' ? source.width : description.width;
+        var height = typeof source !== 'undefined' ? source.height : description.height;
+        //coerce values to primitive numbers to make textureTypeKey smaller.
+        var pixelFormat = +(description.pixelFormat || PixelFormat.RGBA);
+        var pixelDatatype = +(description.pixelDatatype || PixelDatatype.UNSIGNED_BYTE);
+        var preMultiplyAlpha = +(description.preMultiplyAlpha || pixelFormat === PixelFormat.RGB || pixelFormat === PixelFormat.LUMINANCE);
 
-        if (unused) {
-            this._addBack(this._unused, texture);
-            ++this._unusedCount;
-        } else {
-            this._addBack(this._used, texture);
-            ++this._usedCount;
-        }
-    };
+        var textureTypeKey = JSON.stringify([width, height, pixelFormat, pixelDatatype, preMultiplyAlpha]);
 
-    /**
-     * If the texture is already being managed by the texture pool, then it will be marked as available
-     * for use. If the texture is not being tracked by the texture pool, then it will be added to the pool
-     * and be marked as available for use.
-     *
-     * @memberof Texture2DPool
-     *
-     * @param {Texture} texture The texture to be marked as available.
-     *
-     * @see Texture2DPool#add
-     * @see Texture2DPool#removeAll
-     * @see Texture2DPool#getTexture
-     */
-    Texture2DPool.prototype.remove = function(texture) {
-        if (!texture) {
-            return;
-        }
-
-        var node = this._used.head;
-        while (node !== null) {
-            if (node.texture === texture) {
-                break;
+        var freeList = this._free[textureTypeKey];
+        if (typeof freeList !== 'undefined' && freeList.length > 0) {
+            var texture = freeList.pop();
+            if (typeof source !== 'undefined') {
+                texture.copyFrom(source);
             }
-            node = node.next;
+            return texture;
         }
 
-        if (node) {
-            if (node.previous) {
-                node.previous.next = node.next;
-                if (node.next) {
-                    node.next.previous = node.previous;
-                } else {
-                    this._used.tail = node.previous;
-                }
-            } else {
-                this._used.head = node.next;
-                if (this._used.head) {
-                    this._used.head.previous = null;
-                } else {
-                    this._used.tail = null;
-                }
-            }
-            --this._usedCount;
-        }
-
-        this.add(texture, true);
-    };
-
-    /**
-     * Marks all textures in the pool as being available for use.
-     *
-     * @memberof Texture2DPool
-     *
-     * @see Texture2DPool#add
-     * @see Texture2DPool#remove
-     * @see Texture2DPool#getTexture
-     */
-    Texture2DPool.prototype.removeAll = function() {
-        if (this._used.head && this._used.tail) {
-            if (this._unused.tail) {
-                this._unused.tail.next = this._used.head;
-                this._unused.tail = this._used.tail;
-            } else {
-                this._unused.head = this._used.head;
-                this._unused.tail = this._used.tail;
-            }
-
-            this._used.head = this._used.tail = null;
-        }
-
-        this._unusedCount += this._usedCount;
-        this._usedCount = 0;
-    };
-
-    /**
-     * Returns a boolean indicating whether any textures in the pool are available for use.
-     *
-     * @memberof Texture2DPool
-     *
-     * @return {Boolean} <code>true</code> if there are textures available for use and false otherwise.
-     *
-     * @see Texture2DPool#getTexture
-     */
-    Texture2DPool.prototype.hasAvailable = function() {
-        return this._unusedCount !== 0;
-    };
-
-    /**
-     * If there is a texture available for use, it will be marked as used and returned.
-     *
-     * @memberof Texture2DPool
-     *
-     * @return {Texture} A texture that can be used or <code>null</code> if none are available.
-     *
-     * @see Texture2DPool#add
-     * @see Texture2DPool#remove
-     * @see Texture2DPool#removeAll
-     * @see Texture2DPool#hasAvailable
-     */
-    Texture2DPool.prototype.getTexture = function() {
-        var node = this._unused.head;
-
-        if (node) {
-            this._unused.head = node.next;
-
-            if (this._unused.head) {
-                this._unused.head.previous = null;
-            } else {
-                this._unused.tail = null;
-            }
-
-            node.next = this._used.head;
-
-            if (this._used.head) {
-                this._used.head.previous = node;
-            } else {
-                this._used.tail = node;
-            }
-
-            this._used.head = node;
-
-            ++this._usedCount;
-            --this._unusedCount;
-
-            return node.texture;
-        }
-
-        return null;
-    };
-
-    /**
-     * Returns the number of textures being managed, includes the number in use and the number not in use.
-     *
-     * @memberof Texture2DPool
-     *
-     * @return {Number} The number of textures being managed.
-     *
-     * @see Texture2DPool#getNumInUse
-     */
-    Texture2DPool.prototype.size = function() {
-        return this._usedCount + this._unusedCount;
-    };
-
-    /**
-     * Returns the number of textures being managed, includes only the number in use.
-     *
-     * @memberof Texture2DPool
-     *
-     * @return {Number} The number of textures in use.
-     *
-     * @see Texture2DPool#size
-     */
-    Texture2DPool.prototype.getNumInUse = function() {
-        return this._usedCount;
+        return new PooledTexture(this._context.createTexture2D(description), textureTypeKey, this);
     };
 
     /**
@@ -26027,15 +27218,12 @@ define('Scene/Texture2DPool',[
      * pool = pool && pool.destroy();
      */
     Texture2DPool.prototype.destroy = function() {
-        var destroyTextures = function(list) {
-            var node = list.head;
-            while (node !== null) {
-                node.texture = node.texture && node.texture.destroy();
-                node = node.next;
-            }
-        };
-        destroyTextures(this._used);
-        destroyTextures(this._unused);
+        var free = this._free;
+        Object.keys(free).forEach(function(textureTypeKey) {
+            free[textureTypeKey].forEach(function(texture) {
+                texture._texture.destroy();
+            });
+        });
         return destroyObject(this);
     };
 
@@ -26045,23 +27233,13 @@ define('Scene/Texture2DPool',[
 define('Scene/Tile',[
         '../Core/DeveloperError',
         '../Core/Math',
-        '../Core/Occluder',
         '../Core/Ellipsoid',
-        '../Core/BoundingSphere',
-        '../Core/Rectangle',
-        '../Core/Cartesian3',
-        '../Core/Cartographic2',
-        '../Core/Cartographic3'
+        '../Core/Extent'
     ], function(
         DeveloperError,
         CesiumMath,
-        Occluder,
         Ellipsoid,
-        BoundingSphere,
-        Rectangle,
-        Cartesian3,
-        Cartographic2,
-        Cartographic3) {
+        Extent) {
     
 
     /**
@@ -26070,7 +27248,7 @@ define('Scene/Tile',[
      * @name Tile
      * @constructor
      *
-     * @param {Object} description.extent The cartographic extent of the tile, with north, south, east and
+     * @param {Extent} description.extent The cartographic extent of the tile, with north, south, east and
      * west properties in radians.
      * @param {Number} description.x The tile x coordinate.
      * @param {Number} description.y The tile y coordinate.
@@ -26106,53 +27284,53 @@ define('Scene/Tile',[
          *
          * @type Ellipsoid
          */
-        this.ellipsoid = description.ellipsoid || Ellipsoid.getWgs84();
+        this.ellipsoid = description.ellipsoid || Ellipsoid.WGS84;
 
         /**
          * The cartographic extent of the tile, with north, south, east and
          * west properties in radians.
          *
-         * @type Object
+         * @type Extent
          */
-        this.extent = null;
+        this.extent = undefined;
 
         /**
          * The x coordinate.
          *
          * @type Number
          */
-        this.x = null;
+        this.x = undefined;
 
         /**
          * The y coordinate.
          *
          * @type Number
          */
-        this.y = null;
+        this.y = undefined;
 
         /**
          * The zoom level.
          *
          * @type Number
          */
-        this.zoom = null;
+        this.zoom = undefined;
 
         /**
          * The parent of this tile in a tile tree system.
          *
          * @type Tile
          */
-        this.parent = description.parent || null;
+        this.parent = description.parent;
 
         /**
          * The children of this tile in a tile tree system.
          *
          * @type Array
          */
-        this.children = null;
+        this.children = undefined;
 
         this.zoom = description.zoom;
-        if (description.extent) {
+        if (typeof description.extent !== 'undefined') {
             this.extent = description.extent;
             var coords = Tile.extentToTileXY(this.extent, this.zoom);
             this.x = coords.x;
@@ -26168,12 +27346,12 @@ define('Scene/Tile',[
             this.extent = Tile.tileXYToExtent(this.x, this.y, this.zoom);
         }
 
-        this._boundingSphere3D = null;
-        this._occludeePoint = null;
+        this._boundingSphere3D = undefined;
+        this._occludeePoint = undefined;
 
-        this._projection = null;
-        this._boundingSphere2D = null;
-        this._boundingRectangle = null;
+        this._projection = undefined;
+        this._boundingSphere2D = undefined;
+        this._boundingRectangle = undefined;
     }
 
     /**
@@ -26181,7 +27359,7 @@ define('Scene/Tile',[
      *
      * @memberof Tile
      *
-     * @param {Object} extent The cartographic extent of the tile, with north, south, east and
+     * @param {Extent} extent The cartographic extent of the tile, with north, south, east and
      * west properties in radians.
      * @param {Number} zoom The tile zoom level.
      *
@@ -26211,25 +27389,32 @@ define('Scene/Tile',[
      * @param {Number} y The y coordinate.
      * @param {Number} zoom The tile zoom level.
      *
-     * @return {Object} The cartographic extent of the tile, with north, south, east and
+     * @return {Extent} The cartographic extent of the tile, with north, south, east and
      * west properties in radians.
      */
     Tile.tileXYToExtent = function(x, y, zoom) {
-        var extent = {};
+        if (x === 0 && y === 0 && zoom === 0) {
+            return new Extent(
+                -CesiumMath.PI,
+                CesiumMath.toRadians(-85.05112878),
+                CesiumMath.PI,
+                CesiumMath.toRadians(85.05112878)
+            );
+        }
 
         // Lat
         var invZoom = 4.0 * Math.PI / (1 << zoom);
         var k = Math.exp(CesiumMath.TWO_PI - (y * invZoom));
-        extent.north = Math.asin((k - 1.0) / (k + 1.0));
+        var north = Math.asin((k - 1.0) / (k + 1.0));
         k = Math.exp(CesiumMath.TWO_PI - ((y + 1) * invZoom));
-        extent.south = Math.asin((k - 1.0) / (k + 1.0));
+        var south = Math.asin((k - 1.0) / (k + 1.0));
 
         // Lon
         invZoom = Math.PI / (1 << (zoom - 1.0));
-        extent.west = x * invZoom - Math.PI;
-        extent.east = (x + 1.0) * invZoom - Math.PI;
+        var west = x * invZoom - Math.PI;
+        var east = (x + 1.0) * invZoom - Math.PI;
 
-        return extent;
+        return new Extent(west, south, east, north);
     };
 
     /**
@@ -26270,53 +27455,8 @@ define('Scene/Tile',[
         return this.children;
     };
 
-    Tile.prototype._compute3DBounds = function() {
-        var positions = [];
-
-        var lla = new Cartographic3(this.extent.west, this.extent.north, 0.0);
-        positions.push(this.ellipsoid.toCartesian(lla));
-        lla.longitude = this.extent.east;
-        positions.push(this.ellipsoid.toCartesian(lla));
-        lla.latitude = this.extent.south;
-        positions.push(this.ellipsoid.toCartesian(lla));
-        lla.longitude = this.extent.west;
-        positions.push(this.ellipsoid.toCartesian(lla));
-
-        if (this.extent.north < 0.0) {
-            lla.latitude = this.extent.north;
-        } else if (this.extent.south > 0.0) {
-            lla.latitude = this.extent.south;
-        } else {
-            lla.latitude = 0.0;
-        }
-
-        for ( var i = 1; i < 8; ++i) {
-            var temp = -Math.PI + i * CesiumMath.PI_OVER_TWO;
-            if (this.extent.west < temp && temp < this.extent.east) {
-                lla.longitude = temp;
-                positions.push(this.ellipsoid.toCartesian(lla));
-            }
-        }
-
-        if (lla.latitude === 0.0) {
-            lla.longitude = this.extent.west;
-            positions.push(this.ellipsoid.toCartesian(lla));
-            lla.longitude = this.extent.east;
-            positions.push(this.ellipsoid.toCartesian(lla));
-        }
-
-        this._boundingSphere3D = new BoundingSphere(positions);
-
-        // TODO: get correct ellipsoid center
-        var ellipsoidCenter = Cartesian3.getZero();
-        if (!ellipsoidCenter.equals(this._boundingSphere3D.center)) {
-            this._occludeePoint = Occluder.getOccludeePoint(new BoundingSphere(ellipsoidCenter, this.ellipsoid.getMinimumRadius()), this._boundingSphere3D.center, positions);
-        } else {
-            this._occludeePoint = {
-                valid : false,
-                occludeePoint : null
-            };
-        }
+    Tile.prototype.computeMorphBounds = function(morphTime, projection) {
+        return Extent.computeMorphBoundingSphere(this.extent, this.ellipsoid, morphTime, projection);
     };
 
     /**
@@ -26324,11 +27464,11 @@ define('Scene/Tile',[
      *
      * @memberof Tile
      *
-     * @return {BoundingSphere} The bounding sphere for the geometry.
+     * @return {BoundingSphere} The bounding sphere.
      */
     Tile.prototype.get3DBoundingSphere = function() {
         if (!this._boundingSphere3D) {
-            this._compute3DBounds();
+            this._boundingSphere3D = Extent.compute3DBoundingSphere(this.extent, this.ellipsoid);
         }
         return this._boundingSphere3D;
     };
@@ -26338,36 +27478,30 @@ define('Scene/Tile',[
      *
      * @memberof Tile
      *
-     * @return {Cartesian3} The occludee point or null.
+     * @return {Cartesian3} The occludee point or undefined.
      */
     Tile.prototype.getOccludeePoint = function() {
         if (!this._occludeePoint) {
-            this._compute3DBounds();
+            this._occludeePoint = Extent.computeOccludeePoint(this.extent, this.ellipsoid);
         }
-        return ((this._occludeePoint.valid) ? this._occludeePoint.occludeePoint : null);
+        return ((this._occludeePoint.valid) ? this._occludeePoint.occludeePoint : undefined);
     };
 
     Tile.prototype._compute2DBounds = function(projection) {
-        if (projection && this._projection !== projection) {
-            var lla = new Cartographic2(this.extent.west, this.extent.south);
-            var lowerLeft = projection.project(lla);
-            lla.longitude = this.extent.east;
-            lla.latitude = this.extent.north;
-            var upperRight = projection.project(lla);
-
-            var diagonal = upperRight.subtract(lowerLeft);
-            this._boundingRectangle = new Rectangle(lowerLeft.x, lowerLeft.y, diagonal.x, diagonal.y);
-
-            this._boundingSphere2D = new BoundingSphere(new Cartesian3((lowerLeft.x + upperRight.x) * 0.5, (lowerLeft.y + upperRight.y) * 0.5, 0.0), Math.sqrt(diagonal.x * diagonal.x + diagonal.y *
-                    diagonal.y) * 0.5);
+        if (typeof projection !== 'undefined' && this._projection !== projection) {
+            this._boundingRectangle = Extent.computeBoundingRectangle(this.extent, projection);
+            this._boundingSphere2D = Extent.compute2DBoundingSphere(this.extent, projection);
 
             this._projection = projection;
         }
     };
 
     /**
-     * DOC_TBA
+     * The bounding sphere for the geometry when the extent is projected onto a surface that is displayed in 3D.
+     *
      * @memberof Tile
+     *
+     * @return {BoundingSphere} The bounding sphere.
      */
     Tile.prototype.get2DBoundingSphere = function(projection) {
         this._compute2DBounds(projection);
@@ -26375,8 +27509,11 @@ define('Scene/Tile',[
     };
 
     /**
-     * DOC_TBA
+     * The bounding rectangle for when the tile is projected onto a surface that is displayed in 2D.
+     *
      * @memberof Tile
+     *
+     * @return {Rectangle} The bounding rectangle.
      */
     Tile.prototype.get2DBoundingRectangle = function(projection) {
         this._compute2DBounds(projection);
@@ -26433,7 +27570,7 @@ define('Scene/VectorForce',[
      */
     function VectorForce(template) {
         template = template || {};
-        template.vector = template.vector || Cartesian3.getUnitZ().negate();
+        template.vector = template.vector || Cartesian3.UNIT_Z.negate();
 
         if (!template.particle) {
             throw new DeveloperError("template.particle is required.", "template");
@@ -26548,13 +27685,13 @@ define('Scene/Billboard',[
             alpha : 1.0
         };
 
-        var position = b.position ? new Cartesian3(b.position.x, b.position.y, b.position.z) : Cartesian3.getZero();
+        var position = b.position ? new Cartesian3(b.position.x, b.position.y, b.position.z) : Cartesian3.ZERO.clone();
 
         this._show = (typeof b.show === "undefined") ? true : b.show;
         this._position = position;
         this._actualPosition = position.clone(); // For columbus view and 2D
-        this._pixelOffset = b.pixelOffset ? new Cartesian2(b.pixelOffset.x, b.pixelOffset.y) : Cartesian2.getZero();
-        this._eyeOffset = b.eyeOffset ? new Cartesian3(b.eyeOffset.x, b.eyeOffset.y, b.eyeOffset.z) : Cartesian3.getZero();
+        this._pixelOffset = b.pixelOffset ? new Cartesian2(b.pixelOffset.x, b.pixelOffset.y) : Cartesian2.ZERO.clone();
+        this._eyeOffset = b.eyeOffset ? new Cartesian3(b.eyeOffset.x, b.eyeOffset.y, b.eyeOffset.z) : Cartesian3.ZERO.clone();
         this._horizontalOrigin = b.horizontalOrigin || HorizontalOrigin.CENTER;
         this._verticalOrigin = b.verticalOrigin || VerticalOrigin.CENTER;
         this._scale = (typeof b.scale === "undefined") ? 1.0 : b.scale;
@@ -26581,7 +27718,7 @@ define('Scene/Billboard',[
     var SCALE_INDEX = Billboard.SCALE_INDEX = 6;
     var IMAGE_INDEX_INDEX = Billboard.IMAGE_INDEX_INDEX = 7;
     var COLOR_INDEX = Billboard.COLOR_INDEX = 8;
-    var NUMBER_OF_PROPERTIES = Billboard.NUMBER_OF_PROPERTIES = 9;
+    Billboard.NUMBER_OF_PROPERTIES = 9;
 
     Billboard.prototype._isDirty = function() {
         return this._dirty;
@@ -27053,7 +28190,7 @@ define('Scene/Billboard',[
         positionWC.x += po.x;
         positionWC.y += po.y;
 
-        return new Cartesian2(positionWC.x, positionWC.y);
+        return new Cartesian2(positionWC.x, Math.floor(positionWC.y));
     };
 
     /**
@@ -27255,7 +28392,7 @@ define('Shaders/BillboardCollectionVS',[],function() {
 "halfSize *= ((direction * 2.0) - 1.0);\n" +
 "positionWC.xy += (origin * abs(halfSize)) + halfSize;\n" +
 "positionWC.xy += (pixelOffset * agi_highResolutionSnapScale);\n" +
-"gl_Position = agi_viewportOrthographic * vec4(positionWC.xy, -positionWC.z, 1.0);\n" +
+"gl_Position = agi_viewportOrthographic * vec4(positionWC.x, floor(positionWC.y), -positionWC.z, 1.0);\n" +
 "v_textureCoordinates = textureCoordinates;\n" +
 "v_color = color;\n" +
 "v_pickColor = pickColor;\n" +
@@ -27300,7 +28437,6 @@ define('Scene/BillboardCollection',[
         BillboardCollectionVS,
         BillboardCollectionFS) {
     
-    /*global Uint8Array,Uint16Array,Uint32Array*/
 
     var SHOW_INDEX = Billboard.SHOW_INDEX;
     var POSITION_INDEX = Billboard.POSITION_INDEX;
@@ -27404,8 +28540,8 @@ define('Scene/BillboardCollection',[
          * billboards.add({ position : new Cartesian3(0.0, 0.0, 1000000.0) }); // up
          * ]);
          */
-        this.modelMatrix = Matrix4.getIdentity();
-        this._modelMatrix = Matrix4.getIdentity();
+        this.modelMatrix = Matrix4.IDENTITY;
+        this._modelMatrix = Matrix4.IDENTITY;
 
         /**
          * DOC_TBA
@@ -27447,7 +28583,7 @@ define('Scene/BillboardCollection',[
         });
         this._uniforms2D = combine(uniforms, {
             u_model : function() {
-                return Matrix4.getIdentity();
+                return Matrix4.IDENTITY;
             }
         });
         this._uniforms = undefined;
@@ -28442,6 +29578,16 @@ define('Shaders/BuiltinFunctions',[],function() {
 "q.xyz = (agi_viewportTransformation * vec4(q.xyz, 1.0)).xyz;\n" +
 "return q;\n" +
 "}\n" +
+"vec4 agi_windowToEyeCoordinates(vec4 fragmentCoordinate)\n" +
+"{\n" +
+"float x = 2.0 * (fragmentCoordinate.x - float(agi_viewport.x)) / float(agi_viewport.z) - 1.0;\n" +
+"float y = 2.0 * (fragmentCoordinate.y - float(agi_viewport.y)) / float(agi_viewport.w) - 1.0;\n" +
+"float z = (fragmentCoordinate.z - agi_viewportTransformation[3][2]) / agi_viewportTransformation[2][2];\n" +
+"vec4 q = vec4(x, y, z, 1.0);\n" +
+"q /= fragmentCoordinate.w;\n" +
+"q = agi_inverseProjection * q;\n" +
+"return q;\n" +
+"}\n" +
 "vec4 agi_eyeOffset(vec4 positionEC, vec3 eyeOffset)\n" +
 "{\n" +
 "vec4 p = positionEC;\n" +
@@ -28727,7 +29873,6 @@ define('Renderer/Context',[
         VertexArray,
         VertexLayout) {
     
-    /*global window,Uint8Array,Uint16Array,ArrayBuffer*/
 
     function _errorToString(gl, error) {
         var message = "OpenGL Error:  ";
@@ -30029,10 +31174,10 @@ define('Renderer/Context',[
         }
 
         var source = description.source;
-        var width = source ? source.width : description.width;
-        var height = source ? source.height : description.height;
+        var width = typeof source !== 'undefined' ? source.width : description.width;
+        var height = typeof source !== 'undefined' ? source.height : description.height;
 
-        if (!source && (typeof width === "undefined" || typeof height === "undefined")) {
+        if (typeof width === "undefined" || typeof height === "undefined") {
             throw new DeveloperError("description requires a source field to create an initialized texture or width and height fields to create a blank texture.", "description");
         }
 
@@ -30064,7 +31209,7 @@ define('Renderer/Context',[
 
         // Use premultiplied alpha for opaque textures should perform better on Chrome:
         // http://media.tojicode.com/webglCamp4/#20
-        var preMultiplyAlpha = description.preMultiplyAlpha || ((pixelFormat === PixelFormat.RGB) || (pixelFormat === PixelFormat.LUMINANCE));
+        var preMultiplyAlpha = description.preMultiplyAlpha || pixelFormat === PixelFormat.RGB || pixelFormat === PixelFormat.LUMINANCE;
 
         var gl = this._gl;
         var textureTarget = gl.TEXTURE_2D;
@@ -31384,6 +32529,30 @@ define('Renderer/Context',[
 
     return Context;
 });
+
+/*global define*/
+define('Shaders/CentralBodyFS',[],function() {
+  
+  return "uniform sampler2D u_dayTexture;\n" +
+"varying vec3 v_positionMC;\n" +
+"varying vec3 v_positionEC;\n" +
+"varying vec3 v_rayleighColor;\n" +
+"varying vec3 v_mieColor;\n" +
+"varying vec2 v_textureCoordinates;\n" +
+"void main()\n" +
+"{\n" +
+"vec3 normalMC = normalize(agi_geodeticSurfaceNormal(v_positionMC, vec3(0.0), vec3(1.0)));\n" +
+"vec3 normalEC = normalize(agi_normal * normalMC);\n" +
+"#ifdef SHOW_DAY\n" +
+"vec3 startDayColor = texture2D(u_dayTexture, v_textureCoordinates).rgb;\n" +
+"#else\n" +
+"vec3 startDayColor = vec3(1.0);\n" +
+"#endif\n" +
+"vec3 rgb = getCentralBodyColor(v_positionMC, v_positionEC, normalMC, normalEC, startDayColor, v_rayleighColor, v_mieColor);\n" +
+"gl_FragColor = vec4(rgb, 1.0);\n" +
+"}\n" +
+"";
+});
 /*!
  * Atmosphere code:
  *
@@ -31417,14 +32586,13 @@ define('Renderer/Context',[
  * Modifications made by Analytical Graphics, Inc.
  */
 /*global define*/
-define('Shaders/CentralBodyFS',[],function() {
+define('Shaders/CentralBodyFSCommon',[],function() {
   
   return "#ifdef SHOW_TERMINATOR\n" +
 "#ifdef GL_OES_standard_derivatives\n" +
 "#extension GL_OES_standard_derivatives : enable\n" +
 "#endif\n" +
 "#endif\n" +
-"uniform sampler2D u_dayTexture;\n" +
 "#ifdef SHOW_NIGHT\n" +
 "uniform sampler2D u_nightTexture;\n" +
 "#endif\n" +
@@ -31436,26 +32604,16 @@ define('Shaders/CentralBodyFS',[],function() {
 "uniform float u_bumpMapNormalZ;\n" +
 "uniform float u_nightIntensity;\n" +
 "uniform float u_dayIntensity;\n" +
-"varying vec3 v_positionMC;\n" +
-"varying vec3 v_positionEC;\n" +
-"varying vec3 v_rayleighColor;\n" +
-"varying vec3 v_mieColor;\n" +
-"varying vec2 v_textureCoordinates;\n" +
 "bool isCloud(float cloudCover)\n" +
 "{\n" +
 "return cloudCover > 0.7;\n" +
 "}\n" +
-"vec3 dayColor(vec3 normalEC, vec2 txCoord, float cloudCover)\n" +
+"vec3 dayColor(vec3 positionMC, vec3 positionEC, vec3 normalEC, vec3 startColor, vec2 txCoord, float cloudCover)\n" +
 "{\n" +
 "#ifdef SHOW_GROUND_ATMOSPHERE\n" +
 "vec4 diffuseSpecularAmbientShininess = vec4(0.35, 0.5, u_dayIntensity, 10.0);\n" +
 "#else\n" +
 "vec4 diffuseSpecularAmbientShininess = vec4(0.75, 0.5, u_dayIntensity, 10.0);\n" +
-"#endif\n" +
-"#ifdef SHOW_DAY\n" +
-"vec3 dayColor = texture2D(u_dayTexture, v_textureCoordinates).rgb;\n" +
-"#else\n" +
-"vec3 dayColor = vec3(1.0);\n" +
 "#endif\n" +
 "#ifdef SHOW_SPECULAR\n" +
 "float specularWeight = texture2D(u_specularMap, txCoord).r;\n" +
@@ -31469,7 +32627,7 @@ define('Shaders/CentralBodyFS',[],function() {
 "float right = texture2D(u_bumpMap, txCoord + vec2(u_bumpMapResoltuion.x, 0.0)).r;\n" +
 "float top = texture2D(u_bumpMap, txCoord + vec2(0.0, u_bumpMapResoltuion.y)).r;\n" +
 "vec3 perturbedNormalTC = normalize(vec3(center - right, center - top, u_bumpMapNormalZ));\n" +
-"vec3 perturbedNormalEC = agi_eastNorthUpToEyeCoordinates(v_positionMC, normalEC) * perturbedNormalTC;\n" +
+"vec3 perturbedNormalEC = agi_eastNorthUpToEyeCoordinates(positionMC, normalEC) * perturbedNormalTC;\n" +
 "perturbedNormalEC = normalize(perturbedNormalEC);\n" +
 "float perturbedDiffuse = max(dot(agi_sunDirectionEC, perturbedNormalEC), 0.0);\n" +
 "#else\n" +
@@ -31478,14 +32636,14 @@ define('Shaders/CentralBodyFS',[],function() {
 "intensity += (diffuseSpecularAmbientShininess.x * perturbedDiffuse);\n" +
 "if (specularWeight != 0.0)\n" +
 "{\n" +
-"vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
+"vec3 positionToEyeEC = normalize(-positionEC);\n" +
 "vec3 toReflectedLight = reflect(-agi_sunDirectionEC, normalEC);\n" +
 "float specular = max(dot(toReflectedLight, normalize(positionToEyeEC)), 0.0);\n" +
 "specular = pow(specular, diffuseSpecularAmbientShininess.w);\n" +
 "specular *= specularWeight;\n" +
 "intensity += (diffuseSpecularAmbientShininess.y * specular);\n" +
 "}\n" +
-"vec3 earthColor = vec3(intensity) * dayColor;\n" +
+"vec3 earthColor = vec3(intensity) * startColor;\n" +
 "vec3 cloudColor = vec3(cloudCover * diffuse);\n" +
 "vec3 earthUnderCloudColor = mix(earthColor, cloudColor, cloudCover);\n" +
 "#ifdef SHOW_CLOUD_SHADOWS\n" +
@@ -31493,12 +32651,12 @@ define('Shaders/CentralBodyFS',[],function() {
 "{\n" +
 "if (!isCloud(texture2D(u_cloudMap, txCoord).r))\n" +
 "{\n" +
-"mat3 eyeToEastNorthUp = agi_transpose(agi_eastNorthUpToEyeCoordinates(v_positionMC, normalEC));\n" +
+"mat3 eyeToEastNorthUp = agi_transpose(agi_eastNorthUpToEyeCoordinates(positionMC, normalEC));\n" +
 "vec3 positionToSunTC = eyeToEastNorthUp * agi_sunDirectionEC;\n" +
 "float scale = (1.0 - positionToSunTC.z) * 0.005;\n" +
 "float shadowCloudCover = texture2D(u_cloudMap, txCoord + (scale * positionToSunTC.xy)).r;\n" +
 "float cloudBehind = texture2D(u_cloudMap, txCoord - (scale * positionToSunTC.xy)).r;\n" +
-"float viewDistance = length(v_positionEC) * 10.0E-8;\n" +
+"float viewDistance = length(positionEC) * 10.0E-8;\n" +
 "viewDistance = min(1.0, viewDistance);\n" +
 "if (isCloud(shadowCloudCover))\n" +
 "{\n" +
@@ -31522,16 +32680,15 @@ define('Shaders/CentralBodyFS',[],function() {
 "#endif\n" +
 "return earthUnderCloudColor;\n" +
 "}\n" +
-"#ifdef SHOW_NIGHT\n" +
 "vec3 nightColor(vec2 txCoord, float cloudCover)\n" +
 "{\n" +
+"#ifdef SHOW_NIGHT\n" +
 "return u_nightIntensity * texture2D(u_nightTexture, txCoord).rgb * (1.0 - cloudCover);\n" +
-"}\n" +
+"#else\n" +
+"return vec3(0.0);\n" +
 "#endif\n" +
-"void main()\n" +
-"{\n" +
-"vec3 normalMC = normalize(agi_geodeticSurfaceNormal(v_positionMC, vec3(0.0), vec3(1.0)));\n" +
-"vec3 normalEC = normalize(agi_normal * normalMC);\n" +
+"}\n" +
+"vec3 getCentralBodyColor(vec3 positionMC, vec3 positionEC, vec3 normalMC, vec3 normalEC, vec3 startDayColor, vec3 rayleighColor, vec3 mieColor) {\n" +
 "float diffuse = dot(agi_sunDirectionEC, normalEC);\n" +
 "#ifdef SHOW_TERMINATOR\n" +
 "float absDiffuse = abs(diffuse);\n" +
@@ -31556,33 +32713,24 @@ define('Shaders/CentralBodyFS',[],function() {
 "#else\n" +
 "float cloudCover = 0.0;\n" +
 "#endif\n" +
-"vec3 rgb;\n" +
-"#ifdef SHOW_NIGHT\n" +
-"if (diffuse > u_dayNightBlendDelta)\n" +
-"{\n" +
-"rgb = dayColor(normalEC, txCoord, cloudCover);\n" +
-"}\n" +
-"else if (diffuse < -u_dayNightBlendDelta)\n" +
+"vec3 rgb = dayColor(positionMC, positionEC, normalEC, startDayColor, txCoord, cloudCover);\n" +
+"#ifdef SHOW_GROUND_ATMOSPHERE\n" +
+"const float fExposure = 2.0;\n" +
+"vec3 color = mieColor + rgb * rayleighColor;\n" +
+"rgb = vec3(1.0) - exp(-fExposure * color);\n" +
+"#endif\n" +
+"if (diffuse < -u_dayNightBlendDelta)\n" +
 "{\n" +
 "rgb = nightColor(txCoord, cloudCover);\n" +
 "}\n" +
-"else\n" +
+"else if (diffuse <= u_dayNightBlendDelta)\n" +
 "{\n" +
 "rgb = mix(\n" +
 "nightColor(txCoord, cloudCover),\n" +
-"dayColor(normalEC, txCoord, cloudCover),\n" +
+"rgb,\n" +
 "(diffuse + u_dayNightBlendDelta) / (2.0 * u_dayNightBlendDelta));\n" +
 "}\n" +
-"#else\n" +
-"rgb = dayColor(normalEC, txCoord, cloudCover);\n" +
-"#endif\n" +
-"#ifdef SHOW_GROUND_ATMOSPHERE\n" +
-"const float fExposure = 2.0;\n" +
-"vec3 color = v_mieColor + rgb * v_rayleighColor;\n" +
-"gl_FragColor = vec4(vec3(1.0) - exp(-fExposure * color), 1.0);\n" +
-"#else\n" +
-"gl_FragColor = vec4(rgb, 1.0);\n" +
-"#endif\n" +
+"return rgb;\n" +
 "}\n" +
 "";
 });
@@ -31649,38 +32797,47 @@ define('Shaders/CentralBodyFSFilter',[],function() {
 "}\n" +
 "";
 });
-/*!
- * Atmosphere code:
- *
- * Copyright (c) 2000-2005, Sean O'Neil (s_p_oneil@hotmail.com)
- * All rights reserved.
- * 
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 
- * * Redistributions of source code must retain the above copyright notice,
- *   this list of conditions and the following disclaimer.
- * * Redistributions in binary form must reproduce the above copyright notice,
- *   this list of conditions and the following disclaimer in the documentation
- *   and/or other materials provided with the distribution.
- * * Neither the name of the project nor the names of its contributors may be
- *   used to endorse or promote products derived from this software without
- *   specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Modifications made by Analytical Graphics, Inc.
- */
+
+/*global define*/
+define('Shaders/CentralBodyFSPole',[],function() {
+  
+  return "uniform sampler2D u_fbTexture;\n" +
+"uniform vec3 u_color;\n" +
+"varying vec2 v_textureCoordinates;\n" +
+"void main()\n" +
+"{\n" +
+"vec4 color = texture2D(u_fbTexture, v_textureCoordinates);\n" +
+"if (color.a == 1.0)\n" +
+"discard;\n" +
+"agi_ellipsoid ellipsoid = agi_getWgs84EllipsoidEC();\n" +
+"vec3 direction = normalize(agi_windowToEyeCoordinates(gl_FragCoord).xyz);\n" +
+"agi_ray ray = agi_ray(vec3(0.0, 0.0, 0.0), direction);\n" +
+"agi_raySegment intersection = agi_rayEllipsoidIntersectionInterval(ray, ellipsoid);\n" +
+"if (!agi_isEmpty(intersection))\n" +
+"{\n" +
+"vec3 positionEC = agi_pointAlongRay(ray, intersection.start);\n" +
+"vec3 positionMC = (agi_inverseModelView * vec4(positionEC, 1.0)).xyz;\n" +
+"vec3 normalMC = normalize(agi_geodeticSurfaceNormal(positionMC, vec3(0.0), vec3(1.0)));\n" +
+"vec3 normalEC = normalize(agi_normal * normalMC);\n" +
+"AtmosphereColor atmosphereColor = computeGroundAtmosphereFromSpace(positionMC);\n" +
+"vec3 mieColor = atmosphereColor.mie;\n" +
+"vec3 rayleighColor = atmosphereColor.rayleigh;\n" +
+"#ifdef SHOW_DAY\n" +
+"vec3 startDayColor = u_color;\n" +
+"#else\n" +
+"vec3 startDayColor = vec3(1.0);\n" +
+"#endif\n" +
+"vec3 rgb = getCentralBodyColor(positionMC, positionEC, normalMC, normalEC, startDayColor, rayleighColor, mieColor);\n" +
+"gl_FragColor = vec4(rgb, 1.0);\n" +
+"}\n" +
+"else\n" +
+"{\n" +
+"discard;\n" +
+"}\n" +
+"}\n" +
+"";
+});
+
 /*global define*/
 define('Shaders/CentralBodyVS',[],function() {
   
@@ -31689,22 +32846,6 @@ define('Shaders/CentralBodyVS',[],function() {
 "attribute vec2 position2D;\n" +
 "uniform float u_morphTime;\n" +
 "uniform int u_mode;\n" +
-"uniform vec3 v3InvWavelength;\n" +
-"uniform float fCameraHeight;\n" +
-"uniform float fCameraHeight2;\n" +
-"uniform float fOuterRadius;\n" +
-"uniform float fOuterRadius2;\n" +
-"uniform float fInnerRadius;\n" +
-"uniform float fInnerRadius2;\n" +
-"uniform float fKrESun;\n" +
-"uniform float fKmESun;\n" +
-"uniform float fKr4PI;\n" +
-"uniform float fKm4PI;\n" +
-"uniform float fScale;\n" +
-"uniform float fScaleDepth;\n" +
-"uniform float fScaleOverScaleDepth;\n" +
-"uniform float fMinGroundFromAtmosphereHeight;\n" +
-"uniform float fstartFadeGroundFromAtmosphere;\n" +
 "uniform vec3 u_center3D;\n" +
 "uniform vec2 u_center2D;\n" +
 "uniform mat4 u_modifiedModelView;\n" +
@@ -31713,74 +32854,6 @@ define('Shaders/CentralBodyVS',[],function() {
 "varying vec3 v_rayleighColor;\n" +
 "varying vec3 v_mieColor;\n" +
 "varying vec2 v_textureCoordinates;\n" +
-"struct AtmosphereColor\n" +
-"{\n" +
-"vec3 mie;\n" +
-"vec3 rayleigh;\n" +
-"};\n" +
-"#ifdef SHOW_GROUND_ATMOSPHERE\n" +
-"const int nSamples = 2;\n" +
-"const float fSamples = 2.0;\n" +
-"float scale(float fCos)\n" +
-"{\n" +
-"float x = 1.0 - fCos;\n" +
-"return fScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));\n" +
-"}\n" +
-"AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n" +
-"{\n" +
-"vec3 v3Ray = v3Pos - agi_viewerPositionWC;\n" +
-"float fFar = length(v3Ray);\n" +
-"v3Ray /= fFar;\n" +
-"#ifdef SHOW_GROUND_ATMOSPHERE_FROM_SPACE\n" +
-"float B = 2.0 * dot(agi_viewerPositionWC, v3Ray);\n" +
-"float C = fCameraHeight2 - fOuterRadius2;\n" +
-"float fDet = max(0.0, B*B - 4.0 * C);\n" +
-"float fNear = 0.5 * (-B - sqrt(fDet));\n" +
-"vec3 v3Start = agi_viewerPositionWC + v3Ray * fNear;\n" +
-"fFar -= fNear;\n" +
-"float fDepth = exp((fInnerRadius - fOuterRadius) / fScaleDepth);\n" +
-"#else\n" +
-"vec3 v3Start = agi_viewerPositionWC;\n" +
-"float fDepth = exp((fInnerRadius - fCameraHeight) / fScaleDepth);\n" +
-"#endif\n" +
-"float fCameraAngle = dot(-v3Ray, v3Pos) / length(v3Pos);\n" +
-"float fLightAngle = dot(agi_sunDirectionWC, v3Pos) / length(v3Pos);\n" +
-"float fCameraScale = scale(fCameraAngle);\n" +
-"float fLightScale = scale(fLightAngle);\n" +
-"float fCameraOffset = fDepth*fCameraScale;\n" +
-"float fTemp = (fLightScale + fCameraScale);\n" +
-"float fSampleLength = fFar / fSamples;\n" +
-"float fScaledLength = fSampleLength * fScale;\n" +
-"vec3 v3SampleRay = v3Ray * fSampleLength;\n" +
-"vec3 v3SamplePoint = v3Start + v3SampleRay * 0.5;\n" +
-"vec3 v3FrontColor = vec3(0.0);\n" +
-"vec3 v3Attenuate = vec3(0.0);\n" +
-"for(int i=0; i<nSamples; i++)\n" +
-"{\n" +
-"float fHeight = length(v3SamplePoint);\n" +
-"float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fHeight));\n" +
-"float fScatter = fDepth*fTemp - fCameraOffset;\n" +
-"v3Attenuate = exp(-fScatter * (v3InvWavelength * fKr4PI + fKm4PI));\n" +
-"v3FrontColor += v3Attenuate * (fDepth * fScaledLength);\n" +
-"v3SamplePoint += v3SampleRay;\n" +
-"}\n" +
-"vec3 mie = v3FrontColor * (v3InvWavelength * fKrESun + fKmESun);\n" +
-"vec3 rayleigh = v3Attenuate;\n" +
-"float fade = clamp((fCameraHeight - fMinGroundFromAtmosphereHeight) / fstartFadeGroundFromAtmosphere, 0.0, 1.0);\n" +
-"AtmosphereColor color;\n" +
-"color.mie = mix(vec3(0.0), mie,fade);\n" +
-"color.rayleigh = rayleigh;\n" +
-"return color;\n" +
-"}\n" +
-"#else\n" +
-"AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n" +
-"{\n" +
-"AtmosphereColor color;\n" +
-"color.mie = vec3(0.0);\n" +
-"color.rayleigh = vec3(1.0);\n" +
-"return color;\n" +
-"}\n" +
-"#endif\n" +
 "void main()\n" +
 "{\n" +
 "vec3 position3DWC = position3D + u_center3D;\n" +
@@ -31854,6 +32927,21 @@ define('Shaders/CentralBodyVSFilter',[],function() {
 });
 
 /*global define*/
+define('Shaders/CentralBodyVSPole',[],function() {
+  
+  return "attribute vec4 position;\n" +
+"varying vec2 v_textureCoordinates;\n" +
+"void main()\n" +
+"{\n" +
+"float x = (position.x - float(agi_viewport.x)) / float(agi_viewport.z);\n" +
+"float y = (position.y - float(agi_viewport.y)) / float(agi_viewport.w);\n" +
+"v_textureCoordinates = vec2(x, y);\n" +
+"gl_Position = agi_viewportOrthographic * position;\n" +
+"}\n" +
+"";
+});
+
+/*global define*/
 define('Shaders/CheckerboardMaterial',[],function() {
   
   return "uniform vec4 u_lightColor;\n" +
@@ -31861,8 +32949,21 @@ define('Shaders/CheckerboardMaterial',[],function() {
 "uniform vec2 u_repeat;\n" +
 "vec4 agi_getMaterialColor(float zDistance, vec2 st, vec3 str)\n" +
 "{\n" +
+"const float fuzz = 0.03;\n" +
 "float b = mod(floor(u_repeat.s * st.s) + floor(u_repeat.t * st.t), 2.0);\n" +
-"return mix(u_lightColor, u_darkColor, b);\n" +
+"float scaledWidth = fract(u_repeat.s * st.s);\n" +
+"scaledWidth = abs(scaledWidth - floor(scaledWidth + 0.5));\n" +
+"float scaledHeight = fract(u_repeat.t * st.t);\n" +
+"scaledHeight = abs(scaledHeight - floor(scaledHeight + 0.5));\n" +
+"float value = min(scaledWidth, scaledHeight);\n" +
+"float val1 = clamp(value / fuzz, 0.0, 1.0);\n" +
+"float val2 = clamp((value - 0.5) / fuzz, 0.0, 1.0);\n" +
+"val1 = val1 * (1.0 - val2);\n" +
+"val1 = val1 * val1 * (3.0 - (2.0 * val1));\n" +
+"val1 = pow(val1, 0.5);\n" +
+"vec4 midColor = (u_lightColor + u_darkColor) / 2.0;\n" +
+"vec4 currentColor = mix(u_lightColor, u_darkColor, b);\n" +
+"return mix(midColor, currentColor, val1);\n" +
 "}\n" +
 "";
 });
@@ -33085,6 +34186,69 @@ define('Shaders/CustomSensorVolumeVS',[],function() {
 });
 
 /*global define*/
+define('Shaders/DiffuseMapMaterial',[],function() {
+  
+  return "uniform sampler2D u_texture;\n" +
+"uniform vec2 u_repeat;\n" +
+"vec4 agi_getMaterialColor(float zDistance, vec2 st, vec3 str)\n" +
+"{\n" +
+"return texture2D(u_texture, fract(u_repeat * st));\n" +
+"}\n" +
+"";
+});
+/*global define*/
+define('Scene/DiffuseMapMaterial',['../Shaders/DiffuseMapMaterial'], function(ShadersDiffuseMapMaterial) {
+    
+
+    /**
+     *
+     * DOC_TBA
+     *
+     * @name DiffuseMapMaterial
+     * @constructor
+     */
+    function DiffuseMapMaterial(template) {
+        var t = template || {};
+
+        /**
+         * DOC_TBA
+         */
+        this.texture = t.texture || null;
+
+        /**
+         * DOC_TBA
+         */
+        this.sRepeat = t.sRepeat || 1.0;
+
+        /**
+         * DOC_TBA
+         */
+        this.tRepeat = t.tRepeat || 1.0;
+
+        var that = this;
+        this._uniforms = {
+            u_texture : function() {
+                return that.texture;
+            },
+            u_repeat : function() {
+                return {
+                    x : that.sRepeat,
+                    y : that.tRepeat
+                };
+            }
+        };
+    }
+
+    DiffuseMapMaterial.prototype._getShaderSource = function() {
+        return "#line 0\n" + ShadersDiffuseMapMaterial;
+    };
+
+    return DiffuseMapMaterial;
+});
+
+
+
+/*global define*/
 define('Shaders/DistanceIntervalMaterial',[],function() {
   
   return "uniform vec4 u_colors[NUMBER_OF_DISTANCES];\n" +
@@ -33247,6 +34411,127 @@ define('Shaders/FacetMaterial',[],function() {
 "}\n" +
 "";
 });
+/*!
+ * Atmosphere code:
+ *
+ * Copyright (c) 2000-2005, Sean O'Neil (s_p_oneil@hotmail.com)
+ * All rights reserved.
+ * 
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 
+ * * Redistributions of source code must retain the above copyright notice,
+ *   this list of conditions and the following disclaimer.
+ * * Redistributions in binary form must reproduce the above copyright notice,
+ *   this list of conditions and the following disclaimer in the documentation
+ *   and/or other materials provided with the distribution.
+ * * Neither the name of the project nor the names of its contributors may be
+ *   used to endorse or promote products derived from this software without
+ *   specific prior written permission.
+ * 
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+ * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Modifications made by Analytical Graphics, Inc.
+ */
+/*global define*/
+define('Shaders/GroundAtmosphere',[],function() {
+  
+  return "uniform vec3 v3InvWavelength;\n" +
+"uniform float fCameraHeight;\n" +
+"uniform float fCameraHeight2;\n" +
+"uniform float fOuterRadius;\n" +
+"uniform float fOuterRadius2;\n" +
+"uniform float fInnerRadius;\n" +
+"uniform float fInnerRadius2;\n" +
+"uniform float fKrESun;\n" +
+"uniform float fKmESun;\n" +
+"uniform float fKr4PI;\n" +
+"uniform float fKm4PI;\n" +
+"uniform float fScale;\n" +
+"uniform float fScaleDepth;\n" +
+"uniform float fScaleOverScaleDepth;\n" +
+"uniform float fMinGroundFromAtmosphereHeight;\n" +
+"uniform float fstartFadeGroundFromAtmosphere;\n" +
+"struct AtmosphereColor\n" +
+"{\n" +
+"vec3 mie;\n" +
+"vec3 rayleigh;\n" +
+"};\n" +
+"#ifdef SHOW_GROUND_ATMOSPHERE\n" +
+"const int nSamples = 2;\n" +
+"const float fSamples = 2.0;\n" +
+"float scale(float fCos)\n" +
+"{\n" +
+"float x = 1.0 - fCos;\n" +
+"return fScaleDepth * exp(-0.00287 + x*(0.459 + x*(3.83 + x*(-6.80 + x*5.25))));\n" +
+"}\n" +
+"AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n" +
+"{\n" +
+"vec3 v3Ray = v3Pos - agi_viewerPositionWC;\n" +
+"float fFar = length(v3Ray);\n" +
+"v3Ray /= fFar;\n" +
+"#ifdef SHOW_GROUND_ATMOSPHERE_FROM_SPACE\n" +
+"float B = 2.0 * length(agi_viewerPositionWC) * dot(normalize(agi_viewerPositionWC), v3Ray);\n" +
+"float C = fCameraHeight2 - fOuterRadius2;\n" +
+"float fDet = max(0.0, B*B - 4.0 * C);\n" +
+"float fNear = 0.5 * (-B - sqrt(fDet));\n" +
+"vec3 v3Start = agi_viewerPositionWC + v3Ray * fNear;\n" +
+"fFar -= fNear;\n" +
+"float fDepth = exp((fInnerRadius - fOuterRadius) / fScaleDepth);\n" +
+"#else\n" +
+"vec3 v3Start = agi_viewerPositionWC;\n" +
+"float fDepth = exp((fInnerRadius - fCameraHeight) / fScaleDepth);\n" +
+"#endif\n" +
+"float fCameraAngle = dot(-v3Ray, v3Pos) / length(v3Pos);\n" +
+"float fLightAngle = dot(agi_sunDirectionWC, v3Pos) / length(v3Pos);\n" +
+"float fCameraScale = scale(fCameraAngle);\n" +
+"float fLightScale = scale(fLightAngle);\n" +
+"float fCameraOffset = fDepth*fCameraScale;\n" +
+"float fTemp = (fLightScale + fCameraScale);\n" +
+"float fSampleLength = fFar / fSamples;\n" +
+"float fScaledLength = fSampleLength * fScale;\n" +
+"vec3 v3SampleRay = v3Ray * fSampleLength;\n" +
+"vec3 v3SamplePoint = v3Start + v3SampleRay * 0.5;\n" +
+"vec3 v3FrontColor = vec3(0.0);\n" +
+"vec3 v3Attenuate = vec3(0.0);\n" +
+"for(int i=0; i<nSamples; i++)\n" +
+"{\n" +
+"float fHeight = length(v3SamplePoint);\n" +
+"float fDepth = exp(fScaleOverScaleDepth * (fInnerRadius - fHeight));\n" +
+"float fScatter = fDepth*fTemp - fCameraOffset;\n" +
+"v3Attenuate = exp(-fScatter * (v3InvWavelength * fKr4PI + fKm4PI));\n" +
+"v3FrontColor += v3Attenuate * (fDepth * fScaledLength);\n" +
+"v3SamplePoint += v3SampleRay;\n" +
+"}\n" +
+"vec3 mie = v3FrontColor * (v3InvWavelength * fKrESun + fKmESun);\n" +
+"vec3 rayleigh = v3Attenuate;\n" +
+"float fade = clamp((fCameraHeight - fMinGroundFromAtmosphereHeight) / fstartFadeGroundFromAtmosphere, 0.0, 1.0);\n" +
+"AtmosphereColor color;\n" +
+"color.mie = mix(vec3(0.0), mie,fade);\n" +
+"color.rayleigh = rayleigh;\n" +
+"return color;\n" +
+"}\n" +
+"#else\n" +
+"AtmosphereColor computeGroundAtmosphereFromSpace(vec3 v3Pos)\n" +
+"{\n" +
+"AtmosphereColor color;\n" +
+"color.mie = vec3(0.0);\n" +
+"color.rayleigh = vec3(1.0);\n" +
+"return color;\n" +
+"}\n" +
+"#endif\n" +
+"";
+});
 
 /*global define*/
 define('Shaders/HorizontalStripeMaterial',[],function() {
@@ -33258,13 +34543,12 @@ define('Shaders/HorizontalStripeMaterial',[],function() {
 "vec4 agi_getMaterialColor(float zDistance, vec2 st, vec3 str)\n" +
 "{\n" +
 "const float fuzz = 0.1;\n" +
-"const float width = 0.5;\n" +
-"float scaled = fract((st.t - u_offset) * (u_repeat * 0.5));\n" +
-"float frac1 = clamp(scaled / fuzz, 0.0, 1.0);\n" +
-"float frac2 = clamp((scaled - width) / fuzz, 0.0, 1.0);\n" +
-"frac1 = frac1 * (1.0 - frac2);\n" +
-"frac1 = frac1 * frac1 * (3.0 - (2.0 * frac1));\n" +
-"return mix(u_lightColor, u_darkColor, frac1);\n" +
+"float value = fract((st.t - u_offset) * (u_repeat * 0.5));\n" +
+"float val1 = clamp(value / fuzz, 0.0, 1.0);\n" +
+"float val2 = clamp((value - 0.5) / fuzz, 0.0, 1.0);\n" +
+"val1 = val1 * (1.0 - val2);\n" +
+"val1 = val1 * val1 * (3.0 - (2.0 * val1));\n" +
+"return mix(u_lightColor, u_darkColor, val1);\n" +
 "}\n" +
 "";
 });
@@ -33805,16 +35089,19 @@ define('Scene/Polygon',[
         '../Core/DeveloperError',
         '../Core/combine',
         '../Core/destroyObject',
+        '../Core/Cartesian2',
         '../Core/Math',
         '../Core/Ellipsoid',
-        '../Core/AxisAlignedBoundingRectangle',
+        '../Core/Rectangle',
         '../Core/Cartesian3',
+        '../Core/Cartographic3',
         '../Core/ComponentDatatype',
         '../Core/MeshFilters',
         '../Core/PrimitiveType',
         '../Core/EllipsoidTangentPlane',
         '../Core/PolygonPipeline',
         '../Core/WindingOrder',
+        '../Core/ExtentTessellator',
         '../Renderer/BlendingState',
         '../Renderer/BufferUsage',
         '../Renderer/CullFace',
@@ -33830,16 +35117,19 @@ define('Scene/Polygon',[
         DeveloperError,
         combine,
         destroyObject,
+        Cartesian2,
         CesiumMath,
         Ellipsoid,
-        AxisAlignedBoundingRectangle,
+        Rectangle,
         Cartesian3,
+        Cartographic3,
         ComponentDatatype,
         MeshFilters,
         PrimitiveType,
         EllipsoidTangentPlane,
         PolygonPipeline,
         WindingOrder,
+        ExtentTessellator,
         BlendingState,
         BufferUsage,
         CullFace,
@@ -33852,7 +35142,6 @@ define('Scene/Polygon',[
         PolygonVSPick,
         PolygonFSPick) {
     
-    /*global Float32Array*/
 
     var attributeIndices = {
         position2D : 0,
@@ -33868,8 +35157,8 @@ define('Scene/Polygon',[
         return this._va;
     };
 
-    PositionVertices.prototype.update = function(context, positions, meshes, bufferUsage) {
-        if (positions) {
+    PositionVertices.prototype.update = function(context, meshes, bufferUsage) {
+        if (typeof meshes !== 'undefined') {
             // Initially create or recreate vertex array and buffers
             this._destroyVA();
 
@@ -33927,9 +35216,9 @@ define('Scene/Polygon',[
      *   alpha : 1.0
      * };
      * polygon.setPositions([
-     *   ellipsoid.toCartesian(new Cartographic3(...)),
-     *   ellipsoid.toCartesian(new Cartographic3(...)),
-     *   ellipsoid.toCartesian(new Cartographic3(...))
+     *   ellipsoid.toCartesian(new Cartographic2(...)),
+     *   ellipsoid.toCartesian(new Cartographic2(...)),
+     *   ellipsoid.toCartesian(new Cartographic2(...))
      * ]);
      */
     function Polygon() {
@@ -33945,7 +35234,7 @@ define('Scene/Polygon',[
         /**
          * DOC_TBA
          */
-        this.ellipsoid = Ellipsoid.getWgs84();
+        this.ellipsoid = Ellipsoid.WGS84;
         this._ellipsoid = undefined;
 
         /**
@@ -33981,7 +35270,8 @@ define('Scene/Polygon',[
          */
         };
 
-        this._positions = null;
+        this._positions = undefined;
+        this._extent = undefined;
         this._createVertexArray = false;
 
         /**
@@ -34075,27 +35365,54 @@ define('Scene/Polygon',[
      *
      * @see Polygon#getPositions
      *
+     * @param {Array} positions. The cartesian positions of the polygon.
+     * @param {double} [height=0.0]. The height of the polygon.
+     *
      * @example
      * polygon.setPositions([
-     *   ellipsoid.toCartesian(new Cartographic3(...)),
-     *   ellipsoid.toCartesian(new Cartographic3(...)),
-     *   ellipsoid.toCartesian(new Cartographic3(...))
-     * ]);
+     *   ellipsoid.toCartesian(new Cartographic2(...)),
+     *   ellipsoid.toCartesian(new Cartographic2(...)),
+     *   ellipsoid.toCartesian(new Cartographic2(...))
+     * ], 10.0);
      */
-    Polygon.prototype.setPositions = function(positions) {
-        // positions can be null
-        if (positions && (positions.length < 3)) {
+    Polygon.prototype.setPositions = function(positions, height) {
+        // positions can be undefined
+        if (typeof positions !== 'undefined' && (positions.length < 3)) {
             throw new DeveloperError("At least three positions are required.", "positions");
         }
-
+        this.height = height || 0.0;
+        this._extent = undefined;
         this._positions = positions;
         this._createVertexArray = true;
     };
 
+    /**
+     * DOC_TBA
+     *
+     * @memberof Polygon
+     *
+     * @param {extent} extent. The cartographic extent of the tile, with north, south, east and
+     * west properties in radians.
+     *
+     * @param {double} [height=0.0]. The height of the cartographic extent.
+     * @example
+     * polygon.configureExtent(new Extent(
+     *     CesiumMath.toRadians(0.0),
+     *     CesiumMath.toRadians(0.0),
+     *     CesiumMath.toRadians(10.0),
+     *     CesiumMath.toRadians(10.0)
+     * ));
+     */
+    Polygon.prototype.configureExtent = function(extent, height){
+        this._extent = extent;
+        this.height = height || 0.0;
+        this._positions = undefined;
+        this._createVertexArray = true;
+    };
+
     Polygon._appendTextureCoordinates = function(tangentPlane, positions2D, mesh) {
-        var boundingRectangle = new AxisAlignedBoundingRectangle(positions2D);
-        var origin = boundingRectangle.minimum;
-        var extent = boundingRectangle.maximum.subtract(boundingRectangle.minimum);
+        var boundingRectangle = new Rectangle.createAxisAlignedBoundingRectangle(positions2D);
+        var origin = new Cartesian2(boundingRectangle.x, boundingRectangle.y);
 
         var positions = mesh.attributes.position.values;
         var length = positions.length;
@@ -34111,8 +35428,8 @@ define('Scene/Polygon',[
             var st = tangentPlane.projectPointOntoPlane(p);
             st = st.subtract(origin);
 
-            textureCoordinates[j++] = st.x / extent.x;
-            textureCoordinates[j++] = st.y / extent.y;
+            textureCoordinates[j++] = st.x / boundingRectangle.width;
+            textureCoordinates[j++] = st.y / boundingRectangle.height;
         }
 
         mesh.attributes.textureCoordinates = {
@@ -34129,7 +35446,10 @@ define('Scene/Polygon',[
         var mesh;
         var meshes = null;
 
-        if (this._positions) {
+        if(typeof this._extent !== 'undefined'){
+            mesh = ExtentTessellator.compute({extent: this._extent, generateTextureCoords:true});
+        }
+        else if(typeof this._positions !== 'undefined'){
             var cleanedPositions = PolygonPipeline.cleanUp(this._positions);
             var tangentPlane = EllipsoidTangentPlane.create(this.ellipsoid, cleanedPositions);
             var positions2D = tangentPlane.projectPointsOntoPlane(cleanedPositions);
@@ -34139,35 +35459,28 @@ define('Scene/Polygon',[
                 positions2D.reverse();
                 cleanedPositions.reverse();
             }
-
             var indices = PolygonPipeline.earClip2D(positions2D);
-
+            mesh = PolygonPipeline.computeSubdivision(cleanedPositions, indices, this._granularity);
             // PERFORMANCE_IDEA:  Only compute texture coordinates if the material requires them.
+            mesh = Polygon._appendTextureCoordinates(tangentPlane, positions2D, mesh);
+        }
+        else {
+            return undefined;
+        }
+        mesh = PolygonPipeline.scaleToGeodeticHeight(this.ellipsoid, mesh, this.height);
+        mesh = MeshFilters.reorderForPostVertexCache(mesh);
+        mesh = MeshFilters.reorderForPreVertexCache(mesh);
 
-            if (this._mode === SceneMode.SCENE3D) {
-                mesh = PolygonPipeline.computeSubdivision(cleanedPositions, indices, this._granularity);
-                mesh = Polygon._appendTextureCoordinates(tangentPlane, positions2D, mesh);
-                mesh = PolygonPipeline.scaleToGeodeticHeight(this.ellipsoid, mesh, this.height);
-                mesh = MeshFilters.reorderForPostVertexCache(mesh);
-                mesh = MeshFilters.reorderForPreVertexCache(mesh);
-
-                mesh.attributes.position2D = { // Not actually used in shader
+        if (this._mode === SceneMode.SCENE3D) {
+            mesh.attributes.position2D = { // Not actually used in shader
                     value : [0.0, 0.0]
                 };
-                mesh.attributes.position3D = mesh.attributes.position;
-                delete mesh.attributes.position;
-
-                meshes = MeshFilters.fitToUnsignedShortIndices(mesh);
-            } else {
-                mesh = PolygonPipeline.computeSubdivision(cleanedPositions, indices, this._granularity);
-                mesh = Polygon._appendTextureCoordinates(tangentPlane, positions2D, mesh);
-                mesh = PolygonPipeline.scaleToGeodeticHeight(this.ellipsoid, mesh, this.height);
-                mesh = MeshFilters.reorderForPostVertexCache(mesh);
-                mesh = MeshFilters.reorderForPreVertexCache(mesh);
-                mesh = MeshFilters.projectTo2D(mesh, this._projection);
-                meshes = MeshFilters.fitToUnsignedShortIndices(mesh);
-            }
+            mesh.attributes.position3D = mesh.attributes.position;
+            delete mesh.attributes.position;
+        } else {
+            mesh = MeshFilters.projectTo2D(mesh, this._projection);
         }
+        meshes = MeshFilters.fitToUnsignedShortIndices(mesh);
 
         return meshes;
     };
@@ -34250,7 +35563,7 @@ define('Scene/Polygon',[
 
                 this._projection = projection;
 
-                this._vertices.update(context, this._positions, this._createMeshes(), this.bufferUsage);
+                this._vertices.update(context, this._createMeshes(), this.bufferUsage);
             }
 
             if (!this._rs) {
@@ -34486,7 +35799,6 @@ define('Scene/Polyline',[
         PolylineVS,
         PolylineFS) {
     
-    /*global Float32Array,Uint16Array*/
 
     var attributeIndices = {
         position2D : 0,
@@ -34802,22 +36114,22 @@ define('Scene/Polyline',[
 
         this._drawUniformsOne2D = combine(drawUniformsOne, {
             u_model : function() {
-                return Matrix4.getIdentity();
+                return Matrix4.IDENTITY;
             }
         });
         this._drawUniformsTwo2D = combine(drawUniformsTwo, {
             u_model : function() {
-                return Matrix4.getIdentity();
+                return Matrix4.IDENTITY;
             }
         });
         this._drawUniformsThree2D = combine(drawUniformsThree, {
             u_model : function() {
-                return Matrix4.getIdentity();
+                return Matrix4.IDENTITY;
             }
         });
         this._pickUniforms2D = combine(pickUniforms, {
             u_model : function() {
-                return Matrix4.getIdentity();
+                return Matrix4.IDENTITY;
             }
         });
 
@@ -34928,8 +36240,8 @@ define('Scene/Polyline',[
          *   new Cartesian3(1000000.0, 0.0, 0.0)
          * ]);
          */
-        this.modelMatrix = Matrix4.getIdentity();
-        this._modelMatrix = Matrix4.getIdentity();
+        this.modelMatrix = Matrix4.IDENTITY;
+        this._modelMatrix = Matrix4.IDENTITY;
 
         /**
          * The usage hint for the polyline's vertex buffer.
@@ -35046,7 +36358,7 @@ define('Scene/Polyline',[
             return this.scene2D.modelMatrix || this.modelMatrix;
 
         case SceneMode.MORPHING:
-            return Matrix4.getIdentity();
+            return Matrix4.IDENTITY;
         }
     };
 
@@ -35899,7 +37211,8 @@ define('Scene/ComplexConicSensorVolume',[
         '../Shaders/ConstructiveSolidGeometry',
         '../Shaders/SensorVolume',
         '../Shaders/ComplexConicSensorVolumeVS',
-        '../Shaders/ComplexConicSensorVolumeFS'
+        '../Shaders/ComplexConicSensorVolumeFS',
+        './SceneMode'
     ], function(
         DeveloperError,
         combine,
@@ -35922,7 +37235,8 @@ define('Scene/ComplexConicSensorVolume',[
         ShadersConstructiveSolidGeometry,
         ShadersSensorVolume,
         ComplexConicSensorVolumeVS,
-        ComplexConicSensorVolumeFS) {
+        ComplexConicSensorVolumeFS,
+        SceneMode) {
     
 
     var attributeIndices = {
@@ -35982,7 +37296,7 @@ define('Scene/ComplexConicSensorVolume',[
          * var center = ellipsoid.cartographicDegreesToCartesian(new Cartographic2(-75.59777, 40.03883));
          * sensor.modelMatrix = Transforms.eastNorthUpToFixedFrame(center);
          */
-        this.modelMatrix = t.modelMatrix || Matrix4.getIdentity();
+        this.modelMatrix = t.modelMatrix || Matrix4.IDENTITY;
 
         /**
          * DOC_TBA
@@ -36118,6 +37432,7 @@ define('Scene/ComplexConicSensorVolume',[
         };
         this._drawUniforms = null;
         this._pickUniforms = null;
+        this._mode = SceneMode.SCENE3D;
     }
 
     ComplexConicSensorVolume.prototype._getBoundingVolume = function() {
@@ -36203,6 +37518,11 @@ define('Scene/ComplexConicSensorVolume',[
      * @exception {DeveloperError} this.radius must be greater than or equal to zero.
      */
     ComplexConicSensorVolume.prototype.update = function(context, sceneState) {
+        this._mode = sceneState.mode;
+        if (this._mode !== SceneMode.SCENE3D) {
+            return;
+        }
+
         if (this.innerHalfAngle > this.outerHalfAngle) {
             throw new DeveloperError("this.innerHalfAngle cannot be greater than this.outerHalfAngle.");
         }
@@ -36281,7 +37601,7 @@ define('Scene/ComplexConicSensorVolume',[
      * @memberof ComplexConicSensorVolume
      */
     ComplexConicSensorVolume.prototype.render = function(context) {
-        if (this.show) {
+        if (this._mode === SceneMode.SCENE3D && this.show) {
             context.draw({
                 primitiveType : PrimitiveType.TRIANGLES,
                 shaderProgram : this._sp,
@@ -36297,7 +37617,7 @@ define('Scene/ComplexConicSensorVolume',[
      * @memberof ComplexConicSensorVolume
      */
     ComplexConicSensorVolume.prototype.updateForPick = function(context) {
-        if (this.show) {
+        if (this._mode === SceneMode.SCENE3D && this.show) {
             // Since this ignores all other materials, if a material does discard, the sensor will still be picked.
             var fsSource =
                 "#define RENDER_FOR_PICK 1\n" +
@@ -36330,7 +37650,7 @@ define('Scene/ComplexConicSensorVolume',[
      * @memberof ComplexConicSensorVolume
      */
     ComplexConicSensorVolume.prototype.renderForPick = function(context, framebuffer) {
-        if (this.show) {
+        if (this._mode === SceneMode.SCENE3D && this.show) {
             context.draw({
                 primitiveType : PrimitiveType.TRIANGLES,
                 shaderProgram : this._spPick,
@@ -36383,7 +37703,8 @@ define('Scene/CustomSensorVolume',[
         '../Shaders/Noise',
         '../Shaders/SensorVolume',
         '../Shaders/CustomSensorVolumeVS',
-        '../Shaders/CustomSensorVolumeFS'
+        '../Shaders/CustomSensorVolumeFS',
+        './SceneMode'
     ], function(
         DeveloperError,
         combine,
@@ -36401,9 +37722,9 @@ define('Scene/CustomSensorVolume',[
         ShadersNoise,
         ShadersSensorVolume,
         CustomSensorVolumeVS,
-        CustomSensorVolumeFS) {
+        CustomSensorVolumeFS,
+        SceneMode) {
     
-    /*global Float32Array*/
 
     var attributeIndices = {
         position : 0,
@@ -36470,7 +37791,7 @@ define('Scene/CustomSensorVolume',[
          * var center = ellipsoid.cartographicDegreesToCartesian(new Cartographic2(-75.59777, 40.03883));
          * sensor.modelMatrix = Transforms.eastNorthUpToFixedFrame(center);
          */
-        this.modelMatrix = t.modelMatrix || Matrix4.getIdentity();
+        this.modelMatrix = t.modelMatrix || Matrix4.IDENTITY;
 
         /**
          * DOC_TBA
@@ -36534,6 +37855,8 @@ define('Scene/CustomSensorVolume',[
         };
         this._drawUniforms = null;
         this._pickUniforms = null;
+
+        this._mode = SceneMode.SCENE3D;
     }
 
     /**
@@ -36655,6 +37978,11 @@ define('Scene/CustomSensorVolume',[
      * @exception {DeveloperError} this.radius must be greater than or equal to zero.
      */
     CustomSensorVolume.prototype.update = function(context, sceneState) {
+        this._mode = sceneState.mode;
+        if (this._mode !== SceneMode.SCENE3D) {
+            return;
+        }
+
         if (this.radius < 0.0) {
             throw new DeveloperError("this.radius must be greater than or equal to zero.");
         }
@@ -36718,7 +38046,7 @@ define('Scene/CustomSensorVolume',[
      * @memberof CustomSensorVolume
      */
     CustomSensorVolume.prototype.render = function(context) {
-        if (this.show && this._va) {
+        if (this._mode === SceneMode.SCENE3D && this.show && this._va) {
             context.draw({
                 primitiveType : PrimitiveType.TRIANGLES,
                 shaderProgram : this._sp,
@@ -36734,7 +38062,7 @@ define('Scene/CustomSensorVolume',[
      * @memberof CustomSensorVolume
      */
     CustomSensorVolume.prototype.updateForPick = function(context) {
-        if (this.show && this._va) {
+        if (this._mode === SceneMode.SCENE3D && this.show && this._va) {
             // Since this ignores all other materials, if a material does discard, the sensor will still be picked.
             var fsSource =
                 "#define RENDER_FOR_PICK 1\n" +
@@ -36763,7 +38091,7 @@ define('Scene/CustomSensorVolume',[
      * @memberof CustomSensorVolume
      */
     CustomSensorVolume.prototype.renderForPick = function(context, framebuffer) {
-        if (this.show && this._va) {
+        if (this._mode === SceneMode.SCENE3D && this.show && this._va) {
             context.draw({
                 primitiveType : PrimitiveType.TRIANGLES,
                 shaderProgram : this._spPick,
@@ -36868,7 +38196,7 @@ define('Scene/RectangularPyramidSensorVolume',[
          * var center = ellipsoid.cartographicDegreesToCartesian(new Cartographic2(-75.59777, 40.03883));
          * sensor.modelMatrix = Transforms.eastNorthUpToFixedFrame(center);
          */
-        this.modelMatrix = t.modelMatrix || Matrix4.getIdentity();
+        this.modelMatrix = t.modelMatrix || Matrix4.IDENTITY;
 
         /**
          * DOC_TBA
@@ -37489,13 +38817,12 @@ define('Shaders/VerticalStripeMaterial',[],function() {
 "vec4 agi_getMaterialColor(float zDistance, vec2 st, vec3 str)\n" +
 "{\n" +
 "const float fuzz = 0.1;\n" +
-"const float width = 0.5;\n" +
-"float scaled = fract((st.s - u_offset) * (u_repeat * 0.5));\n" +
-"float frac1 = clamp(scaled / fuzz, 0.0, 1.0);\n" +
-"float frac2 = clamp((scaled - width) / fuzz, 0.0, 1.0);\n" +
-"frac1 = frac1 * (1.0 - frac2);\n" +
-"frac1 = frac1 * frac1 * (3.0 - (2.0 * frac1));\n" +
-"return mix(u_lightColor, u_darkColor, frac1);\n" +
+"float value = fract((st.s - u_offset) * (u_repeat * 0.5));\n" +
+"float val1 = clamp(value / fuzz, 0.0, 1.0);\n" +
+"float val2 = clamp((value - 0.5) / fuzz, 0.0, 1.0);\n" +
+"val1 = val1 * (1.0 - val2);\n" +
+"val1 = val1 * val1 * (3.0 - (2.0 * val1));\n" +
+"return mix(u_lightColor, u_darkColor, val1);\n" +
 "}\n" +
 "";
 });
@@ -37868,6 +39195,7 @@ define('Scene/CentralBody',[
         '../Core/Intersect',
         '../Core/Occluder',
         '../Core/Ellipsoid',
+        '../Core/Extent',
         '../Core/BoundingSphere',
         '../Core/Rectangle',
         '../Core/Cache',
@@ -37885,6 +39213,7 @@ define('Scene/CentralBody',[
         '../Core/ExtentTessellator',
         '../Core/PlaneTessellator',
         '../Core/JulianDate',
+        '../Core/Transforms',
         '../Renderer/BufferUsage',
         '../Renderer/CullFace',
         '../Renderer/DepthFunction',
@@ -37901,10 +39230,14 @@ define('Scene/CentralBody',[
         './ViewportQuad',
         '../Shaders/CentralBodyVS',
         '../Shaders/CentralBodyFS',
+        '../Shaders/CentralBodyFSCommon',
         '../Shaders/CentralBodyVSDepth',
         '../Shaders/CentralBodyFSDepth',
         '../Shaders/CentralBodyVSFilter',
         '../Shaders/CentralBodyFSFilter',
+        '../Shaders/CentralBodyVSPole',
+        '../Shaders/CentralBodyFSPole',
+        '../Shaders/GroundAtmosphere',
         '../Shaders/SkyAtmosphereFS',
         '../Shaders/SkyAtmosphereVS'
     ], function(
@@ -37916,6 +39249,7 @@ define('Scene/CentralBody',[
         Intersect,
         Occluder,
         Ellipsoid,
+        Extent,
         BoundingSphere,
         Rectangle,
         Cache,
@@ -37933,6 +39267,7 @@ define('Scene/CentralBody',[
         ExtentTessellator,
         PlaneTessellator,
         JulianDate,
+        Transforms,
         BufferUsage,
         CullFace,
         DepthFunction,
@@ -37949,14 +39284,17 @@ define('Scene/CentralBody',[
         ViewportQuad,
         CentralBodyVS,
         CentralBodyFS,
+        CentralBodyFSCommon,
         CentralBodyVSDepth,
         CentralBodyFSDepth,
         CentralBodyVSFilter,
         CentralBodyFSFilter,
+        CentralBodyVSPole,
+        CentralBodyFSPole,
+        GroundAtmosphere,
         SkyAtmosphereFS,
         SkyAtmosphereVS) {
     
-    /*global document,Image,Uint16Array*/
 
     function TileTextureCachePolicy(description) {
         var desc = description || {};
@@ -38040,15 +39378,15 @@ define('Scene/CentralBody',[
             throw new DeveloperError("camera is required.", "camera");
         }
 
-        ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         this._ellipsoid = ellipsoid;
-        this._maxExtent = {
-            north : CesiumMath.PI_OVER_TWO,
-            south : -CesiumMath.PI_OVER_TWO,
-            west : -CesiumMath.PI,
-            east : CesiumMath.PI
-        };
+        this._maxExtent = new Extent(
+            -CesiumMath.PI,
+            -CesiumMath.PI_OVER_TWO,
+            CesiumMath.PI,
+            CesiumMath.PI_OVER_TWO
+        );
         this._camera = camera;
         this._rootTile = new Tile({
             extent : this._maxExtent,
@@ -38071,12 +39409,29 @@ define('Scene/CentralBody',[
         this._imageThrottleLimit = 15;
 
         this._prefetchLimit = 1;
-        this.perTileMaxFailCount = 3;
-        this.maxTileFailCount = 30;
         this._tileFailCount = 0;
-        this.failedTileRetryTime = 30.0;
         this._lastFailedTime = undefined;
 
+        /**
+         * DOC_TBA
+         *
+         * @type {Number}
+         */
+        this.perTileMaxFailCount = 3;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Number}
+         */
+        this.maxTileFailCount = 30;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Number}
+         */
+        this.failedTileRetryTime = 30.0;
 
         this._spWithoutAtmosphere = undefined;
         this._spGroundFromSpace = undefined;
@@ -38099,52 +39454,364 @@ define('Scene/CentralBody',[
 
         this._fb = undefined;
 
-        this._imageLogo = undefined;
-        this.logoOffset = Cartesian2.getZero();
+        this._vaNorthPole = undefined;
+        this._vaSouthPole = undefined;
+        this._spPolesWithoutAtmosphere = undefined;
+        this._spPolesGroundFromSpace = undefined;
+        this._spPolesGroundFromAtmosphere = undefined;
+        this._spPoles = undefined; // Reference to without-atmosphere, ground-from-space, or ground-from-atmosphere
+        this._northPoleUniforms = undefined;
+        this._southPoleUniforms = undefined;
+        this._drawNorthPole = false;
+        this._drawSouthPole = false;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Cartesian3}
+         */
+        this.northPoleColor = new Cartesian3(2.0 / 255.0, 6.0 / 255.0, 18.0 / 255.0);
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Cartesian3}
+         */
+        this.southPoleColor = new Cartesian3(1.0, 1.0, 1.0);
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Cartesian2}
+         */
+        this.logoOffset = Cartesian2.ZERO;
         this._logoOffset = this.logoOffset;
+        this._imageLogo = undefined;
         this._quadLogo = undefined;
 
-        this._dayTileProvider = undefined;
-        this._nightImageSource = undefined;
-        this._specularImageSource = undefined;
-        this._cloudsImageSource = undefined;
-        this._bumpImageSource = undefined;
-        this._nightTexture = undefined;
-        this._specularTexture = undefined;
-        this._cloudsTexture = undefined;
-        this._bumpTexture = undefined;
-        this._showDay = false;
-        this._showNight = false;
-        this._showClouds = false;
-        this._showCloudShadows = false;
-        this._showSpecular = false;
-        this._showBumps = false;
-        this._showTerminator = false;
+        this._minTileDistance = undefined;
 
-        this.refineFunc = this.refine;
+        /**
+         * DOC_TBA
+         *
+         * @type {Number}
+         */
         this.pixelError3D = 5.0;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Number}
+         */
         this.pixelError2D = 2.0;
 
+        /**
+         * Determines if the central body will be shown.
+         *
+         * @type {Boolean}
+         */
         this.show = true;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Boolean}
+         */
         this.showGroundAtmosphere = false;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Boolean}
+         */
         this.showSkyAtmosphere = false;
 
+        /**
+         * DOC_TBA
+         */
         this.dayTileProvider = undefined;
-        this.nightImageSource = undefined;
-        this.specularImageSource = undefined;
-        this.cloudsImageSource = undefined;
-        this.bumpImageSource = undefined;
-        this.showDay = true;
-        this.showNight = true;
-        this.showClouds = true;
-        this.showCloudShadows = true;
-        this.showSpecular = true;
-        this.showBumps = true;
+        this._dayTileProvider = undefined;
 
-        this.bumpMapNormalZ = 0.5;
-        this.dayNightBlendDelta = 0.05;
+        /**
+         * The URL of the image to use as a night texture.  An asynchronous
+         * request is made for the image at the next call to {@link CentralBody#update}.
+         * The night texture is shown once the image is loaded and {@link CentralBody#showNight}
+         * is <code>true</code>.
+         * <br /><br />
+         * Example day image:
+         * <div align="center">
+         * <img src="../images/CentralBody.nightImageSource.jpg" width="512" height="256" />
+         * <a href="http://visibleearth.nasa.gov/view_rec.php?id=1438">NASA Visible Earth</a>.
+         * Data courtesy Marc Imhoff of NASA GSFC and Christopher Elvidge of
+         * NOAA NGDC. Image by Craig Mayhew and Robert Simmon, NASA GSFC.
+         * </div>
+         *
+         * @type {String}
+         *
+         * @see CentralBody#showNight
+         */
+        this.nightImageSource = undefined;
+        this._nightImageSource = undefined;
+        this._nightTexture = undefined;
+
+        /**
+         * The URL of the image to use as a specular map; a single-channel image where zero indicates
+         * land cover, and 255 indicates water.  An asynchronous request is made for the image
+         * at the next call to {@link CentralBody#update}. The specular map is used once the
+         * image is loaded and {@link CentralBody#showSpecular} is <code>true</code>.
+         * <br /><br />
+         * Example specular map:
+         * <div align="center">
+         * <img src="../images/CentralBody.specularMapSource.jpg" width="512" height="256" />
+         * <a href="http://planetpixelemporium.com/earth.html">Planet Texture Maps</a>
+         * </div>
+         *
+         * @type {String}
+         *
+         * @see CentralBody#showSpecular
+         */
+        this.specularMapSource = undefined;
+        this._specularMapSource = undefined;
+        this._specularTexture = undefined;
+
+        /**
+         * The URL of the image to use as a cloud map; a single-channel image where 255 indicates
+         * cloud cover, and zero indicates no clouds.  An asynchronous request is made for the image
+         * at the next call to {@link CentralBody#update}. The cloud map is shown once the
+         * image is loaded and {@link CentralBody#showClouds} is <code>true</code>.
+         * <br /><br />
+         * Example cloud map:
+         * <div align="center">
+         * <img src="../images/CentralBody.cloudsMapSource.jpg" width="512" height="256" />
+         * <a href="http://planetpixelemporium.com/earth.html">Planet Texture Maps</a>
+         * </div>
+         *
+         * @type {String}
+         *
+         * @see CentralBody#showClouds
+         */
+        this.cloudsMapSource = undefined;
+        this._cloudsMapSource = undefined;
+        this._cloudsTexture = undefined;
+
+        /**
+         * The URL of the image to use as a bump map; a single-channel image where zero indicates
+         * sea level, and 255 indicates maximum height.  An asynchronous request is made for the image
+         * at the next call to {@link CentralBody#update}. The bump map is used once the
+         * image is loaded and {@link CentralBody#showBumps} is <code>true</code>.
+         * <br /><br />
+         * Example bump map:
+         * <div align="center">
+         * <img src="../images/CentralBody.bumpMapSource.jpg" width="512" height="256" />
+         * <a href="http://planetpixelemporium.com/earth.html">Planet Texture Maps</a>
+         * </div>
+         *
+         * @type {String}
+         *
+         * @see CentralBody#showBumps
+         */
+        this.bumpMapSource = undefined;
+        this._bumpMapSource = undefined;
+        this._bumpTexture = undefined;
+
+        /**
+         * When <code>true</code>, textures from the <code>dayTileProvider</code> are shown on the central body.
+         * <br /><br />
+         * <div align="center">
+         * <img src="../images/CentralBody.showDay.jpg" width="400" height="300" />
+         * </div>
+         *
+         * @type {Boolean}
+         *
+         * @see CentralBody#dayTileProvider
+         * @see CentralBody#showNight
+         */
+        this.showDay = true;
+        this._showDay = false;
+
+        /**
+         * When <code>true</code>, the night texture is shown on the side of the central body not illuminated by the sun.
+         * The day and night textures are blended across the terminator using {@link CentralBody#dayNightBlendDelta}.
+         * When <code>false</code>, the day textures are shown on the entire globe (if enabled).
+         * <div align="center">
+         * <img src="../images/CentralBody.showNight.jpg" width="400" height="300" />
+         * </div>
+         *
+         * @type {Boolean}
+         *
+         * @see CentralBody#nightImageSource
+         * @see CentralBody#showDay
+         * @see CentralBody#dayNightBlendDelta
+         *
+         * @example
+         * cb.showNight = true;
+         * cb.nightImageSource = "night.jpg";
+         */
+        this.showNight = true;
+        this._showNight = false;
+
+        /**
+         * When <code>true</code>, diffuse-lit clouds are shown on the central body.  When {@link CentralBody#showNight}
+         * is also true, clouds on the dark side of the globe will fully or partially occlude the night texture.
+         * <div align="center">
+         * <img src="../images/CentralBody.showClouds.jpg" width="400" height="300" />
+         * </div>
+         *
+         * @type {Boolean}
+         *
+         * @see CentralBody#cloudsMapSource
+         * @see CentralBody#showCloudShadows
+         * @see CentralBody#showNight
+         *
+         * @example
+         * cb.showClouds = true;
+         * cb.cloudsMapSource = "clouds.jpg";
+         */
+        this.showClouds = true;
+        this._showClouds = false;
+
+        /**
+         * When <code>true</code>, clouds on the daytime side of the globe cast approximate shadows.  The
+         * shadows can be shown with or without the clouds themselves, which are controlled with
+         * {@link CentralBody#showClouds}.
+         * <div align="center">
+         * <table border="0" cellpadding="5"><tr>
+         * <td align="center"><code>true</code><br/><img src="../images/CentralBody.showCloudShadows.true.jpg" width="250" height="188" /></td>
+         * <td align="center"><code>false</code><br/><img src="../images/CentralBody.showCloudShadows.false.jpg" width="250" height="188" /></td>
+         * </tr></table>
+         * </div>
+         *
+         * @type {Boolean}
+         *
+         * @see CentralBody#cloudsMapSource
+         * @see CentralBody#showClouds
+         *
+         * @example
+         * cb.showClouds = true;
+         * cb.showCloudShadows = true;
+         * cb.cloudsMapSource = "clouds.jpg";
+         */
+        this.showCloudShadows = true;
+        this._showCloudShadows = false;
+
+        /**
+         * When <code>true</code>, a specular map (also called a gloss map) is used so only the ocean receives specular light.
+         * <div align="center">
+         * <table border="0" cellpadding="5"><tr>
+         * <td align="center"><code>true</code><br/><img src="../images/CentralBody.showSpecular.true.jpg" width="250" height="188" /></td>
+         * <td align="center"><code>false</code><br/><img src="../images/CentralBody.showSpecular.false.jpg" width="250" height="188" /></td>
+         * </tr></table>
+         * </div>
+         *
+         * @type {Boolean}
+         *
+         * @see CentralBody#specularMapSource
+         *
+         * @example
+         * cb.showSpecular = true;
+         * cb.specularMapSource = "specular.jpg";
+         */
+        this.showSpecular = true;
+        this._showSpecular = false;
+
+        /**
+         * When <code>true</code>, a bump map is used to add lighting detail to the mountainous areas of the central body.
+         * This gives the appearance of extra geometric complexity even though the central body is still a smooth ellipsoid.
+         * The apparent steepness of the mountains is controlled by {@link CentralBody#bumpMapNormalZ}.
+         * <div align="center">
+         * <table border="0" cellpadding="5"><tr>
+         * <td align="center"><code>true</code><br/><img src="../images/CentralBody.showBumps.true.jpg" width="250" height="188" /></td>
+         * <td align="center"><code>false</code><br/><img src="../images/CentralBody.showBumps.false.jpg" width="250" height="188" /></td>
+         * </tr></table>
+         * </div>
+         *
+         * @type {Boolean}
+         *
+         * @see CentralBody#bumpMapSource
+         * @see CentralBody#bumpMapNormalZ
+         *
+         * @example
+         * cb.showBumps = true;
+         * cb.bumpMapSource = "bump.jpg";
+         */
+        this.showBumps = true;
+        this._showBumps = false;
+
+        /**
+         * When <code>true</code>, shows a line on the central body where day meets night.
+         * <div align="center">
+         * <img src="../images/CentralBody.showTerminator.jpg" width="400" height="300" />
+         * </div>
+         *
+         * @type {Boolean}
+         *
+         * @see CentralBody#showNight
+         * @see CentralBody#dayNightBlendDelta
+         */
         this.showTerminator = false;
+        this._showTerminator = false;
+
+        /**
+         * When {@link CentralBody#showBumps} is <code>true</code>, <code>bumpMapNormalZ</code> controls the
+         * apparent steepness of the mountains.  A value less than one over-exaggerates the steepness; a value greater
+         * than one under-exaggerates, making mountains less noticeable.
+         * <div align="center">
+         * <table border="0" cellpadding="5"><tr>
+         * <td align="center"><code>0.25</code><br/><img src="../images/Centralbody.bumpMapNormalZ.025.jpg" width="250" height="188" /></td>
+         * <td align="center"><code>1.25</code><br/><img src="../images/Centralbody.bumpMapNormalZ.125.jpg" width="250" height="188" /></td>
+         * </tr></table>
+         * </div>
+         *
+         * @type {Number}
+         *
+         * @see CentralBody#showBumps
+         *
+         * @example
+         * cb.showBumps = true;
+         * cb.bumpMapSource = "bump.jpg";
+         * cb.bumpMapNormalZ = 1.0;
+         */
+        this.bumpMapNormalZ = 0.5;
+
+        /**
+         * When {@link CentralBody#showDay} and {@link CentralBody#showNight} are both <code>true</code>,
+         * <code>dayNightBlendDelta</code> determines the size of the blend region surrounding the terminator (where day
+         * meets night).  A value of zero indicates a sharp transition without blending; a larger value creates a linearly
+         * blended region based on the diffuse lighting component:  <code>-dayNightBlendDelta &lt; diffuse &lt; dayNightBlendDelta</code>.
+         * <div align="center">
+         * <table border="0" cellpadding="5"><tr>
+         * <td align="center"><code>0.0</code><br/><img src="../images/Centralbody.dayNightBlendDelta.0.jpg" width="250" height="188" /></td>
+         * <td align="center"><code>0.05</code><br/><img src="../images/Centralbody.dayNightBlendDelta.05.jpg" width="250" height="188" /></td>
+         * </tr></table>
+         * </div>
+         *
+         * @type {Number}
+         *
+         * @see CentralBody#showDay
+         * @see CentralBody#showNight
+         * @see CentralBody#showTerminator
+         *
+         * @example
+         * cb.showDay = true;
+         * cb.dayImageSource = "day.jpg";
+         * cb.showNight = true;
+         * cb.nightImageSource = "night.jpg";
+         * cb.dayNightBlendDelta = 0.0;  // Sharp transition
+         */
+        this.dayNightBlendDelta = 0.05;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Number}
+         */
         this.nightIntensity = 2.0;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Number}
+         */
         this.morphTime = 1.0;
 
         this._mode = SceneMode.SCENE3D;
@@ -38319,53 +39986,19 @@ define('Scene/CentralBody',[
     };
 
     CentralBody.prototype._createTextureCache = function(context) {
-        if (this._dayTileProvider &&
-            typeof this._dayTileProvider.tileWidth !== "undefined" &&
-            typeof this._dayTileProvider.tileHeight !== "undefined") {
-            this._texturePool = new Texture2DPool(this._dayTileProvider.tileWidth, this._dayTileProvider.tileHeight);
-        } else {
-            this._texturePool = undefined;
-        }
-
-        var pool = this._texturePool;
+        var pool = this._texturePool = new Texture2DPool(context);
 
         var fetch = function(tile) {
-            var texture;
-
-            var width = parseInt(tile.image.width, 10);
-            var height = parseInt(tile.image.height, 10);
-            var usePool = pool && (width === pool.getWidth() && height === pool.getHeight());
-            var inPool = false;
-
-            if (usePool && pool.hasAvailable()) {
-                texture = pool.getTexture();
-                inPool = true;
-            } else {
-                texture = context.createTexture2D({
-                    width : width,
-                    height : height,
-                    pixelFormat : PixelFormat.RGB
-                });
-            }
-
-            if (usePool && !inPool) {
-                pool.add(texture);
-            }
+            var texture = pool.createTexture2D({
+                width : tile.image.width,
+                height : tile.image.height,
+                pixelFormat : PixelFormat.RGB
+            });
             return texture;
         };
 
         var remove = function(tile) {
-            var width = tile.texture.getWidth();
-            var height = tile.texture.getHeight();
-            var usePool = (width === pool.getWidth() && height === pool.getHeight());
-
-            if (usePool) {
-                pool.remove(tile.texture);
-                tile.texture = undefined;
-            } else {
-                tile.texture = tile.texture && tile.texture.destroy();
-            }
-
+            tile.texture = tile.texture && tile.texture.destroy();
             tile._extentVA = tile._extentVA && tile._extentVA.destroy();
             tile.projection = undefined;
             tile.state = TileState.READY;
@@ -38396,26 +40029,22 @@ define('Scene/CentralBody',[
         return this._dayTileProvider.loadTileImage(tile, onload, onerror, oninvalid);
     };
 
-    CentralBody.prototype._getTileBoundingSphere = function (tile, mode, projection) {
+    CentralBody.prototype._getTileBoundingSphere = function (tile, state) {
         var boundingVolume;
-        if (mode === SceneMode.SCENE3D) {
+        if (state.mode === SceneMode.SCENE3D) {
             boundingVolume = tile.get3DBoundingSphere().clone();
-        } else if (mode === SceneMode.COLUMBUS_VIEW){
-            boundingVolume = tile.get2DBoundingSphere(projection).clone();
+        } else if (state.mode === SceneMode.COLUMBUS_VIEW){
+            boundingVolume = tile.get2DBoundingSphere(state.projection).clone();
             boundingVolume.center = new Cartesian3(0.0, boundingVolume.center.x, boundingVolume.center.y);
         } else {
-            var bv3D = tile.get3DBoundingSphere();
-            var bv2D = tile.get2DBoundingSphere(projection);
-            boundingVolume = new BoundingSphere(
-                    bv2D.center.lerp(bv3D, this.morphTime),
-                    Math.max(bv2D.radius, bv3D.radius));
+            boundingVolume = tile.computeMorphBounds(this.morphTime, state.projection);
         }
         return boundingVolume;
     };
 
-    CentralBody.prototype._frustumCull = function(tile, mode, projection) {
-        if (mode === SceneMode.SCENE2D) {
-            var bRect = tile.get2DBoundingRectangle(projection);
+    CentralBody.prototype._cull = function(tile, state) {
+        if (state.mode === SceneMode.SCENE2D) {
+            var bRect = tile.get2DBoundingRectangle(state.projection);
 
             var frustum = this._camera.frustum;
             var position = this._camera.position;
@@ -38428,15 +40057,24 @@ define('Scene/CentralBody',[
             return !Rectangle.rectangleRectangleIntersect(bRect, fRect);
         }
 
-        var boundingVolume = this._getTileBoundingSphere(tile, mode, projection);
-        return this._camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE;
+        var boundingVolume = this._getTileBoundingSphere(tile, state);
+        if (this._camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE) {
+            return true;
+        }
+
+        if (state.mode === SceneMode.SCENE3D) {
+            var occludeePoint = tile.getOccludeePoint();
+            return (occludeePoint && !state.occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !state.occluder.isVisible(boundingVolume);
+        }
+
+        return false;
     };
 
-    CentralBody.prototype._throttleImages = function() {
+    CentralBody.prototype._throttleImages = function(state) {
         for ( var i = 0, len = this._imageQueue.length; i < len && i < this._imageThrottleLimit; ++i) {
             var tile = this._imageQueue.dequeue();
 
-            if (this._frustumCull(tile, this._mode, this._projection)) {
+            if (this._cull(tile, state)) {
                 tile.state = TileState.READY;
                 continue;
             }
@@ -38464,11 +40102,11 @@ define('Scene/CentralBody',[
         return canvas;
     };
 
-    CentralBody.prototype._throttleReprojection = function() {
+    CentralBody.prototype._throttleReprojection = function(state) {
         for ( var i = 0, len = this._reprojectQueue.length; i < len && i < this._reprojectThrottleLimit; ++i) {
             var tile = this._reprojectQueue.dequeue();
 
-            if (this._frustumCull(tile, this._mode, this._projection)) {
+            if (this._cull(tile, state)) {
                 tile.image = undefined;
                 tile.state = TileState.READY;
                 continue;
@@ -38480,11 +40118,11 @@ define('Scene/CentralBody',[
         }
     };
 
-    CentralBody.prototype._throttleTextures = function(context) {
+    CentralBody.prototype._throttleTextures = function(state) {
         for ( var i = 0, len = this._textureQueue.length; i < len && i < this._textureThrottleLimit; ++i) {
             var tile = this._textureQueue.dequeue();
 
-            if (this._frustumCull(tile, this._mode, this._projection) || !tile.image) {
+            if (this._cull(tile, state) || !tile.image) {
                 tile.image = undefined;
                 tile.state = TileState.READY;
                 continue;
@@ -38498,7 +40136,7 @@ define('Scene/CentralBody',[
                 wrapT : TextureWrap.CLAMP,
                 minificationFilter : TextureMinificationFilter.LINEAR_MIPMAP_LINEAR,
                 magnificationFilter : TextureMagnificationFilter.LINEAR,
-                maximumAnisotropy : context.getMaximumTextureFilterAnisotropy() || 8 // TODO: Remove Chrome work around
+                maximumAnisotropy : state.context.getMaximumTextureFilterAnisotropy() || 8 // TODO: Remove Chrome work around
             });
             tile.state = TileState.TEXTURE_LOADED;
             tile.image = undefined;
@@ -38506,30 +40144,34 @@ define('Scene/CentralBody',[
     };
 
     CentralBody.prototype._processTile = function(tile) {
+        if (this._imageQueue.contains(tile) || this._reprojectQueue.contains(tile) || this._textureQueue.contains(tile)) {
+            return;
+        }
+
         var maxFailed = this._tileFailCount > this._maxTileFailCount;
         var requestFailed = tile.state === TileState.IMAGE_FAILED && tile._failCount < this._maxTileFailCount;
         var maxTimePassed = this._lastFailedTime && this._lastFailedTime.getSecondsDifference(new JulianDate()) >= this.failedTileRetryTime;
         var retry = maxTimePassed || (requestFailed && !maxFailed);
 
         // check if tile needs to load image
-        if ((!tile.state || tile.state === TileState.READY) && !this._imageQueue.contains(tile)) {
+        if (!tile.state || tile.state === TileState.READY) {
             this._imageQueue.enqueue(tile);
             tile.state = TileState.IMAGE_LOADING;
-        } else if (tile.state === TileState.IMAGE_LOADED && !this._reprojectQueue.contains(tile)) {
+        } else if (tile.state === TileState.IMAGE_LOADED) {
             // or re-project the image
             this._reprojectQueue.enqueue(tile);
             tile.state = TileState.REPROJECTING;
-        } else if (tile.state === TileState.REPROJECTED && !this._textureQueue.contains(tile)) {
+        } else if (tile.state === TileState.REPROJECTED) {
             // or copy to a texture
             this._textureQueue.enqueue(tile);
             tile.state = TileState.TEXTURE_LOADING;
-        } else if (retry && this._imageQueue.contains(tile) === -1) {
+        } else if (retry) {
             // or retry a failed image
             if (maxTimePassed) {
                 tile._failCount = 0;
                 this._tileFailCount = 0;
             }
-            this._imageQueue.push(tile);
+            this._imageQueue.enqueue(tile);
             tile.state = TileState.IMAGE_LOADING;
         } else if (tile.state === TileState.IMAGE_INVALID && tile.image) {
             // or release invalid image if there is one
@@ -38537,227 +40179,229 @@ define('Scene/CentralBody',[
         }
     };
 
-    CentralBody.prototype._enqueueTile = function(tile, context, sceneState) {
-        var mode = sceneState.mode;
-        var projection = sceneState.scene2D.projection;
-
-        // tile is ready for rendering
-        if (!this._dayTileProvider || (tile.state === TileState.TEXTURE_LOADED && tile.texture && !tile.texture.isDestroyed())) {
-            // create vertex array the first time it is needed or when morphing
-            if (!tile._extentVA ||
-                tile._extentVA.isDestroyed() ||
-                CentralBody._isModeTransition(this._mode, mode) ||
-                tile._mode !== mode ||
-                this._projection !== projection) {
-                tile._extentVA = tile._extentVA && tile._extentVA.destroy();
-
-                var ellipsoid = this._ellipsoid;
-                var rtc = tile.get3DBoundingSphere().center;
-                var projectedRTC = tile.get2DBoundingSphere(projection).center.clone();
-
-                var gran = (tile.zoom > 0) ? 0.05 * (1 / tile.zoom * 2) : 0.05; // seems like a good value after testing it for what looks good
-
-                var typedArray, buffer, stride, attributes, indexBuffer;
-                var datatype = ComponentDatatype.FLOAT;
-                var usage = BufferUsage.STATIC_DRAW;
-
-                if (mode === SceneMode.SCENE3D) {
-                    var buffers = ExtentTessellator.computeBuffers({
-                        ellipsoid : ellipsoid,
-                        extent : tile.extent,
-                        granularity : gran,
-                        generateTextureCoords : true,
-                        interleave : true,
-                        relativeToCenter : rtc
-                    });
-
-                    typedArray = datatype.toTypedArray(buffers.vertices);
-                    buffer = context.createVertexBuffer(typedArray, usage);
-                    stride = 5 * datatype.sizeInBytes;
-                    attributes = [{
-                        index : attributeIndices.position3D,
-                        vertexBuffer : buffer,
-                        componentDatatype : datatype,
-                        componentsPerAttribute : 3,
-                        normalize : false,
-                        offsetInBytes : 0,
-                        strideInBytes : stride
-                    }, {
-                        index : attributeIndices.textureCoordinates,
-                        vertexBuffer : buffer,
-                        componentDatatype : datatype,
-                        componentsPerAttribute : 2,
-                        normalize : false,
-                        offsetInBytes : 3 * datatype.sizeInBytes,
-                        strideInBytes : stride
-                    }, {
-                        index : attributeIndices.position2D,
-                        value : [0.0, 0.0]
-                    }];
-                    indexBuffer = context.createIndexBuffer(new Uint16Array(buffers.indices), usage, IndexDatatype.UNSIGNED_SHORT);
-                } else {
-                    var vertices = [];
-                    var width = tile.extent.east - tile.extent.west;
-                    var height = tile.extent.north - tile.extent.south;
-                    var lonScalar = 1.0 / width;
-                    var latScalar = 1.0 / height;
-
-                    var mesh = PlaneTessellator.compute({
-                        resolution : {
-                            x : Math.max(Math.ceil(width / gran), 2.0),
-                            y : Math.max(Math.ceil(height / gran), 2.0)
-                        },
-                        onInterpolation : function(time) {
-                            var lonLat = new Cartographic2(
-                                    CesiumMath.lerp(tile.extent.west, tile.extent.east, time.x),
-                                    CesiumMath.lerp(tile.extent.south, tile.extent.north, time.y));
-
-                            var p = ellipsoid.toCartesian(lonLat).subtract(rtc);
-                            vertices.push(p.x, p.y, p.z);
-
-                            var u = (lonLat.longitude - tile.extent.west) * lonScalar;
-                            var v = (lonLat.latitude - tile.extent.south) * latScalar;
-                            vertices.push(u, v);
-
-                            // TODO: This will not work if the projection's ellipsoid is different
-                            // than the central body's ellipsoid.  Throw an exception?
-                            var projectedLonLat = projection.project(lonLat).subtract(projectedRTC);
-                            vertices.push(projectedLonLat.x, projectedLonLat.y);
-                        }
-                    });
-
-                    typedArray = datatype.toTypedArray(vertices);
-                    buffer = context.createVertexBuffer(typedArray, usage);
-                    stride = 7 * datatype.sizeInBytes;
-                    attributes = [{
-                        index : attributeIndices.position3D,
-                        vertexBuffer : buffer,
-                        componentDatatype : datatype,
-                        componentsPerAttribute : 3,
-                        normalize : false,
-                        offsetInBytes : 0,
-                        strideInBytes : stride
-                    }, {
-                        index : attributeIndices.textureCoordinates,
-                        vertexBuffer : buffer,
-                        componentDatatype : datatype,
-                        componentsPerAttribute : 2,
-                        normalize : false,
-                        offsetInBytes : 3 * datatype.sizeInBytes,
-                        strideInBytes : stride
-                    }, {
-                        index : attributeIndices.position2D,
-                        vertexBuffer : buffer,
-                        componentDatatype : datatype,
-                        componentsPerAttribute : 2,
-                        normalize : false,
-                        offsetInBytes : 5 * datatype.sizeInBytes,
-                        strideInBytes : stride
-                    }];
-
-                    indexBuffer = context.createIndexBuffer(new Uint16Array(mesh.indexLists[0].values), usage, IndexDatatype.UNSIGNED_SHORT);
-                }
-
-                tile._extentVA = context.createVertexArray(attributes, indexBuffer);
-
-                var intensity = (this._dayTileProvider && this._dayTileProvider.getIntensity && this._dayTileProvider.getIntensity(tile)) || 0.0;
-                var drawUniforms = {
-                    u_dayTexture : function() {
-                        return tile.texture;
-                    },
-                    u_center3D : function() {
-                        return rtc;
-                    },
-                    u_center2D : function() {
-                        return (projectedRTC) ? projectedRTC.getXY() : Cartesian2.getZero();
-                    },
-                    u_modifiedModelView : function() {
-                        return tile.modelView;
-                    },
-                    u_dayIntensity : function() {
-                        return intensity;
-                    },
-                    u_mode : function() {
-                        return tile.mode;
-                    }
-                };
-                tile._drawUniforms = combine(drawUniforms, this._drawUniforms);
-
-                tile._mode = mode;
-            }
-            this._renderQueue.enqueue(tile);
-
-            if (mode === SceneMode.SCENE2D) {
-                if (tile.zoom + 1 <= this._dayTileProvider.zoomMax) {
-                    var children = tile.getChildren();
-                    for ( var i = 0; i < children.length; ++i) {
-                        this._processTile(children[i]);
-                    }
-                }
-            }
-        } else {
-            // tile isn't ready, find a parent to render and start processing the tile.
-            var parent = tile.parent;
-            if (parent && !this._renderQueue.contains(parent)) {
-                this._enqueueTile(parent, context, sceneState);
-            }
-
-            this._processTile(tile);
+    CentralBody.prototype._enqueueTile = function(tile, state) {
+        if (this._renderQueue.contains(tile)) {
+            return;
         }
+
+        var mode = state.mode;
+        var projection = state.projection;
+        var context = state.context;
+
+        // create vertex array the first time it is needed or when morphing
+        if (!tile._extentVA ||
+            tile._extentVA.isDestroyed() ||
+            CentralBody._isModeTransition(this._mode, mode) ||
+            tile._mode !== mode ||
+            this._projection !== projection) {
+            tile._extentVA = tile._extentVA && tile._extentVA.destroy();
+
+            var ellipsoid = this._ellipsoid;
+            var rtc = tile.get3DBoundingSphere().center;
+            var projectedRTC = tile.get2DBoundingSphere(projection).center.clone();
+
+            var gran = (tile.zoom > 0) ? 0.05 * (1.0 / tile.zoom * 2.0) : 0.05; // seems like a good value after testing it for what looks good
+
+            var typedArray;
+            var buffer;
+            var stride;
+            var attributes;
+            var indexBuffer;
+            var datatype = ComponentDatatype.FLOAT;
+            var usage = BufferUsage.STATIC_DRAW;
+
+            if (mode === SceneMode.SCENE3D) {
+                var buffers = ExtentTessellator.computeBuffers({
+                    ellipsoid : ellipsoid,
+                    extent : tile.extent,
+                    granularity : gran,
+                    generateTextureCoords : true,
+                    interleave : true,
+                    relativeToCenter : rtc
+                });
+
+                typedArray = datatype.toTypedArray(buffers.vertices);
+                buffer = context.createVertexBuffer(typedArray, usage);
+                stride = 5 * datatype.sizeInBytes;
+                attributes = [{
+                    index : attributeIndices.position3D,
+                    vertexBuffer : buffer,
+                    componentDatatype : datatype,
+                    componentsPerAttribute : 3,
+                    offsetInBytes : 0,
+                    strideInBytes : stride
+                }, {
+                    index : attributeIndices.textureCoordinates,
+                    vertexBuffer : buffer,
+                    componentDatatype : datatype,
+                    componentsPerAttribute : 2,
+                    offsetInBytes : 3 * datatype.sizeInBytes,
+                    strideInBytes : stride
+                }, {
+                    index : attributeIndices.position2D,
+                    value : [0.0, 0.0]
+                }];
+                indexBuffer = context.createIndexBuffer(new Uint16Array(buffers.indices), usage, IndexDatatype.UNSIGNED_SHORT);
+            } else {
+                var vertices = [];
+                var width = tile.extent.east - tile.extent.west;
+                var height = tile.extent.north - tile.extent.south;
+                var lonScalar = 1.0 / width;
+                var latScalar = 1.0 / height;
+
+                var mesh = PlaneTessellator.compute({
+                    resolution : {
+                        x : Math.max(Math.ceil(width / gran), 2.0),
+                        y : Math.max(Math.ceil(height / gran), 2.0)
+                    },
+                    onInterpolation : function(time) {
+                        var lonLat = new Cartographic2(
+                                CesiumMath.lerp(tile.extent.west, tile.extent.east, time.x),
+                                CesiumMath.lerp(tile.extent.south, tile.extent.north, time.y));
+
+                        var p = ellipsoid.toCartesian(lonLat).subtract(rtc);
+                        vertices.push(p.x, p.y, p.z);
+
+                        var u = (lonLat.longitude - tile.extent.west) * lonScalar;
+                        var v = (lonLat.latitude - tile.extent.south) * latScalar;
+                        vertices.push(u, v);
+
+                        // TODO: This will not work if the projection's ellipsoid is different
+                        // than the central body's ellipsoid.  Throw an exception?
+                        var projectedLonLat = projection.project(lonLat).subtract(projectedRTC);
+                        vertices.push(projectedLonLat.x, projectedLonLat.y);
+                    }
+                });
+
+                typedArray = datatype.toTypedArray(vertices);
+                buffer = context.createVertexBuffer(typedArray, usage);
+                stride = 7 * datatype.sizeInBytes;
+                attributes = [{
+                    index : attributeIndices.position3D,
+                    vertexBuffer : buffer,
+                    componentDatatype : datatype,
+                    componentsPerAttribute : 3,
+                    offsetInBytes : 0,
+                    strideInBytes : stride
+                }, {
+                    index : attributeIndices.textureCoordinates,
+                    vertexBuffer : buffer,
+                    componentDatatype : datatype,
+                    componentsPerAttribute : 2,
+                    offsetInBytes : 3 * datatype.sizeInBytes,
+                    strideInBytes : stride
+                }, {
+                    index : attributeIndices.position2D,
+                    vertexBuffer : buffer,
+                    componentDatatype : datatype,
+                    componentsPerAttribute : 2,
+                    offsetInBytes : 5 * datatype.sizeInBytes,
+                    strideInBytes : stride
+                }];
+
+                indexBuffer = context.createIndexBuffer(new Uint16Array(mesh.indexLists[0].values), usage, IndexDatatype.UNSIGNED_SHORT);
+            }
+
+            tile._extentVA = context.createVertexArray(attributes, indexBuffer);
+
+            var intensity = (this._dayTileProvider && this._dayTileProvider.getIntensity && this._dayTileProvider.getIntensity(tile)) || 0.0;
+            var drawUniforms = {
+                u_dayTexture : function() {
+                    return tile.texture;
+                },
+                u_center3D : function() {
+                    return rtc;
+                },
+                u_center2D : function() {
+                    return (projectedRTC) ? projectedRTC.getXY() : Cartesian2.ZERO;
+                },
+                u_modifiedModelView : function() {
+                    return tile.modelView;
+                },
+                u_dayIntensity : function() {
+                    return intensity;
+                },
+                u_mode : function() {
+                    return tile.mode;
+                }
+            };
+            tile._drawUniforms = combine(drawUniforms, this._drawUniforms);
+
+            tile._mode = mode;
+        }
+        this._renderQueue.enqueue(tile);
     };
 
-    CentralBody.prototype._refine3D = function(tile, viewportWidth, viewportHeight, mode, projection) {
-        var width = viewportWidth;
-        var height = viewportHeight;
-
-        var pixelError = this.pixelError3D;
-        var camera = this._camera;
-        var frustum = camera.frustum;
+    CentralBody.prototype._createTileDistanceFunction = function(width, height) {
         var provider = this._dayTileProvider;
-        var extent = tile.extent;
-
-        if (tile.zoom < provider.zoomMin) {
-            return true;
+        if (typeof provider === 'undefined') {
+            return undefined;
         }
 
-        var texturePixelError = (pixelError > 0.0) ? pixelError : 1.0;
-        var pixelSizePerDistance = 2.0 * Math.tan(frustum.fovy * 0.5);
+        var frustum = this._camera.frustum;
+        var extent = provider.maxExtent;
 
+        var pixelSizePerDistance = 2.0 * Math.tan(frustum.fovy * 0.5);
         if (height > width * frustum.aspectRatio) {
             pixelSizePerDistance /= height;
         } else {
             pixelSizePerDistance /= width;
         }
 
-        var invPixelSizePerDistance = 1.0 / (texturePixelError * pixelSizePerDistance);
-
+        var invPixelSizePerDistance = 1.0 / pixelSizePerDistance;
         var texelHeight = (extent.north - extent.south) / provider.tileHeight;
         var texelWidth = (extent.east - extent.west) / provider.tileWidth;
         var texelSize = (texelWidth > texelHeight) ? texelWidth : texelHeight;
         var dmin = texelSize * invPixelSizePerDistance;
         dmin *= this._ellipsoid.getMaximumRadius();
 
-        var boundingVolume = this._getTileBoundingSphere(tile, mode, projection);
+        return function(zoom, pixelError) {
+            return (dmin / pixelError) * Math.exp(-0.693147181 * zoom);
+        };
+    };
 
-        var cameraPosition = camera.transform.multiplyWithVector(new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0)).getXYZ();
-        var direction = camera.transform.multiplyWithVector(new Cartesian4(camera.direction.x, camera.direction.y, camera.direction.z, 0.0)).getXYZ();
+    CentralBody.prototype._refine3D = function(tile, state) {
+        var provider = this._dayTileProvider;
+        if (typeof provider === "undefined") {
+            return false;
+        }
+
+        if (tile.zoom < provider.zoomMin) {
+            return true;
+        }
+
+        var boundingVolume = this._getTileBoundingSphere(tile, state);
+        var cameraPosition = state.camera.position;
+        var direction = state.camera.direction;
+
+        var texturePixelError = (this.pixelError3D !== "undefined" && this.pixelError3D > 0.0) ? this.pixelError3D : 1.0;
+        var dmin = this._minTileDistance(tile.zoom, texturePixelError);
 
         var toCenter = boundingVolume.center.subtract(cameraPosition);
         var toSphere = toCenter.normalize().multiplyWithScalar(toCenter.magnitude() - boundingVolume.radius);
         var distance = direction.multiplyWithScalar(direction.dot(toSphere)).magnitude();
 
-        if (distance < dmin) {
+        if (distance > 0.0 && distance < dmin) {
             return true;
         }
 
         return false;
     };
 
-    CentralBody.prototype._refine2D = function(tile, viewportWidth, viewportHeight, projection) {
+    CentralBody.prototype._refine2D = function(tile, state) {
         var camera = this._camera;
         var frustum = camera.frustum;
         var pixelError = this.pixelError2D;
         var provider = this._dayTileProvider;
+
+        var projection = state.projection;
+        var viewport = state.context.getViewport();
+        var viewportWidth = viewport.width;
+        var viewportHeight = viewport.height;
+
+        if (typeof provider === "undefined") {
+            return false;
+        }
 
         if (tile.zoom < provider.zoomMin) {
             return true;
@@ -38797,12 +40441,12 @@ define('Scene/CentralBody',[
      *
      * @return {Boolean} <code>true</code> if a higher resolution tile should be displayed or <code>false</code> if a higher resolution tile is not needed.
      */
-    CentralBody.prototype.refine = function(tile, viewportWidth, viewportHeight, mode, projection) {
-        if (mode === SceneMode.SCENE2D) {
-            return this._refine2D(tile, viewportWidth, viewportHeight, projection);
+    CentralBody.prototype.refine = function(tile, state) {
+        if (state.mode === SceneMode.SCENE2D) {
+            return this._refine2D(tile, state);
         }
 
-        return this._refine3D(tile, viewportWidth, viewportHeight, mode, projection);
+        return this._refine3D(tile, state);
     };
 
     CentralBody.prototype._createScissorRectangle = function(description) {
@@ -38849,7 +40493,7 @@ define('Scene/CentralBody',[
         var qUnit = q.normalize();
 
         // Determine the east and north directions at q.
-        var eUnit = Cartesian3.getUnitZ().cross(q).normalize();
+        var eUnit = Cartesian3.UNIT_Z.cross(q).normalize();
         var nUnit = qUnit.cross(eUnit).normalize();
 
         // Determine the radius of the "limb" of the ellipsoid.
@@ -38869,16 +40513,195 @@ define('Scene/CentralBody',[
         return [upperLeft.x, upperLeft.y, upperLeft.z, lowerLeft.x, lowerLeft.y, lowerLeft.z, upperRight.x, upperRight.y, upperRight.z, lowerRight.x, lowerRight.y, lowerRight.z];
     };
 
+    CentralBody.prototype._computePoleQuad = function(maxLat, maxGivenLat, viewProjMatrix, viewportTransformation) {
+        var pt1 = this._ellipsoid.toCartesian(new Cartographic2(0.0, maxGivenLat));
+        var pt2 = this._ellipsoid.toCartesian(new Cartographic2(Math.PI, maxGivenLat));
+        var radius = pt1.subtract(pt2).magnitude() * 0.5;
+
+        var center = this._ellipsoid.toCartesian(new Cartographic2(0.0, maxLat));
+
+        var right;
+        var dir = this._camera.direction;
+        if (1.0 - Cartesian3.UNIT_Z.negate().dot(dir) < CesiumMath.EPSILON6) {
+            right = Cartesian3.UNIT_X;
+        } else {
+            right = dir.cross(Cartesian3.UNIT_Z).normalize();
+        }
+
+        var screenRight = center.add(right.multiplyWithScalar(radius));
+        var screenUp = center.add(Cartesian3.UNIT_Z.cross(right).normalize().multiplyWithScalar(radius));
+
+        center = Transforms.pointToWindowCoordinates(viewProjMatrix, viewportTransformation, center);
+        screenRight = Transforms.pointToWindowCoordinates(viewProjMatrix, viewportTransformation, screenRight);
+        screenUp = Transforms.pointToWindowCoordinates(viewProjMatrix, viewportTransformation, screenUp);
+
+        var halfWidth = Math.floor(Math.max(screenUp.subtract(center).magnitude(), screenRight.subtract(center).magnitude()));
+        var halfHeight = halfWidth;
+
+        return new Rectangle(
+                Math.floor(center.x) - halfWidth,
+                Math.floor(center.y) - halfHeight,
+                halfWidth * 2.0,
+                halfHeight * 2.0);
+    };
+
+    CentralBody.prototype._fillPoles = function(state) {
+        if (typeof this._dayTileProvider === 'undefined' || state.mode !== SceneMode.SCENE3D) {
+            return;
+        }
+
+        var viewProjMatrix = state.context.getUniformState().getViewProjection();
+        var viewportTransformation = state.context.getUniformState().getViewportTransformation();
+        var latitudeExtension = 0.05;
+
+        var extent;
+        var boundingVolume;
+        var frustumCull;
+        var occludeePoint;
+        var occluded;
+        var datatype;
+        var mesh;
+        var rect;
+        var positions;
+
+        // handle north pole
+        if (this._dayTileProvider.maxExtent.north < CesiumMath.PI_OVER_TWO) {
+            extent = new Extent(
+                -Math.PI,
+                this._dayTileProvider.maxExtent.north,
+                Math.PI,
+                CesiumMath.PI_OVER_TWO
+            );
+            boundingVolume = Extent.compute3DBoundingSphere(extent, this._ellipsoid);
+            frustumCull = this._camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE;
+            occludeePoint = Extent.computeOccludeePoint(extent, this._ellipsoid).occludeePoint;
+            occluded = (occludeePoint && !state.occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !state.occluder.isVisible(boundingVolume);
+
+            this._drawNorthPole = !frustumCull && !occluded;
+            if (this._drawNorthPole) {
+                rect = this._computePoleQuad(extent.north, extent.south - latitudeExtension, viewProjMatrix, viewportTransformation);
+                positions = [
+                    rect.x, rect.y,
+                    rect.x + rect.width, rect.y,
+                    rect.x + rect.width, rect.y + rect.height,
+                    rect.x, rect.y + rect.height
+                ];
+
+                if (typeof this._vaNorthPole === 'undefined') {
+                    mesh = {
+                        attributes : {
+                            position : {
+                                componentDatatype : ComponentDatatype.FLOAT,
+                                componentsPerAttribute : 2,
+                                values : positions
+                            }
+                        }
+                    };
+                    this._vaNorthPole = state.context.createVertexArrayFromMesh({
+                        mesh : mesh,
+                        attributeIndices : {
+                            position : 0
+                        },
+                        bufferUsage : BufferUsage.STREAM_DRAW
+                    });
+                } else {
+                    datatype = ComponentDatatype.FLOAT;
+                    this._vaNorthPole.getAttribute(0).vertexBuffer.copyFromArrayView(datatype.toTypedArray(positions));
+                }
+            }
+        }
+
+        // handle south pole
+        if (this._dayTileProvider.maxExtent.south > -CesiumMath.PI_OVER_TWO) {
+            extent = new Extent(
+                -Math.PI,
+                -CesiumMath.PI_OVER_TWO,
+                Math.PI,
+                this._dayTileProvider.maxExtent.south
+            );
+            boundingVolume = Extent.compute3DBoundingSphere(extent, this._ellipsoid);
+            frustumCull = this._camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE;
+            occludeePoint = Extent.computeOccludeePoint(extent, this._ellipsoid).occludeePoint;
+            occluded = (occludeePoint && !state.occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !state.occluder.isVisible(boundingVolume);
+
+            this._drawSouthPole = !frustumCull && !occluded;
+            if (this._drawSouthPole) {
+                rect = this._computePoleQuad(extent.south, extent.north + latitudeExtension, viewProjMatrix, viewportTransformation);
+                positions = [
+                     rect.x, rect.y,
+                     rect.x + rect.width, rect.y,
+                     rect.x + rect.width, rect.y + rect.height,
+                     rect.x, rect.y + rect.height
+                 ];
+
+                 if (typeof this._vaSouthPole === 'undefined') {
+                     mesh = {
+                         attributes : {
+                             position : {
+                                 componentDatatype : ComponentDatatype.FLOAT,
+                                 componentsPerAttribute : 2,
+                                 values : positions
+                             }
+                         }
+                     };
+                     this._vaSouthPole = state.context.createVertexArrayFromMesh({
+                         mesh : mesh,
+                         attributeIndices : {
+                             position : 0
+                         },
+                         bufferUsage : BufferUsage.STREAM_DRAW
+                     });
+                 } else {
+                     datatype = ComponentDatatype.FLOAT;
+                     this._vaSouthPole.getAttribute(0).vertexBuffer.copyFromArrayView(datatype.toTypedArray(positions));
+                 }
+            }
+        }
+
+        var that = this;
+        var drawUniforms = {
+            u_fbTexture : function() {
+                return that._fb.getColorTexture();
+            },
+            u_dayIntensity : function() {
+                return (that._dayTileProvider && that._dayTileProvider.getPoleIntensity && that._dayTileProvider.getPoleIntensity()) || 0.0;
+            }
+        };
+
+        if (typeof this._northPoleUniforms === 'undefined') {
+            this._northPoleUniforms = combine(drawUniforms, {
+                u_color : function() {
+                    return that.northPoleColor;
+                }
+            });
+            this._northPoleUniforms = combine(this._northPoleUniforms, this._drawUniforms);
+        }
+
+        if (typeof this._southPoleUniforms === 'undefined') {
+            this._southPoleUniforms = combine(drawUniforms, {
+                u_color : function() {
+                    return that.southPoleColor;
+                }
+            });
+            this._southPoleUniforms = combine(this._southPoleUniforms, this._drawUniforms);
+        }
+    };
+
     /**
      * @private
      */
     CentralBody.prototype.update = function(context, sceneState) {
+        var width = context.getCanvas().clientWidth;
+        var height = context.getCanvas().clientHeight;
+
+        if (width === 0 || height === 0) {
+            return;
+        }
+
         var mode = sceneState.mode;
         var projection = sceneState.scene2D.projection;
 
         this._syncMorphTime(mode);
-
-        var width, height;
 
         if (this._dayTileProvider !== this.dayTileProvider) {
             this._dayTileProvider = this.dayTileProvider;
@@ -38934,15 +40757,14 @@ define('Scene/CentralBody',[
             this._createTextureCache(context);
         }
 
-        width = context.getCanvas().clientWidth;
-        height = context.getCanvas().clientHeight;
-
         var createFBO = !this._fb || this._fb.isDestroyed();
         var fboDimensionsChanged = this._fb && (this._fb.getColorTexture().getWidth() !== width || this._fb.getColorTexture().getHeight() !== height);
 
         if (createFBO || fboDimensionsChanged ||
             (!this._quadV || this._quadV.isDestroyed()) ||
             (!this._quadH || this._quadH.isDestroyed())) {
+
+            this._minTileDistance = this._createTileDistanceFunction(width, height);
 
             this._fb = this._fb && this._fb.destroy();
             this._quadV = this._quadV && this._quadV.destroy();
@@ -39213,22 +41035,29 @@ define('Scene/CentralBody',[
         var specularChanged = ((this._showSpecular !== this.showSpecular) && (!this.showSpecular || this._specularTexture));
         var bumpsChanged = ((this._showBumps !== this.showBumps) && (!this.showBumps || this._bumpTexture));
 
-        if (!this._sp ||
+        if (typeof this._sp === 'undefined' || typeof this._spPoles === 'undefined' ||
             (dayChanged || nightChanged || cloudsChanged || cloudShadowsChanged || specularChanged || bumpsChanged) ||
             (this._showTerminator !== this.showTerminator)) {
 
+            var fsPrepend = ((this.showDay && this._dayTileProvider) ? "#define SHOW_DAY 1\n" : "") +
+                ((this.showNight && this._nightTexture) ? "#define SHOW_NIGHT 1\n" : "") +
+                ((this.showClouds && this._cloudsTexture) ? "#define SHOW_CLOUDS 1\n" : "") +
+                ((this.showCloudShadows && this._cloudsTexture) ? "#define SHOW_CLOUD_SHADOWS 1\n" : "") +
+                ((this.showSpecular && this._specularTexture) ? "#define SHOW_SPECULAR 1\n" : "") +
+                ((this.showBumps && this._bumpTexture) ? "#define SHOW_BUMPS 1\n" : "") +
+                (this.showTerminator ? "#define SHOW_TERMINATOR 1\n" : "") +
+                "#line 0\n" +
+                CentralBodyFSCommon;
+            var groundFromSpacePrepend = "#define SHOW_GROUND_ATMOSPHERE 1\n" +
+                "#define SHOW_GROUND_ATMOSPHERE_FROM_SPACE 1\n";
+            var groundFromAtmospherePrepend = "#define SHOW_GROUND_ATMOSPHERE 1\n" +
+                "#define SHOW_GROUND_ATMOSPHERE_FROM_ATMOSPHERE 1\n";
+
             vs = "#line 0\n" +
+                 GroundAtmosphere +
                  CentralBodyVS;
 
-            fs = ((this.showDay && this._dayTileProvider) ? "#define SHOW_DAY 1\n" : "") +
-                 ((this.showNight && this._nightTexture) ? "#define SHOW_NIGHT 1\n" : "") +
-                 ((this.showClouds && this._cloudsTexture) ? "#define SHOW_CLOUDS 1\n" : "") +
-                 ((this.showCloudShadows && this._cloudsTexture) ? "#define SHOW_CLOUD_SHADOWS 1\n" : "") +
-                 ((this.showSpecular && this._specularTexture) ? "#define SHOW_SPECULAR 1\n" : "") +
-                 ((this.showBumps && this._bumpTexture) ? "#define SHOW_BUMPS 1\n" : "") +
-                 (this.showTerminator ? "#define SHOW_TERMINATOR 1\n" : "") +
-                 "#line 0\n" +
-                 CentralBodyFS;
+            fs = fsPrepend + CentralBodyFS;
 
             this._spWithoutAtmosphere = this._spWithoutAtmosphere && this._spWithoutAtmosphere.release();
             this._spGroundFromSpace = this._spGroundFromSpace && this._spGroundFromSpace.release();
@@ -39236,19 +41065,30 @@ define('Scene/CentralBody',[
 
             this._spWithoutAtmosphere = context.getShaderCache().getShaderProgram(vs, fs, attributeIndices);
             this._spGroundFromSpace = context.getShaderCache().getShaderProgram(
-                    "#define SHOW_GROUND_ATMOSPHERE 1\n" +
-                    "#define SHOW_GROUND_ATMOSPHERE_FROM_SPACE 1\n" +
-                    vs,
-                    "#define SHOW_GROUND_ATMOSPHERE 1\n" +
-                    "#define SHOW_GROUND_ATMOSPHERE_FROM_SPACE 1\n" +
-                    fs, attributeIndices);
+                    groundFromSpacePrepend + vs,
+                    groundFromSpacePrepend + fs,
+                    attributeIndices);
             this._spGroundFromAtmosphere = context.getShaderCache().getShaderProgram(
-                    "#define SHOW_GROUND_ATMOSPHERE 1\n" +
-                    "#define SHOW_GROUND_ATMOSPHERE_FROM_ATMOSPHERE 1\n" +
+                    groundFromAtmospherePrepend + vs,
+                    groundFromAtmospherePrepend + fs,
+                    attributeIndices);
+
+            vs = CentralBodyVSPole;
+            fs = fsPrepend + GroundAtmosphere + CentralBodyFSPole;
+
+            this._spPolesWithoutAtmosphere = this._spPolesWithoutAtmosphere && this._spPolesWithoutAtmosphere.release();
+            this._spPolesGroundFromSpace = this._spPolesGroundFromSpace && this._spPolesGroundFromSpace.release();
+            this._spPolesGroundFromAtmosphere = this._spPolesGroundFromAtmosphere && this._spPolesGroundFromAtmosphere.release();
+
+            this._spPolesWithoutAtmosphere = context.getShaderCache().getShaderProgram(vs, fs, attributeIndices);
+            this._spPolesGroundFromSpace = context.getShaderCache().getShaderProgram(
                     vs,
-                    "#define SHOW_GROUND_ATMOSPHERE 1\n" +
-                    "#define SHOW_GROUND_ATMOSPHERE_FROM_ATMOSPHERE 1\n" +
-                    fs, attributeIndices);
+                    groundFromSpacePrepend + fs,
+                    attributeIndices);
+            this._spPolesGroundFromAtmosphere = context.getShaderCache().getShaderProgram(
+                    vs,
+                    groundFromAtmospherePrepend + fs,
+                    attributeIndices);
 
             // Sync to public state
             this._showDay = dayChanged ? this.showDay : this._showDay;
@@ -39261,62 +41101,78 @@ define('Scene/CentralBody',[
         }
 
         var camera = this._camera;
-        var cameraPosition = new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0);
-        cameraPosition = camera.transform.multiplyWithVector(cameraPosition).getXYZ();
+        var cameraPosition = camera.transform.multiplyWithVector(new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0)).getXYZ();
+        var cameraDirection = camera.transform.multiplyWithVector(new Cartesian4(camera.direction.x, camera.direction.y, camera.direction.z, 0.0)).getXYZ();
+
         this._fCameraHeight2 = cameraPosition.magnitudeSquared();
         this._fCameraHeight = Math.sqrt(this._fCameraHeight2);
 
         if (this._fCameraHeight > this._outerRadius) {
             // Viewer in space
             this._spSky = this._spSkyFromSpace;
-            this._sp = this.showGroundAtmosphere ? this._spGroundFromSpace : this._spWithoutAtmosphere;
+            if (this.showGroundAtmosphere) {
+                this._sp = this._spGroundFromSpace;
+                this._spPoles = this._spPolesGroundFromSpace;
+            } else {
+                this._sp = this._spWithoutAtmosphere;
+                this._spPoles = this._spPolesWithoutAtmosphere;
+            }
         } else {
             // after the camera passes the minimum height, there is no ground atmosphere effect
             var showAtmosphere = this._ellipsoid.toCartographic3(cameraPosition).height >= this._minGroundFromAtmosphereHeight;
             if (this.showGroundAtmosphere && showAtmosphere) {
                 this._sp = this._spGroundFromAtmosphere;
+                this._spPoles = this._spPolesGroundFromAtmosphere;
             } else {
                 this._sp = this._spWithoutAtmosphere;
+                this._spPoles = this._spPolesWithoutAtmosphere;
             }
             this._spSky = this._spSkyFromAtmosphere;
         }
 
-        this._throttleImages();
-        this._throttleReprojection();
-        this._throttleTextures(context);
+        var state = {
+                context : context,
+                camera : {
+                    position : cameraPosition,
+                    direction : cameraDirection
+                },
+                occluder : new Occluder(new BoundingSphere(Cartesian3.ZERO, this._ellipsoid.getMinimumRadius()), cameraPosition),
+                mode : mode,
+                projection : projection
+        };
 
-        var viewport = context.getViewport();
-        width = viewport.width;
-        height = viewport.height;
+        // TODO: refactor
+        this._fillPoles(state);
 
-        var occluder = new Occluder(new BoundingSphere(Cartesian3.getZero(), this._ellipsoid.getMinimumRadius()), cameraPosition);
+        this._throttleImages(state);
+        this._throttleReprojection(state);
+        this._throttleTextures(state);
 
         var stack = [this._rootTile];
         while (stack.length !== 0) {
             var tile = stack.pop();
 
-            if (this._frustumCull(tile, mode, projection)) {
+            if (this._cull(tile, state)) {
                 continue;
             }
 
-            var boundingVolume;
-            if (mode === SceneMode.SCENE3D) {
-                boundingVolume = tile.get3DBoundingSphere();
-                var occludeePoint = tile.getOccludeePoint();
-
-                // occlusion culling
-                if (occludeePoint && !occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) {
-                    continue;
-                } else if (!occluder.isVisible(boundingVolume)) {
-                    continue;
+            if (!this._dayTileProvider || (tile.state === TileState.TEXTURE_LOADED && tile.texture && !tile.texture.isDestroyed())) {
+                if ((this._dayTileProvider && tile.zoom + 1 > this._dayTileProvider.zoomMax) || !this.refine(tile, state)) {
+                    this._enqueueTile(tile, state);
+                } else {
+                    var children = tile.getChildren();
+                    for (var i = 0; i < children.length; ++i) {
+                        var child = children[i];
+                        if ((child.state === TileState.TEXTURE_LOADED && child.texture && !child.texture.isDestroyed())) {
+                            stack.push(child);
+                        } else {
+                            this._enqueueTile(tile, state);
+                            this._processTile(child);
+                        }
+                    }
                 }
-            }
-
-            if (!this._dayTileProvider || tile.zoom + 1 > this._dayTileProvider.zoomMax || !this.refineFunc(tile, width, height, mode, projection)) {
-                this._enqueueTile(tile, context, sceneState);
             } else {
-                var children = tile.getChildren();
-                stack = stack.concat(children);
+                this._processTile(tile);
             }
         }
 
@@ -39383,7 +41239,7 @@ define('Scene/CentralBody',[
                     rtc = new Cartesian3(0.0, center.x, center.y);
                     tile.mode = 1;
                 } else {
-                    rtc = Cartesian3.getZero();
+                    rtc = Cartesian3.ZERO;
                     tile.mode = 2;
                 }
                 var centerEye = mv.multiplyWithVector(new Cartesian4(rtc.x, rtc.y, rtc.z, 1.0));
@@ -39406,6 +41262,28 @@ define('Scene/CentralBody',[
             // render quad with horizontal gaussian blur
             this._quadH.render(context);
 
+            // render quads to fill the poles
+            if (this._mode === SceneMode.SCENE3D) {
+                if (this._drawNorthPole) {
+                    context.draw({
+                        primitiveType : PrimitiveType.TRIANGLE_FAN,
+                        shaderProgram : this._spPoles,
+                        uniformMap : this._northPoleUniforms,
+                        vertexArray : this._vaNorthPole,
+                        renderState : this._rsColor
+                    });
+                }
+                if (this._drawSouthPole) {
+                    context.draw({
+                        primitiveType : PrimitiveType.TRIANGLE_FAN,
+                        shaderProgram : this._spPoles,
+                        uniformMap : this._southPoleUniforms,
+                        vertexArray : this._vaSouthPole,
+                        renderState : this._rsColor
+                    });
+                }
+            }
+
             // render depth plane
             if (this._mode === SceneMode.SCENE3D) {
                 context.draw({
@@ -39416,7 +41294,7 @@ define('Scene/CentralBody',[
                 });
             }
 
-            if (this._quadLogo && !this._quadLogo.isDestroyed()) {
+            if (typeof this._quadLogo !== 'undefined' && !this._quadLogo.isDestroyed()) {
                 this._quadLogo.render(context);
             }
         }
@@ -39457,12 +41335,7 @@ define('Scene/CentralBody',[
 
             // destroy texture
             if (tile.texture) {
-                // if the texture isn't in the texture pool, destroy it; otherwise,
-                // it already has been or will be destroyed by it.
-                var width = tile.texture.getWidth();
-                var height = tile.texture.getHeight();
-                var usePool = this._texturePool && (width === this._texturePool.getWidth() && height === this._texturePool.getHeight());
-                tile.texture = (usePool) ? undefined : tile.texture && tile.texture.destroy();
+                tile.texture = tile.texture && tile.texture.destroy();
             }
 
             // process children
@@ -39510,13 +41383,21 @@ define('Scene/CentralBody',[
      * centralBody = centralBody && centralBody.destroy();
      */
     CentralBody.prototype.destroy = function() {
+        this._destroyTileTree();
+
         this._texturePool = this._texturePool && this._texturePool.destroy();
         this._textureCache = this._textureCache && this._textureCache.destroy();
 
-        this._destroyTileTree();
         this._fb = this._fb && this._fb.destroy();
         this._quadV = this._quadV && this._quadV.destroy();
         this._quadH = this._quadH && this._quadH.destroy();
+
+        this._vaNorthPole = this._vaNorthPole && this._vaNorthPole.destroy();
+        this._vaSouthPole = this._vaSouthPole && this._vaSouthPole.destroy();
+
+        this._spPolesWithoutAtmosphere = this._spPolesWithoutAtmosphere && this._spPolesWithoutAtmosphere.release();
+        this._spPolesGroundFromSpace = this._spPolesGroundFromSpace && this._spPolesGroundFromSpace.release();
+        this._spPolesGroundFromAtmosphere = this._spPolesGroundFromAtmosphere && this._spPolesGroundFromAtmosphere.release();
 
         this._spWithoutAtmosphere = this._spWithoutAtmosphere && this._spWithoutAtmosphere.release();
         this._spGroundFromSpace = this._spGroundFromSpace && this._spGroundFromSpace.release();
@@ -39540,6 +41421,196 @@ define('Scene/CentralBody',[
     return CentralBody;
 });
 
+/*global define*/
+define('Scene/PerformanceDisplay',[
+        '../Core/destroyObject',
+        '../Core/Rectangle',
+        '../Renderer/PixelFormat',
+        './ViewportQuad'
+    ], function(
+        destroyObject,
+        Rectangle,
+        PixelFormat,
+        ViewportQuad) {
+    
+
+    /**
+     * Draws a display in the top left corner of the scene displaying FPS (frames per second),
+     * averaged over 1 second intervals, as well as unaveraged frame time.
+     *
+     * @name PerformanceDisplay
+     * @constructor
+     *
+     * @param {Color} [description.fpsColor] The color of the FPS graph.
+     * @param {Color} [description.frameTimeColor] The color of the frame time graph.
+     * @param {Color} [description.backgroundColor] The color of the background of the display.
+     * @param {String} [description.font] The CSS font of the text in the display.
+     * @param {Rectangle} [description.rectangle] The position and size of the display, relative to the top left corner.
+     *
+     * @example
+     * scene.getPrimitives().add(new PerformanceDisplay());
+     */
+    function PerformanceDisplay(description) {
+        if (typeof description === 'undefined') {
+            description = {};
+        }
+
+        this._fpsColor = typeof description.fpsColor !== 'undefined' ? description.fpsColor.toCSSColor() : '#e52';
+        this._frameTimeColor = typeof description.frameTimeColor !== 'undefined' ? description.frameTimeColor.toCSSColor() : '#de3';
+        this._backgroundColor = typeof description.backgroundColor !== 'undefined' ? description.backgroundColor.toCSSColor() : 'rgba(0, 0, 30, 0.9)';
+        this._font = typeof description.font !== 'undefined' ? description.font : 'bold 10px Helvetica,Arial,sans-serif';
+        this._rectangle = typeof description.rectangle !== 'undefined' ? description.rectangle : new Rectangle(0, 0, 80, 40);
+
+        this._canvas = document.createElement('canvas');
+        this._canvas.width = this._rectangle.width;
+        this._canvas.height = this._rectangle.height;
+
+        this._canvasContext = this._canvas.getContext('2d');
+        this._canvasContext.font = this._font;
+        this._canvasContext.lineWidth = 1;
+
+        this._bufferLength = this._rectangle.width;
+        this._frameTimeSamples = new Array(this._bufferLength);
+        this._fpsSamples = new Array(this._bufferLength);
+
+        for ( var i = 0; i < this._bufferLength; i++) {
+            this._frameTimeSamples[i] = this._fpsSamples[i] = 0;
+        }
+
+        this._frameTimeIndex = 0;
+        this._fpsIndex = 0;
+        this._lastFpsSampleTime = undefined;
+        this._frameCount = 0;
+
+        this._quad = new ViewportQuad(new Rectangle(0, 0, 0, 0));
+        this._quad.enableBlending = true;
+
+        this._time = undefined;
+        this._texture = undefined;
+        this._viewportHeight = 0;
+    }
+
+    /**
+     * Update the display.  This function should only be called once per frame, because
+     * each call records a frame in the internal buffer and redraws the display.
+     */
+    PerformanceDisplay.prototype.update = function(context, sceneState) {
+        if (typeof this._time === 'undefined') {
+            //first update
+            this._lastFpsSampleTime = this._time = Date.now();
+            return;
+        }
+
+        var previousTime = this._time;
+        var time = this._time = Date.now();
+
+        var frameTime = time - previousTime;
+        this._frameTimeSamples[this._frameTimeIndex++] = frameTime;
+
+        if (this._frameTimeIndex >= this._bufferLength) {
+            this._frameTimeIndex = 0;
+        }
+
+        this._frameCount++;
+        var fps = this._fps;
+        var fpsElapsedTime = time - this._lastFpsSampleTime;
+        if (fpsElapsedTime > 1000) {
+            fps = this._fps = this._frameCount * 1000 / fpsElapsedTime | 0;
+            this._fpsSamples[this._fpsIndex++] = fps;
+
+            if (this._fpsIndex >= this._bufferLength) {
+                this._fpsIndex = 0;
+            }
+
+            this._lastFpsSampleTime = time;
+            this._frameCount = 0;
+        }
+
+        var ctx = this._canvasContext;
+        var canvasWidth = this._rectangle.width;
+        var canvasHeight = this._rectangle.height;
+        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+        ctx.fillStyle = this._backgroundColor;
+        ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+        if (typeof fps !== 'undefined') {
+            ctx.fillStyle = this._fpsColor;
+            ctx.textAlign = 'left';
+            ctx.fillText(fps + ' FPS', 1, 10);
+        }
+
+        ctx.fillStyle = this._frameTimeColor;
+        ctx.textAlign = 'right';
+        ctx.fillText(frameTime + ' MS', canvasWidth - 1, 10);
+
+        for ( var i = 0; i < this._bufferLength; i++) {
+            fps = this._fpsSamples[(i + this._fpsIndex) % this._bufferLength];
+            if (fps > 0) {
+                this._drawLine(this._fpsColor, i, fps / 100);
+            }
+
+            frameTime = this._frameTimeSamples[(i + this._frameTimeIndex) % this._bufferLength];
+            if (frameTime > 0) {
+                this._drawLine(this._frameTimeColor, i, frameTime / 200);
+            }
+        }
+
+        if (typeof this._texture === 'undefined') {
+            this._texture = context.createTexture2D({
+                source : this._canvas,
+                pixelFormat : PixelFormat.RGBA
+            });
+            this._quad.setTexture(this._texture);
+        } else {
+            this._texture.copyFrom(this._canvas);
+        }
+
+        var viewportHeight = context.getViewport().height;
+        if (viewportHeight !== this._viewportHeight) {
+            this._viewportHeight = viewportHeight;
+            this._quad.setRectangle(new Rectangle(this._rectangle.x, viewportHeight - canvasHeight - this._rectangle.y, canvasWidth, canvasHeight));
+        }
+
+        this._quad.update(context, sceneState);
+    };
+
+    PerformanceDisplay.prototype._drawLine = function(style, x, valuePercent) {
+        var ctx = this._canvasContext;
+        var canvasHeight = this._rectangle.height;
+        var maxGraphHeight = canvasHeight - 10;
+
+        x = 0.5 + x;
+        ctx.beginPath();
+        ctx.strokeStyle = style;
+        ctx.moveTo(x, canvasHeight);
+
+        var lineHeight = valuePercent * maxGraphHeight;
+        if (lineHeight > maxGraphHeight) {
+            lineHeight = maxGraphHeight;
+        }
+
+        var y = canvasHeight - lineHeight;
+        ctx.lineTo(x, y);
+        ctx.stroke();
+    };
+
+    /**
+     * Renders the display.
+     */
+    PerformanceDisplay.prototype.render = function(context) {
+        this._quad.render(context);
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.
+     */
+    PerformanceDisplay.prototype.destroy = function() {
+        this._quad = this._quad.destroy();
+        return destroyObject(this);
+    };
+
+    return PerformanceDisplay;
+});
 /*! Copyright (c) 2010 Chris O'Hara <cohara87@gmail.com>. MIT Licensed *//*global define*/define('ThirdParty/Chain',[],function() {    var Chain = {};(function(exports) {    exports = exports || {};    var handlers = {}, createChain, add;    createChain = function (context, stack, lastMethod) {        var inHandler = context.halt = false;        //The default error handler        context.error = function (e) {            throw e;        };        //Run the next method in the chain        context.next = function (exit) {            if (exit) {                inHandler = false;            }            if (!context.halt && stack && stack.length) {                var args = stack.shift(), method = args.shift();                inHandler = true;                try {                    handlers[method].apply(context, [args, args.length, method]);                } catch (e) {                    context.error(e);                }            }            return context;        };        //Bind each method to the context        for (var alias in handlers) {            if (typeof context[alias] === 'function') {                continue;            }            (function (alias) {                context[alias] = function () {                    var args = Array.prototype.slice.call(arguments);                    if (alias === 'onError') {                        if (stack) {                            handlers.onError.apply(context, [args, args.length]);                            return context;                        }                        var new_context = {};                        handlers.onError.apply(new_context, [args, args.length]);                        return createChain(new_context, null, 'onError');                    }                    args.unshift(alias);                    if (!stack) {                        return createChain({}, [args], alias);                    }                    context.then = context[alias];                    stack.push(args);                    return inHandler ? context : context.next();                };            }(alias));        }        //'then' is an alias for the last method that was called        if (lastMethod) {            context.then = context[lastMethod];        }        //Used to call run(), chain() or another existing method when defining a new method        //See load.js (https://github.com/chriso/load.js/blob/master/load.js) for an example        context.call = function (method, args) {            args.unshift(method);            stack.unshift(args);            context.next(true);        };        return context.next();    };    //Add a custom method/handler (see below)    add = exports.addMethod = function (method /*, alias1, alias2, ..., callback */) {        var args = Array.prototype.slice.call(arguments),            handler = args.pop();        for (var i = 0, len = args.length; i < len; i++) {            if (typeof args[i] === 'string') {                handlers[args[i]] = handler;            }        }        //When no aliases have been defined, automatically add 'then<Method>'        //e.g. adding 'run' also adds 'thenRun' as a method        if (!--len) {            handlers['then' + method.substr(0,1).toUpperCase() + method.substr(1)] = handler;        }        createChain(exports);    };    //chain() - Run each function sequentially    add('chain', function (args) {        var self = this, next = function () {            if (self.halt) {                return;            } else if (!args.length) {                return self.next(true);            }            try {                if (null != args.shift().call(self, next, self.error)) {                    next();                }            } catch (e) {                self.error(e);            }        };        next();    });    //run() - Run each function in parallel and progress once all functions are complete    add('run', function (args, arg_len) {        var self = this, chain = function () {            if (self.halt) {                return;            } else if (!--arg_len) {                self.next(true);            }        };        var error = function (e) {            self.error(e);        };        for (var i = 0, len = arg_len; !self.halt && i < len; i++) {            if (null != args[i].call(self, chain, error)) {                chain();            }        }    });    //defer() - Defer execution of the next method    add('defer', function (args) {        var self = this;        setTimeout(function () {            self.next(true);        }, args.shift());    });    //onError() - Attach an error handler    add('onError', function (args, arg_len) {        var self = this;        this.error = function (err) {            self.halt = true;            for (var i = 0; i < arg_len; i++) {                args[i].call(self, err);            }        };    });}(Chain));    return Chain;});
 /**
  * @author sole / http://soledadpenades.com
@@ -40382,7 +42453,7 @@ define('Scene/Scene',[
             /**
              * DOC_TBA
              */
-            projection : new EquidistantCylindricalProjection(Ellipsoid.getWgs84())
+            projection : new EquidistantCylindricalProjection(Ellipsoid.WGS84)
         };
     }
 
@@ -40588,14 +42659,14 @@ define('Scene/SceneTransitioner',[
      */
     function SceneTransitioner(scene, ellipsoid) {
         this._scene = scene;
-        this._ellipsoid = ellipsoid || Ellipsoid.getWgs84();
+        this._ellipsoid = ellipsoid || Ellipsoid.WGS84;
         var canvas = scene.getCanvas();
 
         // Position camera and size frustum so the entire 2D map is visible
         var maxRadii = this._ellipsoid.getMaximumRadius();
         var position = new Cartesian3(0.0, 0.0, 2.0 * maxRadii);
         var direction = position.negate().normalize();
-        var up = Cartesian3.getUnitY();
+        var up = Cartesian3.UNIT_Y;
 
         var frustum = new OrthographicFrustum();
         frustum.right = maxRadii * Math.PI;
@@ -40620,8 +42691,8 @@ define('Scene/SceneTransitioner',[
         };
 
         position = new Cartesian3(0.0, -1.0, 1.0).normalize().multiplyWithScalar(5.0 * maxRadii);
-        direction = Cartesian3.getZero().subtract(position).normalize();
-        var right = direction.cross(Cartesian3.getUnitZ()).normalize();
+        direction = Cartesian3.ZERO.subtract(position).normalize();
+        var right = direction.cross(Cartesian3.UNIT_Z).normalize();
         up = right.cross(direction);
 
         frustum = new PerspectiveFrustum();
@@ -40639,8 +42710,8 @@ define('Scene/SceneTransitioner',[
         };
 
         position = new Cartesian3(0.0, -2.0, 1.0).normalize().multiplyWithScalar(2.0 * maxRadii);
-        direction = Cartesian3.getZero().subtract(position).normalize();
-        right = direction.cross(Cartesian3.getUnitZ()).normalize();
+        direction = Cartesian3.ZERO.subtract(position).normalize();
+        right = direction.cross(Cartesian3.UNIT_Z).normalize();
         up = right.cross(direction);
 
         this._camera3D = {
@@ -40759,7 +42830,7 @@ define('Scene/SceneTransitioner',[
             controllers.addFreeLook();
 
             camera.frustum = this._camera3D.frustum.clone();
-            camera.transform = Matrix4.getIdentity();
+            camera.transform = Matrix4.IDENTITY;
 
             if (previousMode !== SceneMode.MORPHING || this._morphCancelled) {
                 this._morphCancelled = false;
@@ -41141,7 +43212,7 @@ define('Scene/SceneTransitioner',[
         var that = this;
 
         var camera = scene.getCamera();
-        this._changeCameraTransform(camera, Matrix4.getIdentity());
+        this._changeCameraTransform(camera, Matrix4.IDENTITY);
 
         var startPos = camera.position;
         var startDir = camera.direction;
@@ -41150,8 +43221,8 @@ define('Scene/SceneTransitioner',[
         var maxRadii = this._ellipsoid.getMaximumRadius();
         var endPos = this._ellipsoid.toCartesian(new Cartographic3(0.0, 0.0, 10.0));
         endPos = endPos.normalize().multiplyWithScalar(2.0 * maxRadii);
-        var endDir = Cartesian3.getZero().subtract(endPos).normalize();
-        var endRight = endDir.cross(Cartesian3.getUnitZ()).normalize();
+        var endDir = Cartesian3.ZERO.subtract(endPos).normalize();
+        var endRight = endDir.cross(Cartesian3.UNIT_Z).normalize();
         var endUp = endRight.cross(endDir);
 
         var update = function(value) {
@@ -41288,782 +43359,6 @@ define('Scene/SceneTransitioner',[
 });
 
 /*!
-* Lightweight JSONP fetcher
-* Copyright 2010 Erik Karlsson. All rights reserved.
-* BSD licensed
-*/
-
-/*global define*/
-define('ThirdParty/jsonp',[],function() {
-    /*global document,window*/
-
-/*
-* Usage:
-* 
-* JSONP.get( 'someUrl.php', {param1:'123', param2:'456'}, function(data){
-*   //do something with data, which is the JSON object you should retrieve from someUrl.php
-* });
-*/
-var JSONP = (function(){
-	var counter = 0, head;
-	function load(url) {
-		var script = document.createElement('script'),
-			done = false;
-		script.src = url;
-		script.async = true;
- 
-		script.onload = script.onreadystatechange = function() {
-			if ( !done && (!this.readyState || this.readyState === "loaded" || this.readyState === "complete") ) {
-				done = true;
-				script.onload = script.onreadystatechange = null;
-				if ( script && script.parentNode ) {
-					script.parentNode.removeChild( script );
-				}
-			}
-		};
-		if ( !head ) {
-			head = document.getElementsByTagName('head')[0];
-		}
-		head.appendChild( script );
-	}
-	function jsonp(url, params, callback, callbackParameterName) {
-		var query = "?";
-		params = params || {};
-		callbackParameterName = callbackParameterName || "callback";
-		for ( var key in params ) {
-			if ( params.hasOwnProperty(key) ) {
-				query += encodeURIComponent(key) + "=" + encodeURIComponent(params[key]) + "&";
-			}
-		}
-		var uniqueName = "json" + (++counter);
-		window[ uniqueName ] = function(data){
-			callback(data);
-			try {
-				delete window[ uniqueName ];
-			} catch (e) {}
-			window[ uniqueName ] = null;
-		};
- 
-		load(url + query + callbackParameterName + "=" + uniqueName);
-		return uniqueName;
-	}
-	return {
-		get:jsonp
-	};
-}());
-
-    return JSONP.get;
-});
-/*global define*/
-define('Scene/ArcGISTileProvider',[
-        '../Core/DeveloperError',
-        '../Core/Math',
-        '../ThirdParty/jsonp',
-        './Projections',
-        './ProxyUsagePolicy'
-    ], function(
-        DeveloperError,
-        CesiumMath,
-        jsonp,
-        Projections,
-        ProxyUsagePolicy) {
-    
-    /*global document,Image*/
-
-    /**
-     * Provides tile images hosted by an ArcGIS Server.
-     *
-     * @name ArcGISTileProvider
-     * @constructor
-     *
-     * @param {String} description.host The ArcGIS Server host name.
-     * @param {String} [description.instance='/arcgis/rest'] The instance name.
-     * @param {String} [description.folder=undefined] The folder where the service is located.
-     * @param {String} description.service The service name.
-     * @param {Object} [description.proxy=undefined] A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL.
-     * @param {Enumeration} [description.proxyUsagePolicy=ProxyUsagePolicy.USE_CORS] Specify whether to use the supplied proxy for all data, or only those that don't support cross-origin requests.  By default, cross-origin will be used.
-     *
-     * @exception {DeveloperError} <code>description.host</code> is required.
-     * @exception {DeveloperError} <code>description.service</code> is required.
-     *
-     * @see SingleTileProvider
-     * @see BingMapsTileProvider
-     * @see OpenStreetMapTileProvider
-     * @see CompositeTileProvider
-     *
-     * @see <a href="http://resources.esri.com/help/9.3/arcgisserver/apis/rest/">ArcGIS Server REST API</a>
-     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
-     *
-     * @example
-     * // ArcGIS World Street Maps tile provider
-     * var esri = new ArcGISTileProvider({
-     *     host : 'server.arcgisonline.com',
-     *     service : 'World_Street_Map'
-     * });
-     */
-    function ArcGISTileProvider(description) {
-        var desc = description || {};
-        var instance = desc.instance || 'arcgis/rest';
-
-        if (!desc.host) {
-            throw new DeveloperError("description.host is required.", "description.host");
-        }
-
-        if (!desc.service) {
-            throw new DeveloperError("description.service is required.", "description.service");
-        }
-
-        this._url = 'http://' + desc.host + '/' + instance + '/services/';
-
-        if (desc.folder) {
-            this._url += desc.folder + '/';
-        }
-
-        this._url += desc.service + '/MapServer';
-
-        /**
-         * The ArcGIS Server host name.
-         * @type {String}
-         */
-        this.host = desc.host;
-
-        /**
-         * The instance name. The default value is "/arcgis/rest".
-         * @type {String}
-         */
-        this.instance = instance;
-
-        /**
-         * The folder where the service is located.
-         * @type {String}
-         */
-        this.folder = desc.folder;
-
-        /**
-         * The service name.
-         * @type {String}
-         */
-        this.service = desc.service;
-
-        /**
-         * A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL.
-         * @type {Object}
-         */
-        this.proxy = desc.proxy;
-
-        /**
-         * Specify whether to use the supplied proxy for all data, or only those that don't support cross-origin requests.  By default, cross-origin will be used.
-         * @type {Enumeration}
-         */
-        this.proxyUsagePolicy = desc.proxyUsagePolicy || ProxyUsagePolicy.USE_CORS;
-
-        // TODO: Get this information from the server
-
-        /**
-         * The cartographic extent of the base tile, with north, south, east and
-         * west properties in radians.
-         *
-         * @type {Object}
-         */
-        this.maxExtent = {
-            north : CesiumMath.toRadians(85.05112878),
-            south : CesiumMath.toRadians(-85.05112878),
-            west : -CesiumMath.PI,
-            east : CesiumMath.PI
-        };
-
-        /**
-         * The width of every image loaded.
-         *
-         * @type {Number}
-         */
-        this.tileWidth = 256;
-
-        /**
-         * The height of every image loaded.
-         *
-         * @type {Number}
-         */
-        this.tileHeight = 256;
-
-        /**
-         * The maximum zoom level that can be requested.
-         *
-         * @type {Number}
-         */
-        this.zoomMax = 19;
-
-        /**
-         * The minimum zoom level that can be requested.
-         *
-         * @type {Number}
-         */
-        this.zoomMin = 0;
-
-        /**
-         * The map projection of the image.
-         *
-         * @type {Enumeration}
-         * @see Projections
-         */
-        this.projection = Projections.MERCATOR;
-
-        this._logo = undefined;
-        this._logoLoaded = false;
-
-        var that = this;
-        var url = this._url;
-        if (this.proxyUsagePolicy === ProxyUsagePolicy.ALWAYS && this.proxy) {
-            url = this.proxy.getURL(url);
-        }
-
-        jsonp(url, {
-            f : 'json'
-        }, function(data) {
-            var credit = data.copyrightText;
-
-            var canvas = document.createElement("canvas");
-            canvas.width = 800.0;
-            canvas.height = 20.0;
-
-            var context = canvas.getContext("2d");
-            context.fillStyle = "#fff";
-            context.font = '12px sans-serif';
-            context.textBaseline = 'top';
-            context.fillText(credit, 0, 0);
-
-            that._logo = canvas;
-            that._logoLoaded = true;
-        });
-    }
-
-    /**
-     * Loads the image for <code>tile</code>.
-     *
-     * @memberof ArcGISTileProvider
-     *
-     * @param {Tile} tile The tile to load the image for.
-     * @param {Function} onload A function that will be called when the image is finished loading.
-     * @param {Function} onerror A function that will be called if there is an error loading the image.
-     *
-     * @exception {DeveloperError} <code>tile.zoom</code> is less than <code>zoomMin</code>
-     * or greater than <code>zoomMax</code>.
-     */
-    ArcGISTileProvider.prototype.loadTileImage = function(tile, onload, onerror) {
-        if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
-        }
-
-        var image = new Image();
-        if (onload && typeof onload === "function") {
-            image.onload = function() {
-                onload();
-            };
-        }
-        if (onerror && typeof onerror === "function") {
-            image.onerror = function() {
-                onerror();
-            };
-        }
-        image.crossOrigin = '';
-
-        var url = this._url + '/tile/' + tile.zoom + '/' + tile.y + '/' + tile.x;
-        if (this.proxy) {
-            url = this.proxy.getURL(url);
-        }
-
-        image.src = url;
-
-        return image;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof ArcGISTileProvider
-     */
-    ArcGISTileProvider.prototype.getLogo = function() {
-        return (this._logoLoaded) ? this._logo : undefined;
-    };
-
-    return ArcGISTileProvider;
-});
-/*!
-   Portions Copyright (c) 2006-2009 Microsoft Corporation.  All rights reserved.
-
-   http://msdn.microsoft.com/en-us/library/bb259689.aspx
-   http://msdn.microsoft.com/en-us/cc300389.aspx#O
-
-   MICROSOFT LIMITED PUBLIC LICENSE
-
-   This license governs use of code marked as "sample" or "example" available on
-   this web site without a license agreement, as provided under the section above
-   titled "NOTICE SPECIFIC TO SOFTWARE AVAILABLE ON THIS WEB SITE." If you use
-   such code (the "software"), you accept this license. If you do not accept the
-   license, do not use the software.
-
-   1. Definitions
-
-   The terms "reproduce," "reproduction," "derivative works," and "distribution"
-   have the same meaning here as under U.S. copyright law.
-
-   A "contribution" is the original software, or any additions or changes to the software.
-
-   A "contributor" is any person that distributes its contribution under this license.
-
-   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
-
-   2. Grant of Rights
-
-   (A) Copyright Grant - Subject to the terms of this license, including the license
-   conditions and limitations in section 3, each contributor grants you a non-exclusive,
-   worldwide, royalty-free copyright license to reproduce its contribution, prepare
-   derivative works of its contribution, and distribute its contribution or any
-   derivative works that you create.
-
-   (B) Patent Grant - Subject to the terms of this license, including the license
-   conditions and limitations in section 3, each contributor grants you a
-   non-exclusive, worldwide, royalty-free license under its licensed patents to
-   make, have made, use, sell, offer for sale, import, and/or otherwise dispose
-   of its contribution in the software or derivative works of the contribution
-   in the software.
-
-   3. Conditions and Limitations
-
-   (A) No Trademark License- This license does not grant you rights to use any
-   contributors' name, logo, or trademarks.
-
-   (B) If you bring a patent claim against any contributor over patents that
-   you claim are infringed by the software, your patent license from such
-   contributor to the software ends automatically.
-
-   (C) If you distribute any portion of the software, you must retain all
-   copyright, patent, trademark, and attribution notices that are present in
-   the software.
-
-   (D) If you distribute any portion of the software in source code form, you
-   may do so only under this license by including a complete copy of this license
-   with your distribution. If you distribute any portion of the software in
-   compiled or object code form, you may only do so under a license that
-   complies with this license.
-
-   (E) The software is licensed "as-is." You bear the risk of using it. The
-   contributors give no express warranties, guarantees or conditions. You may
-   have additional consumer rights under your local laws which this license
-   cannot change. To the extent permitted under your local laws, the contributors
-   exclude the implied warranties of merchantability, fitness for a particular
-   purpose and non-infringement.
-
-   (F) Platform Limitation - The licenses granted in sections 2(A) and 2(B)
-   extend only to the software or derivative works that you create that run
-   on a Microsoft Windows operating system product.
- */
-/*global define*/
-define('Scene/BingMapsTileProvider',[
-        '../Core/DeveloperError',
-        '../Core/Math',
-        '../ThirdParty/jsonp',
-        './BingMapsStyle',
-        './Projections',
-        './ProxyUsagePolicy'
-    ], function(
-        DeveloperError,
-        CesiumMath,
-        jsonp,
-        BingMapsStyle,
-        Projections,
-        ProxyUsagePolicy) {
-    
-    /*global Image*/
-
-    /**
-     * Uses the Bing Map imagery API to load images for tiles.
-     *
-     * @name BingMapsTileProvider
-     * @constructor
-     *
-     * @param {String} description.server The name of the Bing Maps server hosting the imagery.
-     * @param {String} [description.key] An optional Bing Maps key, which can be created at <a href="https://www.bingmapsportal.com/">https://www.bingmapsportal.com/</a>.
-     * @param {Enumeration} [description.mapStyle=BingMapsStyle.AERIAL] The type of Bing Maps imagery to load.
-     * @param {Object} [description.proxy=undefined] A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL.
-     * @param {Enumeration} [description.proxyUsagePolicy=ProxyUsagePolicy.USE_CORS] Specify whether to use the supplied proxy for all data, or only those that don't support cross-origin requests.
-     *
-     * @exception {DeveloperError} <code>description.server</code> is required.
-     *
-     * @see SingleTileProvider
-     * @see ArcGISTileProvider
-     * @see OpenStreetMapTileProvider
-     * @see CompositeTileProvider
-     *
-     * @see <a href="http://msdn.microsoft.com/en-us/library/ff701713.aspx">Bing Maps REST Services</a>
-     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
-     *
-     * @example
-     * // Bing Maps tile provider
-     * var bing = new BingMapsTileProvider({
-     *     server : "dev.virtualearth.net",
-     *     mapStyle : BingMapsStyle.AERIAL
-     * });
-     */
-    function BingMapsTileProvider(description) {
-        var desc = description || {};
-        var key = desc.key || "AquXz3981-1ND5jGs8qQn7R7YUP8qkWi77yZSVM7o3nIvzb-Mg0W2Ta57xuUyywX";
-        var mapStyle = desc.mapStyle || BingMapsStyle.AERIAL;
-
-        if (!desc.server) {
-            throw new DeveloperError("description.server is required.", "description.server");
-        }
-
-        /**
-         * The name of the Bing Maps server hosting the imagery.
-         * @type {String}
-         */
-        this.server = desc.server;
-        this._server = desc.server;
-
-        /**
-         * The Bing Maps key.
-         * @type {String}
-         */
-        this.key = key;
-        this._key = key;
-
-        /**
-         * The type of Bing Maps imagery to load.
-         * @type {Enumeration}
-         */
-        this.mapStyle = mapStyle;
-        this._mapStyle = mapStyle;
-
-        /**
-         * A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL.
-         * @type {Object}
-         */
-        this.proxy = desc.proxy;
-
-        /**
-         * Specify whether to use the supplied proxy for all data, or only those that don't support cross-origin requests.  By default, cross-origin will be used.
-         * @type {Enumeration}
-         */
-        this.proxyUsagePolicy = desc.proxyUsagePolicy || ProxyUsagePolicy.USE_CORS;
-
-        // TODO: The following 5 properties should be set in _requestTemplate.
-        //       The may be needed before the response so for now set the default values.
-
-        /**
-         * The cartographic extent of the base tile, with north, south, east and
-         * west properties in radians.
-         *
-         * @type {Object}
-         */
-        this.maxExtent = {
-            north : CesiumMath.toRadians(85.05112878),
-            south : CesiumMath.toRadians(-85.05112878),
-            west : -CesiumMath.PI,
-            east : CesiumMath.PI
-        };
-
-        /**
-         * The width of every image loaded.
-         *
-         * @type {Number}
-         */
-        this.tileWidth = 256;
-
-        /**
-         * The height of every image loaded.
-         *
-         * @type {Number}
-         */
-        this.tileHeight = 256;
-
-        /**
-         * The maximum zoom level that can be requested.
-         *
-         * @type {Number}
-         */
-        this.zoomMax = 23;
-
-        /**
-         * The minimum zoom level that can be requested.
-         *
-         * @type {Number}
-         */
-        this.zoomMin = 1;
-
-        /**
-         * The map projection of the image.
-         *
-         * @type {Enumeration}
-         * @see Projections
-         */
-        this.projection = Projections.MERCATOR;
-
-        this._url = "";
-        this._deferredQueue = [];
-        this._requestTemplate();
-    }
-
-    /**
-     * Converts a tiles (x, y, zoom) position into a quadkey used to request an image
-     * from a Bing Maps server.
-     *
-     * @memberof BingMapsTileProvider
-     *
-     * @param {Number} x The tile's x coordinate.
-     * @param {Number} y The tile's y coordinate.
-     * @param {Number} zoom The tile's zoom level.
-     *
-     * @see <a href="http://msdn.microsoft.com/en-us/library/bb259689.aspx">Bing Maps Tile System</a>
-     * @see BingMapsTileProvider#quadKeyToTileXY
-     */
-    BingMapsTileProvider.tileXYToQuadKey = function(x, y, zoom) {
-        var quadkey = "";
-        for ( var i = zoom; i > 0; --i) {
-            var digit = "0".charCodeAt(0);
-            var mask = 1 << (i - 1);
-            if ((x & mask) !== 0) {
-                digit++;
-            }
-            if ((y & mask) !== 0) {
-                digit += 2;
-            }
-            quadkey += String.fromCharCode(digit);
-        }
-        return quadkey;
-    };
-
-    /**
-     * Converts a tile's quadkey used to request an image from a Bing Maps server into the
-     * (x, y, zoom) position.
-     *
-     * @memberof BingMapsTileProvider
-     *
-     * @param {String} quadkey The tile's quad key
-     *
-     * @see <a href="http://msdn.microsoft.com/en-us/library/bb259689.aspx">Bing Maps Tile System</a>
-     * @see BingMapsTileProvider#tileXYToQuadKey
-     */
-    BingMapsTileProvider.quadKeyToTileXY = function(quadkey) {
-        var result = {
-            x : 0,
-            y : 0,
-            zoom : quadkey.length
-        };
-
-        for ( var i = result.zoom; i > 0; --i) {
-            var mask = 1 << (i - 1);
-            var c = quadkey[result.lod - i];
-            if (c === '1') {
-                result.x |= mask;
-            } else if (c === '2') {
-                result.y |= mask;
-            } else if (c === '3') {
-                result.x |= mask;
-                result.y |= mask;
-            }
-        }
-
-        return result;
-    };
-
-    BingMapsTileProvider.prototype._getMetadataUrl = function() {
-        var url = 'http://' + this.server + '/REST/v1/Imagery/Metadata/' + this.mapStyle.name;
-        if (this.proxyUsagePolicy === ProxyUsagePolicy.ALWAYS && this.proxy) {
-            url = this.proxy.getURL(url);
-        }
-        return url;
-    };
-
-    BingMapsTileProvider.prototype._getTileUrl = function(tile) {
-        tile.quadkey = BingMapsTileProvider.tileXYToQuadKey(tile.x, tile.y, tile.zoom);
-
-        var url = this._url.replace('{quadkey}', tile.quadkey);
-        if (this.proxyUsagePolicy === ProxyUsagePolicy.ALWAYS && this.proxy) {
-            url = this.proxy.getURL(url);
-        }
-
-        return url;
-    };
-
-    BingMapsTileProvider.prototype._requestTemplate = function() {
-        var url = this._getMetadataUrl();
-
-        var that = this;
-
-        var callback = function(data) {
-            var resource = data.resourceSets[0].resources[0];
-            that._url = resource.imageUrl;
-            that._url = that._url.replace('{subdomain}', resource.imageUrlSubdomains[0]);
-            that._url = that._url.replace('{culture}', "");
-
-            that.tileWidth = resource.imageWidth;
-            that.tileHeight = resource.imageHeight;
-            that.zoomMin = resource.zoomMin;
-            that.zoomMax = resource.zoomMax;
-
-            that._deferredQueue.forEach(function(element) {
-                this._loadImage(element);
-            }, that);
-            that._deferredQueue = [];
-        };
-        jsonp(url, {
-            key : this.key
-        }, callback, "jsonp");
-    };
-
-    /**
-     * Loads the image for <code>tile</code>.
-     *
-     * @memberof BingMapsTileProvider
-     *
-     * @param {Tile} tile The tile to load the image for.
-     * @param {Function} onload A function that will be called when the image is finished loading.
-     * @param {Function} onerror A function that will be called if there is an error loading the image.
-     * @param {Function} oninvalid A function that will be called if the image loaded is not valid.
-     *
-     * @exception {DeveloperError} <code>tile.zoom</code> is less than <code>zoomMin</code>
-     * or greater than <code>zoomMax</code>.
-     */
-    BingMapsTileProvider.prototype.loadTileImage = function(tile, onload, onerror, oninvalid) {
-        if (this.server !== this._server || this.key !== this._key || this.mapStyle !== this._mapStyle) {
-            this._url = '';
-            this._server = this.server;
-            this._key = this.key;
-            this._mapStyle = this.mapStyle;
-
-            this._requestTemplate();
-        }
-
-        if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
-        }
-
-        var image = new Image();
-
-        if (!this._url) {
-            if (!this._deferredQueue.contains) {
-                this._deferredQueue.contains = function(tile) {
-                    for ( var i = 0; i < this.length; ++i) {
-                        var t = this[i].tile;
-                        if (t.zoom === tile.zoom && t.x === tile.x && t.y === tile.y) {
-                            return true;
-                        }
-                    }
-                    return false;
-                };
-            }
-
-            if (!this._deferredQueue.contains(tile)) {
-                this._deferredQueue.push({
-                    tile : tile,
-                    onload : onload,
-                    onerror : onerror,
-                    image : image
-                });
-            }
-            return image;
-        }
-
-        this._loadImage({
-            tile : tile,
-            onload : onload,
-            onerror : onerror,
-            oninvalid : oninvalid,
-            image : image
-        });
-        return image;
-    };
-
-    BingMapsTileProvider.prototype._loadImage = function(element) {
-        var tile = element.tile;
-        var lat = CesiumMath.toDegrees((tile.extent.north + tile.extent.south) * 0.5);
-        var lon = CesiumMath.toDegrees((tile.extent.east + tile.extent.west) * 0.5);
-        var zoomResponse = false;
-        var validZoom = false;
-        var loaded = false;
-
-        element.onload = (element.onload && typeof element.onload === "function") ? element.onload : function() {
-        };
-        element.onerror = (element.onerror && typeof element.onerror === "function") ? element.onerror : function() {
-        };
-        element.oninvalid = (element.oninvalid && typeof element.oninvalid === "function") ? element.oninvalid : function() {
-        };
-
-        var url = this._getMetadataUrl();
-
-        jsonp(url, {
-            centerPoint : lat + ',' + lon,
-            zoomLevel : tile.zoom,
-            key : this.key
-        }, function(data) {
-            if (typeof data.resourceSets[0] === "undefined") {
-                element.onerror();
-                return;
-            }
-
-            var resource = data.resourceSets[0].resources[0];
-            if (!resource.vintageStart && !resource.vintageEnd) {
-                element.oninvalid();
-            } else {
-                validZoom = true;
-                if (loaded) {
-                    element.onload();
-                }
-            }
-            zoomResponse = true;
-        }, "jsonp");
-
-        var img = element.image;
-        img.onload = function() {
-            if (zoomResponse && validZoom) {
-                element.onload();
-            }
-            loaded = true;
-        };
-        img.onerror = function() {
-            element.onerror();
-        };
-        img.crossOrigin = '';
-        img.src = this._getTileUrl(element.tile);
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof BingMapsTileProvider
-     */
-    BingMapsTileProvider.prototype.getIntensity = function(tile) {
-        if ((this.mapStyle === BingMapsStyle.AERIAL || this.mapStyle === BingMapsStyle.AERIAL_WITH_LABELS) && tile.zoom <= 8.0) {
-            return 1.0;
-        }
-        return 0.1;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof BingMapsTileProvider
-     */
-    BingMapsTileProvider.prototype.getLogo = function() {
-        if (typeof BingMapsTileProvider._logo === "undefined") {
-            var image = new Image();
-            image.loaded = false;
-            image.onload = function() {
-                BingMapsTileProvider._logo.loaded = true;
-            };
-            image.src = BingMapsTileProvider._logoData;
-            BingMapsTileProvider._logo = image;
-        }
-
-        var logo = BingMapsTileProvider._logo;
-        return (logo && logo.loaded) ? logo : undefined;
-    };
-
-    BingMapsTileProvider._logo = undefined;
-    BingMapsTileProvider._logoLoaded = false;
-    BingMapsTileProvider._logoData = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAF0AAAAdCAYAAADIKWCvAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAABBZSURBVHja1FoJdFTVGZ6ZzJZlskMgsrcEoqAQrBhBliKBiBDAgFUL5RQkgIDaKCoqGEBAFkGSgEYrCKgoYtWICLIZBBEOFkX0YEKoDSQo2SczmX36fS/3xscUBAKxp/ecl5eZd99/7/3+/37/cker0Wi0moami4qKCvJ6vVqj0RjEL4KCgvwul8vLe3l5uRdf+cXV2CZPnqwJbHl5eZSpjY2NDcL7Oj2a3+9XxtFqtX632+3FV76qqirK9Ak5fs3/oGGu11Qe1nnJPlpx6cLDw4mNPiQkxARggggSLi8AcuOzG8rwqIC/pFwoUA9lEWyj2Ww28X8+8Hg8EOV1QawTz9xq4C/VrkQxQvHN0fzXAnRauB7AGiIiIsJCQ0PDAFIIPusAjKO+vt5WU1Njs1qtDpvN5v4VgORoioXjboAcc3BwsAWKDA8LCwuFTK3D4aiHrBorBeJ/nU7nUilTeyULlkq4CMDaS6xbGofuUiBxp2P3+7Ecf3FxsXq3+5sCurQ+WroZ4FhGpI1Mur1vvyGYltZaa/156dLF7wDscxhUoR3SDYBsXBCU4gdwftIGJwfL9TudziD00ZtMpuCYmJjY8SmdUgYl1N3H/ierwg4/t+nHPEzOh34eXARcg8VrSW3cYT6fT6seA318Kvk+SXMqalCDGHQhOZynAEX5zLXwOebeCDrH4Fr4v8FgUPrxM+T5eIcRemBQPmDlA/i+pm4Vgq7FAJyoEXdLn9v6pg4dOngCH1ZX19SsXLn8MwzoxoI5OTeA9NJipQB89omJeXH3RUZGerkYNDPkhfXvGX/jA4mfL9D765XFJcRoulnTUirmr69Zh/5OLhSL8IvF6zAOwdCpx4AcjuEDYB6A6qHiAZpXKEDBy2KxBHEdMCCK0As5FKOMC4PSYIp+QZuKAZFG0bRgVfbhQ2UN7AdZjSDxO/QlL7oxVzd2qFso2t9k0LlINAJv9njcRtVW0eFZFC4bJmbARN0EGBcthO9xEfyDf31eLNhJ7heWacD35vjIoNaBg7o9XgPHQp9gAgXZ3ML410DuV/wJ72IX+gQQ0he48MjFBgV4OZYA0IDvjbBsI+4mvEPK1EnQOVeuVewCOncDqNQEZbA/n9F/2bGr6+h3VIATXBqaC3fg7eCO83Xq1IlU0yTg9WJCnAwtg8DrfyFQRV4wJhaHxUTDmrSwbJ2YiFSMH5NUQLDb7XW1tbV15GkuDhM0rt1WeKzOcfPKkTc5h7H/8Z9Cvl35XlEBFmfAQsIgz4/FG8n5bADDjIuAy22vKBTi3fQvGMNah4Y+9QDcRZ6FsvQY04h5QkyYBWIskGumIiX1kGsBqg9yaCF6KMr88COZw264PrGb0Iv/ZHHxwdlPPv7qoUOHsiXdQHarwsLCtR07dhzaq1evUfjswfserE17NfSiyBccGET6UrstbKew4cNH3DBq9OjU1q1axUdGRoQHCqmrs9kBdtWJEyeOZmU9uw7bHr63xsGtDpCCvNFJnvdLg3aUlZbWdu9+YyuH40U9xgphpAQ6CoHFRi5YsCijffu2v4+Ojm6BYMeolk9rr6ioqjx16tR3mzZtevfgwQNFGKOSSqBPYHQEgwiHnJhHH52V3qtX0gD6kkA5DofTda68vMLpcDrbtLkuPvB5YWHREe6YpKSkBwoKCp4aMGDAc9u2bZvSoUOHVKLBXSMM9KoiI73ao0sno+JS/VtvbZofHR1lCQC5HkCQ1zQwUBppCK/4+NbXJSdvH1yw7/PdT81+YmNlZWU9I6H0u9NHJCZ26cr+lVVV1ry8l/bh+1iAZH755Vce6t79hh6CVxtBxhh1Uj6fxcW1iMXV7+abk/oWFRWfyM5elbdnz+4f6BdgGKGPPPLonaNGpd2rNopAOQS5bZvrWl8MjBUrln0MC3Zx82JH/Iw7Zcfl5+cvSklJGQPQvcLR0qleE9D/q1ksYcFqKzly5KvD72x++71vvv66hE5FOCLj+PETBtwx+I67YDyK9aQMHjQ0MfH9m+4ZO2YOF+5Xh2/4wFCSBP7O5nfnqUEoOX2mbNfOXfnr16/bS/4W4ZoxNXVYj3vvu/fPlE8FdO2akPj8888vzMzMXHD48KHTU6ZO6z9u3H0TpOJoFPsPfLHv+cUL3wA49cKAgqdOm56WOnRIKhTQuK4jR/75bfGpUyfhpRwwkiqAbsOcbQMHDlxCeklOTn6YQM+dO/cgeR2WztTFR1prKugEQ09LgRDs7Oj28+cvfDA9fVS6utPp06Vl999/79zq6uoyTKoaW9pOXuN2w2KM4M8wyIjNzJx1z8iRw0fKxZeUnCmbMGH8wuzs3BnXX981QbH0yiprevrds5ctWz4xKalnD2mRa9et3/BK3ks7QNc/Q75Vgk6HxyiI8tPSRiXPmDk9wxLWYAxU0qSJf13ywQcfLKEe+R0Iv37WY7OeO3Bg/3HIqpSgQ3nB4PoorDFu87tbFsa1bBEjx54586GsgoLPjsHPnMbY5RjbjnG9MoIh+HQs+I6Ri4evlZaW+i6Us1x2nC77U3hgh59+Plcxdmz6M+fOnSthvI4J0bs7pNfGO0xk7Viga8GCrLf5HZQ2mve2ba9rnTF12h2BtAUlGTt37txFfj745eGDq3Ozd8LSSrGoSsi3cmFCPsMaDG1zvPXWG/sTEhLapaePVuS3bhUXN2lSxiAJOFv2qpy8vXv3FCL3qgSAVcDKLuSYIZvRjiHr2axVq1fnZAml6tLSRvYBVR2ilTMe4Dt03gwdIZu0qyiHpQsCLQBvsqXr1IBfCPQPP8j/EBljJRwlF1FNS8cEajGpGt7xuRYOrRqgwLdVVSxfvmQrt7d8P6lnz56BuSHjaDV1lZWVnYWMGsqHZXInUXYNxqgGCByzis8IZHb2i582WgwAg5zz/M2OHZ+cgCwH3qMjd9L3MLrizuFnfO88duzrsyLWVlqbtm3aITojXyulCVInI1vMk1SihKkA340QkRZ+wRrUFXO6zChxIUXTnrdl3nxzw2EsuB4AKBN3NjSX2FrM+FgQ08sYGs/cJSUl/05M7KpYcjS85Vm08zStCjkFx1GWA2PUQw4VVg8lS1AArIVxI+N+ZR7qd9u1axuv/pySMrTLhg2vVwBgM/qbmE0KYzJBSSb6kzvvvCtRvTvKSs+eJI+jP52oG8r14LqYNV91YU4nrZzZGBdktdZWqDsMHjwkgXQgkg2m9ibwK4tYRoR7TCyMMjFRshuTydAKoaV832az2y6rQqZVlO3morFrZBGMFyuSHkYUzAoZQajf++77738gj8vP4PzJAwYOTEC6Hot5RoHHoxGaxkRERMQijIzD3KKnTMmYqA4QsrLmbCB/cVcwEQuwZH/ApbkmoDOtFlZsf+3vr+7iRGSH8ePH3wNjjcLEI5FQ8GI5Mhygh2OCESwd4ArH4qCDyGg402EIuy2/8PWXhy89VcXwvSqKO2+R8nsqRoCidlwehLWbyblKxAUnu+KFFc/k5q75G+Lrjrg6tG/fviOuTstfWJmxdevHK+T8+M6GjRs3IECoRj5BSvKw7PxrBa1r0fSCY5nK0zMz2Svfv//Ap4MGDVQyyDZt4luvWfPywzNmPLgCCY+B3EsFMXqhgwQIBlYS0WInT56Syuil0Qn/dK5izeqcHTk5q7v8quZ1SqHJJ6w9cLGyoOaTV8Bm98JQCuDoy6dNnfoAAWXY2qdPcp9du3b1qa6uqWW3wKSOUdSWLe/9Izc3ey+ozEYeF/WdZq/rE3Q/BvUilKLDIZeWP/307NXBwSvCb7vt1tsVZ5jUo8dHH23N2bNn7yc5Oavy2Y90JONocGTP4SOGp4HGu0rBVVXV1jlz57xAC9IEOGgoLIBaFMCVYlOgJasrgKQXPPcGPsOc7Rs3rD/wUf6HRzIypvXr379fSgvkUkzYLpRBs4WHW0LbtWsXH9TQdDLCCoy0ms3SiYOnodVjYdWMvzMzH1n4+BOzxw3o3+8uTpwWNHr0yDEjRtx1t8zyZBytTja4ZQuLTv6A+HlRRUWFjY5Lq9UEgu49P/PVuyCHTsyroheNurSL3cSdRWt0BERCbkY5rNGzGLV06eKSl17KfZ++hzmEKOixiGaGf7px4qSJ4xijM/IZMmTwHUing6dPn7YI1GJiSRp37dVUEC/b0oW1eFjQohfHAgiM59m5z6yBA9qcmfnYGHU9I9B6Amsj+/fvKwRN1jEsY2JTW2M9g23OzFOLHVDBwhjutaJ660eEV8pKpgjTAi3dz/hYJGMMAatramqrpUXa7Ha+a8X3dSyKQbYGY1eyeikiJRbyGAQEr1v3WvnWrfnH33578zzSJp/37v2H5D59b+/86Y7tZ0ExDAR08KnNaunawGM7AM8JMjoJxmKDydes3PH0h4cSDLvG/2VCHzjNKK1G69+9e/fho0e/KmNZVFYB0eyMK0WtPBh9w3lAwrMD+AzWpVnt4skSlWtn7I9Wjjifcb9ThIuNloZAhKgbMbewli1bxsBpx0A5oQDZR2qBr7G7GqIB7gaWmLljqCifTOAAfigunmDFDRkytNvq1blZUv6BL74smDY14ynszB9FvsHd5G2KtV9JRip7+gAYC/Us6JByXOLIrhZgl7N8SjpZvGhhMbcna9T0+FwwLRGLpiU6leIEKISgQ56NoMLyzKzbs5bNgQCUErEAPNaxmcg4eBaL6MgnKsYyctEiOeNpDUuq9XSYAIWOz4guPKwwsTQMhZg4H44N4OqZHPkaGg8naPFOzIF+y33s2DdKciRjdeQSsSwnywOO34rT1cD7haV5eUqCuxJKMkrhVmW8ztMWeczla6gA0cEpFMBLfJagBeF9ngjZ1YvicZg8oBDveHkqJc5LA5sPFuqFopysibDwRLDFcWDIcwsXTxTJkKaosLDw9dfXHmDxCruOPsotDkXMrKFjh5lT7xx2XnJ05kxpMRO7i/mU5gQ9MFTzAnxanUecO9KCdeQ8eQYpowrubIJM7gVNBGZybtCD8o66Do3/Gw99eTEDxOVXW7k8JKG1y/SbZ5SsofPwg6VngKi/tXfvsRERlsiGZOePSPfdKzZvfucg5s+SglOciYaw4NW7d3LXmTNmZKjPAubNm7sWu6PW03DW52tuS9dewXPtr7xzzZKJi8XJ6jNT6grg87QpLA5t0KDBt8ye/eSLoaEhodKxFxWdPJGfn//h9u2fHBflgW7Dhw8f0bnz7xJkFZRJYE5O7pKNG9dvA22dYc2HVUmVT2kWTtdeQwVpLiexUIPXlEREvK8F9RkY7oHLI3G17D9gYM/pD06f1aFDu06XIweUUrps2bLFe/fuOQra+glUxGKbDbTkbKoTbQ7QmzzINd2aAnT+toYRDaMsUAcjrCgoosUtvXt3uWfsn+7u2LHj9SaT0cgTI0EjdU6ny3X27Nl/7dy1c9t7W94l/TB8rQS11LCkS/8FJ+25mjrLbwL6hX5W19xN/mxP/kiK1USEtiHgeQuPB3lAzViXzl8cciu/LGMkg6iFoW0dwGbtnGesdvgXhwBcFtr8zWmE/5egq4GnxQNERlT8iYjy8wv5cw6Gp+L3OhpR4vXJErQ4mXLhXZf4DY36533NCvp/BBgAjIr8TQiNmVwAAAAASUVORK5CYII=';
-
-    return BingMapsTileProvider;
-});
-/*!
   This library rewrites the Canvas2D "measureText" function
   so that it returns a more complete metrics object.
   This library is licensed under the MIT (Expat) license,
@@ -42100,7 +43395,7 @@ define('Scene/BingMapsTileProvider',[
 */
 /*global define*/
 define('ThirdParty/measureText',[],function() {
-  /*global document*/
+    
 //  var NAME = "FontMetrics Library";
 //  var VERSION = "1-2012.0121.1300";
 
@@ -42274,7 +43569,6 @@ define('Scene/Label',[
         HorizontalOrigin,
         VerticalOrigin) {
     
-    /*global document*/
 
     /**
      * DOC_TBA
@@ -42310,10 +43604,10 @@ define('Scene/Label',[
         this._style = l.style || LabelStyle.FILL;
         this._verticalOrigin = l.verticalOrigin || VerticalOrigin.BOTTOM;
         this._horizontalOrigin = l.horizontalOrigin || HorizontalOrigin.LEFT;
-        this._pixelOffset = l.pixelOffset ? new Cartesian2(l.pixelOffset.x, l.pixelOffset.y) : Cartesian2.getZero();
-        this._eyeOffset = l.eyeOffset ? new Cartesian3(l.eyeOffset.x, l.eyeOffset.y, l.eyeOffset.z) : Cartesian3.getZero();
+        this._pixelOffset = l.pixelOffset ? new Cartesian2(l.pixelOffset.x, l.pixelOffset.y) : Cartesian2.ZERO.clone();
+        this._eyeOffset = l.eyeOffset ? new Cartesian3(l.eyeOffset.x, l.eyeOffset.y, l.eyeOffset.z) : Cartesian3.ZERO.clone();
 
-        this._position = l.position ? new Cartesian3(l.position.x, l.position.y, l.position.z) : Cartesian3.getZero();
+        this._position = l.position ? new Cartesian3(l.position.x, l.position.y, l.position.z) : Cartesian3.ZERO.clone();
         this._scale = (typeof l.scale === "undefined") ? 1.0 : l.scale;
         this._show = show;
 
@@ -42495,7 +43789,9 @@ define('Scene/Label',[
      * @see Label#setFont
      */
     Label.prototype.setFillColor = function(value) {
-        if ((typeof value !== "undefined") && (this._fillColor !== value)) {
+        var c = this._fillColor;
+        if ((typeof value !== "undefined") &&
+            (c.red !== value.red || c.green !== value.green || c.blue !== value.blue || c.alpha !== value.alpha)) {
             this._fillColor = value;
             this._createBillboards();
         }
@@ -42524,7 +43820,9 @@ define('Scene/Label',[
      * @see Label#setFont
      */
     Label.prototype.setOutlineColor = function(value) {
-        if ((typeof value !== "undefined") && (this._outlineColor !== value)) {
+        var c = this._outlineColor;
+        if ((typeof value !== "undefined") &&
+            (c.red !== value.red || c.green !== value.green || c.blue !== value.blue || c.alpha !== value.alpha)) {
             this._outlineColor = value;
             this._createBillboards();
         }
@@ -42709,12 +44007,7 @@ define('Scene/Label',[
     Label.prototype.setHorizontalOrigin = function(value) {
         if ((typeof value !== "undefined") && (this._horizontalOrigin !== value)) {
             this._horizontalOrigin = value;
-
-            var billboards = this._billboards;
-            var length = this._billboards ? this._billboards.length : 0;
-            for ( var i = 0; i < length; i++) {
-                billboards[i].setHorizontalOrigin(value);
-            }
+            this._createBillboards();
         }
     };
 
@@ -42903,7 +44196,7 @@ define('Scene/Label',[
                 show : this._show,
                 position : this._position,
                 eyeOffset : this._eyeOffset,
-                horizontalOrigin : this._horizontalOrigin,
+                horizontalOrigin : HorizontalOrigin.LEFT,
                 verticalOrigin : this._verticalOrigin,
                 scale : this._scale,
                 _pickIdThis : this
@@ -42997,6 +44290,18 @@ define('Scene/Label',[
         return maxHeight;
     };
 
+    Label.prototype._getWidth = function(){
+        var i;
+        var billboards = this._billboards;
+        var length = billboards.length;
+        var width = 0;
+        for (i = 0; i < length; i++) {
+            var billboard = billboards[i];
+            width += billboard._labelDimension.width;
+        }
+        return width;
+    };
+
     Label.prototype._setPixelOffsets = function() {
         var billboards = this._billboards;
         var maxHeight = 0;
@@ -43004,10 +44309,18 @@ define('Scene/Label',[
         var length = billboards.length;
         var thisPixelOffset = this._pixelOffset;
         var thisVerticalOrigin = this._verticalOrigin;
+        var thisHorizontalOrigin = this._horizontalOrigin;
+        var totalWidth = this._getWidth();
         var widthOffset = 0;
         var scale = this._scale;
         var dimension;
         var billboard;
+        if(thisHorizontalOrigin === HorizontalOrigin.CENTER){
+            widthOffset -= totalWidth / 2 * scale;
+        }
+        else if(thisHorizontalOrigin === HorizontalOrigin.RIGHT){
+            widthOffset -= totalWidth * scale;
+        }
         if (thisVerticalOrigin === VerticalOrigin.TOP) {
             maxHeight = this._getMaxHeight();
             for (i = 0; i < length; i++) {
@@ -43195,7 +44508,7 @@ define('Scene/LabelCollection',[
          *   text     : "Up"
          * });
          */
-        this.modelMatrix = Matrix4.getIdentity();
+        this.modelMatrix = Matrix4.IDENTITY;
 
         /**
          * DOC_TBA
@@ -43253,14 +44566,14 @@ define('Scene/LabelCollection',[
      * // Example 1:  Add a label, specifying all the default values.
      * var l = labels.add({
      *   show : true,
-     *   position : Cartesian3.getZero(),
+     *   position : Cartesian3.ZERO,
      *   text : "",
      *   font : "30px sans-serif",
      *   fillColor : "white",
      *   outlineColor : "white",
      *   style : LabelStyle.FILL,
-     *   pixelOffset : Cartesian2.getZero(),
-     *   eyeOffset : Cartesian3.getZero(),
+     *   pixelOffset : Cartesian2.ZERO,
+     *   eyeOffset : Cartesian3.ZERO,
      *   horizontalOrigin : HorizontalOrigin.LEFT,
      *   verticalOrigin : VerticalOrigin.BOTTOM,
      *   scale : 1.0,
@@ -43567,206 +44880,226 @@ define('Scene/LabelCollection',[
 
     return LabelCollection;
 });
-var Cesium = window.Cesium = {_shaders:{}};
-require(["Core/AxisAlignedBoundingBox", "Core/AxisAlignedBoundingRectangle", "Core/BoundingSphere", "Core/BoxTessellator", "Core/Cache", "Core/CachePolicy", "Core/Cartesian2", "Core/Cartesian3", "Core/Cartesian4", "Core/Cartographic2", "Core/Cartographic3", "Core/CatmullRomSpline", "Core/ComponentDatatype", "Core/CubeMapEllipsoidTessellator", "Core/DefaultProxy", "Core/DeveloperError", "Core/Ellipsoid", "Core/EllipsoidTangentPlane", "Core/Enumeration", "Core/EquidistantCylindricalProjection", "Core/EventHandler", "Core/EventModifier", "Core/ExtentTessellator", "Core/FAR", "Core/HermiteSpline", "Core/IndexDatatype", "Core/Intersect", "Core/IntersectionTests", "Core/Jobs", "Core/JulianDate", "Core/LeapSecond", "Core/Math", "Core/Matrix2", "Core/Matrix3", "Core/Matrix4", "Core/MercatorProjection", "Core/MeshFilters", "Core/MouseEventType", "Core/Occluder", "Core/OrientationInterpolator", "Core/PlaneTessellator", "Core/PolygonPipeline", "Core/PolylinePipeline", "Core/PrimitiveType", "Core/Quaternion", "Core/Queue", "Core/Rectangle", "Core/RuntimeError", "Core/Shapes", "Core/SunPosition", "Core/TimeConstants", "Core/TimeStandard", "Core/Tipsify", "Core/Transforms", "Core/TridiagonalSystemSolver", "Core/Visibility", "Core/WindingOrder", "Core/binarySearch", "Core/clone", "Core/combine", "Core/createGuid", "Core/destroyObject", "Core/isLeapYear", "Core/pointInsideTriangle2D", "Core/requestAnimationFrame", "Core/shallowEquals", "Renderer/BlendEquation", "Renderer/BlendFunction", "Renderer/BlendingState", "Renderer/Buffer", "Renderer/BufferUsage", "Renderer/Context", "Renderer/CubeMap", "Renderer/CullFace", "Renderer/DepthFunction", "Renderer/Framebuffer", "Renderer/MipmapHint", "Renderer/PickFramebuffer", "Renderer/PixelDatatype", "Renderer/PixelFormat", "Renderer/Renderbuffer", "Renderer/RenderbufferFormat", "Renderer/ShaderCache", "Renderer/ShaderProgram", "Renderer/StencilFunction", "Renderer/StencilOperation", "Renderer/Texture", "Renderer/TextureAtlas", "Renderer/TextureMagnificationFilter", "Renderer/TextureMinificationFilter", "Renderer/TextureWrap", "Renderer/UniformDatatype", "Renderer/UniformState", "Renderer/VertexArray", "Renderer/VertexArrayFacade", "Renderer/VertexLayout", "Scene/AnimationCollection", "Scene/ArcGISTileProvider", "Scene/Billboard", "Scene/BillboardCollection", "Scene/BingMapsStyle", "Scene/BingMapsTileProvider", "Scene/BlobMaterial", "Scene/Camera", "Scene/Camera2DController", "Scene/CameraColumbusViewController", "Scene/CameraControllerCollection", "Scene/CameraEventHandler", "Scene/CameraEventType", "Scene/CameraFlightController", "Scene/CameraFreeLookController", "Scene/CameraHelpers", "Scene/CameraSpindleController", "Scene/CameraSpindleControllerMode", "Scene/CentralBody", "Scene/CheckerboardMaterial", "Scene/ColorMaterial", "Scene/ComplexConicSensorVolume", "Scene/CompositePrimitive", "Scene/CompositeTileProvider", "Scene/CustomSensorVolume", "Scene/DistanceIntervalMaterial", "Scene/DotMaterial", "Scene/EulerSolver", "Scene/FacetMaterial", "Scene/GravityForce", "Scene/HorizontalOrigin", "Scene/HorizontalStripeMaterial", "Scene/Label", "Scene/LabelCollection", "Scene/LabelStyle", "Scene/OpenStreetMapTileProvider", "Scene/OrthographicFrustum", "Scene/Particle", "Scene/ParticleSystem", "Scene/PerspectiveFrustum", "Scene/Polygon", "Scene/Polyline", "Scene/Projections", "Scene/ProxyUsagePolicy", "Scene/RectangularPyramidSensorVolume", "Scene/Scene", "Scene/SceneMode", "Scene/SceneTransitioner", "Scene/SensorVolumeCollection", "Scene/SingleTileProvider", "Scene/SphericalRepulsionForce", "Scene/SpringForce", "Scene/Texture2DPool", "Scene/TieDyeMaterial", "Scene/Tile", "Scene/TileState", "Scene/VectorForce", "Scene/VerticalOrigin", "Scene/VerticalStripeMaterial", "Scene/ViewportQuad", "Scene/ViscousDrag", "Scene/combineMaterials", "Shaders/BillboardCollectionFS", "Shaders/BillboardCollectionVS", "Shaders/BlobMaterial", "Shaders/BuiltinFunctions", "Shaders/CentralBodyFS", "Shaders/CentralBodyFSDepth", "Shaders/CentralBodyFSFilter", "Shaders/CentralBodyVS", "Shaders/CentralBodyVSDepth", "Shaders/CentralBodyVSFilter", "Shaders/CheckerboardMaterial", "Shaders/ColorMaterial", "Shaders/ComplexConicSensorVolumeFS", "Shaders/ComplexConicSensorVolumeVS", "Shaders/ConstructiveSolidGeometry", "Shaders/CustomSensorVolumeFS", "Shaders/CustomSensorVolumeVS", "Shaders/DistanceIntervalMaterial", "Shaders/DotMaterial", "Shaders/FacetMaterial", "Shaders/HorizontalStripeMaterial", "Shaders/Noise", "Shaders/PolygonFS", "Shaders/PolygonFSPick", "Shaders/PolygonVS", "Shaders/PolygonVSPick", "Shaders/PolylineFS", "Shaders/PolylineVS", "Shaders/Ray", "Shaders/SensorVolume", "Shaders/SkyAtmosphereFS", "Shaders/SkyAtmosphereVS", "Shaders/TieDyeMaterial", "Shaders/VerticalStripeMaterial", "Shaders/ViewportQuadFS", "Shaders/ViewportQuadVS", "ThirdParty/Chain", "ThirdParty/Tween", "ThirdParty/jsonp", "ThirdParty/measureText"], function (Core_AxisAlignedBoundingBox, Core_AxisAlignedBoundingRectangle, Core_BoundingSphere, Core_BoxTessellator, Core_Cache, Core_CachePolicy, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic2, Core_Cartographic3, Core_CatmullRomSpline, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_Enumeration, Core_EquidistantCylindricalProjection, Core_EventHandler, Core_EventModifier, Core_ExtentTessellator, Core_FAR, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Jobs, Core_JulianDate, Core_LeapSecond, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MercatorProjection, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Rectangle, Core_RuntimeError, Core_Shapes, Core_SunPosition, Core_TimeConstants, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_createGuid, Core_destroyObject, Core_isLeapYear, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_shallowEquals, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_Context, Renderer_CubeMap, Renderer_CullFace, Renderer_DepthFunction, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGISTileProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsStyle, Scene_BingMapsTileProvider, Scene_BlobMaterial, Scene_Camera, Scene_Camera2DController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CheckerboardMaterial, Scene_ColorMaterial, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CompositeTileProvider, Scene_CustomSensorVolume, Scene_DistanceIntervalMaterial, Scene_DotMaterial, Scene_EulerSolver, Scene_FacetMaterial, Scene_GravityForce, Scene_HorizontalOrigin, Scene_HorizontalStripeMaterial, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_OpenStreetMapTileProvider, Scene_OrthographicFrustum, Scene_Particle, Scene_ParticleSystem, Scene_PerspectiveFrustum, Scene_Polygon, Scene_Polyline, Scene_Projections, Scene_ProxyUsagePolicy, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileProvider, Scene_SphericalRepulsionForce, Scene_SpringForce, Scene_Texture2DPool, Scene_TieDyeMaterial, Scene_Tile, Scene_TileState, Scene_VectorForce, Scene_VerticalOrigin, Scene_VerticalStripeMaterial, Scene_ViewportQuad, Scene_ViscousDrag, Scene_combineMaterials, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BlobMaterial, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSFilter, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSFilter, Shaders_CheckerboardMaterial, Shaders_ColorMaterial, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_DistanceIntervalMaterial, Shaders_DotMaterial, Shaders_FacetMaterial, Shaders_HorizontalStripeMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_TieDyeMaterial, Shaders_VerticalStripeMaterial, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Chain, ThirdParty_Tween, ThirdParty_jsonp, ThirdParty_measureText) {
-Cesium.AxisAlignedBoundingBox = Core_AxisAlignedBoundingBox;
-Cesium.AxisAlignedBoundingRectangle = Core_AxisAlignedBoundingRectangle;
-Cesium.BoundingSphere = Core_BoundingSphere;
-Cesium.BoxTessellator = Core_BoxTessellator;
-Cesium.Cache = Core_Cache;
-Cesium.CachePolicy = Core_CachePolicy;
-Cesium.Cartesian2 = Core_Cartesian2;
-Cesium.Cartesian3 = Core_Cartesian3;
-Cesium.Cartesian4 = Core_Cartesian4;
-Cesium.Cartographic2 = Core_Cartographic2;
-Cesium.Cartographic3 = Core_Cartographic3;
-Cesium.CatmullRomSpline = Core_CatmullRomSpline;
-Cesium.ComponentDatatype = Core_ComponentDatatype;
-Cesium.CubeMapEllipsoidTessellator = Core_CubeMapEllipsoidTessellator;
-Cesium.DefaultProxy = Core_DefaultProxy;
-Cesium.DeveloperError = Core_DeveloperError;
-Cesium.Ellipsoid = Core_Ellipsoid;
-Cesium.EllipsoidTangentPlane = Core_EllipsoidTangentPlane;
-Cesium.Enumeration = Core_Enumeration;
-Cesium.EquidistantCylindricalProjection = Core_EquidistantCylindricalProjection;
-Cesium.EventHandler = Core_EventHandler;
-Cesium.EventModifier = Core_EventModifier;
-Cesium.ExtentTessellator = Core_ExtentTessellator;
-Cesium.FAR = Core_FAR;
-Cesium.HermiteSpline = Core_HermiteSpline;
-Cesium.IndexDatatype = Core_IndexDatatype;
-Cesium.Intersect = Core_Intersect;
-Cesium.IntersectionTests = Core_IntersectionTests;
-Cesium.Jobs = Core_Jobs;
-Cesium.JulianDate = Core_JulianDate;
-Cesium.LeapSecond = Core_LeapSecond;
-Cesium.Math = Core_Math;
-Cesium.Matrix2 = Core_Matrix2;
-Cesium.Matrix3 = Core_Matrix3;
-Cesium.Matrix4 = Core_Matrix4;
-Cesium.MercatorProjection = Core_MercatorProjection;
-Cesium.MeshFilters = Core_MeshFilters;
-Cesium.MouseEventType = Core_MouseEventType;
-Cesium.Occluder = Core_Occluder;
-Cesium.OrientationInterpolator = Core_OrientationInterpolator;
-Cesium.PlaneTessellator = Core_PlaneTessellator;
-Cesium.PolygonPipeline = Core_PolygonPipeline;
-Cesium.PolylinePipeline = Core_PolylinePipeline;
-Cesium.PrimitiveType = Core_PrimitiveType;
-Cesium.Quaternion = Core_Quaternion;
-Cesium.Queue = Core_Queue;
-Cesium.Rectangle = Core_Rectangle;
-Cesium.RuntimeError = Core_RuntimeError;
-Cesium.Shapes = Core_Shapes;
-Cesium.SunPosition = Core_SunPosition;
-Cesium.TimeConstants = Core_TimeConstants;
-Cesium.TimeStandard = Core_TimeStandard;
-Cesium.Tipsify = Core_Tipsify;
-Cesium.Transforms = Core_Transforms;
-Cesium.TridiagonalSystemSolver = Core_TridiagonalSystemSolver;
-Cesium.Visibility = Core_Visibility;
-Cesium.WindingOrder = Core_WindingOrder;
-Cesium.binarySearch = Core_binarySearch;
-Cesium.clone = Core_clone;
-Cesium.combine = Core_combine;
-Cesium.createGuid = Core_createGuid;
-Cesium.destroyObject = Core_destroyObject;
-Cesium.isLeapYear = Core_isLeapYear;
-Cesium.pointInsideTriangle2D = Core_pointInsideTriangle2D;
-Cesium.requestAnimationFrame = Core_requestAnimationFrame;
-Cesium.shallowEquals = Core_shallowEquals;
-Cesium.BlendEquation = Renderer_BlendEquation;
-Cesium.BlendFunction = Renderer_BlendFunction;
-Cesium.BlendingState = Renderer_BlendingState;
-Cesium.Buffer = Renderer_Buffer;
-Cesium.BufferUsage = Renderer_BufferUsage;
-Cesium.Context = Renderer_Context;
-Cesium.CubeMap = Renderer_CubeMap;
-Cesium.CullFace = Renderer_CullFace;
-Cesium.DepthFunction = Renderer_DepthFunction;
-Cesium.Framebuffer = Renderer_Framebuffer;
-Cesium.MipmapHint = Renderer_MipmapHint;
-Cesium.PickFramebuffer = Renderer_PickFramebuffer;
-Cesium.PixelDatatype = Renderer_PixelDatatype;
-Cesium.PixelFormat = Renderer_PixelFormat;
-Cesium.Renderbuffer = Renderer_Renderbuffer;
-Cesium.RenderbufferFormat = Renderer_RenderbufferFormat;
-Cesium.ShaderCache = Renderer_ShaderCache;
-Cesium.ShaderProgram = Renderer_ShaderProgram;
-Cesium.StencilFunction = Renderer_StencilFunction;
-Cesium.StencilOperation = Renderer_StencilOperation;
-Cesium.Texture = Renderer_Texture;
-Cesium.TextureAtlas = Renderer_TextureAtlas;
-Cesium.TextureMagnificationFilter = Renderer_TextureMagnificationFilter;
-Cesium.TextureMinificationFilter = Renderer_TextureMinificationFilter;
-Cesium.TextureWrap = Renderer_TextureWrap;
-Cesium.UniformDatatype = Renderer_UniformDatatype;
-Cesium.UniformState = Renderer_UniformState;
-Cesium.VertexArray = Renderer_VertexArray;
-Cesium.VertexArrayFacade = Renderer_VertexArrayFacade;
-Cesium.VertexLayout = Renderer_VertexLayout;
-Cesium.AnimationCollection = Scene_AnimationCollection;
-Cesium.ArcGISTileProvider = Scene_ArcGISTileProvider;
-Cesium.Billboard = Scene_Billboard;
-Cesium.BillboardCollection = Scene_BillboardCollection;
-Cesium.BingMapsStyle = Scene_BingMapsStyle;
-Cesium.BingMapsTileProvider = Scene_BingMapsTileProvider;
-Cesium.BlobMaterial = Scene_BlobMaterial;
-Cesium.Camera = Scene_Camera;
-Cesium.Camera2DController = Scene_Camera2DController;
-Cesium.CameraColumbusViewController = Scene_CameraColumbusViewController;
-Cesium.CameraControllerCollection = Scene_CameraControllerCollection;
-Cesium.CameraEventHandler = Scene_CameraEventHandler;
-Cesium.CameraEventType = Scene_CameraEventType;
-Cesium.CameraFlightController = Scene_CameraFlightController;
-Cesium.CameraFreeLookController = Scene_CameraFreeLookController;
-Cesium.CameraHelpers = Scene_CameraHelpers;
-Cesium.CameraSpindleController = Scene_CameraSpindleController;
-Cesium.CameraSpindleControllerMode = Scene_CameraSpindleControllerMode;
-Cesium.CentralBody = Scene_CentralBody;
-Cesium.CheckerboardMaterial = Scene_CheckerboardMaterial;
-Cesium.ColorMaterial = Scene_ColorMaterial;
-Cesium.ComplexConicSensorVolume = Scene_ComplexConicSensorVolume;
-Cesium.CompositePrimitive = Scene_CompositePrimitive;
-Cesium.CompositeTileProvider = Scene_CompositeTileProvider;
-Cesium.CustomSensorVolume = Scene_CustomSensorVolume;
-Cesium.DistanceIntervalMaterial = Scene_DistanceIntervalMaterial;
-Cesium.DotMaterial = Scene_DotMaterial;
-Cesium.EulerSolver = Scene_EulerSolver;
-Cesium.FacetMaterial = Scene_FacetMaterial;
-Cesium.GravityForce = Scene_GravityForce;
-Cesium.HorizontalOrigin = Scene_HorizontalOrigin;
-Cesium.HorizontalStripeMaterial = Scene_HorizontalStripeMaterial;
-Cesium.Label = Scene_Label;
-Cesium.LabelCollection = Scene_LabelCollection;
-Cesium.LabelStyle = Scene_LabelStyle;
-Cesium.OpenStreetMapTileProvider = Scene_OpenStreetMapTileProvider;
-Cesium.OrthographicFrustum = Scene_OrthographicFrustum;
-Cesium.Particle = Scene_Particle;
-Cesium.ParticleSystem = Scene_ParticleSystem;
-Cesium.PerspectiveFrustum = Scene_PerspectiveFrustum;
-Cesium.Polygon = Scene_Polygon;
-Cesium.Polyline = Scene_Polyline;
-Cesium.Projections = Scene_Projections;
-Cesium.ProxyUsagePolicy = Scene_ProxyUsagePolicy;
-Cesium.RectangularPyramidSensorVolume = Scene_RectangularPyramidSensorVolume;
-Cesium.Scene = Scene_Scene;
-Cesium.SceneMode = Scene_SceneMode;
-Cesium.SceneTransitioner = Scene_SceneTransitioner;
-Cesium.SensorVolumeCollection = Scene_SensorVolumeCollection;
-Cesium.SingleTileProvider = Scene_SingleTileProvider;
-Cesium.SphericalRepulsionForce = Scene_SphericalRepulsionForce;
-Cesium.SpringForce = Scene_SpringForce;
-Cesium.Texture2DPool = Scene_Texture2DPool;
-Cesium.TieDyeMaterial = Scene_TieDyeMaterial;
-Cesium.Tile = Scene_Tile;
-Cesium.TileState = Scene_TileState;
-Cesium.VectorForce = Scene_VectorForce;
-Cesium.VerticalOrigin = Scene_VerticalOrigin;
-Cesium.VerticalStripeMaterial = Scene_VerticalStripeMaterial;
-Cesium.ViewportQuad = Scene_ViewportQuad;
-Cesium.ViscousDrag = Scene_ViscousDrag;
-Cesium.combineMaterials = Scene_combineMaterials;
-Cesium._shaders.BillboardCollectionFS = Shaders_BillboardCollectionFS;
-Cesium._shaders.BillboardCollectionVS = Shaders_BillboardCollectionVS;
-Cesium._shaders.BlobMaterial = Shaders_BlobMaterial;
-Cesium._shaders.BuiltinFunctions = Shaders_BuiltinFunctions;
-Cesium._shaders.CentralBodyFS = Shaders_CentralBodyFS;
-Cesium._shaders.CentralBodyFSDepth = Shaders_CentralBodyFSDepth;
-Cesium._shaders.CentralBodyFSFilter = Shaders_CentralBodyFSFilter;
-Cesium._shaders.CentralBodyVS = Shaders_CentralBodyVS;
-Cesium._shaders.CentralBodyVSDepth = Shaders_CentralBodyVSDepth;
-Cesium._shaders.CentralBodyVSFilter = Shaders_CentralBodyVSFilter;
-Cesium._shaders.CheckerboardMaterial = Shaders_CheckerboardMaterial;
-Cesium._shaders.ColorMaterial = Shaders_ColorMaterial;
-Cesium._shaders.ComplexConicSensorVolumeFS = Shaders_ComplexConicSensorVolumeFS;
-Cesium._shaders.ComplexConicSensorVolumeVS = Shaders_ComplexConicSensorVolumeVS;
-Cesium._shaders.ConstructiveSolidGeometry = Shaders_ConstructiveSolidGeometry;
-Cesium._shaders.CustomSensorVolumeFS = Shaders_CustomSensorVolumeFS;
-Cesium._shaders.CustomSensorVolumeVS = Shaders_CustomSensorVolumeVS;
-Cesium._shaders.DistanceIntervalMaterial = Shaders_DistanceIntervalMaterial;
-Cesium._shaders.DotMaterial = Shaders_DotMaterial;
-Cesium._shaders.FacetMaterial = Shaders_FacetMaterial;
-Cesium._shaders.HorizontalStripeMaterial = Shaders_HorizontalStripeMaterial;
-Cesium._shaders.Noise = Shaders_Noise;
-Cesium._shaders.PolygonFS = Shaders_PolygonFS;
-Cesium._shaders.PolygonFSPick = Shaders_PolygonFSPick;
-Cesium._shaders.PolygonVS = Shaders_PolygonVS;
-Cesium._shaders.PolygonVSPick = Shaders_PolygonVSPick;
-Cesium._shaders.PolylineFS = Shaders_PolylineFS;
-Cesium._shaders.PolylineVS = Shaders_PolylineVS;
-Cesium._shaders.Ray = Shaders_Ray;
-Cesium._shaders.SensorVolume = Shaders_SensorVolume;
-Cesium._shaders.SkyAtmosphereFS = Shaders_SkyAtmosphereFS;
-Cesium._shaders.SkyAtmosphereVS = Shaders_SkyAtmosphereVS;
-Cesium._shaders.TieDyeMaterial = Shaders_TieDyeMaterial;
-Cesium._shaders.VerticalStripeMaterial = Shaders_VerticalStripeMaterial;
-Cesium._shaders.ViewportQuadFS = Shaders_ViewportQuadFS;
-Cesium._shaders.ViewportQuadVS = Shaders_ViewportQuadVS;
-Cesium.Chain = ThirdParty_Chain;
-Cesium.Tween = ThirdParty_Tween;
-Cesium.jsonp = ThirdParty_jsonp;
-Cesium.measureText = ThirdParty_measureText;
+/*global define*/
+define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cache', 'Core/CachePolicy', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic2', 'Core/Cartographic3', 'Core/CatmullRomSpline', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/Enumeration', 'Core/EquidistantCylindricalProjection', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/FullScreen', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Jobs', 'Core/JulianDate', 'Core/LeapSecond', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MercatorProjection', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/Quaternion', 'Core/Queue', 'Core/Rectangle', 'Core/RuntimeError', 'Core/Shapes', 'Core/SunPosition', 'Core/TimeConstants', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/createGuid', 'Core/destroyObject', 'Core/isLeapYear', 'Core/jsonp', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/shallowEquals', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Scene/AnimationCollection', 'Scene/ArcGISTileProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsStyle', 'Scene/BingMapsTileProvider', 'Scene/BlobMaterial', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CheckerboardMaterial', 'Scene/ColorMaterial', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CompositeTileProvider', 'Scene/CustomSensorVolume', 'Scene/DiffuseMapMaterial', 'Scene/DistanceIntervalMaterial', 'Scene/DotMaterial', 'Scene/EulerSolver', 'Scene/FacetMaterial', 'Scene/GravityForce', 'Scene/HorizontalOrigin', 'Scene/HorizontalStripeMaterial', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/OpenStreetMapTileProvider', 'Scene/OrthographicFrustum', 'Scene/Particle', 'Scene/ParticleSystem', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileProvider', 'Scene/SolidColorTileProvider', 'Scene/SphericalRepulsionForce', 'Scene/SpringForce', 'Scene/Texture2DPool', 'Scene/TieDyeMaterial', 'Scene/Tile', 'Scene/TileState', 'Scene/VectorForce', 'Scene/VerticalOrigin', 'Scene/VerticalStripeMaterial', 'Scene/ViewportQuad', 'Scene/ViscousDrag', 'Scene/combineMaterials', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BlobMaterial', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSCommon', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSFilter', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSFilter', 'Shaders/CentralBodyVSPole', 'Shaders/CheckerboardMaterial', 'Shaders/ColorMaterial', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/DiffuseMapMaterial', 'Shaders/DistanceIntervalMaterial', 'Shaders/DotMaterial', 'Shaders/FacetMaterial', 'Shaders/GroundAtmosphere', 'Shaders/HorizontalStripeMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/TieDyeMaterial', 'Shaders/VerticalStripeMaterial', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Chain', 'ThirdParty/Tween', 'ThirdParty/measureText'], function (Core_AxisAlignedBoundingBox, Core_BoundingSphere, Core_BoxTessellator, Core_Cache, Core_CachePolicy, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic2, Core_Cartographic3, Core_CatmullRomSpline, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_Enumeration, Core_EquidistantCylindricalProjection, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_FullScreen, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Jobs, Core_JulianDate, Core_LeapSecond, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MercatorProjection, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Rectangle, Core_RuntimeError, Core_Shapes, Core_SunPosition, Core_TimeConstants, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_createGuid, Core_destroyObject, Core_isLeapYear, Core_jsonp, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_shallowEquals, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_Context, Renderer_CubeMap, Renderer_CullFace, Renderer_DepthFunction, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGISTileProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsStyle, Scene_BingMapsTileProvider, Scene_BlobMaterial, Scene_Camera, Scene_Camera2DController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CheckerboardMaterial, Scene_ColorMaterial, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CompositeTileProvider, Scene_CustomSensorVolume, Scene_DiffuseMapMaterial, Scene_DistanceIntervalMaterial, Scene_DotMaterial, Scene_EulerSolver, Scene_FacetMaterial, Scene_GravityForce, Scene_HorizontalOrigin, Scene_HorizontalStripeMaterial, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_OpenStreetMapTileProvider, Scene_OrthographicFrustum, Scene_Particle, Scene_ParticleSystem, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_Polygon, Scene_Polyline, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileProvider, Scene_SolidColorTileProvider, Scene_SphericalRepulsionForce, Scene_SpringForce, Scene_Texture2DPool, Scene_TieDyeMaterial, Scene_Tile, Scene_TileState, Scene_VectorForce, Scene_VerticalOrigin, Scene_VerticalStripeMaterial, Scene_ViewportQuad, Scene_ViscousDrag, Scene_combineMaterials, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BlobMaterial, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSCommon, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSFilter, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSFilter, Shaders_CentralBodyVSPole, Shaders_CheckerboardMaterial, Shaders_ColorMaterial, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_DiffuseMapMaterial, Shaders_DistanceIntervalMaterial, Shaders_DotMaterial, Shaders_FacetMaterial, Shaders_GroundAtmosphere, Shaders_HorizontalStripeMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_TieDyeMaterial, Shaders_VerticalStripeMaterial, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Chain, ThirdParty_Tween, ThirdParty_measureText) {
+  
+  var Cesium = { _shaders : {} };
+  Cesium.AxisAlignedBoundingBox = Core_AxisAlignedBoundingBox;
+  Cesium.BoundingSphere = Core_BoundingSphere;
+  Cesium.BoxTessellator = Core_BoxTessellator;
+  Cesium.Cache = Core_Cache;
+  Cesium.CachePolicy = Core_CachePolicy;
+  Cesium.Cartesian2 = Core_Cartesian2;
+  Cesium.Cartesian3 = Core_Cartesian3;
+  Cesium.Cartesian4 = Core_Cartesian4;
+  Cesium.Cartographic2 = Core_Cartographic2;
+  Cesium.Cartographic3 = Core_Cartographic3;
+  Cesium.CatmullRomSpline = Core_CatmullRomSpline;
+  Cesium.Color = Core_Color;
+  Cesium.ComponentDatatype = Core_ComponentDatatype;
+  Cesium.CubeMapEllipsoidTessellator = Core_CubeMapEllipsoidTessellator;
+  Cesium.DefaultProxy = Core_DefaultProxy;
+  Cesium.DeveloperError = Core_DeveloperError;
+  Cesium.Ellipsoid = Core_Ellipsoid;
+  Cesium.EllipsoidTangentPlane = Core_EllipsoidTangentPlane;
+  Cesium.Enumeration = Core_Enumeration;
+  Cesium.EquidistantCylindricalProjection = Core_EquidistantCylindricalProjection;
+  Cesium.EventHandler = Core_EventHandler;
+  Cesium.EventModifier = Core_EventModifier;
+  Cesium.Extent = Core_Extent;
+  Cesium.ExtentTessellator = Core_ExtentTessellator;
+  Cesium.FAR = Core_FAR;
+  Cesium.FeatureDetection = Core_FeatureDetection;
+  Cesium.FullScreen = Core_FullScreen;
+  Cesium.HermiteSpline = Core_HermiteSpline;
+  Cesium.IndexDatatype = Core_IndexDatatype;
+  Cesium.Intersect = Core_Intersect;
+  Cesium.IntersectionTests = Core_IntersectionTests;
+  Cesium.Jobs = Core_Jobs;
+  Cesium.JulianDate = Core_JulianDate;
+  Cesium.LeapSecond = Core_LeapSecond;
+  Cesium.Math = Core_Math;
+  Cesium.Matrix2 = Core_Matrix2;
+  Cesium.Matrix3 = Core_Matrix3;
+  Cesium.Matrix4 = Core_Matrix4;
+  Cesium.MercatorProjection = Core_MercatorProjection;
+  Cesium.MeshFilters = Core_MeshFilters;
+  Cesium.MouseEventType = Core_MouseEventType;
+  Cesium.Occluder = Core_Occluder;
+  Cesium.OrientationInterpolator = Core_OrientationInterpolator;
+  Cesium.PlaneTessellator = Core_PlaneTessellator;
+  Cesium.PolygonPipeline = Core_PolygonPipeline;
+  Cesium.PolylinePipeline = Core_PolylinePipeline;
+  Cesium.PrimitiveType = Core_PrimitiveType;
+  Cesium.Quaternion = Core_Quaternion;
+  Cesium.Queue = Core_Queue;
+  Cesium.Rectangle = Core_Rectangle;
+  Cesium.RuntimeError = Core_RuntimeError;
+  Cesium.Shapes = Core_Shapes;
+  Cesium.SunPosition = Core_SunPosition;
+  Cesium.TimeConstants = Core_TimeConstants;
+  Cesium.TimeStandard = Core_TimeStandard;
+  Cesium.Tipsify = Core_Tipsify;
+  Cesium.Transforms = Core_Transforms;
+  Cesium.TridiagonalSystemSolver = Core_TridiagonalSystemSolver;
+  Cesium.Visibility = Core_Visibility;
+  Cesium.WindingOrder = Core_WindingOrder;
+  Cesium.binarySearch = Core_binarySearch;
+  Cesium.clone = Core_clone;
+  Cesium.combine = Core_combine;
+  Cesium.createGuid = Core_createGuid;
+  Cesium.destroyObject = Core_destroyObject;
+  Cesium.isLeapYear = Core_isLeapYear;
+  Cesium.jsonp = Core_jsonp;
+  Cesium.pointInsideTriangle2D = Core_pointInsideTriangle2D;
+  Cesium.requestAnimationFrame = Core_requestAnimationFrame;
+  Cesium.shallowEquals = Core_shallowEquals;
+  Cesium.BlendEquation = Renderer_BlendEquation;
+  Cesium.BlendFunction = Renderer_BlendFunction;
+  Cesium.BlendingState = Renderer_BlendingState;
+  Cesium.Buffer = Renderer_Buffer;
+  Cesium.BufferUsage = Renderer_BufferUsage;
+  Cesium.Context = Renderer_Context;
+  Cesium.CubeMap = Renderer_CubeMap;
+  Cesium.CullFace = Renderer_CullFace;
+  Cesium.DepthFunction = Renderer_DepthFunction;
+  Cesium.Framebuffer = Renderer_Framebuffer;
+  Cesium.MipmapHint = Renderer_MipmapHint;
+  Cesium.PickFramebuffer = Renderer_PickFramebuffer;
+  Cesium.PixelDatatype = Renderer_PixelDatatype;
+  Cesium.PixelFormat = Renderer_PixelFormat;
+  Cesium.Renderbuffer = Renderer_Renderbuffer;
+  Cesium.RenderbufferFormat = Renderer_RenderbufferFormat;
+  Cesium.ShaderCache = Renderer_ShaderCache;
+  Cesium.ShaderProgram = Renderer_ShaderProgram;
+  Cesium.StencilFunction = Renderer_StencilFunction;
+  Cesium.StencilOperation = Renderer_StencilOperation;
+  Cesium.Texture = Renderer_Texture;
+  Cesium.TextureAtlas = Renderer_TextureAtlas;
+  Cesium.TextureMagnificationFilter = Renderer_TextureMagnificationFilter;
+  Cesium.TextureMinificationFilter = Renderer_TextureMinificationFilter;
+  Cesium.TextureWrap = Renderer_TextureWrap;
+  Cesium.UniformDatatype = Renderer_UniformDatatype;
+  Cesium.UniformState = Renderer_UniformState;
+  Cesium.VertexArray = Renderer_VertexArray;
+  Cesium.VertexArrayFacade = Renderer_VertexArrayFacade;
+  Cesium.VertexLayout = Renderer_VertexLayout;
+  Cesium.AnimationCollection = Scene_AnimationCollection;
+  Cesium.ArcGISTileProvider = Scene_ArcGISTileProvider;
+  Cesium.Billboard = Scene_Billboard;
+  Cesium.BillboardCollection = Scene_BillboardCollection;
+  Cesium.BingMapsStyle = Scene_BingMapsStyle;
+  Cesium.BingMapsTileProvider = Scene_BingMapsTileProvider;
+  Cesium.BlobMaterial = Scene_BlobMaterial;
+  Cesium.Camera = Scene_Camera;
+  Cesium.Camera2DController = Scene_Camera2DController;
+  Cesium.CameraColumbusViewController = Scene_CameraColumbusViewController;
+  Cesium.CameraControllerCollection = Scene_CameraControllerCollection;
+  Cesium.CameraEventHandler = Scene_CameraEventHandler;
+  Cesium.CameraEventType = Scene_CameraEventType;
+  Cesium.CameraFlightController = Scene_CameraFlightController;
+  Cesium.CameraFreeLookController = Scene_CameraFreeLookController;
+  Cesium.CameraHelpers = Scene_CameraHelpers;
+  Cesium.CameraSpindleController = Scene_CameraSpindleController;
+  Cesium.CameraSpindleControllerMode = Scene_CameraSpindleControllerMode;
+  Cesium.CentralBody = Scene_CentralBody;
+  Cesium.CheckerboardMaterial = Scene_CheckerboardMaterial;
+  Cesium.ColorMaterial = Scene_ColorMaterial;
+  Cesium.ComplexConicSensorVolume = Scene_ComplexConicSensorVolume;
+  Cesium.CompositePrimitive = Scene_CompositePrimitive;
+  Cesium.CompositeTileProvider = Scene_CompositeTileProvider;
+  Cesium.CustomSensorVolume = Scene_CustomSensorVolume;
+  Cesium.DiffuseMapMaterial = Scene_DiffuseMapMaterial;
+  Cesium.DistanceIntervalMaterial = Scene_DistanceIntervalMaterial;
+  Cesium.DotMaterial = Scene_DotMaterial;
+  Cesium.EulerSolver = Scene_EulerSolver;
+  Cesium.FacetMaterial = Scene_FacetMaterial;
+  Cesium.GravityForce = Scene_GravityForce;
+  Cesium.HorizontalOrigin = Scene_HorizontalOrigin;
+  Cesium.HorizontalStripeMaterial = Scene_HorizontalStripeMaterial;
+  Cesium.Label = Scene_Label;
+  Cesium.LabelCollection = Scene_LabelCollection;
+  Cesium.LabelStyle = Scene_LabelStyle;
+  Cesium.OpenStreetMapTileProvider = Scene_OpenStreetMapTileProvider;
+  Cesium.OrthographicFrustum = Scene_OrthographicFrustum;
+  Cesium.Particle = Scene_Particle;
+  Cesium.ParticleSystem = Scene_ParticleSystem;
+  Cesium.PerformanceDisplay = Scene_PerformanceDisplay;
+  Cesium.PerspectiveFrustum = Scene_PerspectiveFrustum;
+  Cesium.Polygon = Scene_Polygon;
+  Cesium.Polyline = Scene_Polyline;
+  Cesium.Projections = Scene_Projections;
+  Cesium.RectangularPyramidSensorVolume = Scene_RectangularPyramidSensorVolume;
+  Cesium.Scene = Scene_Scene;
+  Cesium.SceneMode = Scene_SceneMode;
+  Cesium.SceneTransitioner = Scene_SceneTransitioner;
+  Cesium.SensorVolumeCollection = Scene_SensorVolumeCollection;
+  Cesium.SingleTileProvider = Scene_SingleTileProvider;
+  Cesium.SolidColorTileProvider = Scene_SolidColorTileProvider;
+  Cesium.SphericalRepulsionForce = Scene_SphericalRepulsionForce;
+  Cesium.SpringForce = Scene_SpringForce;
+  Cesium.Texture2DPool = Scene_Texture2DPool;
+  Cesium.TieDyeMaterial = Scene_TieDyeMaterial;
+  Cesium.Tile = Scene_Tile;
+  Cesium.TileState = Scene_TileState;
+  Cesium.VectorForce = Scene_VectorForce;
+  Cesium.VerticalOrigin = Scene_VerticalOrigin;
+  Cesium.VerticalStripeMaterial = Scene_VerticalStripeMaterial;
+  Cesium.ViewportQuad = Scene_ViewportQuad;
+  Cesium.ViscousDrag = Scene_ViscousDrag;
+  Cesium.combineMaterials = Scene_combineMaterials;
+  Cesium._shaders.BillboardCollectionFS = Shaders_BillboardCollectionFS;
+  Cesium._shaders.BillboardCollectionVS = Shaders_BillboardCollectionVS;
+  Cesium._shaders.BlobMaterial = Shaders_BlobMaterial;
+  Cesium._shaders.BuiltinFunctions = Shaders_BuiltinFunctions;
+  Cesium._shaders.CentralBodyFS = Shaders_CentralBodyFS;
+  Cesium._shaders.CentralBodyFSCommon = Shaders_CentralBodyFSCommon;
+  Cesium._shaders.CentralBodyFSDepth = Shaders_CentralBodyFSDepth;
+  Cesium._shaders.CentralBodyFSFilter = Shaders_CentralBodyFSFilter;
+  Cesium._shaders.CentralBodyFSPole = Shaders_CentralBodyFSPole;
+  Cesium._shaders.CentralBodyVS = Shaders_CentralBodyVS;
+  Cesium._shaders.CentralBodyVSDepth = Shaders_CentralBodyVSDepth;
+  Cesium._shaders.CentralBodyVSFilter = Shaders_CentralBodyVSFilter;
+  Cesium._shaders.CentralBodyVSPole = Shaders_CentralBodyVSPole;
+  Cesium._shaders.CheckerboardMaterial = Shaders_CheckerboardMaterial;
+  Cesium._shaders.ColorMaterial = Shaders_ColorMaterial;
+  Cesium._shaders.ComplexConicSensorVolumeFS = Shaders_ComplexConicSensorVolumeFS;
+  Cesium._shaders.ComplexConicSensorVolumeVS = Shaders_ComplexConicSensorVolumeVS;
+  Cesium._shaders.ConstructiveSolidGeometry = Shaders_ConstructiveSolidGeometry;
+  Cesium._shaders.CustomSensorVolumeFS = Shaders_CustomSensorVolumeFS;
+  Cesium._shaders.CustomSensorVolumeVS = Shaders_CustomSensorVolumeVS;
+  Cesium._shaders.DiffuseMapMaterial = Shaders_DiffuseMapMaterial;
+  Cesium._shaders.DistanceIntervalMaterial = Shaders_DistanceIntervalMaterial;
+  Cesium._shaders.DotMaterial = Shaders_DotMaterial;
+  Cesium._shaders.FacetMaterial = Shaders_FacetMaterial;
+  Cesium._shaders.GroundAtmosphere = Shaders_GroundAtmosphere;
+  Cesium._shaders.HorizontalStripeMaterial = Shaders_HorizontalStripeMaterial;
+  Cesium._shaders.Noise = Shaders_Noise;
+  Cesium._shaders.PolygonFS = Shaders_PolygonFS;
+  Cesium._shaders.PolygonFSPick = Shaders_PolygonFSPick;
+  Cesium._shaders.PolygonVS = Shaders_PolygonVS;
+  Cesium._shaders.PolygonVSPick = Shaders_PolygonVSPick;
+  Cesium._shaders.PolylineFS = Shaders_PolylineFS;
+  Cesium._shaders.PolylineVS = Shaders_PolylineVS;
+  Cesium._shaders.Ray = Shaders_Ray;
+  Cesium._shaders.SensorVolume = Shaders_SensorVolume;
+  Cesium._shaders.SkyAtmosphereFS = Shaders_SkyAtmosphereFS;
+  Cesium._shaders.SkyAtmosphereVS = Shaders_SkyAtmosphereVS;
+  Cesium._shaders.TieDyeMaterial = Shaders_TieDyeMaterial;
+  Cesium._shaders.VerticalStripeMaterial = Shaders_VerticalStripeMaterial;
+  Cesium._shaders.ViewportQuadFS = Shaders_ViewportQuadFS;
+  Cesium._shaders.ViewportQuadVS = Shaders_ViewportQuadVS;
+  Cesium.Chain = ThirdParty_Chain;
+  Cesium.Tween = ThirdParty_Tween;
+  Cesium.measureText = ThirdParty_measureText;
+  return Cesium;
+});
+/*global require*/
+// require in the complete Cesium object and reassign it globally.
+// This is meant for use with the Almond loader.
+require(['Cesium'], function(Cesium) {
+    
+    window.Cesium = Cesium;
 }, undefined, true);
 define("main", function(){});
 }());
