@@ -58,8 +58,10 @@
                 "featureunselected": onFeatureUnselect
             });
 
-            map.addControl(select);
-            select.activate();   
+            //map.addControl(select); does not work yet
+            //select.activate();
+			map.addControl(new OpenLayers.Control.Scale());
+			   map.addControl(new OpenLayers.Control.MousePosition());
             map.zoomToExtent(new OpenLayers.Bounds(68.774414,11.381836,123.662109,34.628906));
         }
         function onPopupClose(evt) {

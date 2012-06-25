@@ -1,5 +1,20 @@
 if (typeof OpenLayers !== 'undefined') {
 
+    var O2C = {};
+    O2C.globeWasMoving = false;
+    O2C.globeMoveTime = 0;
+    Cesium.Camera.prototype._updateOrig = Cesium.Camera.prototype._update; 
+    Cesium.Camera.prototype._update = function() {
+        if ((this.position && !this.position.equals(this._position)) || (this.direction && !this.direction.equals(this._direction)) || (this.up && !this.up.equals(this._up)) ||
+                (this.right && !this.right.equals(this._right)) || (this.transform && !this.transform.equals(this._transform))) {
+            O2C.globeWasMoving = true;
+            O2C.globeMoveTime = new Date().getTime();
+        } else if (O2C.globeWasMoving && new Date().getTime()-O2C.globeMoveTime>100){ // 100 milliseconds
+            this.map.events.triggerEvent("moveend");
+            O2C.globeWasMoving = false;
+        }
+        this._updateOrig();
+    }
     OpenLayers.Layer.prototype.getLonLatFromViewPortPx = function(px){
         return this.map.getLonLatFromPixel(px);
     }
@@ -31,10 +46,6 @@ if (typeof OpenLayers !== 'undefined') {
             this.renderer.eraseFeatures(this.features);
         }
     }
-    
-    OpenLayers.Layer.prototype.getExtent = function() {
-        return this.map.getExtent();
-    }
 
     OpenLayers.Globe = OpenLayers.Class(OpenLayers.Map, {
         canvas: null,
@@ -42,17 +53,22 @@ if (typeof OpenLayers !== 'undefined') {
         scene: null,
         primitives: null,
         cb: null,
+        proxyUrl: null,
+        transitioner: null,
+        showLabels:true,
         initialize: function (div, options) {
+            options = options || {};
             this.div = OpenLayers.Util.getElement(div);
             var canvasId = "glCanvas";
             var is2d = false;
-            if(options){
-                if(options.canvasId){
-                    canvasId = options.canvasId;
-                }
-                if(options.is2d){
-                    is2d = options.is2d;
-                }
+            if(options.canvasId){
+                canvasId = options.canvasId;
+            }
+            if(options.is2d){
+                is2d = options.is2d;
+            }
+            if(options.proxy){
+                this.proxyUrl = options.proxy;
             }
             this.canvas = document.getElementById(canvasId);
             if(!this.canvas) {
@@ -69,13 +85,13 @@ if (typeof OpenLayers !== 'undefined') {
             this.ellipsoid = Cesium.Ellipsoid.WGS84;
             this.scene = new Cesium.Scene(this.canvas);
             this.primitives = this.scene.getPrimitives();
-            this.cb = new Cesium.CentralBody(this.scene.getCamera(), this.ellipsoid);
+            this.cb = new Cesium.CentralBody(this.ellipsoid, this.scene.getCamera());  // TODO AGI changed the api.  do I still need camera parameter??
             var bing = new Cesium.BingMapsTileProvider({
                 server : "dev.virtualearth.net",
                 mapStyle : Cesium.BingMapsStyle.AERIAL
             });
             this.cb.dayTileProvider = bing; // had to add this back in due to minTileDistance is not a function errors
-            //this.cb.nightImageSource = "Images/land_ocean_ice_lights_2048.jpg";
+            this.cb.nightImageSource = "Images/land_ocean_ice_lights_2048.jpg";
             this.cb.specularMapSource = "Images/earthspec1k.jpg";
             if (this.scene.getContext().getMaximumTextureSize() > 2048) {
                 this.cb.cloudsMapSource = "Images/earthcloudmaptrans.jpg";
@@ -85,15 +101,15 @@ if (typeof OpenLayers !== 'undefined') {
             this.cb.showGroundAtmosphere = true;
             this.primitives.setCentralBody(this.cb);
 
-            this.scene.getCamera().frustum.near = 1.0;
+            this.scene.getCamera().frustum.near = 100.0;
 
-            var that = this;
+            this.transitioner = new Cesium.SceneTransitioner(this.scene);
 
             if(is2d){
-                var transitioner = new Cesium.SceneTransitioner(this.scene);
-                transitioner.to2D();
+                this.do2DView();
             }
-
+            
+            var that = this;
             this.scene.setAnimation(function() {
                     var camera = that.scene.getCamera();
                     var cameraPosition = new Cesium.Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0);
@@ -109,7 +125,7 @@ if (typeof OpenLayers !== 'undefined') {
                         width : that.canvas.width,
                         height : that.canvas.height
                     });
-
+                    that.size = that.getCurrentSize();
                     that.scene.getCamera().frustum.aspectRatio = that.canvas.clientWidth / that.canvas.clientHeight;
 
                 // Add code here to update primitives based on changes to animation time, camera parameters, etc.
@@ -123,6 +139,10 @@ if (typeof OpenLayers !== 'undefined') {
                     // greater than outer half-angle, which cause exceptions.  We swallow the exceptions
                     // to avoid losing the animation frame.
                     console.log(e.message);
+                    var stack = e.stack;
+                    if (stack){
+                        console.log(stack);
+                    }
                 }
 
                 Cesium.requestAnimationFrame(tick);
@@ -148,12 +168,29 @@ if (typeof OpenLayers !== 'undefined') {
             };
 
             OpenLayers.Map.prototype.initialize.apply(this, arguments);
-            this.events = new OpenLayers.Events(this, this.canvas, this.EVENT_TYPES, this.fallThrough, {includeXY: true});
+            // relocate canvas to viewport div now that superclass is initialized
+            this.div.removeChild(this.canvas);
+            this.viewPortDiv.appendChild(this.canvas);
+            this.canvas.style.top = "0px";
+            this.canvas.style.left = "0px";
             this.layerContainerDiv.style.display = "none"; // layercontainerdiv is useless now and was blocking mouse events
             this.maxExtent = this.getMaxExtent();
+            this.scene.getCamera().map = this;
         },
-        
-        addLayer: function(layer){
+
+        _setBaseLayer: function(layer){
+            var opts = {fromSetLayer: true};
+            this.addLayer(layer, opts);
+        },
+
+        render: function(div){
+            this.div = OpenLayers.Util.getElement(div);
+            this.canvas.parentNode.removeChild(this.canvas);
+            this.div.appendChild(this.canvas);
+        },
+
+        addLayer: function(layer, options){
+            options = options || {};
             //TODO actually implement this correctly
             if (layer instanceof OpenLayers.Layer.Vector){
                 this.baseLayer = layer; // gets rid of null pointers TODO don't do this
@@ -162,12 +199,19 @@ if (typeof OpenLayers !== 'undefined') {
             }else if (layer instanceof OpenLayers.Layer.WMS){
                 var url = layer.url;
                 var wmsLayer = layer.params.LAYERS;
-                var wms = new Cesium.WebMapServiceTileProvider({
-                    url : url, //'http://www2.demis.nl/wms/wms.asp',
-                    proxy : new Cesium.DefaultProxy('/proxy/'),
-                    layer : wmsLayer //'Countries'
-                });
+                var opts = {
+                        url : url, //'http://www2.demis.nl/wms/wms.asp'
+                        layer : wmsLayer //'Countries'
+                    };
+                if(this.proxyUrl && !options.isCors){
+                    opts.proxy = new Cesium.DefaultProxy(this.proxyUrl);
+                }
+                var wms = new Cesium.WebMapServiceTileProvider(opts);
                 this.cb.dayTileProvider = wms;
+                this.cb.dayTileProvider.olLayer = layer;
+                if(!(options && options.fromSetLayer)){
+                    this.layers.push(layer);
+                }
             }else if (layer instanceof OpenLayers.Layer.ArcGIS93Rest){
                 //NOTE: this code ends up requesting invalid tiles from
                 //our geoapp server but works for servers like
@@ -184,15 +228,21 @@ if (typeof OpenLayers !== 'undefined') {
                 var tokens = url.split("/");
                 var hostName = tokens[0];
                 var service = tokens[4];
-                var arcgis = new Cesium.ArcGISTileProvider({
-                    host: hostName, //"server.arcgisonline.com",
-                    root: "ArcGIS/rest",
-                    service: service, //"World_Street_Map",
-                    proxy: new Cesium.DefaultProxy("/proxy"),
-                    olLayer: layer
-                });
+                var opts = {
+                        host: hostName, //"server.arcgisonline.com",
+                        root: "ArcGIS/rest",
+                        service: service, //"World_Street_Map",
+                        olLayer: layer
+                    };
+                if(this.proxyUrl && !options.isCors){
+                    opts.proxy = new Cesium.DefaultProxy(this.proxyUrl);
+                }
+                var arcgis = new Cesium.ArcGISTileProvider(opts);
                 this.cb.dayTileProvider = arcgis;
                 this.cb.dayTileProvider.olLayer = layer;
+                if(!(options && options.fromSetLayer)){
+                    this.layers.push(layer);
+                }
             }
             else{
                 // Bing Maps
@@ -202,6 +252,7 @@ if (typeof OpenLayers !== 'undefined') {
                 });
                 this.cb.dayTileProvider = bing;
             }
+            this.events.triggerEvent("addlayer", {layer: layer});
             console.log("addLayer Override");
         },
 
@@ -221,11 +272,11 @@ if (typeof OpenLayers !== 'undefined') {
             }
             return  new OpenLayers.LonLat(-1000, -1000); // avoid null pointers   
         },
-        
+
         getMaxExtent: function(){
             return new OpenLayers.Bounds(-45, -45, 45, 45); // TODO this will be wider if viewing in 2D    
         },
-        
+
         getExtent: function () {
             var center = this.getLonLatFromPixel({x:this.canvas.width/2,y:this.canvas.height/2});
             var topCenter = this.getLonLatFromPixel({x:this.canvas.width/2,y:0});
@@ -244,31 +295,55 @@ if (typeof OpenLayers !== 'undefined') {
         },
         
         moveByPx: function(dx, dy) {},
-        
+
         pan: function(dx, dy, options) {
             var movement = {};
             movement.startPosition = new Cesium.Cartesian2(0,0);
             movement.endPosition = new Cesium.Cartesian2(dx,dy);
             movement.motion = new Cesium.Cartesian2(0,0);
-            this.scene.getCamera().getControllers().get(0)._spin(movement);  
+            this.scene.getCamera().getControllers().get(0)._spin(movement);
         },
-        
+
         zoomIn: function() {
-            this.scene.getCamera().getControllers().get(0)._zoomWheel._eventHandler._mouseEvents["WHEEL"](720); // scroll mouse wheel twice
+            // scroll mouse wheel twice
+            var scrollwheel = this.scene.getCamera().getControllers().get(0)._zoomWheel._eventHandler._mouseEvents["WHEEL"];
+            scrollwheel(360);
+            scrollwheel(360); 
         },
-    
+
         zoomOut: function() {
-            this.scene.getCamera().getControllers().get(0)._zoomWheel._eventHandler._mouseEvents["WHEEL"](-720); // scroll mouse wheel twice
+            // scroll mouse wheel twice
+            var scrollwheel = this.scene.getCamera().getControllers().get(0)._zoomWheel._eventHandler._mouseEvents["WHEEL"];
+            scrollwheel(-360);
+            scrollwheel(-360); 
         },
-        
+
         zoomToMaxExtent: function(options) {
-            this.zoomToExtent(this.maxExtent);
-//            this.scene.getCamera().getControllers().addFlight({
-//                destination: this.ellipsoid.toCartesian(new Cesium.Cartographic3(-1.57,0.46,6382419)),
-//                duration: 0.1
-//            });
+            var camera = this.scene.getCamera();
+            var cameraPosition = Cesium.Math.cartographic3ToDegrees(this.ellipsoid.toCartographic3(camera.position));
+            var lat = cameraPosition.latitude;
+            var lon = cameraPosition.longitude;
+
+            var maxExtent = this.getMaxExtent();
+
+            var bounds = new OpenLayers.Bounds();
+            bounds.top = lat + maxExtent.top;
+            bounds.bottom = lat + maxExtent.bottom;
+
+            var rlon = lon + maxExtent.right;
+            var llon = lon + maxExtent.left;
+            if(llon < -180) {
+              llon += 360;
+            }
+            if(rlon > 180) {
+              rlon -= 360;
+            }
+            bounds.right = rlon;
+            bounds.left = llon;
+
+            this.zoomToExtent(bounds);
         },
-        
+
         zoomToExtent: function(bounds, closest) {
             if (!(bounds instanceof OpenLayers.Bounds)) {
                 bounds = new OpenLayers.Bounds(bounds);
@@ -290,19 +365,67 @@ if (typeof OpenLayers !== 'undefined') {
             }
             this.scene.getCamera().getControllers().addFlight({
                 destination: this.ellipsoid.cartographicDegreesToCartesian(new Cesium.Cartographic3(lonlat.lon, lonlat.lat, alt)),
-                duration: 0.1
+                duration: 0
             });
-            console.log("moveTo override");
+        },
+        
+        getZoom: function () {
+            var alt = this.ellipsoid.toCartographic3(this.scene.getCamera().position).height;
+            console.log(alt); 
+            if (alt>6000000){
+                return 0;
+            } else if (alt>4000000){
+                return 1;
+            }
+            return Math.round(4000000/alt);
+        },
+        
+        updateSize: function() {/* No longer needed because this is handled in the render function*/},
+        
+        getResolution: function () {
+            var xpix = this.canvas.width/2;
+            var ypix = this.canvas.height/2;
+            var coord1 = this.getLonLatFromPixel({x:xpix,y:ypix});
+            var coord2 = this.getLonLatFromPixel({x:xpix+1,y:ypix+1});
+            var dx = coord2.lon-coord1.lon;
+            var dy = coord2.lat-coord1.lat;
+            return Math.sqrt((dx*dx)+(dy*dy));
+        },
+        getScale: function () {
+            return OpenLayers.Util.getScaleFromResolution(this.getResolution(), 'dd');
+        },
+        
+        getCenter: function () {
+            return this.getLonLatFromPixel({x:this.canvas.width/2,y:this.canvas.height/2});
+        },
+        
+        getProjectionObject: function() {
+            return new OpenLayers.Projection("EPSG:4326");
         },
 
         activateNavigation: function(){
-            this.scene.getCamera().getControllers().addSpindle();
-            this.scene.getCamera().getControllers().addFreeLook();
-            this.scene.getCamera().getControllers().get(0).mouseConstrainedZAxis = true;
+            if (this.scene){
+                this.scene.getCamera().getControllers().addSpindle();
+                this.scene.getCamera().getControllers().addFreeLook();
+                this.scene.getCamera().getControllers().get(0).mouseConstrainedZAxis = true;
+            }
         },
 
         deactivateNavigation: function(){
-            this.scene.getCamera().getControllers().removeAll();
+            if (this.scene){
+                this.scene.getCamera().getControllers().removeAll();
+            }
+        },
+        
+        do2DView: function(){
+            this.transitioner.morphTo2D(); // TODO using to2D breaks image tile loading (Cesium issue #61)
+            this.cb.affectedByLighting = false;
+        },
+
+        do3DView: function(){
+            this.cb.affectedByLighting = true;
+            this.transitioner.to3D(); // TODO change to morphTo3D when agi works out the bugs
+            this.scene.getCamera().getControllers().get(0).mouseConstrainedZAxis = true;
         },
 
         CLASS_NAME: "OpenLayers.Globe"
@@ -369,7 +492,6 @@ if (typeof OpenLayers !== 'undefined') {
         },
 
         drawFeature: function(feature, style) {
-            this.features = {};
             //console.log("globerender::drawFeature()");
             var rendered;
             if (feature.geometry) {
@@ -390,6 +512,7 @@ if (typeof OpenLayers !== 'undefined') {
             }
             if (this.pendingRedraw && !this.locked) {
                 this.redraw();
+                this.features = {};
                 this.pendingRedraw = false;
             }
             return rendered;
@@ -455,14 +578,14 @@ if (typeof OpenLayers !== 'undefined') {
                         style = this.features[id][1];
                         this.drawGeometry(feature.geometry, style, feature.id);
                         style.label = style.label || feature.data.name; // seeing cases where label is not set when there should be one
-                        if(style.label) {
+                        if(style.label && this.map.showLabels) {
                             labelMap.push([feature, style]);
                         }
                     }
                     var item;
                     for (var i=0, len=labelMap.length; i<len; ++i) {
                         item = labelMap[i];
-                        this.drawText(item[0].geometry.getCentroid(), item[1], feature.id);
+                        this.drawText(item[0].geometry.getCentroid(), item[1], item[0].id);
                     }
                 } catch (e){
                     console.log(e);
@@ -495,7 +618,7 @@ if (typeof OpenLayers !== 'undefined') {
                 });
             }
             if (style.labelOutlineColor) {
-                //console.log("outline: "+style.fontStrokeColor);
+                //console.log("outline: "+style.labelOutlineColor);
                 var rgb;
                 if (style.labelOutlineColor.indexOf('#')>-1){
                     rgb = this.hexToRGB(style.fontStrokeColor);
@@ -507,14 +630,15 @@ if (typeof OpenLayers !== 'undefined') {
                         red: rgb[0],
                         green: rgb[1],
                         blue: rgb[2],
-                        alpha: style.fontOpacity
+                        alpha: style.fontOpacity || 1
                     });
                 }
             }
             if (style.fontFamily && style.fontSize) {
                 //console.log("family: "+style.fontFamily);
-                //console.log("size: "+style.fontSize);
                 text.setFont(style.fontSize+" "+style.fontFamily);
+            } else {
+                text.setFont("16px Helvetica");
             }
             if (style.fontWeight) {
                 //console.log("weight: "+style.fontWeight);
@@ -524,10 +648,19 @@ if (typeof OpenLayers !== 'undefined') {
             }
             text.setStyle(Cesium.LabelStyle.FILL_AND_OUTLINE);
             text.setText(style.label);
-            var halign = OpenLayers.Renderer.GlobeRenderer.LABEL_ALIGN_H[style.labelAlign[0]]; // uncomment after Cesium Issue #49 is resolved
+            var halign = OpenLayers.Renderer.GlobeRenderer.LABEL_ALIGN_H[style.labelAlign[0]];
             var valign = OpenLayers.Renderer.GlobeRenderer.LABEL_ALIGN_V[style.labelAlign[1]];
-            text.setHorizontalOrigin(halign);
-            text.setVerticalOrigin(valign);
+            //console.log("halign: "+halign+", valign: "+valign);
+            if (halign){
+                text.setHorizontalOrigin(halign);
+            } else {
+                text.setHorizontalOrigin("CENTER");
+            }
+            if (valign){
+                text.setVerticalOrigin(valign);
+            } else {
+                text.setHorizontalOrigin("CENTER");
+            }
         },
 
         drawPoint: function(geometry, style, featureId) {
@@ -545,10 +678,14 @@ if (typeof OpenLayers !== 'undefined') {
                     alpha: style.fillOpacity
                 });
             }
-            if (style.backgroundGraphic){
-                console.log("img: "+style.backgroundGraphic);
+            var graphicURL = style.externalGraphic || style.backgroundGraphic;
+            if (graphicURL){
+                console.log("img: "+graphicURL);
+                if (style.fillColor=="#000000"){ // don't allow completely black images
+                    point.setColor({red: 1,green: 1,blue: 1,alpha: 1});
+                }
                 var image = new Image();
-                image.src = style.backgroundGraphic;
+                image.src = graphicURL;
                 var width = style.graphicWidth || style.graphicHeight;
                 var index = -1;
                 for (var i in this.images){
@@ -562,8 +699,17 @@ if (typeof OpenLayers !== 'undefined') {
                     this.images.push(image);
                     var that = this;
                     image.onload = function() {
+                        console.log("image loaded");
                         that.billboards.setTextureAtlas(that.map.scene.getContext().createTextureAtlas(that.images));
-                        point.setImageIndex(that.images.length-1);
+                        var newIndex = that.images.length-1;
+                        point.setImageIndex(newIndex);
+                        // make sure the correct index is set for all billboards using this image now that it is loaded
+                        for (i in that.billboardHash){
+                            var billboard = that.billboardHash[i];
+                            if (billboard && billboard.imgURL==image.src){
+                                billboard.setImageIndex(newIndex);
+                            }
+                        }
                     };
                 } else {
                     image = this.images[index];
@@ -574,6 +720,7 @@ if (typeof OpenLayers !== 'undefined') {
                         point.setScale(width/image.width);
                     } else {
                         point.setImageIndex(0);
+                        point.imgURL = image.src;
                     }
                 }
             } else {
@@ -651,7 +798,22 @@ if (typeof OpenLayers !== 'undefined') {
                         blue: rgb[2],
                         alpha: style.fillOpacity
                     };
-                    polyline.width = 5;  // width is only 1px when ANGLE is enabled
+                    var rgb = this.hexToRGB(style.fillColor);
+                    polyline.color = {
+                        red: rgb[0],
+                        green: rgb[1],
+                        blue: rgb[2],
+                        alpha: style.fillOpacity
+                    };
+                    rgb = this.hexToRGB(style.strokeColor);
+                    polyline.outlineColor = {
+                        red: rgb[0],
+                        green: rgb[1],
+                        blue: rgb[2],
+                        alpha: style.fillOpacity
+                    };
+                    polyline.width = 1;
+                    polyline.strokeWidth = style.outlineWidth;  // width is only 1px when ANGLE is enabled
                 }
                 this.primitivesHash[featureId] = polyline;
                 this.primitives.add(polyline);

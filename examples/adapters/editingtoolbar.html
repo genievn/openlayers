@@ -19,8 +19,11 @@
             var map, layer;
 
             function init(){
-                layer = new OpenLayers.Layer.WMS( "OpenLayers WMS",
-                        "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
+                layer = new OpenLayers.Layer.Bing({
+                    name: "Aerial",
+                    key: "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf",
+                    type: "Aerial"
+                });
     
                 vlayer = new OpenLayers.Layer.Vector( "Editable" );
                 map = new OpenLayers.Globe( 'map', {

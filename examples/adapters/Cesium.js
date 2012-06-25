@@ -325,7 +325,7 @@ define('Core/Cartesian2',[],function() {
          *
          * @see Cartesian2.y
          */
-        this.x = (typeof x !== "undefined") ? x : 0.0;
+        this.x = (typeof x !== 'undefined') ? x : 0.0;
 
         /**
          * DOC_TBA
@@ -334,7 +334,7 @@ define('Core/Cartesian2',[],function() {
          *
          * @see Cartesian2.x
          */
-        this.y = (typeof y !== "undefined") ? y : 0.0;
+        this.y = (typeof y !== 'undefined') ? y : 0.0;
     }
 
     /**
@@ -518,7 +518,7 @@ define('Core/Cartesian2',[],function() {
      * @return {String} A string representing this instance.
      */
     Cartesian2.prototype.toString = function() {
-        return "(" + this.x + ", " + this.y + ")";
+        return '(' + this.x + ', ' + this.y + ')';
     };
 
     return Cartesian2;
@@ -553,7 +553,7 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
          * @see Cartesian3.y
          * @see Cartesian3.z
          */
-        this.x = (typeof x !== "undefined") ? x : 0.0;
+        this.x = (typeof x !== 'undefined') ? x : 0.0;
 
         /**
          * DOC_TBA
@@ -563,7 +563,7 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
          * @see Cartesian3.x
          * @see Cartesian3.z
          */
-        this.y = (typeof y !== "undefined") ? y : 0.0;
+        this.y = (typeof y !== 'undefined') ? y : 0.0;
 
         /**
          * DOC_TBA
@@ -573,7 +573,7 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
          * @see Cartesian3.x
          * @see Cartesian3.y
          */
-        this.z = (typeof z !== "undefined") ? z : 0.0;
+        this.z = (typeof z !== 'undefined') ? z : 0.0;
     }
 
     /**
@@ -930,7 +930,7 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
      * @return {String} A string representing this instance.
      */
     Cartesian3.prototype.toString = function() {
-        return "(" + this.x + ", " + this.y + ", " + this.z + ")";
+        return '(' + this.x + ', ' + this.y + ', ' + this.z + ')';
     };
 
     return Cartesian3;
@@ -977,7 +977,7 @@ define('Core/Cartesian4',[
          * @see Cartesian4.z
          * @see Cartesian4.w
          */
-        this.x = (typeof x !== "undefined") ? x : 0.0;
+        this.x = (typeof x !== 'undefined') ? x : 0.0;
 
         /**
          * DOC_TBA
@@ -988,7 +988,7 @@ define('Core/Cartesian4',[
          * @see Cartesian4.z
          * @see Cartesian4.w
          */
-        this.y = (typeof y !== "undefined") ? y : 0.0;
+        this.y = (typeof y !== 'undefined') ? y : 0.0;
 
         /**
          * DOC_TBA
@@ -999,7 +999,7 @@ define('Core/Cartesian4',[
          * @see Cartesian4.y
          * @see Cartesian4.w
          */
-        this.z = (typeof z !== "undefined") ? z : 0.0;
+        this.z = (typeof z !== 'undefined') ? z : 0.0;
 
         /**
          * DOC_TBA
@@ -1010,7 +1010,7 @@ define('Core/Cartesian4',[
          * @see Cartesian4.y
          * @see Cartesian4.z
          */
-        this.w = (typeof w !== "undefined") ? w : 0.0;
+        this.w = (typeof w !== 'undefined') ? w : 0.0;
     }
 
     /**
@@ -1289,7 +1289,7 @@ define('Core/Cartesian4',[
      * @return {String} A string representing this instance.
      */
     Cartesian4.prototype.toString = function() {
-        return "(" + this.x + ", " + this.y + ", " + this.z + ", " + this.w + ")";
+        return '(' + this.x + ', ' + this.y + ', ' + this.z + ', ' + this.w + ')';
     };
 
     return Cartesian4;
@@ -1394,7 +1394,7 @@ define('Core/Cartographic2',[],function() {
      * @return {String} Returns a string representing this instance.
      */
     Cartographic2.prototype.toString = function() {
-        return "(" + this.longitude + ", " + this.latitude + ")";
+        return '(' + this.longitude + ', ' + this.latitude + ')';
     };
 
     return Cartographic2;
@@ -1516,7 +1516,7 @@ define('Core/Cartographic3',[],function() {
      * @return {String} Returns a string representing this instance.
      */
     Cartographic3.prototype.toString = function() {
-        return "(" + this.longitude + ", " + this.latitude + ", " + this.height + ")";
+        return '(' + this.longitude + ', ' + this.latitude + ', ' + this.height + ')';
     };
 
     return Cartographic3;
@@ -1597,19 +1597,18 @@ define('Core/DeveloperError',[],function() {
      * @name DeveloperError
      *
      * @param {String} [message=undefined] The error message for this exception.
-     * @param {String} [parameter=undefined] The name of the function argument that caused the exception.
      *
      * @see RuntimeError
      * @constructor
      */
-    function DeveloperError(message, parameter) {
+    function DeveloperError(message) {
         /**
-         * "DeveloperError" indicating that this exception was thrown due to a developer error.
+         * 'DeveloperError' indicating that this exception was thrown due to a developer error.
          *
          * @constant
          * @type String
          */
-        this.name = "DeveloperError";
+        this.name = 'DeveloperError';
 
         /**
          * The explanation for why this exception was thrown.
@@ -1617,13 +1616,6 @@ define('Core/DeveloperError',[],function() {
          * @type String
          */
         this.message = message;
-
-        /**
-         * The name of the function argument that caused this exception.
-         *
-         * @type String
-         */
-        this.parameter = parameter;
     }
 
     return DeveloperError;
@@ -1646,8 +1638,8 @@ define('Core/Enumeration',[],function() {
      * @example
      * // Create an object with two enumerations.
      * var filter = {
-     *     NEAREST : new Enumeration(0x2600, "NEAREST"),
-     *     LINEAR : new Enumeration(0x2601, "LINEAR")
+     *     NEAREST : new Enumeration(0x2600, 'NEAREST'),
+     *     LINEAR : new Enumeration(0x2601, 'LINEAR')
      * };
      */
     function Enumeration(value, name, properties) {
@@ -1724,7 +1716,7 @@ define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
      * @type {Enumeration}
      * @memberOf ComponentDatatype
      */
-    ComponentDatatype.BYTE = new Enumeration(0x1400, "BYTE");
+    ComponentDatatype.BYTE = new Enumeration(0x1400, 'BYTE');
     ComponentDatatype.BYTE.sizeInBytes = Int8Array.BYTES_PER_ELEMENT;
     ComponentDatatype.BYTE.toTypedArray = function(values) {
         return new Int8Array(values);
@@ -1741,7 +1733,7 @@ define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
      * @type {Enumeration}
      * @memberOf ComponentDatatype
      */
-    ComponentDatatype.UNSIGNED_BYTE = new Enumeration(0x1401, "UNSIGNED_BYTE");
+    ComponentDatatype.UNSIGNED_BYTE = new Enumeration(0x1401, 'UNSIGNED_BYTE');
     ComponentDatatype.UNSIGNED_BYTE.sizeInBytes = Uint8Array.BYTES_PER_ELEMENT;
     ComponentDatatype.UNSIGNED_BYTE.toTypedArray = function(values) {
         return new Uint8Array(values);
@@ -1758,7 +1750,7 @@ define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
      * @type {Enumeration}
      * @memberOf ComponentDatatype
      */
-    ComponentDatatype.SHORT = new Enumeration(0x1402, "SHORT");
+    ComponentDatatype.SHORT = new Enumeration(0x1402, 'SHORT');
     ComponentDatatype.SHORT.sizeInBytes = Int16Array.BYTES_PER_ELEMENT;
     ComponentDatatype.SHORT.toTypedArray = function(values) {
         return new Int16Array(values);
@@ -1775,7 +1767,7 @@ define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
      * @type {Enumeration}
      * @memberOf ComponentDatatype
      */
-    ComponentDatatype.UNSIGNED_SHORT = new Enumeration(0x1403, "UNSIGNED_SHORT");
+    ComponentDatatype.UNSIGNED_SHORT = new Enumeration(0x1403, 'UNSIGNED_SHORT');
     ComponentDatatype.UNSIGNED_SHORT.sizeInBytes = Uint16Array.BYTES_PER_ELEMENT;
     ComponentDatatype.UNSIGNED_SHORT.toTypedArray = function(values) {
         return new Uint16Array(values);
@@ -1792,7 +1784,7 @@ define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
      * @type {Enumeration}
      * @memberOf ComponentDatatype
      */
-    ComponentDatatype.FLOAT = new Enumeration(0x1406, "FLOAT");
+    ComponentDatatype.FLOAT = new Enumeration(0x1406, 'FLOAT');
     ComponentDatatype.FLOAT.sizeInBytes = Float32Array.BYTES_PER_ELEMENT;
     ComponentDatatype.FLOAT.toTypedArray = function(values) {
         return new Float32Array(values);
@@ -1833,7 +1825,7 @@ define('Core/EventModifier',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SHIFT : new Enumeration(0, "SHIFT"),
+        SHIFT : new Enumeration(0, 'SHIFT'),
 
         /**
          * Represents the control key being held down.
@@ -1841,7 +1833,7 @@ define('Core/EventModifier',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        CTRL : new Enumeration(1, "CTRL"),
+        CTRL : new Enumeration(1, 'CTRL'),
 
         /**
          * Represents the alt key being held down.
@@ -1849,7 +1841,7 @@ define('Core/EventModifier',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ALT : new Enumeration(2, "ALT")
+        ALT : new Enumeration(2, 'ALT')
     };
 
     return EventModifier;
@@ -1880,7 +1872,7 @@ define('Core/FullScreen',['Core/DeveloperError'
      *
      * @exports FullScreen
      *
-     * @see <a href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">W3C Fullscreen Living Specification</a>
+     * @see <a href='http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html'>W3C Fullscreen Living Specification</a>
      */
     var FullScreen = {
         /**
@@ -2071,7 +2063,7 @@ define('Core/FeatureDetection',['Core/FullScreen'
      *
      * @returns true if the browser can load cross-origin streaming imagery, false if not.
      *
-     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
+     * @see <a href='http://www.w3.org/TR/cors/'>Cross-Origin Resource Sharing</a>
      */
     FeatureDetection.supportsCrossOriginImagery = function() {
         if (typeof _supportsCrossOriginImagery === 'undefined') {
@@ -2094,7 +2086,7 @@ define('Core/FeatureDetection',['Core/FullScreen'
      * @returns true if the supports the full screen standard, false if not.
      *
      * @see FullScreen
-     * @see <a href="http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html">W3C Fullscreen Living Specification</a>
+     * @see <a href='http://dvcs.w3.org/hg/fullscreen/raw-file/tip/Overview.html'>W3C Fullscreen Living Specification</a>
      */
     FeatureDetection.supportsFullScreen = function() {
         return FullScreen.supportsFullScreen();
@@ -2118,14 +2110,14 @@ define('Core/IndexDatatype',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        UNSIGNED_BYTE : new Enumeration(0x1401, "UNSIGNED_BYTE"),
+        UNSIGNED_BYTE : new Enumeration(0x1401, 'UNSIGNED_BYTE'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        UNSIGNED_SHORT : new Enumeration(0x1403, "UNSIGNED_SHORT")
+        UNSIGNED_SHORT : new Enumeration(0x1403, 'UNSIGNED_SHORT')
     };
 
     return IndexDatatype;
@@ -2150,7 +2142,7 @@ define('Core/Intersect',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        OUTSIDE : new Enumeration(-1, "OUTSIDE"),
+        OUTSIDE : new Enumeration(-1, 'OUTSIDE'),
 
         /**
          * Represents that an object intersects one of the frustum's planes.
@@ -2158,7 +2150,7 @@ define('Core/Intersect',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        INTERSECTING : new Enumeration(0, "INTERSECTING"),
+        INTERSECTING : new Enumeration(0, 'INTERSECTING'),
 
         /**
          * Represents that an object is fully within the frustum.
@@ -2166,7 +2158,7 @@ define('Core/Intersect',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        INSIDE : new Enumeration(1, "INSIDE")
+        INSIDE : new Enumeration(1, 'INSIDE')
     };
 
     return Intersect;
@@ -2203,7 +2195,7 @@ define('Core/AxisAlignedBoundingBox',[
      */
     function AxisAlignedBoundingBox(positions) {
         if (!positions) {
-            throw new DeveloperError("positions is required.", "positions");
+            throw new DeveloperError('positions is required.');
         }
 
         var length = positions.length;
@@ -2336,7 +2328,7 @@ define('Core/BoundingSphere',[
      * @exception {DeveloperError} <code>positions</code> is required.
      *
      * @see AxisAlignedBoundingBox
-     * @see <a href="http://blogs.agi.com/insight3d/index.php/2008/02/04/a-bounding/">Bounding Sphere computation article</a>
+     * @see <a href='http://blogs.agi.com/insight3d/index.php/2008/02/04/a-bounding/'>Bounding Sphere computation article</a>
      *
      * @constructor
      * @immutable
@@ -2351,7 +2343,7 @@ define('Core/BoundingSphere',[
      */
     function BoundingSphere(positions, radius) {
         if (!positions) {
-            throw new DeveloperError("positions is required.", "positions");
+            throw new DeveloperError('positions is required.');
         }
 
         if ((arguments.length === 2) && (typeof arguments[1] === 'number')) {
@@ -2523,16 +2515,16 @@ define('Core/Jobs',[],function() {
     // TODO:  Need tests for this when interface is solid.
 
     /**
-     * Jobs for use with {@link <a href="https://github.com/chriso/chain.js">chain.js</a>}.
+     * Jobs for use with {@link <a href='https://github.com/chriso/chain.js'>chain.js</a>}.
      * Jobs can be used to asynchronously download resources, such as images, and create
      * function dependencies, e.g., download these images asynchronously, and create a texture for
      * each when the download completes.
      * @exports Jobs
-     * @see <a href="https://github.com/chriso/chain.js">chain.js</a>
+     * @see <a href='https://github.com/chriso/chain.js'>chain.js</a>
      */
     var Jobs = {
         /**
-         * Creates a function to asynchronously download an image for use with {@link <a href="https://github.com/chriso/chain.js">chain.js</a>}.
+         * Creates a function to asynchronously download an image for use with {@link <a href='https://github.com/chriso/chain.js'>chain.js</a>}.
          * This allows multiple images to be downloaded in parallel, and other functions to depend on the download as shown in the example below.
          * <br /><br />
          * When a download completes, the image object is available to functions later in the chain via <code>this.images[url]</code>.
@@ -2541,20 +2533,20 @@ define('Core/Jobs',[],function() {
          *
          * @returns {Object} A function to asynchronously download the image for use with chain.js.
          *
-         * @see <a href="https://github.com/chriso/chain.js">chain.js</a>
+         * @see <a href='https://github.com/chriso/chain.js'>chain.js</a>
          *
          * @example
          * // Asynchronously download two images, then create textures.
          * run(
-         *     Jobs.downloadImage("diffuse.jpg"),
-         *     Jobs.downloadImage("specular.jpg")).thenRun(
+         *     Jobs.downloadImage('diffuse.jpg'),
+         *     Jobs.downloadImage('specular.jpg')).thenRun(
          * function() {
          *     var diffuseTexture = context.createTexture2D({
-         *          source      : this.images["diffuse.jpg"],
+         *          source      : this.images['diffuse.jpg'],
          *          pixelFormat : PixelFormat.RGB
          *      });
          *     var specularTexture = context.createTexture2D({
-         *          source      : this.images["specular.jpg"],
+         *          source      : this.images['specular.jpg'],
          *          pixelFormat : PixelFormat.RGB
          *      });
          *     // ...
@@ -2615,14 +2607,14 @@ define('Core/LeapSecond',[
      *
      * @example
      * // Example 1. Construct a LeapSecond using a JulianDate
-     * var date = new Date("January 1, 1990 00:00:00 UTC");
+     * var date = new Date('January 1, 1990 00:00:00 UTC');
      * var leapSecond = new LeapSecond(JulianDate.fromDate(date), 25.0);
      * var offset = leapSecond.offset;    // 25.0
      *
      * //////////////////////////////////////////////////////////////////
      *
      * // Example 2. Construct a LeapSecond using a date string
-     * var date = "January 1, 1990 00:00:00 UTC";
+     * var date = 'January 1, 1990 00:00:00 UTC';
      * var leapSecond = new LeapSecond(date, 25.0);
      */
     function LeapSecond(date, offset) {
@@ -2630,10 +2622,10 @@ define('Core/LeapSecond',[
         var totalTaiOffsetFromUtc;
 
         if (!date) {
-            throw new DeveloperError("date is required.");
+            throw new DeveloperError('date is required.');
         }
         if (typeof offset === 'undefined') {
-            throw new DeveloperError("offset is required.");
+            throw new DeveloperError('offset is required.');
         }
 
         if (typeof date === 'object') {
@@ -2685,11 +2677,11 @@ define('Core/LeapSecond',[
      * // Set the list of leap seconds using user defined data.
      * var data = [
      *     {
-     *          date: "January 1, 1972 00:00:00 UTC",
+     *          date: 'January 1, 1972 00:00:00 UTC',
      *          offset: 10.0
      *     },
      *     {
-     *          date: "July 1, 1972 00:00:00 UTC",
+     *          date: 'July 1, 1972 00:00:00 UTC',
      *          offset: 11.0
      *     }
      * ];
@@ -2698,7 +2690,7 @@ define('Core/LeapSecond',[
      */
     LeapSecond.setLeapSeconds = function(data) {
         if (!data) {
-            throw new DeveloperError("data is required.", "data");
+            throw new DeveloperError('data is required.');
         }
 
         LeapSecond._leapSeconds = [];
@@ -2723,32 +2715,32 @@ define('Core/LeapSecond',[
         if (!LeapSecond._leapSeconds) {
             LeapSecond._leapSeconds =
                 [
-                     new LeapSecond("January 1, 1972 00:00:00 UTC", 10),
-                     new LeapSecond("July 1, 1972 00:00:00 UTC", 11),
-                     new LeapSecond("January 1, 1973 00:00:00 UTC", 12),
-                     new LeapSecond("January 1, 1974 00:00:00 UTC", 13),
-                     new LeapSecond("January 1, 1975 00:00:00 UTC", 14),
-                     new LeapSecond("January 1, 1976 00:00:00 UTC", 15),
-                     new LeapSecond("January 1, 1977 00:00:00 UTC", 16),
-                     new LeapSecond("January 1, 1978 00:00:00 UTC", 17),
-                     new LeapSecond("January 1, 1979 00:00:00 UTC", 18),
-                     new LeapSecond("January 1, 1980 00:00:00 UTC", 19),
-                     new LeapSecond("July 1, 1981 00:00:00 UTC", 20),
-                     new LeapSecond("July 1, 1982 00:00:00 UTC", 21),
-                     new LeapSecond("July 1, 1983 00:00:00 UTC", 22),
-                     new LeapSecond("July 1, 1985 00:00:00 UTC", 23),
-                     new LeapSecond("January 1, 1988 00:00:00 UTC", 24),
-                     new LeapSecond("January 1, 1990 00:00:00 UTC", 25),
-                     new LeapSecond("January 1, 1991 00:00:00 UTC", 26),
-                     new LeapSecond("July 1, 1992 00:00:00 UTC", 27),
-                     new LeapSecond("July 1, 1993 00:00:00 UTC", 28),
-                     new LeapSecond("July 1, 1994 00:00:00 UTC", 29),
-                     new LeapSecond("January 1, 1996 00:00:00 UTC", 30),
-                     new LeapSecond("July 1, 1997 00:00:00 UTC", 31),
-                     new LeapSecond("January 1, 1999 00:00:00 UTC", 32),
-                     new LeapSecond("January 1, 2006 00:00:00 UTC", 33),
-                     new LeapSecond("January 1, 2009 00:00:00 UTC", 34),
-                     new LeapSecond("July 1, 2012 00:00:00 UTC", 35)
+                     new LeapSecond('January 1, 1972 00:00:00 UTC', 10),
+                     new LeapSecond('July 1, 1972 00:00:00 UTC', 11),
+                     new LeapSecond('January 1, 1973 00:00:00 UTC', 12),
+                     new LeapSecond('January 1, 1974 00:00:00 UTC', 13),
+                     new LeapSecond('January 1, 1975 00:00:00 UTC', 14),
+                     new LeapSecond('January 1, 1976 00:00:00 UTC', 15),
+                     new LeapSecond('January 1, 1977 00:00:00 UTC', 16),
+                     new LeapSecond('January 1, 1978 00:00:00 UTC', 17),
+                     new LeapSecond('January 1, 1979 00:00:00 UTC', 18),
+                     new LeapSecond('January 1, 1980 00:00:00 UTC', 19),
+                     new LeapSecond('July 1, 1981 00:00:00 UTC', 20),
+                     new LeapSecond('July 1, 1982 00:00:00 UTC', 21),
+                     new LeapSecond('July 1, 1983 00:00:00 UTC', 22),
+                     new LeapSecond('July 1, 1985 00:00:00 UTC', 23),
+                     new LeapSecond('January 1, 1988 00:00:00 UTC', 24),
+                     new LeapSecond('January 1, 1990 00:00:00 UTC', 25),
+                     new LeapSecond('January 1, 1991 00:00:00 UTC', 26),
+                     new LeapSecond('July 1, 1992 00:00:00 UTC', 27),
+                     new LeapSecond('July 1, 1993 00:00:00 UTC', 28),
+                     new LeapSecond('July 1, 1994 00:00:00 UTC', 29),
+                     new LeapSecond('January 1, 1996 00:00:00 UTC', 30),
+                     new LeapSecond('July 1, 1997 00:00:00 UTC', 31),
+                     new LeapSecond('January 1, 1999 00:00:00 UTC', 32),
+                     new LeapSecond('January 1, 2006 00:00:00 UTC', 33),
+                     new LeapSecond('January 1, 2009 00:00:00 UTC', 34),
+                     new LeapSecond('July 1, 2012 00:00:00 UTC', 35)
                  ];
         }
         return LeapSecond._leapSeconds;
@@ -2764,7 +2756,7 @@ define('Core/LeapSecond',[
      * @return {Boolean} <code>true</code> if the leap seconds are equal; otherwise, <code>false</code>.
      *
      * @example
-     * var date = new Date("January 1, 1990 00:00:00 UTC");
+     * var date = new Date('January 1, 1990 00:00:00 UTC');
      * var leapSecond1 = new LeapSecond(JulianDate.fromDate(date), 25.0);
      * var leapSecond2 = new LeapSecond(JulianDate.fromDate(date), 25.0);
      * leapSecond1.equals(leapSecond2);     // true
@@ -2790,7 +2782,7 @@ define('Core/LeapSecond',[
      * @see JulianDate#isAfter
      *
      * @example
-     * var date = new Date("January 1, 2006 00:00:00 UTC");
+     * var date = new Date('January 1, 2006 00:00:00 UTC');
      * var leapSecond1 = new LeapSecond(JulianDate.fromDate(date), 33.0);
      * var leapSecond2 = new LeapSecond(JulianDate.fromDate(date), 34.0);
      * LeapSecond.compareLeapSecondDate(leapSecond1, leapSecond2);    // returns 0
@@ -3327,19 +3319,19 @@ define('Core/Ellipsoid',[
      * @constructor
      * @immutable
      *
-     * @exception {DeveloperError} One argument is required.
+     * @exception {DeveloperError} radii is required.
      * @exception {DeveloperError} All radii components must be greater than or equal to zero.
      */
-    function Ellipsoid() {
+    function Ellipsoid(radii) {
         if (arguments.length === 0) {
-            throw new DeveloperError("One argument is required.");
+            throw new DeveloperError('radii is required.');
         }
 
-        if (arguments[0].x < 0 || arguments[0].y < 0 || arguments[0].z < 0) {
-            throw new DeveloperError("All radii components must be greater than or equal to zero.", "radii");
+        if (radii.x < 0 || radii.y < 0 || radii.z < 0) {
+            throw new DeveloperError('All radii components must be greater than or equal to zero.');
         }
 
-        var radii = Cartesian3.clone(arguments[0]);
+        radii = Cartesian3.clone(radii);
         var x = radii.x;
         var y = radii.y;
         var z = radii.z;
@@ -3843,19 +3835,19 @@ define('Core/IntersectionTests',[
          */
         rayPlane : function(rayOrigin, rayDirection, planeNormal, planeD) {
             if (!rayOrigin) {
-                throw new DeveloperError("rayOrigin is required.", "rayOrigin");
+                throw new DeveloperError('rayOrigin is required.');
             }
 
             if (!rayDirection) {
-                throw new DeveloperError("rayDirection is required.", "rayDirection");
+                throw new DeveloperError('rayDirection is required.');
             }
 
             if (!planeNormal) {
-                throw new DeveloperError("planeNormal is required.", "planeNormal");
+                throw new DeveloperError('planeNormal is required.');
             }
 
             if (!planeD) {
-                throw new DeveloperError("planeD is required.", "planeD");
+                throw new DeveloperError('planeD is required.');
             }
 
             var origin = Cartesian3.clone(rayOrigin);
@@ -3880,15 +3872,15 @@ define('Core/IntersectionTests',[
 
         rayEllipsoid : function(rayOrigin, rayDirection, ellipsoid) {
             if (!rayOrigin) {
-                throw new DeveloperError("rayOrigin is required.", "rayOrigin");
+                throw new DeveloperError('rayOrigin is required.');
             }
 
             if (!rayDirection) {
-                throw new DeveloperError("rayDirection is required.", "rayDirection");
+                throw new DeveloperError('rayDirection is required.');
             }
 
             if (!ellipsoid) {
-                throw new DeveloperError("ellipsoid is required.", "ellipsoid");
+                throw new DeveloperError('ellipsoid is required.');
             }
 
             var inverseRadii = ellipsoid.getOneOverRadii();
@@ -4088,11 +4080,11 @@ define('Core/Matrix2',[
      *
      * @memberof Matrix2
      * @return {Number} The element at the zero-based, column-major index.
-     * @exception {DeveloperError} Index must be between 0 and 3.
+     * @exception {DeveloperError} index must be between 0 and 3.
      */
     Matrix2.prototype.getColumnMajorValue = function(index) {
         if (index < 0 || index > 3) {
-            throw new DeveloperError("Index must be between 0 and 3.", "index");
+            throw new DeveloperError('index must be between 0 and 3.');
         }
 
         return this.values[index];
@@ -4309,7 +4301,7 @@ define('Core/Matrix2',[
                         columnMajorValues[1], columnMajorValues[3]);
             }
 
-            throw new DeveloperError("columnMajorValues must have 4 elements.", "columnMajorValues");
+            throw new DeveloperError('columnMajorValues must have 4 elements.');
         }
         return new Matrix2();
     };
@@ -4402,8 +4394,8 @@ define('Core/Matrix2',[
      * @return {String} Returns a string representing this instance.
      */
     Matrix2.prototype.toString = function() {
-        return "(" + this.getColumn0Row0() + ", " + this.getColumn1Row0() + ")\n" +
-               "(" + this.getColumn0Row1() + ", " + this.getColumn1Row1() + ")";
+        return '(' + this.getColumn0Row0() + ', ' + this.getColumn1Row0() + ')\n' +
+               '(' + this.getColumn0Row1() + ', ' + this.getColumn1Row1() + ')';
     };
 
     return Matrix2;
@@ -4569,11 +4561,11 @@ define('Core/Matrix3',[
      *
      * @memberof Matrix3
      * @return {Number} The element at the zero-based, column-major index.
-     * @exception {DeveloperError} Index must be between 0 and 8.
+     * @exception {DeveloperError} index must be between 0 and 8.
      */
     Matrix3.prototype.getColumnMajorValue = function(index) {
         if (index < 0 || index > 8) {
-            throw new DeveloperError("Index must be between 0 and 8.", "index");
+            throw new DeveloperError('index must be between 0 and 8.');
         }
 
         return this.values[index];
@@ -4873,7 +4865,7 @@ define('Core/Matrix3',[
                         columnMajorValues[2], columnMajorValues[5], columnMajorValues[8]);
             }
 
-            throw new DeveloperError("columnMajorValues must have 9 elements.", "columnMajorValues");
+            throw new DeveloperError('columnMajorValues must have 9 elements.');
         }
         return new Matrix3();
     };
@@ -5059,9 +5051,9 @@ define('Core/Matrix3',[
      * @return {String} Returns a string representing this instance.
      */
     Matrix3.prototype.toString = function() {
-        return "(" + this.getColumn0Row0() + ", " + this.getColumn1Row0() + ", " + this.getColumn2Row0() + ")\n" +
-               "(" + this.getColumn0Row1() + ", " + this.getColumn1Row1() + ", " + this.getColumn2Row1() + ")\n" +
-               "(" + this.getColumn0Row2() + ", " + this.getColumn1Row2() + ", " + this.getColumn2Row2() + ")";
+        return '(' + this.getColumn0Row0() + ', ' + this.getColumn1Row0() + ', ' + this.getColumn2Row0() + ')\n' +
+               '(' + this.getColumn0Row1() + ', ' + this.getColumn1Row1() + ', ' + this.getColumn2Row1() + ')\n' +
+               '(' + this.getColumn0Row2() + ', ' + this.getColumn1Row2() + ', ' + this.getColumn2Row2() + ')';
     };
 
     /**
@@ -5237,7 +5229,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        LEFT_DOWN : new Enumeration(0, "LEFT_DOWN"),
+        LEFT_DOWN : new Enumeration(0, 'LEFT_DOWN'),
 
         /**
          * Represents a mouse left button up event.
@@ -5245,7 +5237,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        LEFT_UP : new Enumeration(1, "LEFT_UP"),
+        LEFT_UP : new Enumeration(1, 'LEFT_UP'),
 
         /**
          * Represents a mouse left click event.
@@ -5253,7 +5245,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        LEFT_CLICK : new Enumeration(2, "LEFT_CLICK"),
+        LEFT_CLICK : new Enumeration(2, 'LEFT_CLICK'),
 
         /**
          * Represents a mouse left double click event.
@@ -5261,7 +5253,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        LEFT_DOUBLE_CLICK : new Enumeration(3, "LEFT_DOUBLE_CLICK"),
+        LEFT_DOUBLE_CLICK : new Enumeration(3, 'LEFT_DOUBLE_CLICK'),
 
         /**
          * Represents a mouse left button down event.
@@ -5269,7 +5261,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        RIGHT_DOWN : new Enumeration(5, "RIGHT_DOWN"),
+        RIGHT_DOWN : new Enumeration(5, 'RIGHT_DOWN'),
 
         /**
          * Represents a mouse right button up event.
@@ -5277,7 +5269,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        RIGHT_UP : new Enumeration(6, "RIGHT_UP"),
+        RIGHT_UP : new Enumeration(6, 'RIGHT_UP'),
 
         /**
          * Represents a mouse right click event.
@@ -5285,7 +5277,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        RIGHT_CLICK : new Enumeration(7, "RIGHT_CLICK"),
+        RIGHT_CLICK : new Enumeration(7, 'RIGHT_CLICK'),
 
         /**
          * Represents a mouse right double click event.
@@ -5293,7 +5285,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        RIGHT_DOUBLE_CLICK : new Enumeration(8, "RIGHT_DOUBLE_CLICK"),
+        RIGHT_DOUBLE_CLICK : new Enumeration(8, 'RIGHT_DOUBLE_CLICK'),
 
         /**
          * Represents a mouse middle button down event.
@@ -5301,7 +5293,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MIDDLE_DOWN : new Enumeration(10, "MIDDLE_DOWN"),
+        MIDDLE_DOWN : new Enumeration(10, 'MIDDLE_DOWN'),
 
         /**
          * Represents a mouse middle button up event.
@@ -5309,7 +5301,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MIDDLE_UP : new Enumeration(11, "MIDDLE_UP"),
+        MIDDLE_UP : new Enumeration(11, 'MIDDLE_UP'),
 
         /**
          * Represents a mouse middle click event.
@@ -5317,7 +5309,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MIDDLE_CLICK : new Enumeration(12, "MIDDLE_CLICK"),
+        MIDDLE_CLICK : new Enumeration(12, 'MIDDLE_CLICK'),
 
         /**
          * Represents a mouse middle double click event.
@@ -5325,7 +5317,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MIDDLE_DOUBLE_CLICK : new Enumeration(13, "MIDDLE_DOUBLE_CLICK"),
+        MIDDLE_DOUBLE_CLICK : new Enumeration(13, 'MIDDLE_DOUBLE_CLICK'),
 
         /**
          * Represents a mouse move event.
@@ -5333,7 +5325,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MOVE : new Enumeration(15, "MOVE"),
+        MOVE : new Enumeration(15, 'MOVE'),
 
         /**
          * Represents a mouse wheel event.
@@ -5341,7 +5333,7 @@ define('Core/MouseEventType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        WHEEL : new Enumeration(16, "WHEEL")
+        WHEEL : new Enumeration(16, 'WHEEL')
     };
 
     return MouseEventType;
@@ -5438,49 +5430,49 @@ define('Core/PrimitiveType',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        POINTS : new Enumeration(0x0000, "POINTS"),
+        POINTS : new Enumeration(0x0000, 'POINTS'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        LINES : new Enumeration(0x0001, "LINES"),
+        LINES : new Enumeration(0x0001, 'LINES'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        LINE_LOOP : new Enumeration(0x0002, "LINE_LOOP"),
+        LINE_LOOP : new Enumeration(0x0002, 'LINE_LOOP'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        LINE_STRIP : new Enumeration(0x0003, "LINE_STRIP"),
+        LINE_STRIP : new Enumeration(0x0003, 'LINE_STRIP'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        TRIANGLES : new Enumeration(0x0004, "TRIANGLES"),
+        TRIANGLES : new Enumeration(0x0004, 'TRIANGLES'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        TRIANGLE_STRIP : new Enumeration(0x0005, "TRIANGLE_STRIP"),
+        TRIANGLE_STRIP : new Enumeration(0x0005, 'TRIANGLE_STRIP'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        TRIANGLE_FAN : new Enumeration(0x0006, "TRIANGLE_FAN"),
+        TRIANGLE_FAN : new Enumeration(0x0006, 'TRIANGLE_FAN'),
 
         /**
          * DOC_TBA
@@ -5542,7 +5534,7 @@ define('Core/BoxTessellator',[
                 var dimensions = template.dimensions || new Cartesian3(1.0, 1.0, 1.0);
 
                 if (dimensions.x < 0 || dimensions.y < 0 || dimensions.z < 0) {
-                    throw new DeveloperError("All dimensions components must be greater than or equal to zero.");
+                    throw new DeveloperError('All dimensions components must be greater than or equal to zero.');
                 }
 
                 var corner = dimensions.multiplyWithScalar(0.5);
@@ -5628,10 +5620,10 @@ define('Core/CubeMapEllipsoidTessellator',[
      */
     CubeMapEllipsoidTessellator.compute = function(ellipsoid, numberOfPartitions, attributeName) {
         if (numberOfPartitions <= 0) {
-            throw new DeveloperError("numberOfPartitions must be greater than zero.", "numberOfPartitions");
+            throw new DeveloperError('numberOfPartitions must be greater than zero.');
         }
 
-        attributeName = attributeName || "position";
+        attributeName = attributeName || 'position';
 
         var positions = [];
         var indices = [];
@@ -5816,7 +5808,7 @@ define('Core/PlaneTessellator',[
             var onInterpolation = template.onInterpolation; // Can be undefined
 
             if (resolution.x <= 1 || resolution.y <= 1) {
-                throw new DeveloperError("Resolution must be greater than one in both the x and y directions.");
+                throw new DeveloperError('Resolution must be greater than one in both the x and y directions.');
             }
 
             var i;
@@ -5897,7 +5889,7 @@ define('Core/Quaternion',[
          * @see Quaternion.z
          * @see Quaternion.w
          */
-        this.x = (typeof x !== "undefined") ? x : 0.0;
+        this.x = (typeof x !== 'undefined') ? x : 0.0;
 
         /**
          * The y coordinate.
@@ -5908,7 +5900,7 @@ define('Core/Quaternion',[
          * @see Quaternion.z
          * @see Quaternion.w
          */
-        this.y = (typeof y !== "undefined") ? y : 0.0;
+        this.y = (typeof y !== 'undefined') ? y : 0.0;
 
         /**
          * The z coordinate.
@@ -5919,7 +5911,7 @@ define('Core/Quaternion',[
          * @see Quaternion.y
          * @see Quaternion.w
          */
-        this.z = (typeof z !== "undefined") ? z : 0.0;
+        this.z = (typeof z !== 'undefined') ? z : 0.0;
 
         /**
          * The w coordinate.
@@ -5930,7 +5922,7 @@ define('Core/Quaternion',[
          * @see Quaternion.y
          * @see Quaternion.z
          */
-        this.w = (typeof w !== "undefined") ? w : 0.0;
+        this.w = (typeof w !== 'undefined') ? w : 0.0;
     }
 
     /**
@@ -6350,7 +6342,7 @@ define('Core/Quaternion',[
      * @return {String} A string representing this Quaternion.
      */
     Quaternion.prototype.toString = function() {
-        return "(" + this.x + ", " + this.y + ", " + this.z + ", " + this.w + ")";
+        return '(' + this.x + ', ' + this.y + ', ' + this.z + ', ' + this.w + ')';
     };
 
     /**
@@ -6514,8 +6506,7 @@ define('Core/OrientationInterpolator',[
      * @param {Array} controlPoints An array, of at least length 2, of objects with <code>orientation</code> and
      * <code>time</code> properties.
      *
-     * @exception {DeveloperError} controlPoints is required.
-     * @exception {DeveloperError} controlPoints must be an array of at least length 2.
+     * @exception {DeveloperError} controlPoints is required. It must be an array with at least a length of 3.
      *
      * @see Quaternion
      * @see CatmullRomSpline
@@ -6523,7 +6514,7 @@ define('Core/OrientationInterpolator',[
      */
     function OrientationInterpolator(controlPoints) {
         if (!controlPoints || !(controlPoints instanceof Array) || controlPoints.length < 2) {
-            throw new DeveloperError("controlPoints is required. It must be an array with at least a length of 3.", "controlPoints");
+            throw new DeveloperError('controlPoints is required. It must be an array with at least a length of 3.');
         }
 
         this._points = controlPoints;
@@ -6588,12 +6579,12 @@ define('Core/OrientationInterpolator',[
      * @return {Quaternion} The orientation at the given <code>time</code>.
      */
     OrientationInterpolator.prototype.evaluate = function(time) {
-        if (typeof time === "undefined") {
-            throw new DeveloperError("time is required.", "time");
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is required.');
         }
 
         if (time < this._points[0].time || time > this._points[this._points.length - 1].time) {
-            throw new DeveloperError("time is out of range.", "time");
+            throw new DeveloperError('time is out of range.');
         }
 
         var i = this._findIndex(time);
@@ -6746,11 +6737,11 @@ define('Core/Rectangle',['./DeveloperError'], function(DeveloperError) {
 
     Rectangle.createAxisAlignedBoundingRectangle = function(positions) {
         if (typeof positions === 'undefined') {
-            throw new DeveloperError("positions is required.", "positions");
+            throw new DeveloperError('positions is required.');
         }
 
         if (typeof positions.length === 'undefined' || positions.length <= 0) {
-            throw new DeveloperError("The length of positions must be greater than zero.", "positions");
+            throw new DeveloperError('The length of positions must be greater than zero.');
         }
 
         var length = positions.length;
@@ -6839,7 +6830,7 @@ define('Core/Rectangle',['./DeveloperError'], function(DeveloperError) {
      * @return {String} A string representing this rectangle.
      */
     Rectangle.prototype.toString = function() {
-        return "(" + this.x + ", " + this.y + ", " + this.width + ", " + this.height + ")";
+        return '(' + this.x + ', ' + this.y + ', ' + this.width + ', ' + this.height + ')';
     };
 
     /**
@@ -6878,12 +6869,12 @@ define('Core/RuntimeError',[],function() {
      */
     function RuntimeError(message) {
         /**
-         * "RuntimeError" indicating that this exception was thrown due to a runtime error.
+         * 'RuntimeError' indicating that this exception was thrown due to a runtime error.
          *
          * @constant
          * @type String
          */
-        this.name = "RuntimeError";
+        this.name = 'RuntimeError';
 
         /**
          * The explanation for why this exception was thrown.
@@ -7189,11 +7180,11 @@ define('Core/Matrix4',[
      *
      * @memberof Matrix4
      * @return {Number} The element at the zero-based, column-major index.
-     * @exception {DeveloperError} Index must be between 0 and 15.
+     * @exception {DeveloperError} index must be between 0 and 15.
      */
     Matrix4.prototype.getColumnMajorValue = function(index) {
         if (index < 0 || index > 15) {
-            throw new DeveloperError("Index must be between 0 and 15.", "index");
+            throw new DeveloperError('index must be between 0 and 15.');
         }
 
         return this.values[index];
@@ -7528,7 +7519,7 @@ define('Core/Matrix4',[
                         columnMajorValues[3], columnMajorValues[7], columnMajorValues[11], columnMajorValues[15]);
             }
 
-            throw new DeveloperError("columnMajorValues must have 16 elements.", "columnMajorValues");
+            throw new DeveloperError('columnMajorValues must have 16 elements.');
         }
 
         return new Matrix4();
@@ -7626,19 +7617,19 @@ define('Core/Matrix4',[
      */
     Matrix4.createPerspectiveFieldOfView = function(fovy, aspect, zNear, zFar) {
         if (fovy <= 0.0 || fovy > Math.PI) {
-            throw new DeveloperError("fovy must be in [0, PI).", "fovy");
+            throw new DeveloperError('fovy must be in [0, PI).');
         }
 
         if (aspect <= 0.0) {
-            throw new DeveloperError("aspect must be greater than zero.", "aspect");
+            throw new DeveloperError('aspect must be greater than zero.');
         }
 
         if (zNear <= 0.0) {
-            throw new DeveloperError("zNear must be greater than zero.", "zNear");
+            throw new DeveloperError('zNear must be greater than zero.');
         }
 
         if (zFar <= 0.0) {
-            throw new DeveloperError("zFar must be greater than zero.", "zFar");
+            throw new DeveloperError('zFar must be greater than zero.');
         }
 
         var bottom = Math.tan(fovy * 0.5);
@@ -7763,7 +7754,7 @@ define('Core/Matrix4',[
         v.width = v.width || 0.0;
         v.height = v.height || 0.0;
         nearDepthRange = nearDepthRange || 0.0;
-        farDepthRange = (typeof farDepthRange === "undefined") ? 1.0 : farDepthRange;
+        farDepthRange = (typeof farDepthRange === 'undefined') ? 1.0 : farDepthRange;
 
         var halfWidth = v.width * 0.5;
         var halfHeight = v.height * 0.5;
@@ -7999,7 +7990,7 @@ define('Core/Matrix4',[
         det = src[0] * dst[0] + src[1] * dst[1] + src[2] * dst[2] + src[3] * dst[3];
 
         if (Math.abs(det) < CesiumMath.EPSILON20) {
-            throw new RuntimeError("This matrix is not invertible because its determinate is zero.");
+            throw new RuntimeError('This matrix is not invertible because its determinate is zero.');
         }
 
         // calculate matrix inverse
@@ -8250,10 +8241,10 @@ define('Core/Matrix4',[
      * @return {String} Returns a string representing this instance.
      */
     Matrix4.prototype.toString = function() {
-        return "(" + this.getColumn0Row0() + ", " + this.getColumn1Row0() + ", " + this.getColumn2Row0() + ", " + this.getColumn3Row0() + ")\n" +
-               "(" + this.getColumn0Row1() + ", " + this.getColumn1Row1() + ", " + this.getColumn2Row1() + ", " + this.getColumn3Row1() + ")\n" +
-               "(" + this.getColumn0Row2() + ", " + this.getColumn1Row2() + ", " + this.getColumn2Row2() + ", " + this.getColumn3Row2() + ")\n" +
-               "(" + this.getColumn0Row3() + ", " + this.getColumn1Row3() + ", " + this.getColumn2Row3() + ", " + this.getColumn3Row3() + ")";
+        return '(' + this.getColumn0Row0() + ', ' + this.getColumn1Row0() + ', ' + this.getColumn2Row0() + ', ' + this.getColumn3Row0() + ')\n' +
+               '(' + this.getColumn0Row1() + ', ' + this.getColumn1Row1() + ', ' + this.getColumn2Row1() + ', ' + this.getColumn3Row1() + ')\n' +
+               '(' + this.getColumn0Row2() + ', ' + this.getColumn1Row2() + ', ' + this.getColumn2Row2() + ', ' + this.getColumn3Row2() + ')\n' +
+               '(' + this.getColumn0Row3() + ', ' + this.getColumn1Row3() + ', ' + this.getColumn2Row3() + ', ' + this.getColumn3Row3() + ')';
     };
 
     return Matrix4;
@@ -8351,12 +8342,12 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
     /**
      * Encapsulates an algorithm to optimize triangles for the post
      * vertex-shader cache.  This is based on the 2007 SIGGRAPH paper
-     * "Fast Triangle Reordering for Vertex Locality and Reduced Overdraw."
+     * 'Fast Triangle Reordering for Vertex Locality and Reduced Overdraw.'
      * The runtime is linear but several passes are made.
      *
      * @exports Tipsify
      *
-     * @see <a href="http://gfx.cs.princeton.edu/pubs/Sander_2007_%3ETR/tipsy.pdf">
+     * @see <a href='http://gfx.cs.princeton.edu/pubs/Sander_2007_%3ETR/tipsy.pdf'>
      * Fast Triangle Reordering for Vertex Locality and Reduced Overdraw</a>
      * by Sander, Nehab, and Barczak
      */
@@ -8390,19 +8381,19 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
         var cacheSize = description.cacheSize || 24;
 
         if (!indices) {
-            throw new DeveloperError("indices is required.", "indices");
+            throw new DeveloperError('indices is required.');
         }
 
         var numIndices = indices.length;
 
         if ((numIndices < 3) || (numIndices % 3 !== 0)) {
-            throw new DeveloperError("indices length must be a multiple of three.", "indices");
+            throw new DeveloperError('indices length must be a multiple of three.');
         }
         if (maximumIndex <= 0) {
-            throw new DeveloperError("maximumIndex must be greater than zero.", "maximumIndex");
+            throw new DeveloperError('maximumIndex must be greater than zero.');
         }
         if (cacheSize < 3) {
-            throw new DeveloperError("cacheSize must be greater than two.", "cachSize");
+            throw new DeveloperError('cacheSize must be greater than two.');
         }
 
         // Compute the maximumIndex if not given
@@ -8513,18 +8504,18 @@ define('Core/Tipsify',['./DeveloperError'], function(DeveloperError) {
         }
 
         if (!indices) {
-            throw new DeveloperError("indices is required.", "indices");
+            throw new DeveloperError('indices is required.');
         }
         var numIndices = indices.length;
 
         if ((numIndices < 3) || (numIndices % 3 !== 0)) {
-            throw new DeveloperError("indices length must be a multiple of three.", "indices");
+            throw new DeveloperError('indices length must be a multiple of three.');
         }
         if (maximumIndex <= 0) {
-            throw new DeveloperError("maximumIndex must be greater than zero.", "maximumIndex");
+            throw new DeveloperError('maximumIndex must be greater than zero.');
         }
         if (cacheSize < 3) {
-            throw new DeveloperError("cacheSize must be greater than two.", "cachSize");
+            throw new DeveloperError('cacheSize must be greater than two.');
         }
 
         // Determine maximum index
@@ -8798,7 +8789,7 @@ define('Core/MeshFilters',[
                 var attribute = mesh.attributes[property];
                 var num = attribute.values.length / attribute.componentsPerAttribute;
                 if ((numberOfVertices !== num) && (numberOfVertices !== -1)) {
-                    throw new DeveloperError("All mesh attribute lists must have the same number of attributes.");
+                    throw new DeveloperError('All mesh attribute lists must have the same number of attributes.');
                 }
                 numberOfVertices = num;
             }
@@ -8854,7 +8845,7 @@ define('Core/MeshFilters',[
                         } else {
                             tempIndex = indicesIn[intoIndicesIn];
                             if (tempIndex >= numVertices) {
-                                throw new DeveloperError("Input indices contains a value greater than or equal to the number of vertices");
+                                throw new DeveloperError('Input indices contains a value greater than or equal to the number of vertices');
                             }
                             indexCrossReferenceOldToNew[tempIndex] = nextIndex;
 
@@ -8911,7 +8902,7 @@ define('Core/MeshFilters',[
      *
      * @see MeshFilters.reorderForPreVertexCache
      * @see Tipsify
-     * @see <a href="http://gfx.cs.princeton.edu/pubs/Sander_2007_%3ETR/tipsy.pdf">
+     * @see <a href='http://gfx.cs.princeton.edu/pubs/Sander_2007_%3ETR/tipsy.pdf'>
      * Fast Triangle Reordering for Vertex Locality and Reduced Overdraw</a>
      * by Sander, Nehab, and Barczak
      *
@@ -8946,7 +8937,7 @@ define('Core/MeshFilters',[
         var length = indexLists.length;
         for ( var i = 0; i < length; ++i) {
             if (indexLists[i].primitiveType !== PrimitiveType.TRIANGLES) {
-                throw new DeveloperError("The mesh's index-lists must have PrimitiveType equal to PrimitiveType.TRIANGLES.");
+                throw new DeveloperError('indexLists must have PrimitiveType equal to PrimitiveType.TRIANGLES.');
             }
         }
     };
@@ -9030,7 +9021,7 @@ define('Core/MeshFilters',[
                         var x2 = originalIndices[j + 2];
 
                         var i0 = oldToNewIndex[x0];
-                        if (typeof i0 === "undefined") {
+                        if (typeof i0 === 'undefined') {
                             i0 = currentIndex++;
                             oldToNewIndex[x0] = i0;
 
@@ -9038,7 +9029,7 @@ define('Core/MeshFilters',[
                         }
 
                         var i1 = oldToNewIndex[x1];
-                        if (typeof i1 === "undefined") {
+                        if (typeof i1 === 'undefined') {
                             i1 = currentIndex++;
                             oldToNewIndex[x1] = i1;
 
@@ -9046,7 +9037,7 @@ define('Core/MeshFilters',[
                         }
 
                         var i2 = oldToNewIndex[x2];
-                        if (typeof i2 === "undefined") {
+                        if (typeof i2 === 'undefined') {
                             i2 = currentIndex++;
                             oldToNewIndex[x2] = i2;
 
@@ -9167,29 +9158,29 @@ define('Core/TridiagonalSystemSolver',['./DeveloperError'], function(DeveloperEr
      */
     TridiagonalSystemSolver.solve = function(lower, diagonal, upper, right) {
         if (!lower || !(lower instanceof Array)) {
-            throw new DeveloperError("The array lower is required.", "lower");
+            throw new DeveloperError('The array lower is required.');
         }
 
         if (!diagonal || !(diagonal instanceof Array)) {
-            throw new DeveloperError("The array diagonal is required.", "diagonal");
+            throw new DeveloperError('The array diagonal is required.');
         }
 
         if (!upper || !(upper instanceof Array)) {
-            throw new DeveloperError("The array upper is required.", "upper");
+            throw new DeveloperError('The array upper is required.');
         }
 
         if (!right || !(right instanceof Array)) {
-            throw new DeveloperError("The array right is required.", "right");
+            throw new DeveloperError('The array right is required.');
         }
 
         if (diagonal.length !== right.length) {
-            throw new DeveloperError("diagonal and right must have the same lengths.", "diagonal or right");
+            throw new DeveloperError('diagonal and right must have the same lengths.');
         }
 
         if (lower.length !== upper.length) {
-            throw new DeveloperError("lower and upper must have the same lengths.", "lower or upper");
+            throw new DeveloperError('lower and upper must have the same lengths.');
         } else if (lower.length !== diagonal.length - 1) {
-            throw new DeveloperError("lower and upper must be one less than the length of diagonal.", "lower or upper");
+            throw new DeveloperError('lower and upper must be one less than the length of diagonal.');
         }
 
         var c = [], d = [], x = [];
@@ -9289,7 +9280,7 @@ define('Core/HermiteSpline',[
      */
     function HermiteSpline(controlPoints) {
         if (!controlPoints || !(controlPoints instanceof Array) || controlPoints.length < 3) {
-            throw new DeveloperError("controlPoints is required. It must be an array with at least a length of 3.", "controlPoints");
+            throw new DeveloperError('controlPoints is required. It must be an array with at least a length of 3.');
         }
 
         this._points = controlPoints;
@@ -9431,12 +9422,12 @@ define('Core/HermiteSpline',[
      * var position = spline.evaluate(5.0);
      */
     HermiteSpline.prototype.evaluate = function(time) {
-        if (typeof time === "undefined") {
-            throw new DeveloperError("time is required.", "time");
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is required.');
         }
 
         if (time < this._points[0].time || time > this._points[this._points.length - 1].time) {
-            throw new DeveloperError("time is out of range.", "time");
+            throw new DeveloperError('time is out of range.');
         }
 
         var i = this._findIndex(time);
@@ -9505,7 +9496,7 @@ define('Core/CatmullRomSpline',[
      */
     function CatmullRomSpline(controlPoints, firstTangent, lastTangent) {
         if (!controlPoints || !(controlPoints instanceof Array) || controlPoints.length < 3) {
-            throw new DeveloperError("An array of objects with point and time properties, with a length of at least 3, is required.", "controlPoints");
+            throw new DeveloperError('controlPoints is required and must be an array of objects with point and time properties, with a length of at least 3.');
         }
 
         this._points = controlPoints;
@@ -9645,12 +9636,12 @@ define('Core/CatmullRomSpline',[
      * var position = spline.evaluate(5.0);
      */
     CatmullRomSpline.prototype.evaluate = function(time) {
-        if (typeof time === "undefined") {
-            throw new DeveloperError("time is required.", "time");
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is required.');
         }
 
         if (time < this._points[0].time || time > this._points[this._points.length - 1].time) {
-            throw new DeveloperError("time is out of range.", "time");
+            throw new DeveloperError('time is out of range.');
         }
 
         var i = this._findIndex(time);
@@ -9709,21 +9700,21 @@ define('Core/Visibility',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        NONE : new Enumeration(-1, "NONE"),
+        NONE : new Enumeration(-1, 'NONE'),
         /**
         * Represents that part, but not all, of an object is visible
         *
         * @constant
         * @type {Enumeration}
         */
-        PARTIAL : new Enumeration(0, "PARTIAL"),
+        PARTIAL : new Enumeration(0, 'PARTIAL'),
         /**
         * Represents that an object is visible in its entirety.
         *
         * @constant
         * @type {Enumeration}
         */
-        FULL : new Enumeration(1, "FULL")
+        FULL : new Enumeration(1, 'FULL')
     };
 
     return Visibility;
@@ -9743,15 +9734,15 @@ define('Core/Occluder',[
 
     /**
      * Creates an Occluder derived from an object's position and radius, as well as the camera position.
-     * The occluder can be used to determine wether or not other objects are visible or hidden behind the
+     * The occluder can be used to determine whether or not other objects are visible or hidden behind the
      * visible horizon defined by the occluder and camera position.
      *
      * @name Occluder
      *
-     * @param {BoundingSphere} occluderBS The bounding sphere surrounding the occluder.
+     * @param {BoundingSphere} occluderBoundingSphere The bounding sphere surrounding the occluder.
      * @param {Cartesian3} cameraPosition The coordinate of the viewer/camera.
      *
-     * @exception {DeveloperError} <code>occluderBS</code> is required.
+     * @exception {DeveloperError} <code>occluderBoundingSphere</code> is required.
      * @exception {DeveloperError} <code>cameraPosition</code> is required.
      *
      * @constructor
@@ -9759,43 +9750,28 @@ define('Core/Occluder',[
      * @example
      * // Construct an occluder one unit away from the origin with a radius of one.
      * var cameraPosition = new Cartesian3.ZERO;
-     * var occluderBS = new BoundingSphere(new Cartesian3(0, 0, -1), 1);
-     * var occluder = new Occluder(occluderBS, cameraPosition);
+     * var occluderBoundingSphere = new BoundingSphere(new Cartesian3(0, 0, -1), 1);
+     * var occluder = new Occluder(occluderBoundingSphere, cameraPosition);
      */
-    function Occluder(occluderBS, cameraPosition) {
-        if (!occluderBS) {
-            throw new DeveloperError("occluder bounding sphere is required.", "occluderPBS");
+    function Occluder(occluderBoundingSphere, cameraPosition) {
+        if (!occluderBoundingSphere) {
+            throw new DeveloperError('occluderBoundingSphere is required.');
         }
+
         if (!cameraPosition) {
-            throw new DeveloperError("camera position is required.", "cameraPosition");
+            throw new DeveloperError('camera position is required.');
         }
 
-        var cameraPos = Cartesian3.clone(cameraPosition);
-        var occluderPosition = occluderBS.center.clone();
-        var occluderRadius = occluderBS.radius;
+        this._occluderPosition = occluderBoundingSphere.center.clone();
+        this._occluderRadius = occluderBoundingSphere.radius;
 
-        var cameraToOccluderVec = occluderPosition.subtract(cameraPosition);
-        var invCameraToOccluderDistance = cameraToOccluderVec.magnitudeSquared();
-        var occluderRadiusSqrd = occluderRadius * occluderRadius;
-        var horizonDistance;
-        var horizonPlaneNormal;
-        var horizonPlanePosition;
-        if (invCameraToOccluderDistance > occluderRadiusSqrd) {
-            horizonDistance = Math.sqrt(invCameraToOccluderDistance - occluderRadiusSqrd);
-            invCameraToOccluderDistance = 1.0 / Math.sqrt(invCameraToOccluderDistance);
-            horizonPlaneNormal = cameraToOccluderVec.multiplyWithScalar(invCameraToOccluderDistance);
-            var nearPlaneDistance = horizonDistance * horizonDistance * invCameraToOccluderDistance;
-            horizonPlanePosition = cameraPos.add(horizonPlaneNormal.multiplyWithScalar(nearPlaneDistance));
-        } else {
-            horizonDistance = Number.MAX_VALUE;
-        }
+        this._horizonDistance = 0.0;
+        this._horizonPlaneNormal = undefined;
+        this._horizonPlanePosition = undefined;
+        this._cameraPosition = undefined;
 
-        this._occluderPosition = occluderPosition;
-        this._occluderRadius = occluderRadius;
-        this._cameraPosition = cameraPos.clone();
-        this._horizonDistance = horizonDistance;
-        this._horizonPlaneNormal = horizonPlaneNormal;
-        this._horizonPlanePosition = horizonPlanePosition;
+        // setCameraPosition fills in the above values
+        this.setCameraPosition(cameraPosition);
     }
 
     /**
@@ -9816,6 +9792,37 @@ define('Core/Occluder',[
      */
     Occluder.prototype.getRadius = function() {
         return this._occluderRadius;
+    };
+
+    /**
+     * Sets the position of the camera.
+     *
+     * @param {Cartesian3} cameraPosition The new position of the camera.
+     */
+    Occluder.prototype.setCameraPosition = function(cameraPosition) {
+        cameraPosition = Cartesian3.clone(cameraPosition);
+
+        var cameraToOccluderVec = this._occluderPosition.subtract(cameraPosition);
+        var invCameraToOccluderDistance = cameraToOccluderVec.magnitudeSquared();
+        var occluderRadiusSqrd = this._occluderRadius * this._occluderRadius;
+
+        var horizonDistance;
+        var horizonPlaneNormal;
+        var horizonPlanePosition;
+        if (invCameraToOccluderDistance > occluderRadiusSqrd) {
+            horizonDistance = Math.sqrt(invCameraToOccluderDistance - occluderRadiusSqrd);
+            invCameraToOccluderDistance = 1.0 / Math.sqrt(invCameraToOccluderDistance);
+            horizonPlaneNormal = cameraToOccluderVec.multiplyWithScalar(invCameraToOccluderDistance);
+            var nearPlaneDistance = horizonDistance * horizonDistance * invCameraToOccluderDistance;
+            horizonPlanePosition = cameraPosition.add(horizonPlaneNormal.multiplyWithScalar(nearPlaneDistance));
+        } else {
+            horizonDistance = Number.MAX_VALUE;
+        }
+
+        this._horizonDistance = horizonDistance;
+        this._horizonPlaneNormal = horizonPlaneNormal;
+        this._horizonPlanePosition = horizonPlanePosition;
+        this._cameraPosition = cameraPosition;
     };
 
     /**
@@ -9952,48 +9959,48 @@ define('Core/Occluder',[
      *
      * @memberof Occluder
      *
-     * @param {BoundingSphere} occluderBS The bounding sphere surrounding the occluder.
+     * @param {BoundingSphere} occluderBoundingSphere The bounding sphere surrounding the occluder.
      * @param {Cartesian3} occludeePosition The point where the occludee (bounding sphere of radius 0) is located.
      * @param {Array} positions List of altitude points on the horizon near the surface of the occluder.
      *
      * @exception {DeveloperError} <code>positions</code> is a required, non-empty array.
-     * @exception {DeveloperError} <code>occluderBS</code> is required.
-     * @exception {DeveloperError} <code>occludeePosition</code> must have a value other than <code>occluderBS.center</code>.
+     * @exception {DeveloperError} <code>occluderBoundingSphere</code> is required.
+     * @exception {DeveloperError} <code>occludeePosition</code> must have a value other than <code>occluderBoundingSphere.center</code>.
      *
      * @return {Object} An object containing two attributes: <code>occludeePoint</code> and <code>valid</code>
      * which is a boolean value.
      *
      * @example
      * var cameraPosition = new Cartesian3(0, 0, 0);
-     * var occluderBS = new BoundingSphere(new Cartesian3(0, 0, -8), 2);
-     * var occluder = new Occluder(occluderBS, cameraPosition);
+     * var occluderBoundingSphere = new BoundingSphere(new Cartesian3(0, 0, -8), 2);
+     * var occluder = new Occluder(occluderBoundingSphere, cameraPosition);
      * var positions = [new Cartesian3(-0.25, 0, -5.3), new Cartesian3(0.25, 0, -5.3)];
      * var tileOccluderSphere = new BoundingSphere(positions);
      * var occludeePosition = tileOccluderSphere.center;
-     * var occludeePt = occluder.getOccludeePoint(occluderBS, occludeePosition, positions);
+     * var occludeePt = occluder.getOccludeePoint(occluderBoundingSphere, occludeePosition, positions);
      *
      */
-    Occluder.getOccludeePoint = function(occluderBS, occludeePosition, positions) {
+    Occluder.getOccludeePoint = function(occluderBoundingSphere, occludeePosition, positions) {
         // Validate input data
-        if (!occluderBS) {
-            throw new DeveloperError("Argument occluderBS is required.", "occluderBS");
+        if (!occluderBoundingSphere) {
+            throw new DeveloperError('occluderBoundingSphere is required.');
         }
 
         if (!positions) {
-            throw new DeveloperError("Argument positions is required.", "positions");
+            throw new DeveloperError('positions is required.');
         }
 
         if (positions.length === 0) {
-            throw new DeveloperError("Argument positions must contain at least one element", "positions");
+            throw new DeveloperError('positions must contain at least one element');
         }
 
         var occludeePos = Cartesian3.clone(occludeePosition);
-        var occluderPosition = occluderBS.center.clone();
-        var occluderRadius = occluderBS.radius;
+        var occluderPosition = occluderBoundingSphere.center.clone();
+        var occluderRadius = occluderBoundingSphere.radius;
         var numPositions = positions.length;
 
         if (occluderPosition.equals(occludeePosition)) {
-            throw new DeveloperError("Argument occludeePosition must be different than argument occluderBS's center point", "occludeePosition");
+            throw new DeveloperError('occludeePosition must be different than occluderBoundingSphere.center');
         }
 
         var valid = true;
@@ -10005,14 +10012,14 @@ define('Core/Occluder',[
         //For each position, determine the horizon intersection. Choose the position and intersection
         //that results in the greatest angle with the occcluder plane.
         var aRotationVector = Occluder._anyRotationVector(occluderPosition, occluderPlaneNormal, occluderPlaneD);
-        var dot = Occluder._horizonToPlaneNormalDotProduct(occluderBS, occluderPlaneNormal, occluderPlaneD, aRotationVector, positions[0]);
+        var dot = Occluder._horizonToPlaneNormalDotProduct(occluderBoundingSphere, occluderPlaneNormal, occluderPlaneD, aRotationVector, positions[0]);
         if (!dot) {
             //The position is inside the mimimum radius, which is invalid
             valid = false;
         }
         var tempDot;
         for ( var i = 1; i < numPositions; ++i) {
-            tempDot = Occluder._horizonToPlaneNormalDotProduct(occluderBS, occluderPlaneNormal, occluderPlaneD, aRotationVector, positions[i]);
+            tempDot = Occluder._horizonToPlaneNormalDotProduct(occluderBoundingSphere, occluderPlaneNormal, occluderPlaneD, aRotationVector, positions[i]);
             if (!tempDot) {
                 //The position is inside the minimum radius, which is invalid
                 valid = false;
@@ -10211,27 +10218,27 @@ define('Core/Extent',[
      */
     Extent.validate = function(extent) {
         if (!extent ||
-                typeof extent.north === "undefined" ||
-                typeof extent.south === "undefined" ||
-                typeof extent.west === "undefined" ||
-                typeof extent.east === "undefined") {
-            throw new DeveloperError("extent is required and must have north, south, east and west attributes.", "extent");
+                typeof extent.north === 'undefined' ||
+                typeof extent.south === 'undefined' ||
+                typeof extent.west === 'undefined' ||
+                typeof extent.east === 'undefined') {
+            throw new DeveloperError('extent is required and must have north, south, east and west attributes.');
         }
 
         if (extent.north < -CesiumMath.PI_OVER_TWO || extent.north > CesiumMath.PI_OVER_TWO) {
-            throw new DeveloperError("extent.north must be in the interval [-Pi/2, Pi/2].", "extent.north");
+            throw new DeveloperError('extent.north must be in the interval [-Pi/2, Pi/2].');
         }
 
         if (extent.south < -CesiumMath.PI_OVER_TWO || extent.south > CesiumMath.PI_OVER_TWO) {
-            throw new DeveloperError("extent.south must be in the interval [-Pi/2, Pi/2].", "extent.south");
+            throw new DeveloperError('extent.south must be in the interval [-Pi/2, Pi/2].');
         }
 
         if (extent.west < -CesiumMath.PI || extent.west > CesiumMath.PI) {
-            throw new DeveloperError("extent.west must be in the interval [-Pi, Pi].", "extent.west");
+            throw new DeveloperError('extent.west must be in the interval [-Pi, Pi].');
         }
 
         if (extent.east < -CesiumMath.PI || extent.east > CesiumMath.PI) {
-            throw new DeveloperError("extent.east must be in the interval [-Pi, Pi].", "extent.east");
+            throw new DeveloperError('extent.east must be in the interval [-Pi, Pi].');
         }
     };
 
@@ -10247,7 +10254,7 @@ define('Core/Extent',[
 
     Extent._computePositions = function(extent, ellipsoid, time, projection) {
         if (typeof extent === 'undefined') {
-            throw new DeveloperError("extent is required.", "extent");
+            throw new DeveloperError('extent is required.');
         }
 
         Extent.validate(extent);
@@ -10347,13 +10354,13 @@ define('Core/Extent',[
      */
     Extent.computeBoundingRectangle = function(extent, projection) {
         if (typeof extent === 'undefined') {
-            throw new DeveloperError("extent is required.", "extent");
+            throw new DeveloperError('extent is required.');
         }
 
         Extent.validate(extent);
 
         if (typeof projection === 'undefined') {
-            throw new DeveloperError("projection is required.", "projection");
+            throw new DeveloperError('projection is required.');
         }
 
         var lla = new Cartographic2(extent.west, extent.south);
@@ -10564,8 +10571,8 @@ define('Core/ExtentTessellator',[
         desc.relativeToCenter = (desc.relativeToCenter) ? Cartesian3.clone(desc.relativeToCenter) : Cartesian3.ZERO;
         desc.boundaryWidth = desc.boundaryWidth || 0; // NOTE: may want to expose in the future.
         desc.interleave = false;
-        desc.positionName = desc.positionName || "position";
-        desc.textureCoordName = desc.textureCoordName || "textureCoordinates";
+        desc.positionName = desc.positionName || 'position';
+        desc.textureCoordName = desc.textureCoordName || 'textureCoordinates';
 
         var vertices = [];
         var indices = [];
@@ -10705,8 +10712,8 @@ define('Core/ExtentTessellator',[
         Extent.validate(desc.extent);
 
         desc.ellipsoid = desc.ellipsoid || Ellipsoid.WGS84;
-        desc.granularity = (typeof desc.granularity !== "undefined" && desc.granularity > 0.0) ? desc.granularity : 0.1;
-        desc.altitude = (typeof desc.altitude !== "undefined" && desc.altitude > 0.0) ? desc.altitude : 0.0;
+        desc.granularity = (typeof desc.granularity !== 'undefined' && desc.granularity > 0.0) ? desc.granularity : 0.1;
+        desc.altitude = (typeof desc.altitude !== 'undefined' && desc.altitude > 0.0) ? desc.altitude : 0.0;
         desc.relativeToCenter = (desc.relativeToCenter) ? Cartesian3.clone(desc.relativeToCenter) : Cartesian3.ZERO;
         desc.boundaryWidth = desc.boundaryWidth || 0; // NOTE: may want to expose in the future.
 
@@ -10755,14 +10762,14 @@ define('Core/WindingOrder',['./Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        CLOCKWISE : new Enumeration(0x0900, "CLOCKWISE"), // WebGL: CW
+        CLOCKWISE : new Enumeration(0x0900, 'CLOCKWISE'), // WebGL: CW
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        COUNTER_CLOCKWISE : new Enumeration(0x0901, "COUNTER_CLOCKWISE"), // WebGL CCW
+        COUNTER_CLOCKWISE : new Enumeration(0x0901, 'COUNTER_CLOCKWISE'), // WebGL CCW
 
         /**
          * DOC_TBA
@@ -10815,13 +10822,13 @@ define('Core/binarySearch',['./DeveloperError'], function(DeveloperError) {
      */
     function binarySearch(array, itemToFind, comparator) {
         if (!array) {
-            throw new DeveloperError("array is required.", "array");
+            throw new DeveloperError('array is required.');
         }
         if (!itemToFind) {
-            throw new DeveloperError("itemToFind is required.", "itemToFind");
+            throw new DeveloperError('itemToFind is required.');
         }
         if (!comparator) {
-            throw new DeveloperError("comparator is required.", "comparator");
+            throw new DeveloperError('comparator is required.');
         }
 
         var low = 0;
@@ -10920,13 +10927,13 @@ define('Core/TimeStandard',['require', './DeveloperError', './binarySearch', './
          */
         convertTaiToUtc : function(julianDate) {
             if (!julianDate) {
-                throw new DeveloperError("julianDate is required.", "julianDate");
+                throw new DeveloperError('julianDate is required.');
             }
             if (julianDate.getTimeStandard() === TimeStandard.UTC) {
                 return julianDate;
             }
             if (julianDate.getTimeStandard() !== TimeStandard.TAI) {
-                throw new DeveloperError("julianDate is not in the TAI time standard.", "julianDate");
+                throw new DeveloperError('julianDate is not in the TAI time standard.');
             }
 
             // treat the request date as if it were UTC, and search for the most recent leap second.
@@ -10977,19 +10984,19 @@ define('Core/TimeStandard',['require', './DeveloperError', './binarySearch', './
          * @return {JulianDate} A Julian date representing the input date in the TAI time standard.
          *
          * @example
-         * var date = new Date("July 11, 2011 12:00:00 UTC");
+         * var date = new Date('July 11, 2011 12:00:00 UTC');
          * var julianDateUtc = JulianDate.fromDate(date, TimeStandard.UTC);
          * var julianDateTai = TimeStandard.convertUtcToTai(julianDateUtc);
          */
         convertUtcToTai : function(julianDate) {
             if (!julianDate) {
-                throw new DeveloperError("julianDate is required.", "julianDate");
+                throw new DeveloperError('julianDate is required.');
             }
             if (julianDate.getTimeStandard() === TimeStandard.TAI) {
                 return julianDate;
             }
             if (julianDate.getTimeStandard() !== TimeStandard.UTC) {
-                throw new DeveloperError("julianDate is not in the UTC time standard.", "julianDate");
+                throw new DeveloperError('julianDate is not in the UTC time standard.');
             }
 
             var newDate = julianDate.addSeconds(julianDate.getTaiMinusUtc());
@@ -11056,7 +11063,7 @@ define('Core/Transforms',[
          */
         eastNorthUpToFixedFrame : function(position, ellipsoid) {
             if (!position) {
-                throw new DeveloperError("position is required.", "position");
+                throw new DeveloperError('position is required.');
             }
 
             ellipsoid = ellipsoid || Ellipsoid.WGS84;
@@ -11110,7 +11117,7 @@ define('Core/Transforms',[
          */
         northEastDownToFixedFrame : function(position, ellipsoid) {
             if (!position) {
-                throw new DeveloperError("position is required.", "position");
+                throw new DeveloperError('position is required.');
             }
 
             ellipsoid = ellipsoid || Ellipsoid.WGS84;
@@ -11157,15 +11164,15 @@ define('Core/Transforms',[
          */
         pointToWindowCoordinates : function (modelViewProjectionMatrix, viewportTransformation, point) {
             if (typeof modelViewProjectionMatrix === 'undefined') {
-                throw new DeveloperError("modelViewProjectionMatrix is required.", "modelViewProjectionMatrix");
+                throw new DeveloperError('modelViewProjectionMatrix is required.');
             }
 
             if (typeof viewportTransformation === 'undefined') {
-                throw new DeveloperError("viewportTransformation is required.", "viewportTransformation");
+                throw new DeveloperError('viewportTransformation is required.');
             }
 
             if (typeof point === 'undefined') {
-                throw new DeveloperError("point is required.", "point");
+                throw new DeveloperError('point is required.');
             }
 
             var pnt = new Cartesian4(point.x, point.y, point.z, 1.0);
@@ -11222,7 +11229,7 @@ define('Core/EllipsoidTangentPlane',[
      */
     EllipsoidTangentPlane.create = function(ellipsoid, positions) {
         if (!ellipsoid || !positions) {
-            throw new DeveloperError("ellipsoid and positions are required.");
+            throw new DeveloperError('ellipsoid and positions are required.');
         }
 
         var box = new AxisAlignedBoundingBox(positions);
@@ -11236,7 +11243,7 @@ define('Core/EllipsoidTangentPlane',[
      */
     EllipsoidTangentPlane.prototype.projectPointsOntoPlane = function(positions) {
         if (!positions) {
-            throw new DeveloperError("positions is required.", "positions");
+            throw new DeveloperError('positions is required.');
         }
 
         var positionsOnPlane = [];
@@ -11274,7 +11281,7 @@ define('Core/EllipsoidTangentPlane',[
      */
     EllipsoidTangentPlane.prototype.projectPointsOntoEllipsoid = function(positions) {
         if (!positions) {
-            throw new DeveloperError("positions is required.", "positions");
+            throw new DeveloperError('positions is required.');
         }
 
         var positionsOnEllipsoid = [];
@@ -11396,16 +11403,16 @@ define('Core/Shapes',[
          */
         computeCircleBoundary : function(ellipsoid, center, radius, granularity) {
             if (!ellipsoid || !center || !radius) {
-                throw new DeveloperError("ellipsoid, center, and radius are required.");
+                throw new DeveloperError('ellipsoid, center, and radius are required.');
             }
 
             if (radius <= 0.0) {
-                throw new DeveloperError("radius must be greater than zero.", "radius");
+                throw new DeveloperError('radius must be greater than zero.');
             }
 
             granularity = granularity || CesiumMath.toRadians(1.0);
             if (granularity <= 0.0) {
-                throw new DeveloperError("granularity must be greater than zero.", "granularity");
+                throw new DeveloperError('granularity must be greater than zero.');
             }
 
             return this.computeEllipseBoundary(ellipsoid, center, radius, radius, 0, granularity);
@@ -11447,18 +11454,18 @@ define('Core/Shapes',[
          */
         computeEllipseBoundary : function(ellipsoid, center, semiMajorAxis, semiMinorAxis, bearing, granularity) {
             if (!ellipsoid || !center || !semiMajorAxis || !semiMinorAxis) {
-                throw new DeveloperError("ellipsoid, center, semiMajorAxis, and semiMinorAxis are required.");
+                throw new DeveloperError('ellipsoid, center, semiMajorAxis, and semiMinorAxis are required.');
             }
 
             if (semiMajorAxis <= 0.0 || semiMinorAxis <= 0.0) {
-                throw new DeveloperError("Semi-major and semi-minor axes must be greater than zero.");
+                throw new DeveloperError('Semi-major and semi-minor axes must be greater than zero.');
             }
 
             bearing = bearing || 0.0;
             granularity = granularity || CesiumMath.toRadians(1.0);
 
             if (granularity <= 0.0) {
-                throw new DeveloperError("granularity must be greater than zero.", "granularity");
+                throw new DeveloperError('granularity must be greater than zero.', 'granularity');
             }
 
             if (semiMajorAxis < semiMinorAxis) {
@@ -11564,7 +11571,7 @@ define('Core/combine',['./DeveloperError'], function(DeveloperError) {
             for ( var key in object) {
                 if (object.hasOwnProperty(key)) {
                     if (composite[key]) {
-                        throw new DeveloperError("Duplicate member: " + key);
+                        throw new DeveloperError('Duplicate member: ' + key);
                     }
 
                     composite[key] = object[key];
@@ -11584,7 +11591,7 @@ define('Core/createGuid',[],function() {
     /**
      * Creates a Globally unique identifier (GUID) string.  A GUID is 128 bits long, and can guarantee uniqueness across space and time.
      *
-     * @see <a href="http://www.ietf.org/rfc/rfc4122.txt">RFC 4122 A Universally Unique IDentifier (UUID) URN Namespace</a>
+     * @see <a href='http://www.ietf.org/rfc/rfc4122.txt'>RFC 4122 A Universally Unique IDentifier (UUID) URN Namespace</a>
      *
      * @example
      * this.guid = createGuid();
@@ -11626,14 +11633,14 @@ define('Core/destroyObject',['./DeveloperError'], function(DeveloperError) {
      * };
      */
     function destroyObject(object, message) {
-        message = message || "This object was destroyed, i.e., destroy() was called.";
+        message = message || 'This object was destroyed, i.e., destroy() was called.';
 
         function throwOnDestroyed() {
             throw new DeveloperError(message);
         }
 
         for ( var key in object) {
-            if (typeof object[key] === "function") {
+            if (typeof object[key] === 'function') {
                 object[key] = throwOnDestroyed;
             } else {
                 delete object[key];
@@ -11672,22 +11679,22 @@ define('Core/Cache',[
      * @param {Object} policy A cache replacement policy.
      *
      * @exception {DeveloperError} policy is required.
-     * @exception {DeveloperError} policy must have a fetch function.
-     * @exception {DeveloperError} policy must have a miss function.
+     * @exception {DeveloperError} policy.hit must be a function.
+     * @exception {DeveloperError} policy.miss must be a function.
      *
      * @see CachePolicy.LRU
      */
     function Cache(policy) {
         if (!policy) {
-            throw new DeveloperError("policy is required.", "policy");
+            throw new DeveloperError('policy is required.');
         }
 
-        if (!policy.hit || typeof policy.hit !== "function") {
-            throw new DeveloperError("policy must have a hit function.", "policy.hit");
+        if (!policy.hit || typeof policy.hit !== 'function') {
+            throw new DeveloperError('policy.hit must be a function.');
         }
 
-        if (!policy.miss || typeof policy.miss !== "function") {
-            throw new DeveloperError("policy must have a miss function.", "policy.miss");
+        if (!policy.miss || typeof policy.miss !== 'function') {
+            throw new DeveloperError('policy.miss must be a function.');
         }
 
         this._cache = {};
@@ -11703,8 +11710,8 @@ define('Core/Cache',[
      * @param {Object} key The key of the object to remove from the cache.
      *
      * @exception {DeveloperError} key is required.
-     * @exception {DeveloperError} key must be a string, have a string property called "key", or
-     * have a function called "getKey" that returns a string.
+     * @exception {DeveloperError} key must be a string, have a string property called 'key', or
+     * have a function called 'getKey' that returns a string.
      *
      * @return {Object} The object stored in the cache at <code>key</code>.
      *
@@ -11712,7 +11719,7 @@ define('Core/Cache',[
      */
     Cache.prototype.find = function(key) {
         if (!key) {
-            throw new DeveloperError("key is required.", "key");
+            throw new DeveloperError('key is required.');
         }
 
         var name = key;
@@ -11721,7 +11728,7 @@ define('Core/Cache',[
         }
 
         if (!name) {
-            throw new DeveloperError("key must be a string, or an object with a string key property or getKey function.", "key");
+            throw new DeveloperError('key must be a string, or an object with a string key property or getKey function.');
         }
 
         var element = this._cache[name];
@@ -11826,14 +11833,14 @@ define('Core/isLeapYear',['Core/DeveloperError'], function(DeveloperError) {
      *
      * @return {Boolean} True if <code>year</code> is a leap yer.
      *
-     * @exception {DeveloperError} Number required.
+     * @exception {DeveloperError} year is required and must be a number.
      *
      * @example
      * var leapYear = isLeapYear(2000); // true
      */
     function isLeapYear(year) {
         if (year === null || isNaN(year)) {
-            throw new DeveloperError("Number required", "year");
+            throw new DeveloperError('year is required and must be a number.');
         }
         return ((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0);
     }
@@ -11908,7 +11915,7 @@ function(DeveloperError,
     // Match hours/minutes HH:MM:SS HHMMSS.xxxxx
     var matchHoursMinutesSeconds = /^(\d{2}):?(\d{2}):?(\d{2})(\.\d+)?/.source + utcOffset.source;
 
-    var iso8601ErrorMessage = "Valid ISO 8601 date string required.";
+    var iso8601ErrorMessage = 'Valid ISO 8601 date string required.';
 
     /**
      * <p>Constructs an immutable JulianDate instance from a Julian day number and the number of seconds elapsed
@@ -11959,15 +11966,15 @@ function(DeveloperError,
                 //use UTC if not supplied
                 timeStandard = TimeStandard.UTC;
             } else if (!TimeStandard.isKnownStandard(timeStandard)) {
-                throw new DeveloperError("Invalid TimeStandard.", "timeStandard");
+                throw new DeveloperError('timeStandard is not a known TimeStandard.');
             }
 
             if (julianDayNumber === null || isNaN(julianDayNumber)) {
-                throw new DeveloperError("Number required.", "julianDayNumber");
+                throw new DeveloperError('julianDayNumber is required.');
             }
 
             if (julianSecondsOfDay === null || isNaN(julianSecondsOfDay)) {
-                throw new DeveloperError("Number required.", "julianSecondsOfDay");
+                throw new DeveloperError('julianSecondsOfDay is required.');
             }
 
             //coerce to integer
@@ -12012,24 +12019,24 @@ function(DeveloperError,
      *
      * @return {JulianDate} The new {@Link JulianDate} instance.
      *
-     * @exception {DeveloperError} Valid JavaScript Date required.
+     * @exception {DeveloperError} date must be a valid JavaScript Date.
      *
      * @see JulianDate
      * @see JulianDate.fromTotalDays
      * @see JulianDate.fromIso8601
      * @see TimeStandard
      * @see LeapSecond
-     * @see <a href="http://www.w3schools.com/js/js_obj_date.asp">JavaScript Date Object on w3schools</a>.
-     * @see <a href="http://www.w3schools.com/jsref/jsref_obj_date.asp">JavaScript Date Object Reference on w3schools</a>.
+     * @see <a href='http://www.w3schools.com/js/js_obj_date.asp'>JavaScript Date Object on w3schools</a>.
+     * @see <a href='http://www.w3schools.com/jsref/jsref_obj_date.asp'>JavaScript Date Object Reference on w3schools</a>.
      *
      * @example
      * // Construct a Julian date specifying the UTC time standard
-     * var date = new Date("January 1, 2011 12:00:00 EST");
+     * var date = new Date('January 1, 2011 12:00:00 EST');
      * var julianDate = JulianDate.fromDate(date, TimeStandard.UTC);
      */
     JulianDate.fromDate = function(date, timeStandard) {
         if (typeof date === 'undefined' || date === null || isNaN(date.getTime())) {
-            throw new DeveloperError("Valid JavaScript Date required.", "date");
+            throw new DeveloperError('date must be a valid JavaScript Date.');
         }
 
         var components = computeJulianDateComponentsFromDate(date);
@@ -12057,19 +12064,19 @@ function(DeveloperError,
      * @see JulianDate.fromTotalDays
      * @see JulianDate.fromDate
      * @see LeapSecond
-     * @see <a href="http://en.wikipedia.org/wiki/ISO_8601">ISO 8601 on Wikipedia</a>.
+     * @see <a href='http://en.wikipedia.org/wiki/ISO_8601'>ISO 8601 on Wikipedia</a>.
      *
      * @example
      * // Example 1. Construct a Julian date in UTC at April 24th, 2012 6:08PM UTC
-     * var julianDate = JulianDate.fromIso8601("2012-04-24T18:08Z");
+     * var julianDate = JulianDate.fromIso8601('2012-04-24T18:08Z');
      * // Example 2. Construct a Julian date in local time April 24th, 2012 12:00 AM
-     * var localDay = JulianDate.fromIso8601("2012-04-24");
+     * var localDay = JulianDate.fromIso8601('2012-04-24');
      * // Example 3. Construct a Julian date 5 hours behind UTC April 24th, 2012 5:00 pm UTC
-     * var localDay = JulianDate.fromIso8601("2012-04-24T12:00-05:00");
+     * var localDay = JulianDate.fromIso8601('2012-04-24T12:00-05:00');
      */
     JulianDate.fromIso8601 = function(iso8601String) {
         if (typeof iso8601String !== 'string') {
-            throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+            throw new DeveloperError(iso8601ErrorMessage);
         }
 
         //Comma and decimal point both indicate a fractional number according to ISO 8601,
@@ -12084,7 +12091,7 @@ function(DeveloperError,
         var time = tokens[1];
         var tmp, inLeapYear;
         if (typeof date === 'undefined') {
-            throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+            throw new DeveloperError(iso8601ErrorMessage);
         }
 
         var dashCount;
@@ -12094,7 +12101,7 @@ function(DeveloperError,
         if (tokens !== null) {
             dashCount = date.split('-').length - 1;
             if (dashCount > 0 && dashCount !== 2) {
-                throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                throw new DeveloperError(iso8601ErrorMessage);
             }
             year = +tokens[1];
             month = +tokens[2];
@@ -12120,7 +12127,7 @@ function(DeveloperError,
 
                         //This validation is only applicable for this format.
                         if (dayOfYear < 1 || (inLeapYear && dayOfYear > 366) || (!inLeapYear && dayOfYear > 365)) {
-                            throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                            throw new DeveloperError(iso8601ErrorMessage);
                         }
                     } else {
                         tokens = date.match(matchWeekDate);
@@ -12135,14 +12142,14 @@ function(DeveloperError,
                             if (dashCount > 0 &&
                                ((typeof tokens[3] === 'undefined' && dashCount !== 1) ||
                                (typeof tokens[3] !== 'undefined' && dashCount !== 2))) {
-                                throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                                throw new DeveloperError(iso8601ErrorMessage);
                             }
 
                             var january4 = new Date(Date.UTC(year, 0, 4));
                             dayOfYear = (weekNumber * 7) + dayOfWeek - january4.getUTCDay() - 3;
                         } else {
                             //None of our regular expressions succeeded in parsing the date properly.
-                            throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                            throw new DeveloperError(iso8601ErrorMessage);
                         }
                     }
                     //Split an ordinal date into month/day.
@@ -12157,7 +12164,7 @@ function(DeveloperError,
         //Now that we have all of the date components, validate them to make sure nothing is out of range.
         inLeapYear = isLeapYear(year);
         if (month < 1 || month > 12 || day < 1 || ((month !== 2 || !inLeapYear) && day > daysInMonth[month - 1]) || (inLeapYear && month === 2 && day > daysInLeapFeburary)) {
-            throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+            throw new DeveloperError(iso8601ErrorMessage);
         }
 
         //Not move onto the time string, which is much simpler.
@@ -12167,7 +12174,7 @@ function(DeveloperError,
             if (tokens !== null) {
                 dashCount = time.split(':').length - 1;
                 if (dashCount > 0 && dashCount !== 2) {
-                    throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                    throw new DeveloperError(iso8601ErrorMessage);
                 }
 
                 hours = +tokens[1];
@@ -12180,7 +12187,7 @@ function(DeveloperError,
                 if (tokens !== null) {
                     dashCount = time.split(':').length - 1;
                     if (dashCount > 0 && dashCount !== 1) {
-                        throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                        throw new DeveloperError(iso8601ErrorMessage);
                     }
 
                     hours = +tokens[1];
@@ -12194,14 +12201,14 @@ function(DeveloperError,
                         minutes = +(tokens[2] || 0) * 60.0;
                         offsetIndex = 3;
                     } else {
-                        throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                        throw new DeveloperError(iso8601ErrorMessage);
                     }
                 }
             }
 
             //Validate that all values are in proper range.  Minutes and hours have special cases at 60 and 24.
             if (minutes >= 60 || seconds >= 61 || hours > 24 || (hours === 24 && (minutes > 0 || seconds > 0 || milliseconds > 0))) {
-                throw new DeveloperError(iso8601ErrorMessage, "iso8601String");
+                throw new DeveloperError(iso8601ErrorMessage);
             }
 
             //Check the UTC offset value, if no value exists, use local time
@@ -12308,7 +12315,7 @@ function(DeveloperError,
      *
      * @return {JulianDate} The new {@Link JulianDate} instance.
      *
-     * @exception {DeveloperError} Number required.
+     * @exception {DeveloperError} totalDays is required.
      *
      * @see JulianDate
      * @see JulianDate.fromDate
@@ -12322,7 +12329,7 @@ function(DeveloperError,
      */
     JulianDate.fromTotalDays = function(totalDays, timeStandard) {
         if (totalDays === null || isNaN(totalDays)) {
-            throw new DeveloperError("Number required", "totalDays");
+            throw new DeveloperError('totalDays is required.');
         }
         return new JulianDate(totalDays, 0, timeStandard);
     };
@@ -12507,8 +12514,8 @@ function(DeveloperError,
      * @see JulianDate#getMinutesDifference
      *
      * @example
-     * var start = JulianDate.fromDate(new Date("July 4, 2011 12:00:00"));
-     * var end = JulianDate.fromDate(new Date("July 5, 2011 12:01:00"));
+     * var start = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
+     * var end = JulianDate.fromDate(new Date('July 5, 2011 12:01:00'));
      * var difference = start.getSecondsDifference(end);    // 86460.0 seconds
      */
     JulianDate.prototype.getSecondsDifference = function(other) {
@@ -12539,8 +12546,8 @@ function(DeveloperError,
      * @see JulianDate#getSecondsDifference
      *
      * @example
-     * var start = JulianDate.fromDate(new Date("July 4, 2011 12:00:00"));
-     * var end = JulianDate.fromDate(new Date("July 5, 2011 12:01:00"));
+     * var start = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
+     * var end = JulianDate.fromDate(new Date('July 5, 2011 12:01:00'));
      * var difference = start.getMinutesDifference(end);    // 1441.0 minutes
      */
     JulianDate.prototype.getMinutesDifference = function(other) {
@@ -12574,7 +12581,7 @@ function(DeveloperError,
      * @see TimeStandard
      *
      * @example
-     * var date = new Date("July 11, 2011 12:00:00 UTC");
+     * var date = new Date('July 11, 2011 12:00:00 UTC');
      * var julianDate = JulianDate.fromDate(date, TimeStandard.TAI);
      * var difference = julianDate.getTaiMinusUtc();    // 34
      */
@@ -12626,7 +12633,7 @@ function(DeveloperError,
      *
      * @return {JulianDate} A new Julian date object
      *
-     * @exception {DeveloperError} Number required.
+     * @exception {DeveloperError} duration is required and must be a number.
      *
      * @see JulianDate#addMinutes
      * @see JulianDate#addHours
@@ -12641,7 +12648,7 @@ function(DeveloperError,
      */
     JulianDate.prototype.addSeconds = function(duration) {
         if (duration === null || isNaN(duration)) {
-            throw new DeveloperError("Number required.", duration);
+            throw new DeveloperError('duration is required and must be a number.');
         }
         var newSecondsOfDay = this._secondsOfDay + duration;
         return new JulianDate(this._julianDayNumber, newSecondsOfDay, this._timeStandard);
@@ -12657,7 +12664,7 @@ function(DeveloperError,
      *
      * @return {JulianDate} A new Julian date object
      *
-     * @exception {DeveloperError} Number required.
+     * @exception {DeveloperError} duration is required and must be a number.
      *
      * @see JulianDate#addSeconds
      * @see JulianDate#addHours
@@ -12672,7 +12679,7 @@ function(DeveloperError,
      */
     JulianDate.prototype.addMinutes = function(duration) {
         if (duration === null || isNaN(duration)) {
-            throw new DeveloperError("Number required.", duration);
+            throw new DeveloperError('duration is required and must be a number.');
         }
         var newSecondsOfDay = this._secondsOfDay + (duration * TimeConstants.SECONDS_PER_MINUTE);
         return new JulianDate(this._julianDayNumber, newSecondsOfDay, this._timeStandard);
@@ -12688,7 +12695,7 @@ function(DeveloperError,
      *
      * @return {JulianDate} A new Julian date object
      *
-     * @exception {DeveloperError} Number required.
+     * @exception {DeveloperError} duration is required and must be a number.
      *
      * @see JulianDate#addSeconds
      * @see JulianDate#addMinutes
@@ -12703,7 +12710,7 @@ function(DeveloperError,
      */
     JulianDate.prototype.addHours = function(duration) {
         if (duration === null || isNaN(duration)) {
-            throw new DeveloperError("Number required.", duration);
+            throw new DeveloperError('duration is required and must be a number.');
         }
         var newSecondsOfDay = this._secondsOfDay + (duration * TimeConstants.SECONDS_PER_HOUR);
         return new JulianDate(this._julianDayNumber, newSecondsOfDay, this._timeStandard);
@@ -12719,7 +12726,7 @@ function(DeveloperError,
      *
      * @return {JulianDate} A new Julian date object
      *
-     * @exception {DeveloperError} Number required.
+     * @exception {DeveloperError} duration is required and must be a number.
      *
      * @see JulianDate#addSeconds
      * @see JulianDate#addMinutes
@@ -12734,7 +12741,7 @@ function(DeveloperError,
      */
     JulianDate.prototype.addDays = function(duration) {
         if (duration === null || isNaN(duration)) {
-            throw new DeveloperError("Number required.", duration);
+            throw new DeveloperError('duration is required and must be a number.');
         }
         var newJulianDayNumber = this._julianDayNumber + duration;
         return new JulianDate(newJulianDayNumber, this._secondsOfDay, this._timeStandard);
@@ -12754,8 +12761,8 @@ function(DeveloperError,
      * @see JulianDate#greaterThanOrEquals
      *
      * @example
-     * var start = JulianDate.fromDate(new Date("July 6, 1991 12:00:00"));
-     * var end = JulianDate.fromDate(new Date("July 6, 2011 12:01:00"));
+     * var start = JulianDate.fromDate(new Date('July 6, 1991 12:00:00'));
+     * var end = JulianDate.fromDate(new Date('July 6, 2011 12:01:00'));
      * start.lessThan(end);     // true
      */
     JulianDate.prototype.lessThan = function(other) {
@@ -12776,8 +12783,8 @@ function(DeveloperError,
      * @see JulianDate#greaterThanOrEquals
      *
      * @example
-     * var start = JulianDate.fromDate(new Date("July 6, 1991 12:00:00"));
-     * var end = JulianDate.fromDate(new Date("July 6, 2011 12:00:00"));
+     * var start = JulianDate.fromDate(new Date('July 6, 1991 12:00:00'));
+     * var end = JulianDate.fromDate(new Date('July 6, 2011 12:00:00'));
      * start.lessThanOrEquals(end);     // true
      */
     JulianDate.prototype.lessThanOrEquals = function(other) {
@@ -12798,8 +12805,8 @@ function(DeveloperError,
      * @see JulianDate#greaterThanOrEquals
      *
      * @example
-     * var start = JulianDate.fromDate(new Date("July 6, 1991 12:00:00"));
-     * var end = JulianDate.fromDate(new Date("July 6, 2011 12:01:00"));
+     * var start = JulianDate.fromDate(new Date('July 6, 1991 12:00:00'));
+     * var end = JulianDate.fromDate(new Date('July 6, 2011 12:01:00'));
      * end.greaterThan(start);      // true
      */
     JulianDate.prototype.greaterThan = function(other) {
@@ -12820,8 +12827,8 @@ function(DeveloperError,
      * @see JulianDate#greaterThan
      *
      * @example
-     * var start = JulianDate.fromDate(new Date("July 6, 1991 12:00:00"));
-     * var end = JulianDate.fromDate(new Date("July 6, 2011 12:00:00"));
+     * var start = JulianDate.fromDate(new Date('July 6, 1991 12:00:00'));
+     * var end = JulianDate.fromDate(new Date('July 6, 2011 12:00:00'));
      * end.greaterThanOrEquals(start);      // true
      */
     JulianDate.prototype.greaterThanOrEquals = function(other) {
@@ -12841,8 +12848,8 @@ function(DeveloperError,
      * @see JulianDate#equalsEpsilon
      *
      * @example
-     * var original = JulianDate.fromDate(new Date("July 4, 2011 12:00:00"));
-     * var clone = JulianDate.fromDate(new Date("July 4, 2011 12:00:00"));
+     * var original = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
+     * var clone = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
      * original.equals(clone);      // true
      */
     JulianDate.prototype.equals = function(other) {
@@ -12862,18 +12869,18 @@ function(DeveloperError,
      *
      * @return {Boolean} <code>true</code> if the two JulianDates are within <code>epsilon</code> seconds of each other; otherwise <code>false</code>.
      *
-     * @exception {DeveloperError} Number required.
+     * @exception {DeveloperError} epsilon is required and must be number.
      *
      * @see JulianDate#equals
      *
      * @example
-     * var original = JulianDate.fromDate(new Date("July 4, 2011 12:00:00"));
-     * var clone = JulianDate.fromDate(new Date("July 4, 2011 12:00:01"));
+     * var original = JulianDate.fromDate(new Date('July 4, 2011 12:00:00'));
+     * var clone = JulianDate.fromDate(new Date('July 4, 2011 12:00:01'));
      * original.equalsEpsilon(clone, 2);    // true
      */
     JulianDate.prototype.equalsEpsilon = function(other, epsilon) {
         if (epsilon === null || isNaN(epsilon)) {
-            throw new DeveloperError("Number required.", "epsilon");
+            throw new DeveloperError('epsilon is required and must be number.');
         }
         return Math.abs(this.getSecondsDifference(other)) <= epsilon;
     };
@@ -12915,14 +12922,14 @@ define('Core/CachePolicy',[
     CachePolicy.LRU = function(description) {
         var desc = description || {};
 
-        if (!desc.fetchFunc || typeof desc.fetchFunc !== "function") {
-            throw new DeveloperError("description.fetchFunc is a required function.", "description.fetchFunc");
+        if (!desc.fetchFunc || typeof desc.fetchFunc !== 'function') {
+            throw new DeveloperError('description.fetchFunc is a required function.');
         }
 
         this._limit = desc.limit || 128;
         this._count = 0;
         this._fetchFunc = desc.fetchFunc;
-        this._removeFunc = (typeof desc.removeFunc === "function") ? desc.removeFunc : null;
+        this._removeFunc = (typeof desc.removeFunc === 'function') ? desc.removeFunc : null;
     };
 
     /**
@@ -13223,7 +13230,7 @@ define('Core/EventHandler',[
      * @see EventHandler#removeKeyAction
      *
      * @example
-     * // Set the camera to a "home" position when 'h' is pressed.
+     * // Set the camera to a 'home' position when 'h' is pressed.
      * customHandler.setKeyAction(
      *    function() {
      *        var position = new Cartesian3(2.0 * Ellipsoid.WGS84.getRadii().getMaximumComponent(), 0.0, 0.0);
@@ -13233,16 +13240,16 @@ define('Core/EventHandler',[
      *        camera.direction = dir;
      *        camera.up = up;
      *    },
-     *    "h"
+     *    'h'
      * );
      */
     EventHandler.prototype.setKeyAction = function(action, key, modifier) {
         if (!action) {
-            throw new DeveloperError("action is required.", "action");
+            throw new DeveloperError('action is required.');
         }
 
         if (!key) {
-            throw new DeveloperError("key is required.", "key");
+            throw new DeveloperError('key is required.');
         }
 
         var keyEvents;
@@ -13273,7 +13280,7 @@ define('Core/EventHandler',[
      */
     EventHandler.prototype.getKeyAction = function(key, modifier) {
         if (!key) {
-            throw new DeveloperError("key is required.", "key");
+            throw new DeveloperError('key is required.');
         }
 
         var keyEvents;
@@ -13306,7 +13313,7 @@ define('Core/EventHandler',[
      */
     EventHandler.prototype.removeKeyAction = function(key, modifier) {
         if (!key) {
-            throw new DeveloperError("key is required.", "key");
+            throw new DeveloperError('key is required.');
         }
 
         var keyEvents;
@@ -13340,11 +13347,11 @@ define('Core/EventHandler',[
      */
     EventHandler.prototype.setMouseAction = function(action, type, modifier) {
         if (!action) {
-            throw new DeveloperError("action is required.", "action");
+            throw new DeveloperError('action is required.');
         }
 
         if (!type) {
-            throw new DeveloperError("type is required.", "type");
+            throw new DeveloperError('type is required.');
         }
 
         var mouseEvents;
@@ -13375,7 +13382,7 @@ define('Core/EventHandler',[
      */
     EventHandler.prototype.getMouseAction = function(type, modifier) {
         if (!type) {
-            throw new DeveloperError("type is required.", "type");
+            throw new DeveloperError('type is required.');
         }
 
         var mouseEvents;
@@ -13408,7 +13415,7 @@ define('Core/EventHandler',[
      */
     EventHandler.prototype.removeMouseAction = function(type, modifier) {
         if (!type) {
-            throw new DeveloperError("type is required.", "type");
+            throw new DeveloperError('type is required.');
         }
 
         var mouseEvents;
@@ -14014,6 +14021,793 @@ define('Core/SunPosition',[
 });
 
 /*global define*/
+define('Core/TimeInterval',[
+        './JulianDate',
+        './DeveloperError'
+    ], function(
+        JulianDate,
+        DeveloperError) {
+    
+
+    /**
+     * An interval defined by a start date and a stop date.  The end points are optionally included
+     * in the interval.  The interval should be treated as immutable.
+     *
+     * @name TimeInterval
+     * @constructor
+     *
+     * @param {JulianDate} start The start date of the interval.
+     * @param {JulianDate} stop The stop date of the interval.
+     * @param {Boolean} [isStartIncluded=true] <code>true</code> if the start date is included in the interval, <code>false</code> otherwise.
+     * @param {Boolean} [isStopIncluded=true] <code>true</code> if the stop date is included in the interval, <code>false</code> otherwise.
+     * @param {Object} [data The data associated with this interval.
+     *
+     * @exception {DeveloperError} start must be specified.
+     * @exception {DeveloperError} stop must be specified.
+     *
+     * @see TimeInterval.fromIso8601
+     * @see TimeIntervalCollection
+     * @see JulianDate
+     *
+     * @example
+     * // Construct an Timeinterval closed on one end with a Color payload.
+     * var interval = new TimeInterval(JulianDate.fromTotalDays(1000), JulianDate.fromTotalDays(1001), true, false, Color.WHITE);
+     */
+    function TimeInterval(start, stop, isStartIncluded, isStopIncluded, data) {
+        if (typeof start === 'undefined') {
+            throw new DeveloperError('start must be specified.');
+        }
+
+        if (typeof stop === 'undefined') {
+            throw new DeveloperError('stop must be specified.');
+        }
+
+        if (typeof isStartIncluded === 'undefined') {
+            isStartIncluded = true;
+        }
+
+        if (typeof isStopIncluded === 'undefined') {
+            isStopIncluded = true;
+        }
+
+        var stopComparedToStart = JulianDate.compare(stop, start);
+
+        this.start = start;
+        this.stop = stop;
+        this.data = data;
+        this.isStartIncluded = isStartIncluded;
+        this.isStopIncluded = isStopIncluded;
+        this.isEmpty = stopComparedToStart < 0 || (stopComparedToStart === 0 && (!isStartIncluded || !isStopIncluded));
+    }
+
+    /**
+     * Creates an immutable TimeInterval from an ISO 8601 interval string.
+     *
+     * @memberof TimeInterval
+     *
+     * @param {String} iso8601String A valid ISO8601 interval.
+     * @param {Boolean} [isStartIncluded=true] <code>true</code> if the start date is included in the interval, <code>false</code> otherwise.
+     * @param {Boolean} [isStopIncluded=true] <code>true</code> if the stop date is included in the interval, <code>false</code> otherwise.
+     * @param {Object} [data] The data associated with this interval.
+     *
+     * @return {TimeInterval} The new {@Link TimeInterval} instance or <code>undefined</code> if an invalid ISO8601 string is provided.
+     *
+     * @see TimeInterval
+     * @see TimeIntervalCollection
+     * @see JulianDate
+     * @see <a href='http://en.wikipedia.org/wiki/ISO_8601'>ISO 8601 on Wikipedia</a>.
+     *
+     * @example
+     * // Construct an open Timeinterval with a Cartesian data payload.
+     * var interval = TimeInterval.fromIso8601('2012-03-15T11:02:24.55Z/2012-03-15T12:28:24.03Z', false, false, new Cartesian3(1,2,3));
+     */
+    TimeInterval.fromIso8601 = function(iso8601String, isStartIncluded, isStopIncluded, data) {
+        var iso8601Interval = iso8601String.split('/');
+        var intervalStart = JulianDate.fromIso8601(iso8601Interval[0]);
+        var intervalStop = JulianDate.fromIso8601(iso8601Interval[1]);
+        return new TimeInterval(intervalStart, intervalStop, isStartIncluded, isStopIncluded, data);
+    };
+
+    /**
+     * Creates a copy of this TimeInterval.
+     *
+     * @returns A new TimeInterval that is equal to this interval.
+     *
+     * @memberof TimeInterval
+     */
+    TimeInterval.prototype.clone = function() {
+        return new TimeInterval(this.start, this.stop, this.isStartIncluded, this.isStopIncluded, this.data);
+    };
+
+    /**
+     * An empty interval.
+     *
+     * @memberof TimeInterval
+     *
+     */
+    TimeInterval.EMPTY = Object.freeze(new TimeInterval(new JulianDate(0, 0), new JulianDate(0, 0), false, false));
+
+    /**
+     * Computes an interval which is the intersection of this interval with another while
+     * also providing a means to merge the data of the two intervals.
+     *
+     * @param {TimeInterval} other The interval to intersect with this interval.
+     * @param {Function} [mergeCallback] A callback which takes the data property from
+     * both intervals as input and merges it into a single new value. If the callback is undefined,
+     * this will intersect the two intervals and return the new interval with the data from this
+     * interval.
+     *
+     * @return {TimeInterval} The new {@Link TimeInterval} that is the intersection of the two intervals,
+     * with its data representing the merge of the data in the two existing intervals.
+     */
+    TimeInterval.prototype.intersect = function(other, mergeCallback) {
+        if (typeof other === 'undefined') {
+            return TimeInterval.EMPTY;
+        }
+
+        var otherStart = other.start;
+        var otherStop = other.stop;
+        var otherIsStartIncluded = other.isStartIncluded;
+        var otherIsStopIncluded = other.isStopIncluded;
+
+        var thisStart = this.start;
+        var thisStop = this.stop;
+        var thisIsStartIncluded = this.isStartIncluded;
+        var thisIsStopIncluded = this.isStopIncluded;
+
+        var outputData;
+        var isStartIncluded;
+        var isStopIncluded;
+
+        if (otherStart.greaterThanOrEquals(thisStart) && thisStop.greaterThanOrEquals(otherStart)) {
+
+            isStartIncluded = (!otherStart.equals(thisStart) && otherIsStartIncluded) || (thisIsStartIncluded && otherIsStartIncluded);
+
+            isStopIncluded = thisIsStopIncluded && otherIsStopIncluded;
+
+            outputData = typeof mergeCallback !== 'undefined' ? mergeCallback(this.data, other.data) : this.data;
+
+            if (thisStop.greaterThanOrEquals(otherStop)) {
+                isStopIncluded = isStopIncluded || (!otherStop.equals(thisStop) && otherIsStopIncluded);
+                return new TimeInterval(otherStart, otherStop, isStartIncluded, isStopIncluded, outputData);
+            }
+
+            isStopIncluded = isStopIncluded || thisIsStopIncluded;
+            return new TimeInterval(otherStart, thisStop, isStartIncluded, isStopIncluded, outputData);
+        }
+
+        if (otherStart.lessThanOrEquals(thisStart) && thisStart.lessThanOrEquals(otherStop)) {
+
+            isStartIncluded = (otherStart.equals(thisStart) === false && thisIsStartIncluded) || (thisIsStartIncluded && otherIsStartIncluded);
+
+            isStopIncluded = thisIsStopIncluded && otherIsStopIncluded;
+
+            outputData = typeof mergeCallback !== 'undefined' ? mergeCallback(this.data, other.data) : this.data;
+            if (thisStop.greaterThanOrEquals(otherStop)) {
+                isStopIncluded = isStopIncluded || (otherStop.equals(thisStop) === false && otherIsStopIncluded);
+                return new TimeInterval(thisStart, otherStop, isStartIncluded, isStopIncluded, outputData);
+            }
+
+            isStopIncluded = isStopIncluded || thisIsStopIncluded;
+            return new TimeInterval(thisStart, thisStop, isStartIncluded, isStopIncluded, outputData);
+        }
+
+        return TimeInterval.EMPTY;
+    };
+
+    /**
+     * Returns <code>true</code> if this interval contains the specified date.
+     *
+     * @memberof TimeInterval
+     *
+     * @param {JulianDate} date The date to check for.
+     *
+     * @return {Boolean} <code>true</code> if the TimeInterval contains the specified date, <code>false</code> otherwise.
+     */
+    TimeInterval.prototype.contains = function(date) {
+        if (this.isEmpty) {
+            return false;
+        }
+
+        var startComparedToDate = JulianDate.compare(this.start, date);
+        // if (start == date)
+        if (startComparedToDate === 0) {
+            return this.isStartIncluded;
+        }
+
+        var dateComparedToStop = JulianDate.compare(date, this.stop);
+        // if (date == stop)
+        if (dateComparedToStop === 0) {
+            return this.isStopIncluded;
+        }
+
+        // return start < date && date < stop
+        return startComparedToDate < 0 && dateComparedToStop < 0;
+    };
+
+    /**
+     * Returns true if this TimeInterval equals <code>other</code> componentwise.
+     *
+     * @memberof TimeInterval
+     * @param {TimeInterval} other The TimeInterval to compare for equality.
+     * @return {Boolean} <code>true</code> if the TimeIntervals are equal componentwise, <code>false</code> otherwise.
+     */
+    TimeInterval.prototype.equals = function(other) {
+        return typeof other !== 'undefined' &&
+               ((this.isEmpty && other.isEmpty) ||
+                (this.isStartIncluded === other.isStartIncluded &&
+                this.isStopIncluded === other.isStopIncluded &&
+                this.start.equals(other.start) &&
+                this.stop.equals(other.stop)));
+    };
+
+    /**
+     * Returns <code>true</code> if this TimeInterval equals other componentwise
+     * within the specified epsilon.
+     *
+     * @memberof TimeInterval
+     *
+     * @param {TimeInterval} other The TimeInterval to compare for equality.
+     * @param {Number} [epsilon=0.0] The epsilon to use for equality testing.
+     *
+     * @return {Boolean} <code>true</code> if the TimeIntervals are equal within the specified epsilon, <code>false</code> otherwise.
+     */
+    TimeInterval.prototype.equalsEpsilon = function(other, epsilon) {
+        return typeof other !== 'undefined' &&
+               ((this.isEmpty && other.isEmpty) ||
+                (this.isStartIncluded === other.isStartIncluded &&
+                 this.isStopIncluded === other.isStopIncluded &&
+                 this.start.equalsEpsilon(other.start, epsilon) &&
+                 this.stop.equalsEpsilon(other.stop, epsilon)));
+    };
+
+    return TimeInterval;
+});
+/*global define*/
+define('Core/TimeIntervalCollection',[
+        './DeveloperError',
+        './binarySearch',
+        './TimeInterval',
+        './JulianDate'
+       ], function(
+         DeveloperError,
+         binarySearch,
+         TimeInterval,
+         JulianDate) {
+    
+
+    function compareIntervalStartTimes(lhs, rhs) {
+        return JulianDate.compare(lhs.start, rhs.start);
+    }
+
+    /**
+     * A non-overlapping collection of TimeIntervals sorted by start date.
+     *
+     * @name TimeIntervalCollection
+     * @constructor
+     *
+     * @see TimeInterval
+     * @see JulianDate
+     *
+     */
+     function TimeIntervalCollection() {
+        this._intervals = [];
+    }
+
+    /**
+     * Gets the interval at the specified index.
+     *
+     * @memberof TimeIntervalCollection
+     * @param {Number} index The index of the interval to retrieve.
+     * @return {TimeInterval} The TimeInterval at the specified index, or undefined if no such index exists.
+     * @exception {DeveloperError} index must be a number.
+     */
+    TimeIntervalCollection.prototype.get = function(index) {
+        if (isNaN(index)) {
+            throw new DeveloperError('index must be a number.');
+        }
+        return this._intervals[index];
+    };
+
+    /**
+     * Gets the start date of the collection.
+     *
+     * @memberof TimeIntervalCollection
+     * @return {JulianDate} The start date of the collection or undefined if the collection is empty.
+     */
+    TimeIntervalCollection.prototype.getStart = function() {
+        var thisIntervals = this._intervals;
+        return thisIntervals.length === 0 ? undefined : thisIntervals[0].start;
+    };
+
+    /**
+     * Gets the stop date of the collection.
+     *
+     * @memberof TimeIntervalCollection
+     * @return {JulianDate} The stop date of the collection or undefined if the collection is empty.
+     */
+    TimeIntervalCollection.prototype.getStop = function() {
+        var thisIntervals = this._intervals;
+        var length = thisIntervals.length;
+        return length === 0 ? undefined : thisIntervals[length - 1].stop;
+    };
+
+    /**
+     * Gets the number of intervals in the collection.
+     *
+     * @memberof TimeIntervalCollection
+     * @return {Number} The number of intervals in the collection.
+     */
+    TimeIntervalCollection.prototype.getLength = function() {
+        return this._intervals.length;
+    };
+
+    /**
+     * Clears the collection.
+     *
+     * @memberof TimeIntervalCollection
+     */
+    TimeIntervalCollection.prototype.clear = function() {
+        this._intervals = [];
+    };
+
+    /**
+     * Returns true if the collection is empty, false otherwise.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @returns true if the collection is empty, false otherwise.
+     */
+    TimeIntervalCollection.prototype.isEmpty = function() {
+        return this._intervals.length === 0;
+    };
+
+    /**
+     * Returns the interval which contains the specified date.
+     *
+     * @param {JulianDate} date The date to search for.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @returns The interval containing the specified date, undefined if no such interval exists.
+     *
+     * @exception {DeveloperError} date is required.
+     */
+    TimeIntervalCollection.prototype.findIntervalContainingDate = function(date) {
+        var index = this.indexOf(date);
+        return index >= 0 ? this._intervals[index] : undefined;
+    };
+
+    /**
+     * Returns true if the specified date is contained in the interval collection.
+     *
+     * @param {JulianDate} date The date to search for.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @returns True if the specified date is contained in the interval collection, undefined otherwise.
+     *
+     * @exception {DeveloperError} date is required.
+     */
+    TimeIntervalCollection.prototype.contains = function(date) {
+        return this.indexOf(date) >= 0;
+    };
+
+    /**
+     * Returns the index of the interval in the collection that contains the specified date.
+     *
+     * @param {JulianDate} date The date to search for.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @returns The index of the interval which contains the specified date, if no such interval exists,
+     * it returns a negative number which is the bitwise complement of the index of the next interval that
+     * starts after the date, or if no interval starts after the specified date, the bitwise complement of
+     * the length of the collection.
+     *
+     * @exception {DeveloperError} date is required.
+     */
+    TimeIntervalCollection.prototype.indexOf = function(date) {
+        if (typeof date === 'undefined') {
+            throw new DeveloperError('date required');
+        }
+        var thisIntervals = this._intervals;
+        var index = binarySearch(thisIntervals, new TimeInterval(date, date, true, true), compareIntervalStartTimes);
+        if (index >= 0) {
+            if (thisIntervals[index].isStartIncluded) {
+                return index;
+            }
+
+            if (index > 0 &&
+                thisIntervals[index - 1].stop.equals(date) &&
+                thisIntervals[index - 1].isStopIncluded) {
+                return index - 1;
+            }
+            return ~index;
+        }
+
+        index = ~index;
+        if (index > 0 && (index - 1) < thisIntervals.length && thisIntervals[index - 1].contains(date)) {
+            return index - 1;
+        }
+        return ~index;
+    };
+
+    /**
+     * Returns the first interval in the collection that matches the specified parameters.
+     * All parameters are optional and undefined parameters are treated as a don't care condition.
+     *
+     * @param {JulianDate} [start] The start of the interval.
+     * @param {JulianDate} [stop] The end of the interval.
+     * @param {JulianDate} [isStartIncluded] True if the start date is included.
+     * @param {JulianDate} [isStopIncluded] True if the stop date is included.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @returns The first interval in the collection that matches the specified parameters.
+     */
+    TimeIntervalCollection.prototype.findInterval = function(start, stop, isStartIncluded, isStopIncluded) {
+        var thisIntervals = this._intervals, interval;
+        for ( var i = 0, len = thisIntervals.length; i < len; i++) {
+            interval = thisIntervals[i];
+            if ((typeof start === 'undefined' || interval.start.equals(start)) &&
+                (typeof stop === 'undefined' || interval.stop.equals(stop)) &&
+                (typeof isStartIncluded === 'undefined' || interval.isStartIncluded === isStartIncluded) &&
+                (typeof isStopIncluded === 'undefined' || interval.isStopIncluded === isStopIncluded)) {
+                return thisIntervals[i];
+            }
+        }
+        return undefined;
+    };
+
+    /**
+     * Adds an interval to the collection, merging intervals that contain the same data and
+     * splitting intervals of different data as needed in order to maintain a non-overlapping collection.
+     * The data in the new interval takes precedence over any existing intervals in the collection.
+     *
+     * @param {TimeInterval} interval The interval to add.
+     * @param {Function} [equalsCallback] An optional function which takes the data from two
+     * TimeIntervals and returns true if they are equal, false otherwise.  If this function
+     * is not provided, the Javascript equality operator is used.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @exception {DeveloperError} interval is required.
+     */
+    TimeIntervalCollection.prototype.addInterval = function(interval, equalsCallback) {
+        if (typeof interval === 'undefined') {
+            throw new DeveloperError("interval is required");
+        }
+        if (!interval.isEmpty) {
+            var comparison, index;
+            var thisIntervals = this._intervals;
+
+            // Handle the common case quickly: we're adding a new interval which is after all existing intervals.
+            if (thisIntervals.length === 0 ||
+                interval.start.greaterThan(thisIntervals[thisIntervals.length - 1].stop)) {
+                thisIntervals.push(interval);
+                return;
+            }
+
+            // Keep the list sorted by the start date
+            index = binarySearch(thisIntervals, interval, compareIntervalStartTimes);
+            if (index < 0) {
+                index = ~index;
+            } else {
+                // interval's start date exactly equals the start date of at least one interval in the collection.
+                // It could actually equal the start date of two intervals if one of them does not actually
+                // include the date.  In that case, the binary search could have found either.  We need to
+                // look at the surrounding intervals and their IsStartIncluded properties in order to make sure
+                // we're working with the correct interval.
+                if (index > 0 &&
+                    interval.isStartIncluded &&
+                    thisIntervals[index - 1].isStartIncluded &&
+                    thisIntervals[index - 1].start.equals(interval.start)) {
+                    --index;
+                } else if (index < thisIntervals.length &&
+                           !interval.isStartIncluded &&
+                           thisIntervals[index].isStartIncluded &&
+                           thisIntervals[index].start.equals(interval.start)) {
+                    ++index;
+                }
+            }
+
+            if (index > 0) {
+                // Not the first thing in the list, so see if the interval before this one
+                // overlaps this one.
+                comparison = JulianDate.compare(thisIntervals[index - 1].stop, interval.start);
+                if (comparison > 0 || (comparison === 0 && (thisIntervals[index - 1].isStopIncluded || interval.isStartIncluded))) {
+                    // There is an overlap
+                    if (typeof equalsCallback !== 'undefined' ? equalsCallback(thisIntervals[index - 1].data, interval.data) : (thisIntervals[index - 1].data === interval.data)) {
+                        // Overlapping intervals have the same data, so combine them
+                        if (interval.stop.greaterThan(thisIntervals[index - 1].stop)) {
+                            interval = new TimeInterval(thisIntervals[index - 1].start,
+                                                        interval.stop,
+                                                        thisIntervals[index - 1].isStartIncluded,
+                                                        interval.isStopIncluded,
+                                                        interval.data);
+                        } else {
+                            interval = new TimeInterval(thisIntervals[index - 1].start,
+                                                        thisIntervals[index - 1].stop,
+                                                        thisIntervals[index - 1].isStartIncluded,
+                                                        thisIntervals[index - 1].isStopIncluded || (interval.stop.equals(thisIntervals[index - 1].stop) && interval.isStopIncluded),
+                                                        interval.data);
+                        }
+                        thisIntervals.splice(index - 1, 1);
+                        --index;
+                    } else {
+                        // Overlapping intervals have different data.  The new interval
+                        // being added 'wins' so truncate the previous interval.
+                        // If the existing interval extends past the end of the new one,
+                        // split the existing interval into two intervals.
+                        comparison = JulianDate.compare(thisIntervals[index - 1].stop, interval.stop);
+                        if (comparison > 0 || (comparison === 0 && thisIntervals[index - 1].isStopIncluded && !interval.isStopIncluded)) {
+                            thisIntervals.splice(index - 1, 1,
+                                                 new TimeInterval(thisIntervals[index - 1].start,
+                                                                  interval.start,
+                                                                  thisIntervals[index - 1].isStartIncluded,
+                                                                  !interval.isStartIncluded,
+                                                                  thisIntervals[index - 1].data),
+                                                 new TimeInterval(interval.stop,
+                                                                  thisIntervals[index - 1].stop,
+                                                                  !interval.isStopIncluded,
+                                                                  thisIntervals[index - 1].isStopIncluded,
+                                                                  thisIntervals[index - 1].data));
+                        } else {
+                            thisIntervals[index - 1] = new TimeInterval(thisIntervals[index - 1].start,
+                                                                        interval.start,
+                                                                        thisIntervals[index - 1].isStartIncluded,
+                                                                        !interval.isStartIncluded, thisIntervals[index - 1].data);
+                        }
+                    }
+                }
+            }
+
+            while (index < thisIntervals.length) {
+                // Not the last thing in the list, so see if the intervals after this one overlap this one.
+                comparison = JulianDate.compare(interval.stop, thisIntervals[index].start);
+                if (comparison > 0 ||
+                    (comparison === 0 && (interval.isStopIncluded || thisIntervals[index].isStartIncluded))) {
+                    // There is an overlap
+                    if (typeof equalsCallback !== 'undefined' ? equalsCallback(thisIntervals[index].data, interval.data) : thisIntervals[index].data === interval.data) {
+                        // Overlapping intervals have the same data, so combine them
+                        interval = new TimeInterval(interval.start,
+                                                    thisIntervals[index].stop.greaterThan(interval.stop) ? thisIntervals[index].stop : interval.stop,
+                                                    interval.isStartIncluded,
+                                                    thisIntervals[index].stop.greaterThan(interval.stop) ? thisIntervals[index].isStopIncluded : interval.isStopIncluded,
+                                                    interval.data);
+                        thisIntervals.splice(index, 1);
+                    } else {
+                        // Overlapping intervals have different data.  The new interval
+                        // being added 'wins' so truncate the next interval.
+                        thisIntervals[index] = new TimeInterval(interval.stop,
+                                                                thisIntervals[index].stop,
+                                                                !interval.isStopIncluded,
+                                                                thisIntervals[index].isStopIncluded,
+                                                                thisIntervals[index].data);
+                        if (thisIntervals[index].isEmpty) {
+                            thisIntervals.splice(index, 1);
+                        } else {
+                            // Found a partial span, so it is not possible for the next
+                            // interval to be spanned at all.  Stop looking.
+                            break;
+                        }
+                    }
+                } else {
+                    // Found the last one we're spanning, so stop looking.
+                    break;
+                }
+            }
+
+            // Add the new interval
+            thisIntervals.splice(index, 0, interval);
+        }
+    };
+
+    /**
+     * Removes the specified interval from this interval collection, creating a hole over the specified interval.
+     * The Data property of the input interval is ignored.
+     *
+     * @param {TimeInterval} interval The interval to remove.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @returns true if the interval was removed, false if no part of the interval was in the collection.
+     *
+     * @exception {DeveloperError} interval is required.
+     */
+    TimeIntervalCollection.prototype.removeInterval = function(interval) {
+        if (typeof interval === 'undefined') {
+            throw new DeveloperError("interval is required");
+        }
+
+        if (interval.isEmpty) {
+            return false;
+        }
+
+        var result = false;
+        var thisIntervals = this._intervals;
+
+        var index = binarySearch(thisIntervals, interval, compareIntervalStartTimes);
+        if (index < 0) {
+            index = ~index;
+        }
+
+        var intervalStart = interval.start;
+        var intervalStop = interval.stop;
+        var intervalIsStartIncluded = interval.isStartIncluded;
+        var intervalIsStopIncluded = interval.isStopIncluded;
+
+        // Check for truncation of the end of the previous interval.
+        if (index > 0) {
+            var indexMinus1 = thisIntervals[index - 1];
+            var indexMinus1Stop = indexMinus1.stop;
+            if (indexMinus1Stop.greaterThan(intervalStart) ||
+                (indexMinus1Stop.equals(intervalStart) &&
+                 indexMinus1.isStopIncluded && intervalIsStartIncluded)) {
+                result = true;
+
+                if (indexMinus1Stop.greaterThan(intervalStop) ||
+                    (indexMinus1.isStopIncluded && !intervalIsStopIncluded && indexMinus1Stop.equals(intervalStop))) {
+                    // Break the existing interval into two pieces
+                    thisIntervals.splice(index, 0, new TimeInterval(intervalStop, indexMinus1Stop, !intervalIsStopIncluded, indexMinus1.isStopIncluded, indexMinus1.data));
+                }
+                thisIntervals[index - 1] = new TimeInterval(indexMinus1.start, intervalStart, indexMinus1.isStartIncluded, !intervalIsStartIncluded, indexMinus1.data);
+            }
+        }
+
+        // Check if the Start of the current interval should remain because interval.start is the same but
+        // it is not included.
+        var indexInterval = thisIntervals[index];
+        if (index < thisIntervals.length &&
+            !intervalIsStartIncluded &&
+            indexInterval.isStartIncluded &&
+            intervalStart.equals(indexInterval.start)) {
+            result = true;
+
+            thisIntervals.splice(index, 0, new TimeInterval(indexInterval.start, indexInterval.start, true, true, indexInterval.data));
+            ++index;
+            indexInterval = thisIntervals[index];
+        }
+
+        // Remove any intervals that are completely overlapped by the input interval.
+        while (index < thisIntervals.length &&
+                intervalStop.greaterThan(indexInterval.stop)) {
+            result = true;
+            thisIntervals.splice(index, 1);
+        }
+
+        // Check for the case where the input interval ends on the same date
+        // as an existing interval.
+        if (index < thisIntervals.length && intervalStop.equals(indexInterval.stop)) {
+            result = true;
+
+            if (!intervalIsStopIncluded && indexInterval.isStopIncluded) {
+                // Last point of interval should remain because the stop date is included in
+                // the existing interval but is not included in the input interval.
+                if ((index + 1) < thisIntervals.length && thisIntervals[index + 1].start.equals(intervalStop) && indexInterval.data === thisIntervals[index + 1].data) {
+                    // Combine single point with the next interval
+                    thisIntervals.splice(index, 1);
+                    thisIntervals[index] = indexInterval = new TimeInterval(indexInterval.start, indexInterval.stop, true, indexInterval.isStopIncluded, indexInterval.data);
+                } else {
+                    thisIntervals[index] = indexInterval = new TimeInterval(intervalStop, intervalStop, true, true, indexInterval.data);
+                }
+            } else {
+                // Interval is completely overlapped
+                thisIntervals.splice(index, 1);
+            }
+        }
+
+        // Truncate any partially-overlapped intervals.
+        if (index < thisIntervals.length &&
+            (intervalStop.greaterThan(indexInterval.start) ||
+             (intervalStop.equals(indexInterval.start) &&
+              intervalIsStopIncluded &&
+              indexInterval.isStartIncluded))) {
+            result = true;
+            thisIntervals[index] = new TimeInterval(intervalStop, indexInterval.stop, !intervalIsStopIncluded, indexInterval.isStopIncluded, indexInterval.data);
+        }
+
+        return result;
+    };
+
+    /**
+     * Creates a new TimeIntervalCollection which is the intersection of this collection
+     * and the provided collection.
+     *
+     * @param {TimeIntervalCollection} timeIntervalCollection The collection to intersect with.
+     * @param {Function} [equalsCallback] An optional function which takes the data from two
+     * TimeIntervals and returns true if they are equal, false otherwise.  If this function
+     * is not provided, the Javascript equality operator is used.
+     * @param {Function} [mergeCallback] An optional function which takes the data from two
+     * TimeIntervals and returns a merged version of the data.  If this parameter is omitted,
+     * the interval data from <code>this</code> collection will be used.
+     *
+     * @returns A new TimeIntervalCollection which is the intersection of this collection and the provided collection.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @exception {DeveloperError} timeIntervalCollection is required.
+     */
+    TimeIntervalCollection.prototype.intersect = function(timeIntervalCollection, equalsCallback, mergeCallback) {
+        if (typeof timeIntervalCollection === 'undefined') {
+            throw new DeveloperError('timeIntervalCollection is required.');
+        }
+        return this._intersectInternal(timeIntervalCollection, equalsCallback, mergeCallback);
+    };
+
+    /**
+     * Creates a new TimeIntervalCollection which is the intersection of this collection
+     * and the provided interval.
+     *
+     * @param {TimeInterval} interval The interval to intersect with.
+     * @param {Function} [equalsCallback] An optional function which takes the data from two
+     * TimeIntervals and returns true if they are equal, false otherwise.  If this function
+     * is not provided, the equality operator will be used.
+     * @param {Function} [mergeCallback] An optional function which takes the data from two
+     * TimeIntervals and returns a merged version of the data.  If this parameter is omitted,
+     * the interval data from <code>this</code> collection will be used.
+     *
+     * @returns A new TimeIntervalCollection which is the intersection of this collection and the provided collection.
+     *
+     * @memberof TimeIntervalCollection
+     *
+     * @exception {DeveloperError} timeIntervalCollection is required.
+     */
+    TimeIntervalCollection.prototype.intersectInterval = function(interval, equalsCallback, mergeCallback) {
+        if (typeof interval === 'undefined') {
+            throw new DeveloperError('interval is required.');
+        }
+        var intervals = new TimeIntervalCollection();
+        intervals.addInterval(interval);
+        return this._intersectInternal(intervals, equalsCallback, mergeCallback);
+    };
+
+    TimeIntervalCollection.prototype._intersectInternal = function(intervals, equalsCallback, mergeCallback) {
+        var left = 0;
+        var right = 0;
+        var result = new TimeIntervalCollection();
+        var thisIntervals = this._intervals;
+        var otherIntervals = intervals._intervals;
+
+        while (left < thisIntervals.length && right < otherIntervals.length) {
+            var leftInterval = thisIntervals[left];
+            var rightInterval = otherIntervals[right];
+            if (leftInterval.stop.lessThan(rightInterval.start)) {
+                ++left;
+            } else if (rightInterval.stop.lessThan(leftInterval.start)) {
+                ++right;
+            } else {
+                // The following will return an intersection whose data is 'merged' if the callback is defined
+                var intersection = TimeInterval.EMPTY;
+                if (typeof mergeCallback !== 'undefined' ||
+                    ((typeof equalsCallback !== 'undefined' && equalsCallback(leftInterval, rightInterval)) ||
+                     (typeof equalsCallback === 'undefined' && rightInterval.data === leftInterval.data))) {
+                    intersection = leftInterval.intersect(rightInterval, mergeCallback);
+                }
+
+                if (!intersection.isEmpty) {
+                    // Since we start with an empty collection for 'result', and there are no overlapping intervals in 'this' (as a rule),
+                    // the 'intersection' will never overlap with a previous interval in 'result'.  So, no need to do any additional 'merging'.
+                    result.addInterval(intersection, equalsCallback);
+                }
+
+                if (leftInterval.stop.lessThan(rightInterval.stop) ||
+                    (leftInterval.stop.equals(rightInterval.stop) &&
+                     !leftInterval.isStopIncluded &&
+                     rightInterval.isStopIncluded)) {
+                    ++left;
+                } else {
+                    ++right;
+                }
+            }
+        }
+        return result;
+    };
+
+    return TimeIntervalCollection;
+});
+/*global define*/
 define('Core/jsonp',['./DeveloperError'], function(DeveloperError) {
     
 
@@ -14032,11 +14826,11 @@ define('Core/jsonp',['./DeveloperError'], function(DeveloperError) {
      */
     function jsonp(url, callback, options) {
         if (typeof url === 'undefined') {
-            throw new DeveloperError('url is required.', 'url');
+            throw new DeveloperError('url is required.');
         }
 
         if (typeof callback === 'undefined') {
-            throw new DeveloperError('callback is required.', 'callback');
+            throw new DeveloperError('callback is required.');
         }
 
         options = typeof options !== 'undefined' ? options : {};
@@ -14115,16 +14909,11 @@ define('Core/pointInsideTriangle2D',['./DeveloperError'], function(DeveloperErro
      *
      * @exports pointInsideTriangle2D
      *
-     * @exception {DeveloperError} point is required.
-     * @exception {DeveloperError} p0, p1, and p2 are required.
+     * @exception {DeveloperError} point, p0, p1, and p2 are required.
      */
     function pointInsideTriangle2D(point, p0, p1, p2) {
-        if (!point) {
-            throw new DeveloperError("point is required.", "point");
-        }
-
-        if (!p0 || !p1 || !p2) {
-            throw new DeveloperError("p0, p1, and p2 are required.");
+        if (!point || !p0 || !p1 || !p2) {
+            throw new DeveloperError('point, p0, p1, and p2 are required.');
         }
 
         // Implementation based on http://www.blackpawn.com/texts/pointinpoly/default.html.
@@ -14236,12 +15025,12 @@ define('Core/PolygonPipeline',[
          */
         cleanUp : function(positions) {
             if (!positions) {
-                throw new DeveloperError("positions is required.", "positions");
+                throw new DeveloperError('positions is required.');
             }
 
             var length = positions.length;
             if (length < 3) {
-                throw new DeveloperError("At least three positions are required.", "positions");
+                throw new DeveloperError('At least three positions are required.');
             }
 
             var cleanedPositions = [];
@@ -14266,12 +15055,12 @@ define('Core/PolygonPipeline',[
          */
         computeArea2D : function(positions) {
             if (!positions) {
-                throw new DeveloperError("positions is required.", "positions");
+                throw new DeveloperError('positions is required.');
             }
 
             var length = positions.length;
             if (length < 3) {
-                throw new DeveloperError("At least three positions are required.", "positions");
+                throw new DeveloperError('At least three positions are required.');
             }
 
             var area = 0.0;
@@ -14320,12 +15109,12 @@ define('Core/PolygonPipeline',[
             //   * http://blogs.agi.com/insight3d/index.php/2008/03/20/triangulation-rhymes-with-strangulation/
 
             if (!positions) {
-                throw new DeveloperError("positions is required.", "positions");
+                throw new DeveloperError('positions is required.');
             }
 
             var length = positions.length;
             if (length < 3) {
-                throw new DeveloperError("At least three positions are required.", "positions");
+                throw new DeveloperError('At least three positions are required.');
             }
 
             var remainingPositions = new DoublyLinkedList();
@@ -14409,24 +15198,24 @@ define('Core/PolygonPipeline',[
          */
         computeSubdivision : function(positions, indices, granularity) {
             if (!positions) {
-                throw new DeveloperError("positions is required.", "positions");
+                throw new DeveloperError('positions is required.');
             }
 
             if (!indices) {
-                throw new DeveloperError("indices is required.", "indices");
+                throw new DeveloperError('indices is required.');
             }
 
             if (indices.length < 3) {
-                throw new DeveloperError("At least three indices are required.", "indices");
+                throw new DeveloperError('At least three indices are required.');
             }
 
             if (indices.length % 3 !== 0) {
-                throw new DeveloperError("The number of indices must be divisable by three.", "indices");
+                throw new DeveloperError('The number of indices must be divisable by three.');
             }
 
             granularity = granularity || CesiumMath.toRadians(1.0);
             if (granularity <= 0.0) {
-                throw new DeveloperError("Granularity must be greater than zero.", "granularity");
+                throw new DeveloperError('granularity must be greater than zero.');
             }
 
             // Use a queue for triangles that need (or might need) to be subdivided.
@@ -14465,7 +15254,7 @@ define('Core/PolygonPipeline',[
 
                 if (max > granularity) {
                     if (g0 === max) {
-                        edge = Math.min(triangle.i0, triangle.i1).toString() + " " + Math.max(triangle.i0, triangle.i1).toString();
+                        edge = Math.min(triangle.i0, triangle.i1).toString() + ' ' + Math.max(triangle.i0, triangle.i1).toString();
 
                         i = edges[edge];
                         if (!i) {
@@ -14485,7 +15274,7 @@ define('Core/PolygonPipeline',[
                             i2 : triangle.i2
                         });
                     } else if (g1 === max) {
-                        edge = Math.min(triangle.i1, triangle.i2).toString() + " " + Math.max(triangle.i1, triangle.i2).toString();
+                        edge = Math.min(triangle.i1, triangle.i2).toString() + ' ' + Math.max(triangle.i1, triangle.i2).toString();
 
                         i = edges[edge];
                         if (!i) {
@@ -14505,7 +15294,7 @@ define('Core/PolygonPipeline',[
                             i2 : triangle.i0
                         });
                     } else if (g2 === max) {
-                        edge = Math.min(triangle.i2, triangle.i0).toString() + " " + Math.max(triangle.i2, triangle.i0).toString();
+                        edge = Math.min(triangle.i2, triangle.i0).toString() + ' ' + Math.max(triangle.i2, triangle.i0).toString();
 
                         i = edges[edge];
                         if (!i) {
@@ -14555,7 +15344,7 @@ define('Core/PolygonPipeline',[
          */
         scaleToGeodeticHeight : function(ellipsoid, mesh, height) {
             if (!ellipsoid) {
-                throw new DeveloperError("ellipsoid is required.", "ellipsoid");
+                throw new DeveloperError('ellipsoid is required.');
             }
 
             height = height || 0.0;
@@ -14668,7 +15457,7 @@ define('Renderer/BlendEquation',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ADD : new Enumeration(0x8006, "ADD"), // WebGL: FUNC_ADD
+        ADD : new Enumeration(0x8006, 'ADD'), // WebGL: FUNC_ADD
 
         /**
          * DOC_TBA
@@ -14676,7 +15465,7 @@ define('Renderer/BlendEquation',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SUBTRACT : new Enumeration(0x800A, "SUBTRACT"), // WebGL: FUNC_SUBTRACT
+        SUBTRACT : new Enumeration(0x800A, 'SUBTRACT'), // WebGL: FUNC_SUBTRACT
 
         /**
          * DOC_TBA
@@ -14684,7 +15473,7 @@ define('Renderer/BlendEquation',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        REVERSE_SUBTRACT : new Enumeration(0x800B, "REVERSE_SUBTRACT"), // WebGL: FUNC_REVERSE_SUBTRACT
+        REVERSE_SUBTRACT : new Enumeration(0x800B, 'REVERSE_SUBTRACT'), // WebGL: FUNC_REVERSE_SUBTRACT
 
         // No min and max like in ColladaFX GLES2 profile
 
@@ -14720,7 +15509,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ZERO : new Enumeration(0, "ZERO"),
+        ZERO : new Enumeration(0, 'ZERO'),
 
         /**
          * DOC_TBA
@@ -14728,7 +15517,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ONE : new Enumeration(1, "ONE"),
+        ONE : new Enumeration(1, 'ONE'),
 
         /**
          * DOC_TBA
@@ -14736,7 +15525,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SOURCE_COLOR : new Enumeration(0x0300, "SOURCE_COLOR"), // WebGL: SRC_COLOR
+        SOURCE_COLOR : new Enumeration(0x0300, 'SOURCE_COLOR'), // WebGL: SRC_COLOR
 
         /**
          * DOC_TBA
@@ -14744,7 +15533,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ONE_MINUS_SOURCE_COLOR : new Enumeration(0x0301, "ONE_MINUS_SOURCE_COLOR"), // WebGL: ONE_MINUS_SRC_COLOR
+        ONE_MINUS_SOURCE_COLOR : new Enumeration(0x0301, 'ONE_MINUS_SOURCE_COLOR'), // WebGL: ONE_MINUS_SRC_COLOR
 
         /**
          * DOC_TBA
@@ -14752,7 +15541,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        DESTINATION_COLOR : new Enumeration(0x0306, "DESTINATION_COLOR"), // WebGL: DEST_COLOR
+        DESTINATION_COLOR : new Enumeration(0x0306, 'DESTINATION_COLOR'), // WebGL: DEST_COLOR
 
         /**
          * DOC_TBA
@@ -14760,7 +15549,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ONE_MINUS_DESTINATION_COLOR : new Enumeration(0x0307, "ONE_MINUS_DESTINATION_COLOR"), // WebGL: ONE_MINUS_DEST_COLOR
+        ONE_MINUS_DESTINATION_COLOR : new Enumeration(0x0307, 'ONE_MINUS_DESTINATION_COLOR'), // WebGL: ONE_MINUS_DEST_COLOR
 
         /**
          * DOC_TBA
@@ -14768,7 +15557,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SOURCE_ALPHA : new Enumeration(0x0302, "SOURCE_ALPHA"), // WebGL: SRC_ALPHA
+        SOURCE_ALPHA : new Enumeration(0x0302, 'SOURCE_ALPHA'), // WebGL: SRC_ALPHA
 
         /**
          * DOC_TBA
@@ -14776,7 +15565,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ONE_MINUS_SOURCE_ALPHA : new Enumeration(0x0303, "ONE_MINUS_SOURCE_ALPHA"), // WebGL: ONE_MINUS_SRC_ALPHA
+        ONE_MINUS_SOURCE_ALPHA : new Enumeration(0x0303, 'ONE_MINUS_SOURCE_ALPHA'), // WebGL: ONE_MINUS_SRC_ALPHA
 
         /**
          * DOC_TBA
@@ -14784,7 +15573,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        DESTINATION_ALPHA : new Enumeration(0x0304, "DESTINATION_ALPHA"), // WebGL: DST_ALPHA
+        DESTINATION_ALPHA : new Enumeration(0x0304, 'DESTINATION_ALPHA'), // WebGL: DST_ALPHA
 
         /**
          * DOC_TBA
@@ -14792,7 +15581,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ONE_MINUS_DESTINATION_ALPHA : new Enumeration(0x0305, "ONE_MINUS_DESTINATION_ALPHA"), // WebGL: ONE_MINUS_DST_ALPHA
+        ONE_MINUS_DESTINATION_ALPHA : new Enumeration(0x0305, 'ONE_MINUS_DESTINATION_ALPHA'), // WebGL: ONE_MINUS_DST_ALPHA
 
         /**
          * DOC_TBA
@@ -14800,7 +15589,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        CONSTANT_COLOR : new Enumeration(0x8001, "CONSTANT_COLOR"),
+        CONSTANT_COLOR : new Enumeration(0x8001, 'CONSTANT_COLOR'),
 
         /**
          * DOC_TBA
@@ -14808,7 +15597,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ONE_MINUS_CONSTANT_COLOR : new Enumeration(0x8002, "ONE_MINUS_CONSTANT_COLOR"),
+        ONE_MINUS_CONSTANT_COLOR : new Enumeration(0x8002, 'ONE_MINUS_CONSTANT_COLOR'),
 
         /**
          * DOC_TBA
@@ -14816,7 +15605,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        CONSTANT_ALPHA : new Enumeration(0x8003, "CONSTANT_ALPHA"),
+        CONSTANT_ALPHA : new Enumeration(0x8003, 'CONSTANT_ALPHA'),
 
         /**
          * DOC_TBA
@@ -14824,7 +15613,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ONE_MINUS_CONSTANT_ALPHA : new Enumeration(0x8004, "ONE_MINUS_CONSTANT_ALPHA"),
+        ONE_MINUS_CONSTANT_ALPHA : new Enumeration(0x8004, 'ONE_MINUS_CONSTANT_ALPHA'),
 
         /**
          * DOC_TBA
@@ -14832,7 +15621,7 @@ define('Renderer/BlendFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SOURCE_ALPHA_SATURATE : new Enumeration(0x0308, "SOURCE_ALPHA_SATURATE"), // WebGL: SRC_ALPHA_SATURATE
+        SOURCE_ALPHA_SATURATE : new Enumeration(0x0308, 'SOURCE_ALPHA_SATURATE'), // WebGL: SRC_ALPHA_SATURATE
 
         /**
          * DOC_TBA
@@ -14959,13 +15748,13 @@ define('Renderer/Buffer',[
      */
     Buffer.prototype.copyFromArrayView = function(arrayView, offsetInBytes) {
         if (!arrayView) {
-            throw new DeveloperError("arrayView is required.", "arrayView");
+            throw new DeveloperError('arrayView is required.');
         }
 
         offsetInBytes = offsetInBytes || 0;
 
         if (offsetInBytes + arrayView.byteLength > this._sizeInBytes) {
-            throw new DeveloperError("This buffer is not large enough.");
+            throw new DeveloperError('This buffer is not large enough.');
         }
 
         var gl = this._gl;
@@ -15048,7 +15837,7 @@ define('Renderer/Buffer',[
      * @exception {DeveloperError} This buffer was destroyed, i.e., destroy() was called.
      *
      * @see Buffer#isDestroyed
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteBuffers.xml">glDeleteBuffers</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteBuffers.xml'>glDeleteBuffers</a>
      *
      * @example
      * buffer = buffer && buffer.destroy();
@@ -15076,21 +15865,21 @@ define('Renderer/BufferUsage',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        STREAM_DRAW : new Enumeration(0x88E0, "STREAM_DRAW"),
+        STREAM_DRAW : new Enumeration(0x88E0, 'STREAM_DRAW'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        STATIC_DRAW : new Enumeration(0x88E4, "STATIC_DRAW"),
+        STATIC_DRAW : new Enumeration(0x88E4, 'STATIC_DRAW'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        DYNAMIC_DRAW : new Enumeration(0x88E8, "DYNAMIC_DRAW"),
+        DYNAMIC_DRAW : new Enumeration(0x88E8, 'DYNAMIC_DRAW'),
 
         /**
          * DOC_TBA
@@ -15124,7 +15913,7 @@ define('Renderer/CullFace',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        FRONT : new Enumeration(0x0404, "FRONT"),
+        FRONT : new Enumeration(0x0404, 'FRONT'),
 
         /**
          * DOC_TBA
@@ -15132,7 +15921,7 @@ define('Renderer/CullFace',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        BACK : new Enumeration(0x0405, "BACK"),
+        BACK : new Enumeration(0x0405, 'BACK'),
 
         /**
          * DOC_TBA
@@ -15140,7 +15929,7 @@ define('Renderer/CullFace',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        FRONT_AND_BACK : new Enumeration(0x0408, "FRONT_AND_BACK"),
+        FRONT_AND_BACK : new Enumeration(0x0408, 'FRONT_AND_BACK'),
 
         /**
          * DOC_TBA
@@ -15174,7 +15963,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        NEVER : new Enumeration(0x0200, "NEVER"),
+        NEVER : new Enumeration(0x0200, 'NEVER'),
 
         /**
          * DOC_TBA
@@ -15182,7 +15971,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        LESS : new Enumeration(0x0201, "LESS"),
+        LESS : new Enumeration(0x0201, 'LESS'),
 
         /**
          * DOC_TBA
@@ -15190,7 +15979,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        EQUAL : new Enumeration(0x0202, "EQUAL"),
+        EQUAL : new Enumeration(0x0202, 'EQUAL'),
 
         /**
          * DOC_TBA
@@ -15198,7 +15987,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        LESS_OR_EQUAL : new Enumeration(0x0203, "LEQUAL"),
+        LESS_OR_EQUAL : new Enumeration(0x0203, 'LEQUAL'),
 
         /**
          * DOC_TBA
@@ -15206,7 +15995,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        GREATER : new Enumeration(0x0204, "GREATER"),
+        GREATER : new Enumeration(0x0204, 'GREATER'),
 
         /**
          * DOC_TBA
@@ -15214,7 +16003,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        NOT_EQUAL : new Enumeration(0x0205, "NOTEQUAL"),
+        NOT_EQUAL : new Enumeration(0x0205, 'NOTEQUAL'),
 
         /**
          * DOC_TBA
@@ -15222,7 +16011,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        GREATER_OR_EQUAL : new Enumeration(0x0206, "GEQUAL"),
+        GREATER_OR_EQUAL : new Enumeration(0x0206, 'GEQUAL'),
 
         /**
          * DOC_TBA
@@ -15230,7 +16019,7 @@ define('Renderer/DepthFunction',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ALWAYS : new Enumeration(0x0207, "ALWAYS"),
+        ALWAYS : new Enumeration(0x0207, 'ALWAYS'),
 
         /**
          * DOC_TBA
@@ -15454,9 +16243,9 @@ define('Renderer/Framebuffer',[
          * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
          *
          * @see Framebuffer.isDestroyed
-         * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteFramebuffers.xml">glDeleteFramebuffers</a>
-         * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteTextures.xml">glDeleteTextures</a>
-         * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteRenderbuffers.xml">glDeleteRenderbuffers</a>
+         * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteFramebuffers.xml'>glDeleteFramebuffers</a>
+         * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteTextures.xml'>glDeleteTextures</a>
+         * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteRenderbuffers.xml'>glDeleteRenderbuffers</a>
          *
          * @example
          * // Destroying the framebuffer implicitly calls destroy for each of its attachments.
@@ -15521,7 +16310,7 @@ define('Renderer/MipmapHint',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        DONT_CARE : new Enumeration(0x1100, "DONT_CARE"),
+        DONT_CARE : new Enumeration(0x1100, 'DONT_CARE'),
 
         /**
          * DOC_TBA
@@ -15529,7 +16318,7 @@ define('Renderer/MipmapHint',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        FASTEST : new Enumeration(0x1101, "FASTEST"),
+        FASTEST : new Enumeration(0x1101, 'FASTEST'),
 
         /**
          * DOC_TBA
@@ -15537,7 +16326,7 @@ define('Renderer/MipmapHint',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        NICEST : new Enumeration(0x1102, "NICEST"),
+        NICEST : new Enumeration(0x1102, 'NICEST'),
 
         /**
          * DOC_TBA
@@ -15571,7 +16360,7 @@ define('Renderer/PixelDatatype',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        UNSIGNED_BYTE : new Enumeration(0x1401, "UNSIGNED_BYTE"),
+        UNSIGNED_BYTE : new Enumeration(0x1401, 'UNSIGNED_BYTE'),
 
         /**
          * DOC_TBA
@@ -15579,7 +16368,7 @@ define('Renderer/PixelDatatype',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        UNSIGNED_SHORT_4_4_4_4 : new Enumeration(0x8033, "UNSIGNED_SHORT_4_4_4_4"),
+        UNSIGNED_SHORT_4_4_4_4 : new Enumeration(0x8033, 'UNSIGNED_SHORT_4_4_4_4'),
 
         /**
          * DOC_TBA
@@ -15587,7 +16376,7 @@ define('Renderer/PixelDatatype',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        UNSIGNED_SHORT_5_5_5_1 : new Enumeration(0x8034, "UNSIGNED_SHORT_5_5_5_1"),
+        UNSIGNED_SHORT_5_5_5_1 : new Enumeration(0x8034, 'UNSIGNED_SHORT_5_5_5_1'),
 
         /**
          * DOC_TBA
@@ -15595,7 +16384,7 @@ define('Renderer/PixelDatatype',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        UNSIGNED_SHORT_5_6_5 : new Enumeration(0x8363, "UNSIGNED_SHORT_5_6_5"),
+        UNSIGNED_SHORT_5_6_5 : new Enumeration(0x8363, 'UNSIGNED_SHORT_5_6_5'),
 
         /**
          * DOC_TBA
@@ -15630,42 +16419,42 @@ define('Renderer/PixelFormat',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        DEPTH_COMPONENT : new Enumeration(0x1902, "DEPTH_COMPONENT"),
+        DEPTH_COMPONENT : new Enumeration(0x1902, 'DEPTH_COMPONENT'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        ALPHA : new Enumeration(0x1906, "ALPHA"),
+        ALPHA : new Enumeration(0x1906, 'ALPHA'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        RGB : new Enumeration(0x1907, "RGB"),
+        RGB : new Enumeration(0x1907, 'RGB'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        RGBA : new Enumeration(0x1908, "RGBA"),
+        RGBA : new Enumeration(0x1908, 'RGBA'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        LUMINANCE : new Enumeration(0x1909, "LUMINANCE"),
+        LUMINANCE : new Enumeration(0x1909, 'LUMINANCE'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        LUMINANCE_ALPHA : new Enumeration(0x190A, "LUMINANCE_ALPHA"),
+        LUMINANCE_ALPHA : new Enumeration(0x190A, 'LUMINANCE_ALPHA'),
 
         /**
          * DOC_TBA
@@ -15775,7 +16564,7 @@ define('Renderer/Renderbuffer',[
          * @exception {DeveloperError} This shader renderbuffer destroyed, i.e., destroy() was called.
          *
          * @see Renderbuffer.isDestroyed
-         * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteRenderbuffers.xml">glDeleteRenderbuffers</a>
+         * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteRenderbuffers.xml'>glDeleteRenderbuffers</a>
          *
          * @example
          * renderbuffer = renderbuffer && renderbuffer.destroy();
@@ -15804,7 +16593,7 @@ define('Renderer/RenderbufferFormat',['../Core/Enumeration'], function(Enumerati
          * @constant
          * @type {Enumeration}
          */
-        RGBA4 : new Enumeration(0x8056, "RGBA4"),
+        RGBA4 : new Enumeration(0x8056, 'RGBA4'),
 
         /**
          * DOC_TBA
@@ -15812,7 +16601,7 @@ define('Renderer/RenderbufferFormat',['../Core/Enumeration'], function(Enumerati
          * @constant
          * @type {Enumeration}
          */
-        RGB5_A1 : new Enumeration(0x8057, "RGB5_A1"),
+        RGB5_A1 : new Enumeration(0x8057, 'RGB5_A1'),
 
         /**
          * DOC_TBA
@@ -15820,7 +16609,7 @@ define('Renderer/RenderbufferFormat',['../Core/Enumeration'], function(Enumerati
          * @constant
          * @type {Enumeration}
          */
-        RGB565 : new Enumeration(0x8D62, "RGB565"),
+        RGB565 : new Enumeration(0x8D62, 'RGB565'),
 
         /**
          * DOC_TBA
@@ -15828,7 +16617,7 @@ define('Renderer/RenderbufferFormat',['../Core/Enumeration'], function(Enumerati
          * @constant
          * @type {Enumeration}
          */
-        DEPTH_COMPONENT16 : new Enumeration(0x81A5, "DEPTH_COMPONENT16"),
+        DEPTH_COMPONENT16 : new Enumeration(0x81A5, 'DEPTH_COMPONENT16'),
 
         /**
          * DOC_TBA
@@ -15836,7 +16625,7 @@ define('Renderer/RenderbufferFormat',['../Core/Enumeration'], function(Enumerati
          * @constant
          * @type {Enumeration}
          */
-        STENCIL_INDEX8 : new Enumeration(0x8D48, "STENCIL_INDEX8"),
+        STENCIL_INDEX8 : new Enumeration(0x8D48, 'STENCIL_INDEX8'),
 
         /**
          * DOC_TBA
@@ -15844,7 +16633,7 @@ define('Renderer/RenderbufferFormat',['../Core/Enumeration'], function(Enumerati
          * @constant
          * @type {Enumeration}
          */
-        DEPTH_STENCIL : new Enumeration(0x84F9, "DEPTH_STENCIL"),
+        DEPTH_STENCIL : new Enumeration(0x84F9, 'DEPTH_STENCIL'),
 
         /**
          * DOC_TBA
@@ -16134,7 +16923,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        NEVER : new Enumeration(0x0200, "NEVER"),
+        NEVER : new Enumeration(0x0200, 'NEVER'),
 
         /**
          * DOC_TBA
@@ -16142,7 +16931,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        LESS : new Enumeration(0x0201, "LESS"),
+        LESS : new Enumeration(0x0201, 'LESS'),
 
         /**
          * DOC_TBA
@@ -16150,7 +16939,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        EQUAL : new Enumeration(0x0202, "EQUAL"),
+        EQUAL : new Enumeration(0x0202, 'EQUAL'),
 
         /**
          * DOC_TBA
@@ -16158,7 +16947,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        LESS_OR_EQUAL : new Enumeration(0x0203, "LESS_OR_EQUAL"), // WebGL: LEQUAL
+        LESS_OR_EQUAL : new Enumeration(0x0203, 'LESS_OR_EQUAL'), // WebGL: LEQUAL
 
         /**
          * DOC_TBA
@@ -16166,7 +16955,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        GREATER : new Enumeration(0x0204, "GREATER"),
+        GREATER : new Enumeration(0x0204, 'GREATER'),
 
         /**
          * DOC_TBA
@@ -16174,7 +16963,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        NOT_EQUAL : new Enumeration(0x0205, "NOT_EQUAL"), // WebGL: NOTEQUAL
+        NOT_EQUAL : new Enumeration(0x0205, 'NOT_EQUAL'), // WebGL: NOTEQUAL
 
         /**
          * DOC_TBA
@@ -16182,7 +16971,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        GREATER_OR_EQUAL : new Enumeration(0x0206, "GREATER_OR_EQUAL"), // WebGL: GEQUAL
+        GREATER_OR_EQUAL : new Enumeration(0x0206, 'GREATER_OR_EQUAL'), // WebGL: GEQUAL
 
         /**
          * DOC_TBA
@@ -16190,7 +16979,7 @@ define('Renderer/StencilFunction',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        ALWAYS : new Enumeration(0x0207, "ALWAYS"),
+        ALWAYS : new Enumeration(0x0207, 'ALWAYS'),
 
         /**
          * DOC_TBA
@@ -16229,7 +17018,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        ZERO : new Enumeration(0, "ZERO"),
+        ZERO : new Enumeration(0, 'ZERO'),
 
         /**
          * DOC_TBA
@@ -16237,7 +17026,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        KEEP : new Enumeration(0x1E00, "KEEP"),
+        KEEP : new Enumeration(0x1E00, 'KEEP'),
 
         /**
          * DOC_TBA
@@ -16245,7 +17034,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        REPLACE : new Enumeration(0x1E01, "REPLACE"),
+        REPLACE : new Enumeration(0x1E01, 'REPLACE'),
 
         /**
          * DOC_TBA
@@ -16253,7 +17042,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        INCREMENT : new Enumeration(0x1E02, "INCREMENT"), // WebGL: INCR
+        INCREMENT : new Enumeration(0x1E02, 'INCREMENT'), // WebGL: INCR
 
         /**
          * DOC_TBA
@@ -16261,7 +17050,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        DECREMENT : new Enumeration(0x1E03, "DECREMENT"), // WebGL: DECR
+        DECREMENT : new Enumeration(0x1E03, 'DECREMENT'), // WebGL: DECR
 
         /**
          * DOC_TBA
@@ -16269,7 +17058,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        INVERT : new Enumeration(0x150A, "INVERT"),
+        INVERT : new Enumeration(0x150A, 'INVERT'),
 
         /**
          * DOC_TBA
@@ -16277,7 +17066,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        INCREMENT_WRAP : new Enumeration(0x8507, "INCREMENT_WRAP"), // WebGL: INCR_WRAP
+        INCREMENT_WRAP : new Enumeration(0x8507, 'INCREMENT_WRAP'), // WebGL: INCR_WRAP
 
         /**
          * DOC_TBA
@@ -16285,7 +17074,7 @@ define('Renderer/StencilOperation',['../Core/Enumeration'], function(Enumeration
          * @constant
          * @type {Enumeration}
          */
-        DECREMENT_WRAP : new Enumeration(0x8508, "DECREMENT_WRAP"), // WebGL: DECR_WRAP
+        DECREMENT_WRAP : new Enumeration(0x8508, 'DECREMENT_WRAP'), // WebGL: DECR_WRAP
 
         /**
          * DOC_TBA
@@ -16339,18 +17128,18 @@ define('Renderer/TextureAtlas',[
      */
     function TextureAtlas(context, images, pixelFormat, borderWidthInPixels) {
         if (!context) {
-            throw new DeveloperError("context is required.", "images");
+            throw new DeveloperError('context is required.');
         }
 
         if (!images || (images.length < 1)) {
-            throw new DeveloperError("images is required and must have length greater than zero.", "images");
+            throw new DeveloperError('images is required and must have length greater than zero.');
         }
 
-        pixelFormat = (typeof pixelFormat === "undefined") ? PixelFormat.RGBA : pixelFormat;
-        borderWidthInPixels = (typeof borderWidthInPixels === "undefined") ? 1 : borderWidthInPixels;
+        pixelFormat = (typeof pixelFormat === 'undefined') ? PixelFormat.RGBA : pixelFormat;
+        borderWidthInPixels = (typeof borderWidthInPixels === 'undefined') ? 1 : borderWidthInPixels;
 
         if (borderWidthInPixels < 0) {
-            throw new DeveloperError("borderWidthInPixels must be greater than or equal to zero.", "borderWidthInPixels");
+            throw new DeveloperError('borderWidthInPixels must be greater than or equal to zero.');
         }
 
         var annotatedImages = [];
@@ -16462,7 +17251,7 @@ define('Renderer/TextureAtlas',[
         var numSubRegions = subRegions.length;
 
         if ((index < 0) || (index >= numTextureCoordinates)) {
-            throw new DeveloperError("invalid image index.", "index");
+            throw new DeveloperError('invalid image index.');
         }
         var baseRegion = this._textureCoordinates[index];
 
@@ -16564,7 +17353,7 @@ define('Renderer/TextureMagnificationFilter',['../Core/Enumeration'], function(E
          * @constant
          * @type {Enumeration}
          */
-        NEAREST : new Enumeration(0x2600, "NEAREST"),
+        NEAREST : new Enumeration(0x2600, 'NEAREST'),
 
         /**
          * DOC_TBA
@@ -16572,7 +17361,7 @@ define('Renderer/TextureMagnificationFilter',['../Core/Enumeration'], function(E
          * @constant
          * @type {Enumeration}
          */
-        LINEAR : new Enumeration(0x2601, "LINEAR"),
+        LINEAR : new Enumeration(0x2601, 'LINEAR'),
 
         /**
          * DOC_TBA
@@ -16605,7 +17394,7 @@ define('Renderer/TextureMinificationFilter',['../Core/Enumeration'], function(En
          * @constant
          * @type {Enumeration}
          */
-        NEAREST : new Enumeration(0x2600, "NEAREST"),
+        NEAREST : new Enumeration(0x2600, 'NEAREST'),
 
         /**
          * DOC_TBA
@@ -16613,7 +17402,7 @@ define('Renderer/TextureMinificationFilter',['../Core/Enumeration'], function(En
          * @constant
          * @type {Enumeration}
          */
-        LINEAR : new Enumeration(0x2601, "LINEAR"),
+        LINEAR : new Enumeration(0x2601, 'LINEAR'),
 
         /**
          * DOC_TBA
@@ -16621,7 +17410,7 @@ define('Renderer/TextureMinificationFilter',['../Core/Enumeration'], function(En
          * @constant
          * @type {Enumeration}
          */
-        NEAREST_MIPMAP_NEAREST : new Enumeration(0x2700, "NEAREST_MIPMAP_NEAREST"),
+        NEAREST_MIPMAP_NEAREST : new Enumeration(0x2700, 'NEAREST_MIPMAP_NEAREST'),
 
         /**
          * DOC_TBA
@@ -16629,7 +17418,7 @@ define('Renderer/TextureMinificationFilter',['../Core/Enumeration'], function(En
          * @constant
          * @type {Enumeration}
          */
-        LINEAR_MIPMAP_NEAREST : new Enumeration(0x2701, "LINEAR_MIPMAP_NEAREST"),
+        LINEAR_MIPMAP_NEAREST : new Enumeration(0x2701, 'LINEAR_MIPMAP_NEAREST'),
 
         /**
          * DOC_TBA
@@ -16637,7 +17426,7 @@ define('Renderer/TextureMinificationFilter',['../Core/Enumeration'], function(En
          * @constant
          * @type {Enumeration}
          */
-        NEAREST_MIPMAP_LINEAR : new Enumeration(0x2702, "NEAREST_MIPMAP_LINEAR"),
+        NEAREST_MIPMAP_LINEAR : new Enumeration(0x2702, 'NEAREST_MIPMAP_LINEAR'),
 
         /**
          * DOC_TBA
@@ -16645,7 +17434,7 @@ define('Renderer/TextureMinificationFilter',['../Core/Enumeration'], function(En
          * @constant
          * @type {Enumeration}
          */
-        LINEAR_MIPMAP_LINEAR : new Enumeration(0x2703, "LINEAR_MIPMAP_LINEAR"),
+        LINEAR_MIPMAP_LINEAR : new Enumeration(0x2703, 'LINEAR_MIPMAP_LINEAR'),
 
         /**
          * DOC_TBA
@@ -16682,7 +17471,7 @@ define('Renderer/TextureWrap',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        CLAMP : new Enumeration(0x812F, "CLAMP"),
+        CLAMP : new Enumeration(0x812F, 'CLAMP'),
 
         /**
          * DOC_TBA
@@ -16690,7 +17479,7 @@ define('Renderer/TextureWrap',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        REPEAT : new Enumeration(0x2901, "REPEAT"),
+        REPEAT : new Enumeration(0x2901, 'REPEAT'),
 
         /**
          * DOC_TBA
@@ -16698,7 +17487,7 @@ define('Renderer/TextureWrap',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MIRRORED_REPEAT : new Enumeration(0x8370, "MIRRORED_REPEAT"),
+        MIRRORED_REPEAT : new Enumeration(0x8370, 'MIRRORED_REPEAT'),
 
         /**
          * DOC_TBA
@@ -16773,7 +17562,7 @@ define('Renderer/CubeMap',[
      */
     CubeMap.prototype._copyFrom = function(targetFace, source, xOffset, yOffset) {
         if (!source) {
-            throw new DeveloperError("source is required.", "source");
+            throw new DeveloperError('source is required.');
         }
 
         xOffset = xOffset || 0;
@@ -16783,19 +17572,19 @@ define('Renderer/CubeMap',[
         var height = source.height;
 
         if (xOffset < 0) {
-            throw new DeveloperError("xOffset must be greater than or equal to zero.", "xOffset");
+            throw new DeveloperError('xOffset must be greater than or equal to zero.');
         }
 
         if (yOffset < 0) {
-            throw new DeveloperError("yOffset must be greater than or equal to zero.", "yOffset");
+            throw new DeveloperError('yOffset must be greater than or equal to zero.');
         }
 
         if (xOffset + width > this._size) {
-            throw new DeveloperError("xOffset + source.width must be less than or equal to getWidth().");
+            throw new DeveloperError('xOffset + source.width must be less than or equal to getWidth().');
         }
 
         if (yOffset + height > this._size) {
-            throw new DeveloperError("yOffset + source.height must be less than or equal to getHeight().");
+            throw new DeveloperError('yOffset + source.height must be less than or equal to getHeight().');
         }
 
         var gl = this._gl;
@@ -16846,27 +17635,27 @@ define('Renderer/CubeMap',[
         height = height || this._size;
 
         if (xOffset < 0) {
-            throw new DeveloperError("xOffset must be greater than or equal to zero.", "xOffset");
+            throw new DeveloperError('xOffset must be greater than or equal to zero.');
         }
 
         if (yOffset < 0) {
-            throw new DeveloperError("yOffset must be greater than or equal to zero.", "yOffset");
+            throw new DeveloperError('yOffset must be greater than or equal to zero.');
         }
 
         if (framebufferXOffset < 0) {
-            throw new DeveloperError("framebufferXOffset must be greater than or equal to zero.", "framebufferXOffset");
+            throw new DeveloperError('framebufferXOffset must be greater than or equal to zero.');
         }
 
         if (framebufferYOffset < 0) {
-            throw new DeveloperError("framebufferYOffset must be greater than or equal to zero.", "framebufferYOffset");
+            throw new DeveloperError('framebufferYOffset must be greater than or equal to zero.');
         }
 
         if (xOffset + width > this._size) {
-            throw new DeveloperError("xOffset + source.width must be less than or equal to getWidth().");
+            throw new DeveloperError('xOffset + source.width must be less than or equal to getWidth().');
         }
 
         if (yOffset + height > this._size) {
-            throw new DeveloperError("yOffset + source.height must be less than or equal to getHeight().");
+            throw new DeveloperError('yOffset + source.height must be less than or equal to getHeight().');
         }
 
         var gl = this._gl;
@@ -17035,19 +17824,19 @@ define('Renderer/CubeMap',[
      *
      * @param {MipmapHint} hint optional.
      *
-     * @exception {DeveloperError} Invalid hint.
+     * @exception {DeveloperError} hint is invalid.
      * @exception {DeveloperError} This CubeMap's width must be a power of two to call generateMipmap().
      * @exception {DeveloperError} This CubeMap's height must be a power of two to call generateMipmap().
      * @exception {DeveloperError} This CubeMap was destroyed, i.e., destroy() was called.
      */
     CubeMap.prototype.generateMipmap = function(hint) {
         if ((this._size > 1) && (this._size % 2 !== 0)) {
-            throw new DeveloperError("This CubeMap's width and height must be a power of two to call generateMipmap().");
+            throw new DeveloperError('width and height must be a power of two to call generateMipmap().');
         }
 
         hint = hint || MipmapHint.DONT_CARE;
         if (!MipmapHint.validate(hint)) {
-            throw new DeveloperError("Invalid hint.", "hint");
+            throw new DeveloperError('hint is invalid.');
         }
 
         var gl = this._gl;
@@ -17206,7 +17995,7 @@ define('Renderer/CubeMap',[
      * @exception {DeveloperError} This cube map was destroyed, i.e., destroy() was called.
      *
      * @see CubeMap.isDestroyed
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteTextures.xml">glDeleteTextures</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteTextures.xml'>glDeleteTextures</a>
      *
      * @example
      * cubeMap = cubeMap && cubeMap.destroy();
@@ -17280,7 +18069,7 @@ define('Renderer/Texture',[
      */
     Texture.prototype.copyFrom = function(source, xOffset, yOffset) {
         if (!source) {
-            throw new DeveloperError("Source is required.", "source");
+            throw new DeveloperError('source is required.');
         }
 
         xOffset = xOffset || 0;
@@ -17290,19 +18079,19 @@ define('Renderer/Texture',[
         var height = source.height;
 
         if (xOffset < 0) {
-            throw new DeveloperError("xOffset must be greater than or equal to zero.", "xOffset");
+            throw new DeveloperError('xOffset must be greater than or equal to zero.');
         }
 
         if (yOffset < 0) {
-            throw new DeveloperError("yOffset must be greater than or equal to zero.", "yOffset");
+            throw new DeveloperError('yOffset must be greater than or equal to zero.');
         }
 
         if (xOffset + width > this._width) {
-            throw new DeveloperError("xOffset + source.width must be less than or equal to getWidth().");
+            throw new DeveloperError('xOffset + source.width must be less than or equal to getWidth().');
         }
 
         if (yOffset + height > this._height) {
-            throw new DeveloperError("yOffset + source.height must be less than or equal to getHeight().");
+            throw new DeveloperError('yOffset + source.height must be less than or equal to getHeight().');
         }
 
         var gl = this._gl;
@@ -17353,27 +18142,27 @@ define('Renderer/Texture',[
         height = height || this._height;
 
         if (xOffset < 0) {
-            throw new DeveloperError("xOffset must be greater than or equal to zero.", "xOffset");
+            throw new DeveloperError('xOffset must be greater than or equal to zero.');
         }
 
         if (yOffset < 0) {
-            throw new DeveloperError("yOffset must be greater than or equal to zero.", "yOffset");
+            throw new DeveloperError('yOffset must be greater than or equal to zero.');
         }
 
         if (framebufferXOffset < 0) {
-            throw new DeveloperError("framebufferXOffset must be greater than or equal to zero.", "framebufferXOffset");
+            throw new DeveloperError('framebufferXOffset must be greater than or equal to zero.');
         }
 
         if (framebufferYOffset < 0) {
-            throw new DeveloperError("framebufferYOffset must be greater than or equal to zero.", "framebufferYOffset");
+            throw new DeveloperError('framebufferYOffset must be greater than or equal to zero.');
         }
 
         if (xOffset + width > this._width) {
-            throw new DeveloperError("xOffset + source.width must be less than or equal to getWidth().");
+            throw new DeveloperError('xOffset + source.width must be less than or equal to getWidth().');
         }
 
         if (yOffset + height > this._height) {
-            throw new DeveloperError("yOffset + source.height must be less than or equal to getHeight().");
+            throw new DeveloperError('yOffset + source.height must be less than or equal to getHeight().');
         }
 
         var gl = this._gl;
@@ -17392,21 +18181,21 @@ define('Renderer/Texture',[
      *
      * @param {MipmapHint} hint optional.
      *
-     * @exception {DeveloperError} Invalid hint.
+     * @exception {DeveloperError} hint is invalid.
      * @exception {DeveloperError} This texture's width must be a power of two to call generateMipmap().
      * @exception {DeveloperError} This texture's height must be a power of two to call generateMipmap().
      * @exception {DeveloperError} This texture was destroyed, i.e., destroy() was called.
      */
     Texture.prototype.generateMipmap = function(hint) {
         if ((this._width > 1) && (this._width % 2 !== 0)) {
-            throw new DeveloperError("This texture's width must be a power of two to call generateMipmap().");
+            throw new DeveloperError('width must be a power of two to call generateMipmap().');
         } else if ((this._height > 1) && (this._height % 2 !== 0)) {
-            throw new DeveloperError("This texture's height must be a power of two to call generateMipmap().");
+            throw new DeveloperError('height must be a power of two to call generateMipmap().');
         }
 
         hint = hint || MipmapHint.DONT_CARE;
         if (!MipmapHint.validate(hint)) {
-            throw new DeveloperError("Invalid hint.", "hint");
+            throw new DeveloperError('hint is invalid.');
         }
 
         var gl = this._gl;
@@ -17562,7 +18351,7 @@ define('Renderer/Texture',[
      * @exception {DeveloperError} This texture was destroyed, i.e., destroy() was called.
      *
      * @see Texture.isDestroyed
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteTextures.xml">glDeleteTextures</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteTextures.xml'>glDeleteTextures</a>
      *
      * @example
      * texture = texture && texture.destroy();
@@ -17591,9 +18380,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        FLOAT : new Enumeration(0x1406, "FLOAT", {
+        FLOAT : new Enumeration(0x1406, 'FLOAT', {
             getGLSL : function() {
-                return "float";
+                return 'float';
             }
         }), // FLOAT
 
@@ -17603,9 +18392,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        FLOAT_VECTOR2 : new Enumeration(0x8B50, "FLOAT_VECTOR2", {
+        FLOAT_VECTOR2 : new Enumeration(0x8B50, 'FLOAT_VECTOR2', {
             getGLSL : function() {
-                return "vec2";
+                return 'vec2';
             }
         }), // FLOAT_VEC2
 
@@ -17615,9 +18404,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        FLOAT_VECTOR3 : new Enumeration(0x8B51, "FLOAT_VECTOR3", {
+        FLOAT_VECTOR3 : new Enumeration(0x8B51, 'FLOAT_VECTOR3', {
             getGLSL : function() {
-                return "vec3";
+                return 'vec3';
             }
         }), // FLOAT_VEC3
 
@@ -17627,9 +18416,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        FLOAT_VECTOR4 : new Enumeration(0x8B52, "FLOAT_VECTOR4", {
+        FLOAT_VECTOR4 : new Enumeration(0x8B52, 'FLOAT_VECTOR4', {
             getGLSL : function() {
-                return "vec4";
+                return 'vec4';
             }
         }), // FLOAT_VEC4
 
@@ -17639,9 +18428,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        INT : new Enumeration(0x1404, "INT", {
+        INT : new Enumeration(0x1404, 'INT', {
             getGLSL : function() {
-                return "int";
+                return 'int';
             }
         }), // INT
 
@@ -17651,9 +18440,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        INT_VECTOR2 : new Enumeration(0x8B53, "INT_VECTOR2", {
+        INT_VECTOR2 : new Enumeration(0x8B53, 'INT_VECTOR2', {
             getGLSL : function() {
-                return "ivec2";
+                return 'ivec2';
             }
         }), // INT_VEC2
 
@@ -17663,9 +18452,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        INT_VECTOR3 : new Enumeration(0x8B54, "INT_VECTOR3", {
+        INT_VECTOR3 : new Enumeration(0x8B54, 'INT_VECTOR3', {
             getGLSL : function() {
-                return "ivec3";
+                return 'ivec3';
             }
         }), // INT_VEC3
 
@@ -17675,9 +18464,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        INT_VECTOR4 : new Enumeration(0x8B55, "INT_VECTOR4", {
+        INT_VECTOR4 : new Enumeration(0x8B55, 'INT_VECTOR4', {
             getGLSL : function() {
-                return "ivec4";
+                return 'ivec4';
             }
         }), // INT_VEC4
 
@@ -17687,9 +18476,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        BOOL : new Enumeration(0x8B56, "BOOL", {
+        BOOL : new Enumeration(0x8B56, 'BOOL', {
             getGLSL : function() {
-                return "bool";
+                return 'bool';
             }
         }), // BOOL
 
@@ -17699,9 +18488,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        BOOL_VECTOR2 : new Enumeration(0x8B57, "BOOL_VECTOR2", {
+        BOOL_VECTOR2 : new Enumeration(0x8B57, 'BOOL_VECTOR2', {
             getGLSL : function() {
-                return "bvec2";
+                return 'bvec2';
             }
         }), // BOOL_VEC2
 
@@ -17711,9 +18500,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        BOOL_VECTOR3 : new Enumeration(0x8B58, "BOOL_VECTOR3", {
+        BOOL_VECTOR3 : new Enumeration(0x8B58, 'BOOL_VECTOR3', {
             getGLSL : function() {
-                return "bvec3";
+                return 'bvec3';
             }
         }), // BOOL_VEC3
 
@@ -17723,9 +18512,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        BOOL_VECTOR4 : new Enumeration(0x8B59, "BOOL_VECTOR4", {
+        BOOL_VECTOR4 : new Enumeration(0x8B59, 'BOOL_VECTOR4', {
             getGLSL : function() {
-                return "bvec4";
+                return 'bvec4';
             }
         }), // BOOL_VEC4
 
@@ -17735,9 +18524,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        FLOAT_MATRIX2 : new Enumeration(0x8B5A, "FLOAT_MATRIX2", {
+        FLOAT_MATRIX2 : new Enumeration(0x8B5A, 'FLOAT_MATRIX2', {
             getGLSL : function() {
-                return "mat2";
+                return 'mat2';
             }
         }), // FLOAT_MAT2
 
@@ -17747,9 +18536,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        FLOAT_MATRIX3 : new Enumeration(0x8B5B, "FLOAT_MATRIX3", {
+        FLOAT_MATRIX3 : new Enumeration(0x8B5B, 'FLOAT_MATRIX3', {
             getGLSL : function() {
-                return "mat3";
+                return 'mat3';
             }
         }), // FLOAT_MAT3
 
@@ -17759,9 +18548,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        FLOAT_MATRIX4 : new Enumeration(0x8B5C, "FLOAT_MATRIX4", {
+        FLOAT_MATRIX4 : new Enumeration(0x8B5C, 'FLOAT_MATRIX4', {
             getGLSL : function() {
-                return "mat4";
+                return 'mat4';
             }
         }), // FLOAT_MAT4
 
@@ -17771,9 +18560,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        SAMPLER_2D : new Enumeration(0x8B5E, "SAMPLER_2D", {
+        SAMPLER_2D : new Enumeration(0x8B5E, 'SAMPLER_2D', {
             getGLSL : function() {
-                return "sampler2D";
+                return 'sampler2D';
             }
         }), // SAMPLER_2D
 
@@ -17783,9 +18572,9 @@ define('Renderer/UniformDatatype',['../Core/Enumeration'], function(Enumeration)
          * @constant
          * @type {Enumeration}
          */
-        SAMPLER_CUBE : new Enumeration(0x8B60, "SAMPLER_CUBE", {
+        SAMPLER_CUBE : new Enumeration(0x8B60, 'SAMPLER_CUBE', {
             getGLSL : function() {
-                return "samplerCube";
+                return 'samplerCube';
             }
         }) // SAMPLER_CUBE
     };
@@ -17881,7 +18670,7 @@ define('Renderer/ShaderProgram',[
                 return UniformDatatype.SAMPLER_CUBE;
             };
         default:
-            throw new RuntimeError("Unrecognized uniform type: " + activeUniformType);
+            throw new RuntimeError('Unrecognized uniform type: ' + activeUniformType);
         }
     }
 
@@ -17899,7 +18688,7 @@ define('Renderer/ShaderProgram',[
      * The datatype of the <code>value</code> property depends on the datatype
      * used in the GLSL declaration as shown in the examples in the table below.
      * <br /><br />
-     * <table border="1">
+     * <table border='1'>
      * <tr>
      * <td>GLSL</td>
      * <td>JavaScript</td>
@@ -17996,15 +18785,15 @@ define('Renderer/ShaderProgram',[
      * // Example 1. Create a shader program and set its
      * // one uniform, a 4x4 matrix, to the identity matrix
      * var vs =
-     *   "attribute vec4 position; " +
-     *   "uniform mat4 u_mvp; " +
-     *   "void main() { gl_Position = u_mvp * position; }";
+     *   'attribute vec4 position; ' +
+     *   'uniform mat4 u_mvp; ' +
+     *   'void main() { gl_Position = u_mvp * position; }';
      * var fs = // ...
      * var sp = context.createShaderProgram(vs, fs);
      *
      * var mvp = sp.getAllUniforms().u_mvp;
-     * console.log(mvp.getName());           // "u_mvp"
-     * console.log(mvp.getDatatype().name);  // "FLOAT_MATRIX4"
+     * console.log(mvp.getName());           // 'u_mvp'
+     * console.log(mvp.getDatatype().name);  // 'FLOAT_MATRIX4'
      * mvp.value = Matrix4.IDENTITY;
      *
      * //////////////////////////////////////////////////////////////////////
@@ -18023,8 +18812,8 @@ define('Renderer/ShaderProgram',[
      *
      * // Example 3. Setting values for members of a GLSL struct
      * // GLSL:  uniform struct { float f; vec4 v; } u_struct;
-     * sp.getAllUniforms()["u_struct.f"].value = 1.0;
-     * sp.getAllUniforms()["u_struct.v"].value = new Cartesian4(1.0, 2.0, 3.0, 4.0);
+     * sp.getAllUniforms()['u_struct.f'].value = 1.0;
+     * sp.getAllUniforms()['u_struct.v'].value = new Cartesian4(1.0, 2.0, 3.0, 4.0);
      */
     function Uniform(_gl, activeUniform, _uniformName, _location, uniformValue) {
         /**
@@ -18060,8 +18849,8 @@ define('Renderer/ShaderProgram',[
          * ];
          *
          * // GLSL:  uniform struct { float f; vec4 v; } u_struct;
-         * sp.getAllUniforms()["u_struct.f"].value = 1.0;
-         * sp.getAllUniforms()["u_struct.v"].value = new Cartesian4(1.0, 2.0, 3.0, 4.0);
+         * sp.getAllUniforms()['u_struct.f'].value = 1.0;
+         * sp.getAllUniforms()['u_struct.v'].value = new Cartesian4(1.0, 2.0, 3.0, 4.0);
          */
         this.value = uniformValue;
 
@@ -18074,7 +18863,7 @@ define('Renderer/ShaderProgram',[
          *
          * @example
          * // GLSL: uniform mat4 u_mvp;
-         * console.log(sp.getAllUniforms().u_mvp.getName());  // "u_mvp"
+         * console.log(sp.getAllUniforms().u_mvp.getName());  // 'u_mvp'
          */
         this.getName = function() {
             return _uniformName;
@@ -18092,7 +18881,7 @@ define('Renderer/ShaderProgram',[
          *
          * @example
          * // GLSL: uniform mat4 u_mvp;
-         * console.log(sp.getAllUniforms().u_mvp.getDatatype().name);  // "FLOAT_MATRIX4"
+         * console.log(sp.getAllUniforms().u_mvp.getDatatype().name);  // 'FLOAT_MATRIX4'
          */
         this.getDatatype = getUniformDatatype(_gl, activeUniform.type);
 
@@ -18120,12 +18909,12 @@ define('Renderer/ShaderProgram',[
                 return function() {
                     var v = this.value;
 
-                    if (typeof v.red !== "undefined") {
+                    if (typeof v.red !== 'undefined') {
                         _gl.uniform4f(_location, v.red, v.green, v.blue, v.alpha);
-                    } else if (typeof v.x !== "undefined") {
+                    } else if (typeof v.x !== 'undefined') {
                         _gl.uniform4f(_location, v.x, v.y, v.z, v.w);
                     } else {
-                        throw new DeveloperError("Invalid vec4 value.");
+                        throw new DeveloperError('Invalid vec4 value.');
                     }
                 };
             case _gl.SAMPLER_2D:
@@ -18168,7 +18957,7 @@ define('Renderer/ShaderProgram',[
                     _gl.uniformMatrix4fv(_location, false, this.value.values);
                 };
             default:
-                throw new RuntimeError("Unrecognized uniform type: " + activeUniform.type);
+                throw new RuntimeError('Unrecognized uniform type: ' + activeUniform.type);
             }
         }();
 
@@ -18241,12 +19030,12 @@ define('Renderer/ShaderProgram',[
                     for ( var i = 0; i < _locations.length; ++i) {
                         var v = this.value[i];
 
-                        if (typeof v.red !== "undefined") {
+                        if (typeof v.red !== 'undefined') {
                             _gl.uniform4f(_locations[i], v.red, v.green, v.blue, v.alpha);
-                        } else if (typeof v.x !== "undefined") {
+                        } else if (typeof v.x !== 'undefined') {
                             _gl.uniform4f(_locations[i], v.x, v.y, v.z, v.w);
                         } else {
-                            throw new DeveloperError("Invalid vec4 value.");
+                            throw new DeveloperError('Invalid vec4 value.');
                         }
                     }
                 };
@@ -18304,7 +19093,7 @@ define('Renderer/ShaderProgram',[
                     }
                 };
             default:
-                throw new RuntimeError("Unrecognized uniform type: " + activeUniform.type);
+                throw new RuntimeError('Unrecognized uniform type: ' + activeUniform.type);
             }
         }();
 
@@ -19208,9 +19997,9 @@ define('Renderer/ShaderProgram',[
 
         function extractShaderVersion(source) {
             // This will fail if the first #version is actually in a comment.
-            var index = source.indexOf("#version");
+            var index = source.indexOf('#version');
             if (index !== -1) {
-                var newLineIndex = source.indexOf("\n", index);
+                var newLineIndex = source.indexOf('\n', index);
 
                 // We could throw an exception if there is not a new line after
                 // #version, but the GLSL compiler will catch it.
@@ -19222,7 +20011,7 @@ define('Renderer/ShaderProgram',[
                     // are not off by one.  There can be only one #version directive
                     // and it must appear at the top of the source, only preceded by
                     // whitespace and comments.
-                    var modified = source.substring(0, index) + "//" + source.substring(index);
+                    var modified = source.substring(0, index) + '//' + source.substring(index);
 
                     return {
                         versionDirective : version,
@@ -19232,20 +20021,20 @@ define('Renderer/ShaderProgram',[
             }
 
             return {
-                versionDirective : "", // defaults to #version 100
+                versionDirective : '', // defaults to #version 100
                 modifiedSource : source // no modifications required
             };
         }
 
         function getAutomaticUniformDeclaration(uniforms, uniform) {
             var factory = uniforms[uniform];
-            var declaration = "uniform " + factory.getDatatype().getGLSL() + " " + uniform;
+            var declaration = 'uniform ' + factory.getDatatype().getGLSL() + ' ' + uniform;
 
             var size = factory.getSize();
             if (size === 1) {
-                declaration += ";";
+                declaration += ';';
             } else {
-                declaration += "[" + size.toString() + "];";
+                declaration += '[' + size.toString() + '];';
             }
 
             return declaration;
@@ -19268,9 +20057,9 @@ define('Renderer/ShaderProgram',[
                     if (index !== -1) {
                         modifiedSource =
                             modifiedSource.substring(0, index) +
-                            "/*" +
+                            '/*' +
                             modifiedSource.substring(index, declaration.length) +
-                            "*/" +
+                            '*/' +
                             modifiedSource.substring(index + declaration.length);
                     }
                 }
@@ -19281,11 +20070,11 @@ define('Renderer/ShaderProgram',[
 
         function getFragmentShaderPrecision() {
             // TODO: Performance?
-            return "#ifdef GL_FRAGMENT_PRECISION_HIGH \n" +
-                   "  precision highp float; \n" +
-                   "#else \n" +
-                   "  precision mediump float; \n" +
-                   "#endif \n\n";
+            return '#ifdef GL_FRAGMENT_PRECISION_HIGH \n' +
+                   '  precision highp float; \n' +
+                   '#else \n' +
+                   '  precision mediump float; \n' +
+                   '#endif \n\n';
         }
 
         function getBuiltinConstants() {
@@ -19478,27 +20267,27 @@ define('Renderer/ShaderProgram',[
                 agi_degreesPerRadian : CesiumMath.DEGREES_PER_RADIAN.toString()
             };
 
-            var glslConstants = "";
+            var glslConstants = '';
             for ( var name in constants) {
                 if (constants.hasOwnProperty(name)) {
-                    glslConstants += "const float " + name + " = " + constants[name] + "; \n";
+                    glslConstants += 'const float ' + name + ' = ' + constants[name] + '; \n';
                 }
             }
-            glslConstants += " \n";
+            glslConstants += ' \n';
 
             return glslConstants;
         }
 
         function getAutomaticUniforms() {
-            var automatics = "";
+            var automatics = '';
 
             var uniforms = getAllAutomaticUniforms();
             for ( var uniform in uniforms) {
                 if (uniforms.hasOwnProperty(uniform)) {
-                    automatics += getAutomaticUniformDeclaration(uniforms, uniform) + " \n";
+                    automatics += getAutomaticUniformDeclaration(uniforms, uniform) + ' \n';
                 }
             }
-            automatics += "\n";
+            automatics += '\n';
 
             return automatics;
         }
@@ -19514,8 +20303,8 @@ define('Renderer/ShaderProgram',[
             // Functions after constants and uniforms because functions depend on them.
             var definitions = getBuiltinConstants() +
                               getAutomaticUniforms() +
-                              builtInGlslFunctions + "\n\n" +
-                              "#line 0 \n";
+                              builtInGlslFunctions + '\n\n' +
+                              '#line 0 \n';
 
             getShaderDefinitions = function() {
                 return definitions;
@@ -19542,13 +20331,13 @@ define('Renderer/ShaderProgram',[
             var vsLog = gl.getShaderInfoLog(vertexShader);
 
             if (logShaderCompilation && vsLog && vsLog.length) {
-                console.log("[GL] Vertex shader compile log: " + vsLog);
+                console.log('[GL] Vertex shader compile log: ' + vsLog);
             }
 
             if (!gl.getShaderParameter(vertexShader, gl.COMPILE_STATUS)) {
                 gl.deleteShader(vertexShader);
-                console.error("[GL] Vertex shader compile log: " + vsLog);
-                throw new RuntimeError("Vertex shader failed to compile.  Compile log: " + vsLog);
+                console.error('[GL] Vertex shader compile log: ' + vsLog);
+                throw new RuntimeError('Vertex shader failed to compile.  Compile log: ' + vsLog);
             }
 
             var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -19557,14 +20346,14 @@ define('Renderer/ShaderProgram',[
             var fsLog = gl.getShaderInfoLog(fragmentShader);
 
             if (logShaderCompilation && fsLog && fsLog.length) {
-                console.log("[GL] Fragment shader compile log: " + fsLog);
+                console.log('[GL] Fragment shader compile log: ' + fsLog);
             }
 
             if (!gl.getShaderParameter(fragmentShader, gl.COMPILE_STATUS)) {
                 gl.deleteShader(vertexShader);
                 gl.deleteShader(fragmentShader);
-                console.error("[GL] Fragment shader compile log: " + fsLog);
-                throw new RuntimeError("Fragment shader failed to compile.  Compile log: " + fsLog);
+                console.error('[GL] Fragment shader compile log: ' + fsLog);
+                throw new RuntimeError('Fragment shader failed to compile.  Compile log: ' + fsLog);
             }
 
             var program = gl.createProgram();
@@ -19586,13 +20375,13 @@ define('Renderer/ShaderProgram',[
             var linkLog = gl.getProgramInfoLog(program);
 
             if (logShaderCompilation && linkLog && linkLog.length) {
-                console.log("[GL] Shader program link log: " + linkLog);
+                console.log('[GL] Shader program link log: ' + linkLog);
             }
 
             if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
                 gl.deleteProgram(program);
-                console.error("[GL] Shader program link log: " + linkLog);
-                throw new RuntimeError("Program failed to link.  Link log: " + linkLog);
+                console.error('[GL] Shader program link log: ' + linkLog);
+                throw new RuntimeError('Program failed to link.  Link log: ' + linkLog);
             }
 
             return program;
@@ -19623,12 +20412,12 @@ define('Renderer/ShaderProgram',[
 
             for ( var i = 0; i < numberOfUniforms; ++i) {
                 var activeUniform = gl.getActiveUniform(program, i);
-                var suffix = "[0]";
+                var suffix = '[0]';
                 var uniformName =
                     activeUniform.name.indexOf(suffix, activeUniform.name.length - suffix.length) !== -1 ? activeUniform.name.slice(0, activeUniform.name.length - 3) : activeUniform.name;
 
                 // Ignore GLSL built-in uniforms returned in Firefox.
-                if (uniformName.indexOf("gl_") !== 0) {
+                if (uniformName.indexOf('gl_') !== 0) {
                     if (activeUniform.size === 1) {
                         // Single uniform
                         var location = gl.getUniformLocation(program, uniformName);
@@ -19647,7 +20436,7 @@ define('Renderer/ShaderProgram',[
                         var locations = [];
                         var value = [];
                         for ( var j = 0; j < activeUniform.size; ++j) {
-                            var loc = gl.getUniformLocation(program, uniformName + "[" + j + "]");
+                            var loc = gl.getUniformLocation(program, uniformName + '[' + j + ']');
                             locations.push(loc);
                             value.push(gl.getUniform(program, loc));
                         }
@@ -19829,8 +20618,8 @@ define('Renderer/ShaderProgram',[
          * @exception {DeveloperError} This shader program was destroyed, i.e., destroy() was called.
          *
          * @see ShaderProgram.isDestroyed
-         * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteShader.xml">glDeleteShader</a>
-         * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteProgram.xml">glDeleteProgram</a>
+         * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteShader.xml'>glDeleteShader</a>
+         * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteProgram.xml'>glDeleteProgram</a>
          *
          * @example
          * shaderProgram = shaderProgram && shaderProgram.destroy();
@@ -20338,7 +21127,7 @@ define('Renderer/UniformState',[
      */
     UniformState.prototype.setSunPosition = function(sunPosition) {
         if (!sunPosition) {
-            throw new DeveloperError("sunPosition is required.", "sunPosition");
+            throw new DeveloperError('sunPosition is required.');
         }
 
         this._sunPosition = sunPosition;
@@ -20430,7 +21219,7 @@ define('Renderer/VertexArray',[
                 try {
                     this._addAttribute(attributes[i], i);
                 } catch (e) {
-                    throw new DeveloperError(e.message, "attributes");
+                    throw new DeveloperError(e.message);
                 }
             }
         }
@@ -20440,7 +21229,7 @@ define('Renderer/VertexArray',[
         for ( var j = 0; j < this._attributes.length; ++j) {
             var index = this._attributes[j].index;
             if (uniqueIndices[index]) {
-                throw new DeveloperError("Index " + index + " is used by more than one attribute.", "attributes");
+                throw new DeveloperError('Index ' + index + ' is used by more than one attribute.');
             }
 
             uniqueIndices[index] = true;
@@ -20449,11 +21238,11 @@ define('Renderer/VertexArray',[
 
     VertexArray.prototype._addAttribute = function(attribute, index) {
         if (!attribute.vertexBuffer && !attribute.value) {
-            throw new DeveloperError("attribute must have a vertexBuffer or a value.");
+            throw new DeveloperError('attribute must have a vertexBuffer or a value.');
         }
 
         if (attribute.vertexBuffer && attribute.value) {
-            throw new DeveloperError("attribute cannot have both a vertexBuffer and a value.  It must have either a vertexBuffer property defining per-vertex data or a value property defining data for all vertices.");
+            throw new DeveloperError('attribute cannot have both a vertexBuffer and a value.  It must have either a vertexBuffer property defining per-vertex data or a value property defining data for all vertices.');
         }
 
         var componentsPerAttribute = attribute.value ? attribute.value.length : attribute.componentsPerAttribute;
@@ -20463,28 +21252,28 @@ define('Renderer/VertexArray',[
             (componentsPerAttribute !== 3) &&
             (componentsPerAttribute !== 4)) {
             if (attribute.value) {
-                throw new DeveloperError("attribute.value.length must be in the range [1, 4].");
+                throw new DeveloperError('attribute.value.length must be in the range [1, 4].');
             }
 
-            throw new DeveloperError("attribute.componentsPerAttribute must be in the range [1, 4].");
+            throw new DeveloperError('attribute.componentsPerAttribute must be in the range [1, 4].');
         }
 
         if (attribute.componentDatatype) {
             var datatype = attribute.componentDatatype;
             if (!ComponentDatatype.validate(datatype)) {
-                throw new DeveloperError("attribute must have a valid componentDatatype or not specify it.");
+                throw new DeveloperError('attribute must have a valid componentDatatype or not specify it.');
             }
         }
 
         if (attribute.strideInBytes && (attribute.strideInBytes > 255)) {
             // WebGL limit.  Not in GL ES.
-            throw new DeveloperError("attribute must have a strideInBytes less than or equal to 255 or not specify it.");
+            throw new DeveloperError('attribute must have a strideInBytes less than or equal to 255 or not specify it.');
         }
 
         // Shallow copy the attribute; we do not want to copy the vertex buffer.
         var attr = {
-            index : (typeof attribute.index === "undefined") ? index : attribute.index,
-            enabled : (typeof attribute.enabled === "undefined") ? true : attribute.enabled,
+            index : (typeof attribute.index === 'undefined') ? index : attribute.index,
+            enabled : (typeof attribute.enabled === 'undefined') ? true : attribute.enabled,
             vertexBuffer : attribute.vertexBuffer,
             value : attribute.value ? attribute.value.slice() : undefined,
             componentsPerAttribute : componentsPerAttribute,
@@ -20548,8 +21337,8 @@ define('Renderer/VertexArray',[
      * @exception {DeveloperError} This vertex array was destroyed, i.e., destroy() was called.
      */
     VertexArray.prototype.getAttribute = function(index) {
-        if (typeof index === "undefined") {
-            throw new DeveloperError("index is required.", "index");
+        if (typeof index === 'undefined') {
+            throw new DeveloperError('index is required.');
         }
 
         return this._attributes[index];
@@ -20581,17 +21370,17 @@ define('Renderer/VertexArray',[
     VertexArray.prototype.addAttribute = function(attribute) {
         if (attribute) {
             var attributes = this._attributes;
-            var index = (typeof attribute.index === "undefined") ? attributes.length : attribute.index;
+            var index = (typeof attribute.index === 'undefined') ? attributes.length : attribute.index;
             for ( var i = 0; i < attributes.length; ++i) {
                 if (index === attributes[i].index) {
-                    throw new DeveloperError("Index " + index + " is already in use.", "attribute");
+                    throw new DeveloperError('Index ' + index + ' is already in use.');
                 }
             }
 
             try {
                 this._addAttribute(attribute, index);
             } catch (e) {
-                throw new DeveloperError(e.message, "attribute");
+                throw new DeveloperError(e.message);
             }
         }
     };
@@ -20608,8 +21397,8 @@ define('Renderer/VertexArray',[
      */
     VertexArray.prototype.removeAttribute = function(attribute) {
         if (attribute) {
-            if (typeof attribute.index === "undefined") {
-                throw new DeveloperError("Attribute must have an index.", "attribute");
+            if (typeof attribute.index === 'undefined') {
+                throw new DeveloperError('Attribute must have an index.');
             }
 
             var attributes = this._attributes;
@@ -20732,7 +21521,7 @@ define('Renderer/VertexArray',[
      *
      * @see VertexArray#isDestroyed
      * @see Buffer#getVertexArrayDestroyable
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteBuffers.xml">glDeleteBuffers</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glDeleteBuffers.xml'>glDeleteBuffers</a>
      *
      * @example
      * // Destroying the vertex array implicitly calls destroy for each of its vertex
@@ -20793,11 +21582,11 @@ define('Renderer/VertexArrayFacade',[
      */
     function VertexArrayFacade(context, attributes, sizeInVertices) {
         if (!context) {
-            throw new DeveloperError("context is required.", "context");
+            throw new DeveloperError('context is required.');
         }
 
         if (!attributes || (attributes.length === 0)) {
-            throw new DeveloperError("At least one attribute is required.", "attributes");
+            throw new DeveloperError('At least one attribute is required.');
         }
 
         var attrs = VertexArrayFacade._verifyAttributes(attributes);
@@ -20903,8 +21692,8 @@ define('Renderer/VertexArrayFacade',[
             var attribute = attributes[i];
 
             var attr = {
-                index : (typeof attribute.index === "undefined") ? i : attribute.index,
-                enabled : (typeof attribute.enabled === "undefined") ? true : attribute.enabled,
+                index : (typeof attribute.index === 'undefined') ? i : attribute.index,
+                enabled : (typeof attribute.enabled === 'undefined') ? true : attribute.enabled,
                 componentsPerAttribute : attribute.componentsPerAttribute,
                 componentDatatype : attribute.componentDatatype || ComponentDatatype.FLOAT,
                 normalize : attribute.normalize || false,
@@ -20916,25 +21705,25 @@ define('Renderer/VertexArrayFacade',[
             attrs.push(attr);
 
             if ((attr.componentsPerAttribute !== 1) && (attr.componentsPerAttribute !== 2) && (attr.componentsPerAttribute !== 3) && (attr.componentsPerAttribute !== 4)) {
-                throw new DeveloperError("attribute.componentsPerAttribute must be in the range [1, 4].");
+                throw new DeveloperError('attribute.componentsPerAttribute must be in the range [1, 4].');
             }
 
             var datatype = attr.componentDatatype;
             if (!ComponentDatatype.validate(datatype)) {
-                throw new DeveloperError("Attribute must have a valid componentDatatype or not specify it.");
+                throw new DeveloperError('Attribute must have a valid componentDatatype or not specify it.');
             }
 
             if (!BufferUsage.validate(attr.usage)) {
-                throw new DeveloperError("Attribute must have a valid usage or not specify it.");
+                throw new DeveloperError('Attribute must have a valid usage or not specify it.');
             }
         }
 
         // Verify all attribute names are unique
-        var uniqueIndices = {};
+        var uniqueIndices = new Array(attrs.length);
         for ( var j = 0; j < attrs.length; ++j) {
             var index = attrs[j].index;
             if (uniqueIndices[index]) {
-                throw new DeveloperError("Index " + index + " is used by more than one attribute.", "attributes");
+                throw new DeveloperError('Index ' + index + ' is used by more than one attribute.');
             }
             uniqueIndices[index] = true;
         }
@@ -21002,7 +21791,7 @@ define('Renderer/VertexArrayFacade',[
         VertexArrayFacade._resize(this._dynamic, this._size);
 
         // Reserving invalidates the writers, so if client's cache them, they need to invalidate their cache.
-        this.writers = {};
+        this.writers = [];
         VertexArrayFacade._appendWriters(this.writers, this._static);
         VertexArrayFacade._appendWriters(this.writers, this._stream);
         VertexArrayFacade._appendWriters(this.writers, this._dynamic);
@@ -21175,11 +21964,11 @@ define('Renderer/VertexArrayFacade',[
      */
     VertexArrayFacade.prototype.subCommit = function(offsetInVertices, lengthInVertices) {
         if (offsetInVertices < 0 || offsetInVertices >= this._size) {
-            throw new DeveloperError("offsetInVertices must be greater than or equal to zero and less than the vertex array's size.", offsetInVertices);
+            throw new DeveloperError('offsetInVertices must be greater than or equal to zero and less than the vertex array size.');
         }
 
         if (offsetInVertices + lengthInVertices > this._size) {
-            throw new DeveloperError("offsetInVertices + lengthInVertices cannot exceed the vertex array's size.");
+            throw new DeveloperError('offsetInVertices + lengthInVertices cannot exceed the vertex array size.');
         }
 
         this._subCommit(this._static, offsetInVertices, lengthInVertices);
@@ -21266,7 +22055,7 @@ define('Renderer/VertexLayout',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SEPARATE : new Enumeration(0, "SEPARATE"),
+        SEPARATE : new Enumeration(0, 'SEPARATE'),
         /**
          * Each attribute will be interleaved in a single vertex buffer.  This can have a slight
          * performance advantage over using a separate vertex buffer per attribute, but it requires
@@ -21276,7 +22065,7 @@ define('Renderer/VertexLayout',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        INTERLEAVED : new Enumeration(1, "INTERLEAVED"),
+        INTERLEAVED : new Enumeration(1, 'INTERLEAVED'),
 
         /**
          * DOC_TBA
@@ -21312,7 +22101,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        AERIAL : new Enumeration(0, "AERIAL", { imagerySetName : "Aerial" }),
+        AERIAL : new Enumeration(0, 'AERIAL', { imagerySetName : 'Aerial' }),
 
         /**
          * Aerial imagery with a road overlay.
@@ -21320,7 +22109,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        AERIAL_WITH_LABELS : new Enumeration(1, "AERIAL_WITH_LABELS", { imagerySetName : "AerialWithLabels" }),
+        AERIAL_WITH_LABELS : new Enumeration(1, 'AERIAL_WITH_LABELS', { imagerySetName : 'AerialWithLabels' }),
 
         /**
          * Roads without additional imagery.
@@ -21328,7 +22117,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ROAD : new Enumeration(2, "ROAD", { imagerySetName : "Road" }),
+        ROAD : new Enumeration(2, 'ROAD', { imagerySetName : 'Road' }),
 
         /**
          * Ordnance Survey imagery
@@ -21336,7 +22125,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        ORDNANCE_SURVEY : new Enumeration(3, "ORDNANCE_SURVEY", { imagerySetName : "OrdnanceSurvey" }),
+        ORDNANCE_SURVEY : new Enumeration(3, 'ORDNANCE_SURVEY', { imagerySetName : 'OrdnanceSurvey' }),
 
         /**
          * Collins Bart imagery.
@@ -21344,7 +22133,7 @@ define('Scene/BingMapsStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        COLLINS_BART : new Enumeration(4, "COLLINS_BART", { imagerySetName : "CollinsBart" })
+        COLLINS_BART : new Enumeration(4, 'COLLINS_BART', { imagerySetName : 'CollinsBart' })
     };
 
     return BingMapsStyle;
@@ -21365,7 +22154,7 @@ define('Scene/CameraEventType',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        LEFT_DRAG : new Enumeration(0, "LEFT_DRAG"),
+        LEFT_DRAG : new Enumeration(0, 'LEFT_DRAG'),
 
         /**
          * DOC_TBA
@@ -21373,7 +22162,7 @@ define('Scene/CameraEventType',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        RIGHT_DRAG : new Enumeration(1, "RIGHT_DRAG"),
+        RIGHT_DRAG : new Enumeration(1, 'RIGHT_DRAG'),
 
         /**
          * DOC_TBA
@@ -21381,7 +22170,7 @@ define('Scene/CameraEventType',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MIDDLE_DRAG : new Enumeration(2, "MIDDLE_DRAG"),
+        MIDDLE_DRAG : new Enumeration(2, 'MIDDLE_DRAG'),
 
         /**
          * DOC_TBA
@@ -21389,7 +22178,7 @@ define('Scene/CameraEventType',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        WHEEL : new Enumeration(3, "WHEEL")
+        WHEEL : new Enumeration(3, 'WHEEL')
     };
 
     return CameraEventType;
@@ -21433,11 +22222,11 @@ define('Scene/CameraEventHandler',[
      */
     function CameraEventHandler(canvas, moveType, moveModifier) {
         if (!canvas) {
-            throw new DeveloperError("description.canvas is required.", "description.canvas");
+            throw new DeveloperError('description.canvas is required.');
         }
 
         if (!moveType) {
-            throw new DeveloperError("moveType is required.", "moveType");
+            throw new DeveloperError('moveType is required.');
         }
 
         this._eventHandler = new EventHandler(canvas);
@@ -21474,7 +22263,7 @@ define('Scene/CameraEventHandler',[
                 this._eventReleaseTimeFunc = this._eventHandler.getRightReleaseTime;
             } else {
                 this._eventHandler = this._eventHandler && this._eventHandler.destroy();
-                throw new DeveloperError("The event type must be of type CameraEventType.", "moveType");
+                throw new DeveloperError('moveType must be of type CameraEventType.');
             }
 
             this._eventHandler.setMouseAction(function(movement) {
@@ -22177,7 +22966,7 @@ define('Scene/Camera2DController',[
 
         if (frustum.left === null || frustum.right === null ||
             frustum.top === null || frustum.bottom === null) {
-                throw new DeveloperError("The camera frustum is expected to be orthographic for 2D camera control.", "frustum");
+                throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
         }
 
         var newRight = frustum.right - moveRate;
@@ -22249,7 +23038,7 @@ define('Scene/Camera2DController',[
 
        if (frustum.left === null || frustum.right === null ||
            frustum.top === null || frustum.bottom === null) {
-               throw new DeveloperError("The camera frustum is expected to be orthographic for 2D camera control.", "frustum");
+               throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
        }
 
        var width = this._canvas.clientWidth;
@@ -22722,7 +23511,7 @@ define('Scene/CameraSpindleControllerMode',['../Core/Enumeration'], function(Enu
          * @constant
          * @type {Enumeration}
          */
-        ROTATE : new Enumeration(0, "ROTATE"),
+        ROTATE : new Enumeration(0, 'ROTATE'),
 
         /**
          * This mode will cause the controller to rotate around an ellipsoid such that
@@ -22732,7 +23521,7 @@ define('Scene/CameraSpindleControllerMode',['../Core/Enumeration'], function(Enu
          * @constant
          * @type {Enumeration}
          */
-        PAN : new Enumeration(1, "PAN"),
+        PAN : new Enumeration(1, 'PAN'),
 
         /**
          * This mode will choose the best mode for the mouse input.
@@ -22740,7 +23529,7 @@ define('Scene/CameraSpindleControllerMode',['../Core/Enumeration'], function(Enu
          * @constant
          * @type {Enumeration}
          */
-        AUTO : new Enumeration(2, "AUTO")
+        AUTO : new Enumeration(2, 'AUTO')
     };
 
     return CameraSpindleControllerMode;
@@ -23626,8 +24415,8 @@ define('Scene/CameraControllerCollection',[
      * @see CameraControllerCollection#getLength
      */
     CameraControllerCollection.prototype.get = function(index) {
-        if (typeof index === "undefined") {
-            throw new DeveloperError("index is required.", "index");
+        if (typeof index === 'undefined') {
+            throw new DeveloperError('index is required.');
         }
 
         return this._controllers[index];
@@ -23817,7 +24606,7 @@ define('Scene/CompositePrimitive',[
      */
     CompositePrimitive.prototype.add = function(primitive) {
         if (!primitive) {
-            throw new DeveloperError("primitive is required.", "primitive");
+            throw new DeveloperError('primitive is required.');
         }
 
         var external = (primitive._external = primitive._external || {});
@@ -23914,7 +24703,7 @@ define('Scene/CompositePrimitive',[
 
     CompositePrimitive.prototype._getPrimitiveIndex = function(primitive) {
         if (!this.contains(primitive)) {
-            throw new DeveloperError("primitive is not in this composite.", "primitive");
+            throw new DeveloperError('primitive is not in this composite.');
         }
 
         return this._primitives.indexOf(primitive);
@@ -24046,8 +24835,8 @@ define('Scene/CompositePrimitive',[
      * }
      */
     CompositePrimitive.prototype.get = function(index) {
-        if (typeof index === "undefined") {
-            throw new DeveloperError("index is required.", "index");
+        if (typeof index === 'undefined') {
+            throw new DeveloperError('index is required.');
         }
 
         return this._primitives[index];
@@ -24235,10 +25024,10 @@ define('Scene/CompositeTileProvider',[
      * // Create a CompositeTileProvider from a SingleTileProvider and BingMapsTileProvider
      *
      * // Single
-     *  var single = new SingleTileProvider("Images/NE2_50M_SR_W_4096.jpg");
+     *  var single = new SingleTileProvider('Images/NE2_50M_SR_W_4096.jpg');
      *  // Bing Maps
      *  var bing = new BingMapsTileProvider({
-     *      server : "dev.virtualearth.net",
+     *      server : 'dev.virtualearth.net',
      *      mapStyle : BingMapsStyle.AERIAL
      *  });
      *  // Composite
@@ -24250,11 +25039,11 @@ define('Scene/CompositeTileProvider',[
      */
     function CompositeTileProvider(list, camera, ellipsoid) {
         if (!list) {
-            throw new DeveloperError("A non-empty list is required.", "list");
+            throw new DeveloperError('A non-empty list is required.');
         }
 
         if (!camera) {
-            throw new DeveloperError("camera is required.", "camera");
+            throw new DeveloperError('camera is required.');
         }
 
         this._camera = camera;
@@ -24324,10 +25113,10 @@ define('Scene/CompositeTileProvider',[
 
     CompositeTileProvider._compare = function(a, b) {
         // if height isn't provided, default to 0.0
-        if (typeof a.height === "undefined") {
+        if (typeof a.height === 'undefined') {
             a.height = 0.0;
         }
-        if (typeof b.height === "undefined") {
+        if (typeof b.height === 'undefined') {
             b.height = 0.0;
         }
         return b.height - a.height;
@@ -24374,7 +25163,7 @@ define('Scene/CompositeTileProvider',[
      */
     CompositeTileProvider.prototype.loadTileImage = function(tile, onload, onerror, oninvalid) {
         if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
+            throw new DeveloperError('tile.zoom must be between in [zoomMin, zoomMax].');
         }
 
         var height = this._camera.position.magnitude() - this._radius;
@@ -24386,7 +25175,7 @@ define('Scene/CompositeTileProvider',[
             image = provider.loadTileImage(tile, onload, onerror, oninvalid);
             tile.projection = provider.projection;
         } else {
-            if (oninvalid && typeof oninvalid === "function") {
+            if (oninvalid && typeof oninvalid === 'function') {
                 oninvalid();
             }
         }
@@ -24508,21 +25297,21 @@ define('Scene/HorizontalOrigin',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        CENTER : new Enumeration(0, "CENTER"),
+        CENTER : new Enumeration(0, 'CENTER'),
         /**
          * The origin is on the left side of the object.
          *
          * @constant
          * @type {Enumeration}
          */
-        LEFT : new Enumeration(1, "LEFT"),
+        LEFT : new Enumeration(1, 'LEFT'),
         /**
          * The origin is on the right side of the object.
          *
          * @constant
          * @type {Enumeration}
          */
-        RIGHT : new Enumeration(-1, "RIGHT")
+        RIGHT : new Enumeration(-1, 'RIGHT')
     };
 
     return HorizontalOrigin;
@@ -24545,21 +25334,21 @@ define('Scene/LabelStyle',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        FILL : new Enumeration(0, "FILL"),
+        FILL : new Enumeration(0, 'FILL'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        OUTLINE : new Enumeration(1, "OUTLINE"),
+        OUTLINE : new Enumeration(1, 'OUTLINE'),
         /**
          * DOC_TBA
          *
          * @constant
          * @type {Enumeration}
          */
-        FILL_AND_OUTLINE : new Enumeration(2, "FILL_AND_OUTLINE")
+        FILL_AND_OUTLINE : new Enumeration(2, 'FILL_AND_OUTLINE')
     };
 
     return LabelStyle;
@@ -24667,20 +25456,20 @@ define('Scene/OrthographicFrustum',[
 
     OrthographicFrustum.prototype._update = function() {
         if (this.left === null || this.right === null || this.top === null || this.bottom === null || this.near === null || this.far === null) {
-            throw new DeveloperError("The frustum parameters are not set.", "left, right, top, bottom, near, or far");
+            throw new DeveloperError('left, right, top, bottom, near, or far frustum parameters are not set.');
         }
 
         if (this.left !== this._left || this.right !== this._right || this.top !== this._top || this.bottom !== this._bottom || this.near !== this._near || this.far !== this._far) {
             if (this.left > this.right) {
-                throw new DeveloperError("right must be greater than left.", "right");
+                throw new DeveloperError('right must be greater than left.');
             }
 
             if (this.bottom > this.top) {
-                throw new DeveloperError("top must be greater than bottom.", "top");
+                throw new DeveloperError('top must be greater than bottom.');
             }
 
             if (this.near < 0 || this.near > this.far) {
-                throw new DeveloperError("near must be greater than zero and less than far.", "near");
+                throw new DeveloperError('near must be greater than zero and less than far.');
             }
 
             this._left = this.left;
@@ -24713,15 +25502,15 @@ define('Scene/OrthographicFrustum',[
      */
     OrthographicFrustum.prototype.getPlanes = function(position, direction, up) {
         if (!position) {
-            throw new DeveloperError("position is required.", "position");
+            throw new DeveloperError('position is required.');
         }
 
         if (!direction) {
-            throw new DeveloperError("direction is required.", "direction");
+            throw new DeveloperError('direction is required.');
         }
 
         if (!up) {
-            throw new DeveloperError("up is required.", "up");
+            throw new DeveloperError('up is required.');
         }
 
         var pos = Cartesian3.clone(position);
@@ -24852,10 +25641,10 @@ define('Scene/Particle',[
         template = template || {};
         template.position = template.position || Cartesian3.ZERO;
         template.velocity = template.velocity || Cartesian3.ZERO; // initial velocity
-        template.mass = (typeof template.mass === "undefined") ? 1.0 : template.mass;
+        template.mass = (typeof template.mass === 'undefined') ? 1.0 : template.mass;
 
         if (template.mass < 0) {
-            throw new DeveloperError("template.mass must be positive.", "template");
+            throw new DeveloperError('template.mass must be positive.');
         }
 
         this.position = new Cartesian3(template.position.x, template.position.y, template.position.z);
@@ -24981,7 +25770,7 @@ define('Scene/ParticleSystem',[
     ParticleSystem.prototype.setState = function(state) {
         if (state) {
             if (state.length !== this.getDimension()) {
-                throw new DeveloperError("The dimensions of the state vector does not equal the dimensions of this particle system.  Call getDimension().", "state");
+                throw new DeveloperError('The dimensions of the state vector does not equal the dimensions of this particle system.  Call getDimension().');
             }
 
             var particles = this.particles;
@@ -25095,20 +25884,20 @@ define('Scene/PerspectiveFrustum',[
 
     PerspectiveFrustum.prototype._update = function() {
         if (this.fovy === null || this.aspectRatio === null || this.near === null || this.far === null) {
-            throw new DeveloperError("The frustum parameters are not set.", "fovy, aspectRatio, near, or far");
+            throw new DeveloperError('fovy, aspectRatio, near, or far parameters are not set.');
         }
 
         if (this.fovy !== this._fovy || this.aspectRatio !== this._aspectRatio || this.near !== this._near || this.far !== this._far) {
             if (this.fovy < 0 || this.fovy >= Math.PI) {
-                throw new DeveloperError("fovy must be in the range [0, PI).", "fovy");
+                throw new DeveloperError('fovy must be in the range [0, PI).');
             }
 
             if (this.aspectRatio < 0) {
-                throw new DeveloperError("aspectRatio must be positive.", "aspectRatio");
+                throw new DeveloperError('aspectRatio must be positive.');
             }
 
             if (this.near < 0 || this.near > this.far) {
-                throw new DeveloperError("near must be greater than zero and less than far.", "near");
+                throw new DeveloperError('near must be greater than zero and less than far.');
             }
 
             this._fovy = this.fovy;
@@ -25147,15 +25936,15 @@ define('Scene/PerspectiveFrustum',[
      */
     PerspectiveFrustum.prototype.getPlanes = function(position, direction, up) {
         if (!position) {
-            throw new DeveloperError("position is required.", "position");
+            throw new DeveloperError('position is required.');
         }
 
         if (!direction) {
-            throw new DeveloperError("direction is required.", "direction");
+            throw new DeveloperError('direction is required.');
         }
 
         if (!up) {
-            throw new DeveloperError("up is required.", "up");
+            throw new DeveloperError('up is required.');
         }
 
         var pos = Cartesian3.clone(position);
@@ -25333,11 +26122,9 @@ define('Scene/Camera',[
      * camera.far = 2.0;
      */
     function Camera(canvas) {
-        if(!canvas) {
-            throw new DeveloperError("canvas is required.", "canvas");
+        if (!canvas) {
+            throw new DeveloperError('canvas is required.');
         }
-
-        var maxRadii = Ellipsoid.WGS84.getRadii().getMaximumComponent();
 
         /**
          * DOC_TBA
@@ -25348,42 +26135,50 @@ define('Scene/Camera',[
         this._transform = this.transform.clone();
         this._invTransform = Matrix4.IDENTITY;
 
+        var maxRadii = Ellipsoid.WGS84.getRadii().getMaximumComponent();
         var position = new Cartesian3(0.0, -2.0, 1.0).normalize().multiplyWithScalar(2.0 * maxRadii);
-        var direction = Cartesian3.ZERO.subtract(position).normalize();
-        var right = direction.cross(Cartesian3.UNIT_Z).normalize();
-        var up = right.cross(direction);
 
         /**
          * The position of the camera.
          *
          * @type {Cartesian3}
          */
-        this.position = position;
-        this._position = position.clone();
+        this.position = position.clone();
+        this._position = position;
+        this._positionWC = position;
+
+        var direction = Cartesian3.ZERO.subtract(position).normalize();
 
         /**
          * The view direction of the camera.
          *
          * @type {Cartesian3}
          */
-        this.direction = direction;
-        this._direction = direction.clone();
+        this.direction = direction.clone();
+        this._direction = direction;
+        this._directionWC = direction;
 
-        /**
-         * The up direction of the camera.
-         *
-         * @type {Cartesian3}
-         */
-        this.up = up;
-        this._up = up.clone();
+        var right = direction.cross(Cartesian3.UNIT_Z).normalize();
 
         /**
          * The right direction of the camera.
          *
          * @type {Cartesian3}
          */
-        this.right = right;
-        this._right = right.clone();
+        this.right = right.clone();
+        this._right = right;
+        this.rightWC = right;
+
+        var up = right.cross(direction);
+
+        /**
+         * The up direction of the camera.
+         *
+         * @type {Cartesian3}
+         */
+        this.up = up.clone();
+        this._up = up;
+        this._upWC = up;
 
         /**
          * DOC_TBA
@@ -25400,8 +26195,7 @@ define('Scene/Camera',[
         this._invViewMatrix = undefined;
         this._updateViewMatrix();
 
-        this._planes = undefined;
-        this._updatePlanes();
+        this._planes = this.frustum.getPlanes(this._positionWC, this._directionWC, this._upWC);
 
         this._canvas = canvas;
         this._controllers = new CameraControllerCollection(this, canvas);
@@ -25435,16 +26229,16 @@ define('Scene/Camera',[
      */
     Camera.prototype.lookAt = function() {
         var eye, target, up;
-        if(arguments.length === 1) {
+        if (arguments.length === 1) {
             var param = arguments[0];
-            if(param.eye && param.target && param.up) {
+            if (param.eye && param.target && param.up) {
                 eye = param.eye;
                 target = param.target;
                 up = param.up;
             } else {
                 return;
             }
-        } else if(arguments.length === 3) {
+        } else if (arguments.length === 3) {
             eye = arguments[0];
             target = arguments[1];
             up = arguments[2];
@@ -25477,7 +26271,7 @@ define('Scene/Camera',[
         east = CesiumMath.negativePiToPi(east);
 
         // If we go across the International Date Line
-        if(west > east) {
+        if (west > east) {
             east += CesiumMath.TWO_PI;
         }
 
@@ -25489,7 +26283,7 @@ define('Scene/Camera',[
         var screenViewDistanceX;
         var screenViewDistanceY;
         var tempVec;
-        if(this._canvas.clientWidth >= this._canvas.clientHeight) {
+        if (this._canvas.clientWidth >= this._canvas.clientHeight) {
             tempVec = eastVector.subtract(centerVector);
             screenViewDistanceX = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle);
             tempVec = northVector.subtract(centerVector);
@@ -25508,65 +26302,94 @@ define('Scene/Camera',[
         this.up = this.right.cross(this.direction);
     };
 
-    Camera.prototype._orthonormalizeAxes = function() {
-        this._direction = this._direction.normalize();
-
-        var invUpMag = 1.0 / this._up.magnitudeSquared();
-        var scalar = this._up.dot(this._direction) * invUpMag;
-        var w0 = this._direction.multiplyWithScalar(scalar);
-        this._up = this._up.subtract(w0).normalize();
-
-        this._right = this._direction.cross(this._up);
-    };
-
     Camera.prototype._updateViewMatrix = function() {
         var r = this._right;
         var u = this._up;
         var d = this._direction;
         var e = this._position;
 
-        this._viewMatrix = new Matrix4(r.x, r.y, r.z, -r.dot(e), u.x, u.y, u.z, -u.dot(e), -d.x, -d.y, -d.z, d.dot(e), 0.0, 0.0, 0.0, 1.0);
-        this._viewMatrix = this._viewMatrix.multiplyWithMatrix(this._invTransform);
+        var viewMatrix = new Matrix4( r.x,  r.y,  r.z, -r.dot(e),
+                                      u.x,  u.y,  u.z, -u.dot(e),
+                                     -d.x, -d.y, -d.z,  d.dot(e),
+                                      0.0,  0.0,  0.0,      1.0);
+        this._viewMatrix = viewMatrix.multiplyWithMatrix(this._invTransform);
 
         this._invViewMatrix = this._viewMatrix.inverseTransformation();
     };
 
-    Camera.prototype._updatePlanes = function() {
-        var position = new Cartesian4(this._position.x, this._position.y, this._position.z, 1.0);
-        position = this._transform.multiplyWithVector(position).getXYZ();
-
-        var direction = new Cartesian4(this._direction.x, this._direction.y, this._direction.z, 0.0);
-        direction = this._transform.multiplyWithVector(direction).getXYZ();
-
-        var up = new Cartesian4(this._up.x, this._up.y, this._up.z, 0.0);
-        up = this._transform.multiplyWithVector(up).getXYZ();
-
-        this._planes = this.frustum.getPlanes(position, direction, up);
-    };
-
     Camera.prototype._update = function() {
-        if ((this.position && !this.position.equals(this._position)) || (this.direction && !this.direction.equals(this._direction)) || (this.up && !this.up.equals(this._up)) ||
-                (this.right && !this.right.equals(this._right)) || (this.transform && !this.transform.equals(this._transform))) {
+        var position = this._position;
+        var positionChanged = !position.equals(this.position);
+        if (positionChanged) {
+            position = this._position = this.position.clone();
+        }
 
-            this._position = this.position && this.position.clone();
-            this._direction = this.direction && this.direction.clone();
-            this._up = this.up && this.up.clone();
-            this._right = this.right && this.right.clone();
-            this._transform = this.transform && this.transform.clone();
+        var direction = this._direction;
+        var directionChanged = !direction.equals(this.direction);
+        if (directionChanged) {
+            direction = this._direction = this.direction.clone();
+        }
+
+        var up = this._up;
+        var upChanged = !up.equals(this.up);
+        if (upChanged) {
+            up = this._up = this.up.clone();
+        }
+
+        var right = this._right;
+        var rightChanged = !right.equals(this.right);
+        if (rightChanged) {
+            right = this._right = this.right.clone();
+        }
+
+        var transform = this._transform;
+        var transformChanged = !transform.equals(this.transform);
+        if (transformChanged) {
+            transform = this._transform = this.transform.clone();
+
             this._invTransform = this._transform.inverseTransformation();
+        }
 
-            var det = this._direction.dot(this._up.cross(this._right));
-            if(Math.abs(1.0 - det) > CesiumMath.EPSILON2) {
-                this._orthonormalizeAxes();
+        if (positionChanged || transformChanged) {
+            this._positionWC = transform.multiplyWithVector(new Cartesian4(position.x, position.y, position.z, 1.0)).getXYZ();
+        }
+
+        if (directionChanged || transformChanged) {
+            this._directionWC = transform.multiplyWithVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)).getXYZ();
+        }
+
+        if (upChanged || transformChanged) {
+            this._upWC = transform.multiplyWithVector(new Cartesian4(up.x, up.y, up.z, 0.0)).getXYZ();
+        }
+
+        if (rightChanged || transformChanged) {
+            this._rightWC = transform.multiplyWithVector(new Cartesian4(right.x, right.y, right.z, 0.0)).getXYZ();
+        }
+
+        if (positionChanged || directionChanged || upChanged || transformChanged) {
+            this._planes = this.frustum.getPlanes(this._positionWC, this._directionWC, this._upWC);
+        }
+
+        if (directionChanged || upChanged || rightChanged) {
+            var det = direction.dot(up.cross(right));
+            if (Math.abs(1.0 - det) > CesiumMath.EPSILON2) {
+                //orthonormalize axes
+                direction = this._direction = direction.normalize();
+                this.direction = direction.clone();
+
+                var invUpMag = 1.0 / up.magnitudeSquared();
+                var scalar = up.dot(direction) * invUpMag;
+                var w0 = direction.multiplyWithScalar(scalar);
+                up = this._up = up.subtract(w0).normalize();
+                this.up = up.clone();
+
+                right = this._right = direction.cross(up);
+                this.right = right.clone();
             }
+        }
 
-            this.position = this._position.clone();
-            this.direction = this._direction.clone();
-            this.up = this._up.clone();
-            this.right = this._right.clone();
-
+        if (positionChanged || directionChanged || upChanged || rightChanged || transformChanged) {
             this._updateViewMatrix();
-            this._updatePlanes();
         }
     };
 
@@ -25608,6 +26431,46 @@ define('Scene/Camera',[
     };
 
     /**
+     * The position of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getPositionWC = function() {
+        this._update();
+        return this._positionWC;
+    };
+
+    /**
+     * The view direction of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getDirectionWC = function() {
+        this._update();
+        return this._directionWC;
+    };
+
+    /**
+     * The up direction of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getUpWC = function() {
+        this._update();
+        return this._upWC;
+    };
+
+    /**
+     * The right direction of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getRightWC = function() {
+        this._update();
+        return this._rightWC;
+    };
+
+    /**
      * DOC_TBA
      * @memberof Camera
      */
@@ -25640,7 +26503,7 @@ define('Scene/Camera',[
     Camera.prototype.pickEllipsoid = function(ellipsoid, windowPosition) {
         var ray = this.getPickRay(windowPosition);
         var intersection = IntersectionTests.rayEllipsoid(ray.position, ray.direction, ellipsoid);
-        if(!intersection) {
+        if (!intersection) {
             return null;
         }
 
@@ -25665,11 +26528,11 @@ define('Scene/Camera',[
         this._update();
         var planes = this._planes;
         var intersecting = false;
-        for(var k = 0; k < planes.length; k++) {
+        for ( var k = 0; k < planes.length; k++) {
             var result = planeIntersectTest(object, planes[k]);
-            if(result === Intersect.OUTSIDE) {
+            if (result === Intersect.OUTSIDE) {
                 return Intersect.OUTSIDE;
-            } else if(result === Intersect.INTERSECTING) {
+            } else if (result === Intersect.INTERSECTING) {
                 intersecting = true;
             }
         }
@@ -25752,19 +26615,19 @@ define('Scene/Projections',[
      * @exports Projections
      */
     var Projections = {
-        WGS84 : new Enumeration(0, "WGS84", {
+        WGS84 : new Enumeration(0, 'WGS84', {
             toWgs84 : function(extent, image) {
                 return image;
             }
         }),
-        MERCATOR : new Enumeration(1, "MERCATOR", {
+        MERCATOR : new Enumeration(1, 'MERCATOR', {
             toWgs84 : function(extent, image) {
-                if (!extent || typeof extent.north === "undefined" || typeof extent.south === "undefined") {
-                    throw new DeveloperError("extent, extent.north and extent.south are required.", "extent");
+                if (!extent || typeof extent.north === 'undefined' || typeof extent.south === 'undefined') {
+                    throw new DeveloperError('extent, extent.north and extent.south are required.');
                 }
 
                 if (!image) {
-                    throw new DeveloperError("image is required.", "image");
+                    throw new DeveloperError('image is required.');
                 }
 
                 var width = parseInt(image.width, 10);
@@ -25772,10 +26635,10 @@ define('Scene/Projections',[
                 var wRowBytes = width * 4; // Always 4 bytes per pixel.
 
                 // draw image to canvas and get the pixels
-                var canvas = document.createElement("canvas");
+                var canvas = document.createElement('canvas');
                 canvas.width = width;
                 canvas.height = height;
-                var context = canvas.getContext("2d");
+                var context = canvas.getContext('2d');
                 context.drawImage(image, 0, 0);
                 var fromPixels = context.getImageData(0, 0, width, height).data;
 
@@ -25865,8 +26728,8 @@ define('Scene/ArcGISTileProvider',[
      * @see OpenStreetMapTileProvider
      * @see CompositeTileProvider
      *
-     * @see <a href="http://resources.esri.com/help/9.3/arcgisserver/apis/rest/">ArcGIS Server REST API</a>
-     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
+     * @see <a href='http://resources.esri.com/help/9.3/arcgisserver/apis/rest/'>ArcGIS Server REST API</a>
+     * @see <a href='http://www.w3.org/TR/cors/'>Cross-Origin Resource Sharing</a>
      *
      * @example
      * // ArcGIS World Street Maps tile provider
@@ -25880,11 +26743,11 @@ define('Scene/ArcGISTileProvider',[
         var instance = desc.instance || 'arcgis/rest';
 
         if (!desc.host) {
-            throw new DeveloperError("description.host is required.", "description.host");
+            throw new DeveloperError('description.host is required.');
         }
 
         if (!desc.service) {
-            throw new DeveloperError("description.service is required.", "description.service");
+            throw new DeveloperError('description.service is required.');
         }
 
         this._url = 'http://' + desc.host + '/' + instance + '/services/';
@@ -25902,7 +26765,7 @@ define('Scene/ArcGISTileProvider',[
         this.host = desc.host;
 
         /**
-         * The instance name. The default value is "/arcgis/rest".
+         * The instance name. The default value is '/arcgis/rest'.
          * @type {String}
          */
         this.instance = instance;
@@ -25979,12 +26842,12 @@ define('Scene/ArcGISTileProvider',[
         jsonp(this._url, function(data) {
             var credit = data.copyrightText;
 
-            var canvas = document.createElement("canvas");
+            var canvas = document.createElement('canvas');
             canvas.width = 800.0;
             canvas.height = 20.0;
 
-            var context = canvas.getContext("2d");
-            context.fillStyle = "#fff";
+            var context = canvas.getContext('2d');
+            context.fillStyle = '#fff';
             context.font = '12px sans-serif';
             context.textBaseline = 'top';
             context.fillText(credit, 0, 0);
@@ -26013,7 +26876,7 @@ define('Scene/ArcGISTileProvider',[
      */
     ArcGISTileProvider.prototype.loadTileImage = function(tile, onload, onerror) {
         if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
+            throw new DeveloperError('tile.zoom must be between in [zoomMin, zoomMax].');
         }
 
         var image = new Image();
@@ -26049,22 +26912,22 @@ define('Scene/ArcGISTileProvider',[
 
    MICROSOFT LIMITED PUBLIC LICENSE
 
-   This license governs use of code marked as "sample" or "example" available on
+   This license governs use of code marked as 'sample' or 'example' available on
    this web site without a license agreement, as provided under the section above
-   titled "NOTICE SPECIFIC TO SOFTWARE AVAILABLE ON THIS WEB SITE." If you use
-   such code (the "software"), you accept this license. If you do not accept the
+   titled 'NOTICE SPECIFIC TO SOFTWARE AVAILABLE ON THIS WEB SITE.' If you use
+   such code (the 'software'), you accept this license. If you do not accept the
    license, do not use the software.
 
    1. Definitions
 
-   The terms "reproduce," "reproduction," "derivative works," and "distribution"
+   The terms 'reproduce,' 'reproduction,' 'derivative works,' and 'distribution'
    have the same meaning here as under U.S. copyright law.
 
-   A "contribution" is the original software, or any additions or changes to the software.
+   A 'contribution' is the original software, or any additions or changes to the software.
 
-   A "contributor" is any person that distributes its contribution under this license.
+   A 'contributor' is any person that distributes its contribution under this license.
 
-   "Licensed patents" are a contributor's patent claims that read directly on its contribution.
+   'Licensed patents' are a contributor's patent claims that read directly on its contribution.
 
    2. Grant of Rights
 
@@ -26100,7 +26963,7 @@ define('Scene/ArcGISTileProvider',[
    compiled or object code form, you may only do so under a license that
    complies with this license.
 
-   (E) The software is licensed "as-is." You bear the risk of using it. The
+   (E) The software is licensed 'as-is.' You bear the risk of using it. The
    contributors give no express warranties, guarantees or conditions. You may
    have additional consumer rights under your local laws which this license
    cannot change. To the extent permitted under your local laws, the contributors
@@ -26135,7 +26998,7 @@ define('Scene/BingMapsTileProvider',[
      * @constructor
      *
      * @param {String} description.server The name of the Bing Maps server hosting the imagery.
-     * @param {String} [description.key] An optional Bing Maps key, which can be created at <a href="https://www.bingmapsportal.com/">https://www.bingmapsportal.com/</a>.
+     * @param {String} [description.key] An optional Bing Maps key, which can be created at <a href='https://www.bingmapsportal.com/'>https://www.bingmapsportal.com/</a>.
      * @param {Enumeration} [description.mapStyle=BingMapsStyle.AERIAL] The type of Bing Maps imagery to load.
      * @param {Object} [description.proxy=undefined] A proxy to use for requests. This object is expected to have a getURL function which returns the proxied URL, if needed.
      *
@@ -26146,23 +27009,23 @@ define('Scene/BingMapsTileProvider',[
      * @see OpenStreetMapTileProvider
      * @see CompositeTileProvider
      *
-     * @see <a href="http://msdn.microsoft.com/en-us/library/ff701713.aspx">Bing Maps REST Services</a>
-     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
+     * @see <a href='http://msdn.microsoft.com/en-us/library/ff701713.aspx'>Bing Maps REST Services</a>
+     * @see <a href='http://www.w3.org/TR/cors/'>Cross-Origin Resource Sharing</a>
      *
      * @example
      * // Bing Maps tile provider
      * var bing = new BingMapsTileProvider({
-     *     server : "dev.virtualearth.net",
+     *     server : 'dev.virtualearth.net',
      *     mapStyle : BingMapsStyle.AERIAL
      * });
      */
     function BingMapsTileProvider(description) {
         var desc = description || {};
-        var key = desc.key || "AquXz3981-1ND5jGs8qQn7R7YUP8qkWi77yZSVM7o3nIvzb-Mg0W2Ta57xuUyywX";
+        var key = desc.key || 'AquXz3981-1ND5jGs8qQn7R7YUP8qkWi77yZSVM7o3nIvzb-Mg0W2Ta57xuUyywX';
         var mapStyle = desc.mapStyle || BingMapsStyle.AERIAL;
 
         if (typeof desc.server === 'undefined') {
-            throw new DeveloperError("description.server is required.", "description.server");
+            throw new DeveloperError('description.server is required.');
         }
 
         /**
@@ -26267,13 +27130,13 @@ define('Scene/BingMapsTileProvider',[
      * @param {Number} y The tile's y coordinate.
      * @param {Number} zoom The tile's zoom level.
      *
-     * @see <a href="http://msdn.microsoft.com/en-us/library/bb259689.aspx">Bing Maps Tile System</a>
+     * @see <a href='http://msdn.microsoft.com/en-us/library/bb259689.aspx'>Bing Maps Tile System</a>
      * @see BingMapsTileProvider#quadKeyToTileXY
      */
     BingMapsTileProvider.tileXYToQuadKey = function(x, y, zoom) {
-        var quadkey = "";
+        var quadkey = '';
         for ( var i = zoom; i > 0; --i) {
-            var digit = "0".charCodeAt(0);
+            var digit = '0'.charCodeAt(0);
             var mask = 1 << (i - 1);
             if ((x & mask) !== 0) {
                 digit++;
@@ -26294,7 +27157,7 @@ define('Scene/BingMapsTileProvider',[
      *
      * @param {String} quadkey The tile's quad key
      *
-     * @see <a href="http://msdn.microsoft.com/en-us/library/bb259689.aspx">Bing Maps Tile System</a>
+     * @see <a href='http://msdn.microsoft.com/en-us/library/bb259689.aspx'>Bing Maps Tile System</a>
      * @see BingMapsTileProvider#tileXYToQuadKey
      */
     BingMapsTileProvider.quadKeyToTileXY = function(quadkey) {
@@ -26331,7 +27194,7 @@ define('Scene/BingMapsTileProvider',[
 
             var url = resource.imageUrl;
             url = url.replace('{subdomain}', resource.imageUrlSubdomains[0]);
-            url = url.replace('{culture}', "");
+            url = url.replace('{culture}', '');
             that._url = url;
 
             that.tileWidth = resource.imageWidth;
@@ -26344,7 +27207,7 @@ define('Scene/BingMapsTileProvider',[
             });
             that._deferredQueue = [];
         }, {
-            callbackParameterName : "jsonp",
+            callbackParameterName : 'jsonp',
             proxy: this._proxy
         });
     };
@@ -26373,7 +27236,7 @@ define('Scene/BingMapsTileProvider',[
         }
 
         if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
+            throw new DeveloperError('tile.zoom must be between in [zoomMin, zoomMax].');
         }
 
         var image = new Image();
@@ -26451,7 +27314,7 @@ define('Scene/BingMapsTileProvider',[
                 centerPoint : lat + ',' + lon,
                 zoomLevel : tile.zoom
             },
-            callbackParameterName : "jsonp",
+            callbackParameterName : 'jsonp',
             proxy : this._proxy
         });
 
@@ -26547,8 +27410,8 @@ define('Scene/OpenStreetMapTileProvider',[
      * @see ArcGISTileProvider
      * @see CompositeTileProvider
      *
-     * @see <a href="http://wiki.openstreetmap.org/wiki/Main_Page">OpenStreetMap Wiki</a>
-     * @see <a href="http://www.w3.org/TR/cors/">Cross-Origin Resource Sharing</a>
+     * @see <a href='http://wiki.openstreetmap.org/wiki/Main_Page'>OpenStreetMap Wiki</a>
+     * @see <a href='http://www.w3.org/TR/cors/'>Cross-Origin Resource Sharing</a>
      *
      * @example
      * // OpenStreetMap tile provider
@@ -26638,7 +27501,7 @@ define('Scene/OpenStreetMapTileProvider',[
      */
     OpenStreetMapTileProvider.prototype.loadTileImage = function(tile, onload, onerror) {
         if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
+            throw new DeveloperError('tile.zoom must be between in [zoomMin, zoomMax].');
         }
 
         var image = new Image();
@@ -26662,12 +27525,12 @@ define('Scene/OpenStreetMapTileProvider',[
      */
     OpenStreetMapTileProvider.prototype.getLogo = function() {
         if (!this._logo) {
-            var canvas = document.createElement("canvas");
+            var canvas = document.createElement('canvas');
             canvas.width = 800.0;
             canvas.height = 20.0;
 
-            var context = canvas.getContext("2d");
-            context.fillStyle = "#fff";
+            var context = canvas.getContext('2d');
+            context.fillStyle = '#fff';
             context.font = '12px sans-serif';
             context.textBaseline = 'top';
             context.fillText(this._credit, 0, 0);
@@ -26696,7 +27559,9 @@ define('Scene/SceneMode',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SCENE2D : new Enumeration(0, "SCENE2D"),
+        SCENE2D : new Enumeration(0, 'SCENE2D', {
+            morphTime : 0.0
+        }),
 
         /**
          * DOC_TBA
@@ -26704,7 +27569,9 @@ define('Scene/SceneMode',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        COLUMBUS_VIEW : new Enumeration(1, "COLUMBUS_VIEW"),
+        COLUMBUS_VIEW : new Enumeration(1, 'COLUMBUS_VIEW', {
+            morphTime : 0.0
+        }),
 
         /**
          * DOC_TBA
@@ -26712,7 +27579,9 @@ define('Scene/SceneMode',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        SCENE3D : new Enumeration(2, "SCENE3D"),
+        SCENE3D : new Enumeration(2, 'SCENE3D', {
+            morphTime : 1.0
+        }),
 
         /**
          * DOC_TBA
@@ -26720,10 +27589,44 @@ define('Scene/SceneMode',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        MORPHING : new Enumeration(3, "MORPHING")
+        MORPHING : new Enumeration(3, 'MORPHING')
     };
 
     return SceneMode;
+});
+/*global define*/
+define('Scene/SceneState',[], function() {
+    
+
+    /**
+     * State information about the current scene.  An instance of this class
+     * is provided to update functions.
+     *
+     * @name SceneState
+     * @constructor
+     */
+    function SceneState() {
+        /**
+         * The current mode of the scene.
+         *
+         * @type SceneMode
+         */
+        this.mode = undefined;
+
+        this.scene2D = {
+            /**
+             * The projection to use in 2D mode.
+             */
+            projection : undefined
+        };
+
+        /**
+         * The current camera.
+         */
+        this.camera = undefined;
+    }
+
+    return SceneState;
 });
 /*global define*/
 define('Scene/SingleTileProvider',[
@@ -26756,7 +27659,7 @@ define('Scene/SingleTileProvider',[
      */
     function SingleTileProvider(url, proxy) {
         if (typeof url === 'undefined') {
-            throw new DeveloperError("url is required.", "url");
+            throw new DeveloperError('url is required.');
         }
 
         this._url = url;
@@ -26815,7 +27718,7 @@ define('Scene/SingleTileProvider',[
      */
     SingleTileProvider.prototype.loadTileImage = function(tile, onload, onerror) {
         if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("The zoom must be between in [zoomMin, zoomMax].", "tile.zoom");
+            throw new DeveloperError('tile.zoom must be between in [zoomMin, zoomMax].');
         }
 
         var image = new Image();
@@ -26941,12 +27844,12 @@ define('Scene/SolidColorTileProvider',[
     }
 
     SolidColorTileProvider.prototype._createImage = function(color, width, height) {
-        var canvas = document.createElement("canvas");
+        var canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
 
-        var context = canvas.getContext("2d");
-        context.fillStyle = "rgba(" + color.r + ", " + color.g + ", " + color.b + ", 1.0)";
+        var context = canvas.getContext('2d');
+        context.fillStyle = 'rgba(' + color.r + ', ' + color.g + ', ' + color.b + ', 1.0)';
         context.fillRect(0, 0, width, height);
 
         return canvas;
@@ -26965,10 +27868,10 @@ define('Scene/SolidColorTileProvider',[
      */
     SolidColorTileProvider.prototype.loadTileImage = function(tile, onload, onerror) {
         if (tile.zoom < this.zoomMin || tile.zoom > this.zoomMax) {
-            throw new DeveloperError("tile.zoom must be in [zoomMin, zoomMax].", "tile.zoom");
+            throw new DeveloperError('tile.zoom must be in [zoomMin, zoomMax].');
         }
 
-        if (typeof onload === "function") {
+        if (typeof onload === 'function') {
             onload();
         }
 
@@ -26994,10 +27897,10 @@ define('Scene/SphericalRepulsionForce',[
     function SphericalRepulsionForce(template) {
         template = template || {};
         template.center = template.center || Cartesian3.ZERO;
-        template.radius = (typeof template.radius === "undefined") ? 1.0 : template.radius;
+        template.radius = (typeof template.radius === 'undefined') ? 1.0 : template.radius;
 
         if (template.radius < 0) {
-            throw new DeveloperError("template.radius must be nonnegative.", "template");
+            throw new DeveloperError('template.radius must be nonnegative.');
         }
 
         this.center = new Cartesian3(template.center.x, template.center.y, template.center.z);
@@ -27042,7 +27945,7 @@ define('Scene/SpringForce',['../Core/DeveloperError'], function(DeveloperError) 
         template = template || {};
 
         if (!template.particleOne || !template.particleTwo) {
-            throw new DeveloperError("template.particleOne and template.particleTwo are required.", "template");
+            throw new DeveloperError('template.particleOne and template.particleTwo are required.');
         }
 
         this.particleOne = template.particleOne;
@@ -27050,9 +27953,9 @@ define('Scene/SpringForce',['../Core/DeveloperError'], function(DeveloperError) 
 
         // TODO: Throw if these are negative
 
-        this.restLength = (typeof template.restLength === "undefined") ? 1.0 : template.restLength;
-        this.springConstant = (typeof template.springConstant === "undefined") ? 1.0 : template.springConstant;
-        this.dampingConstant = (typeof template.dampingConstant === "undefined") ? 1.0 : template.dampingConstant;
+        this.restLength = (typeof template.restLength === 'undefined') ? 1.0 : template.restLength;
+        this.springConstant = (typeof template.springConstant === 'undefined') ? 1.0 : template.springConstant;
+        this.dampingConstant = (typeof template.dampingConstant === 'undefined') ? 1.0 : template.dampingConstant;
     }
 
     /**
@@ -27137,7 +28040,7 @@ define('Scene/Texture2DPool',[
      */
     function Texture2DPool(context) {
         if (typeof context === 'undefined') {
-            throw new DeveloperError('context is required.', 'context');
+            throw new DeveloperError('context is required.');
         }
 
         this._context = context;
@@ -27157,7 +28060,7 @@ define('Scene/Texture2DPool',[
      */
     Texture2DPool.prototype.createTexture2D = function(description) {
         if (!description) {
-            throw new DeveloperError('description is required.', 'description');
+            throw new DeveloperError('description is required.');
         }
 
         var source = description.source;
@@ -27267,16 +28170,16 @@ define('Scene/Tile',[
      */
     function Tile(description) {
         if (!description) {
-            throw new DeveloperError("description is required.", "description");
+            throw new DeveloperError('description is required.');
         }
 
-        if (typeof description.extent === "undefined" &&
-            (typeof description.x === "undefined" || typeof description.y === "undefined")) {
-            throw new DeveloperError("Either description.extent is required or description.x and description.y are required.", "description");
+        if (typeof description.extent === 'undefined' &&
+            (typeof description.x === 'undefined' || typeof description.y === 'undefined')) {
+            throw new DeveloperError('Either description.extent is required or description.x and description.y are required.');
         }
 
-        if (typeof description.zoom === "undefined" || description.zoom < 0) {
-            throw new DeveloperError("description.zoom is required an must be greater than zero.", "description.zoom");
+        if (typeof description.zoom === 'undefined' || description.zoom < 0) {
+            throw new DeveloperError('description.zoom is required an must be greater than zero.');
         }
 
         /**
@@ -27340,7 +28243,7 @@ define('Scene/Tile',[
             this.y = description.y;
 
             if (this.x < 0 || this.y < 0) {
-                throw new DeveloperError("description.x and description.y must be greater than zero.", "description");
+                throw new DeveloperError('description.x and description.y must be greater than zero.');
             }
 
             this.extent = Tile.tileXYToExtent(this.x, this.y, this.zoom);
@@ -27541,15 +28444,15 @@ define('Scene/TileState',['../Core/Enumeration'], function(Enumeration) {
      * @private
      */
     var TileState = {
-        READY : new Enumeration(0, "READY"),
-        IMAGE_LOADING : new Enumeration(1, "IMAGE_LOADING"),
-        IMAGE_LOADED : new Enumeration(2, "IMAGE_LOADED"),
-        IMAGE_FAILED : new Enumeration(3, "IMAGE_FAILED"),
-        IMAGE_INVALID : new Enumeration(4, "IMAGE_INVALID"),
-        REPROJECTING : new Enumeration(5, "REPROJECTING"),
-        REPROJECTED : new Enumeration(6, "REPROJECTED"),
-        TEXTURE_LOADING : new Enumeration(7, "TEXTURE_LOADING"),
-        TEXTURE_LOADED : new Enumeration(8, "TEXTURE_LOADED")
+        READY : new Enumeration(0, 'READY'),
+        IMAGE_LOADING : new Enumeration(1, 'IMAGE_LOADING'),
+        IMAGE_LOADED : new Enumeration(2, 'IMAGE_LOADED'),
+        IMAGE_FAILED : new Enumeration(3, 'IMAGE_FAILED'),
+        IMAGE_INVALID : new Enumeration(4, 'IMAGE_INVALID'),
+        REPROJECTING : new Enumeration(5, 'REPROJECTING'),
+        REPROJECTED : new Enumeration(6, 'REPROJECTED'),
+        TEXTURE_LOADING : new Enumeration(7, 'TEXTURE_LOADING'),
+        TEXTURE_LOADED : new Enumeration(8, 'TEXTURE_LOADED')
     };
 
     return TileState;
@@ -27573,7 +28476,7 @@ define('Scene/VectorForce',[
         template.vector = template.vector || Cartesian3.UNIT_Z.negate();
 
         if (!template.particle) {
-            throw new DeveloperError("template.particle is required.", "template");
+            throw new DeveloperError('template.particle is required.');
         }
 
         this.vector = new Cartesian3(template.vector.x, template.vector.y, template.vector.z);
@@ -27611,21 +28514,21 @@ define('Scene/VerticalOrigin',['../Core/Enumeration'], function(Enumeration) {
          * @constant
          * @type {Enumeration}
          */
-        CENTER : new Enumeration(0, "CENTER"),
+        CENTER : new Enumeration(0, 'CENTER'),
         /**
          * The origin is at the bottom of the object.
          *
          * @constant
          * @type {Enumeration}
          */
-        BOTTOM : new Enumeration(1, "BOTTOM"),
+        BOTTOM : new Enumeration(1, 'BOTTOM'),
         /**
          * The origin is at the top of the object.
          *
          * @constant
          * @type {Enumeration}
          */
-        TOP : new Enumeration(-1, "TOP")
+        TOP : new Enumeration(-1, 'TOP')
     };
 
     return VerticalOrigin;
@@ -27656,8 +28559,8 @@ define('Scene/Billboard',[
      * properties can be changed at any time by calling the billboard's corresponding
      * <code>set</code> function, e.g., {@link Billboard#setShow}.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Billboard.png" width="400" height="300" /><br />
+     * <div align='center'>
+     * <img src='images/Billboard.png' width='400' height='300' /><br />
      * Example billboards
      * </div>
      *
@@ -27687,14 +28590,14 @@ define('Scene/Billboard',[
 
         var position = b.position ? new Cartesian3(b.position.x, b.position.y, b.position.z) : Cartesian3.ZERO.clone();
 
-        this._show = (typeof b.show === "undefined") ? true : b.show;
+        this._show = (typeof b.show === 'undefined') ? true : b.show;
         this._position = position;
         this._actualPosition = position.clone(); // For columbus view and 2D
         this._pixelOffset = b.pixelOffset ? new Cartesian2(b.pixelOffset.x, b.pixelOffset.y) : Cartesian2.ZERO.clone();
         this._eyeOffset = b.eyeOffset ? new Cartesian3(b.eyeOffset.x, b.eyeOffset.y, b.eyeOffset.z) : Cartesian3.ZERO.clone();
         this._horizontalOrigin = b.horizontalOrigin || HorizontalOrigin.CENTER;
         this._verticalOrigin = b.verticalOrigin || VerticalOrigin.CENTER;
-        this._scale = (typeof b.scale === "undefined") ? 1.0 : b.scale;
+        this._scale = (typeof b.scale === 'undefined') ? 1.0 : b.scale;
         this._imageIndex = b.imageIndex || 0;
         this._color = {
             red : color.red,
@@ -27770,7 +28673,7 @@ define('Scene/Billboard',[
      * @see Billboard#getShow
      */
     Billboard.prototype.setShow = function(value) {
-        if ((typeof value !== "undefined") && (this._show !== value)) {
+        if ((typeof value !== 'undefined') && (this._show !== value)) {
             this._show = value;
             this._makeDirty(SHOW_INDEX);
         }
@@ -27818,7 +28721,7 @@ define('Scene/Billboard',[
     Billboard.prototype.setPosition = function(value) {
         var p = this._position;
 
-        if ((typeof value !== "undefined") && ((p.x !== value.x) || (p.y !== value.y) || (p.z !== value.z))) {
+        if ((typeof value !== 'undefined') && ((p.x !== value.x) || (p.y !== value.y) || (p.z !== value.z))) {
             p.x = value.x;
             p.y = value.y;
             p.z = value.z;
@@ -27869,10 +28772,10 @@ define('Scene/Billboard',[
      * changing it after calling <code>setPixelOffset</code> does not affect the billboard's pixel
      * offset; an explicit call to <code>setPixelOffset</code> is required.
      * <br /><br />
-     * <div align="center">
-     * <table border="0" cellpadding="5"><tr>
-     * <td align="center"><code>default</code><br/><img src="images/Billboard.setPixelOffset.default.png" width="250" height="188" /></td>
-     * <td align="center"><code>b.setPixelOffset({ x : 50, y : -25 });</code><br/><img src="images/Billboard.setPixelOffset.x50y-25.png" width="250" height="188" /></td>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>default</code><br/><img src='images/Billboard.setPixelOffset.default.png' width='250' height='188' /></td>
+     * <td align='center'><code>b.setPixelOffset({ x : 50, y : -25 });</code><br/><img src='images/Billboard.setPixelOffset.x50y-25.png' width='250' height='188' /></td>
      * </tr></table>
      * The billboard's origin is indicated by the yellow point.
      * </div>
@@ -27887,7 +28790,7 @@ define('Scene/Billboard',[
     Billboard.prototype.setPixelOffset = function(value) {
         var p = this._pixelOffset;
 
-        if ((typeof value !== "undefined") && ((p.x !== value.x) || (p.y !== value.y))) {
+        if ((typeof value !== 'undefined') && ((p.x !== value.x) || (p.y !== value.y))) {
             p.x = value.x;
             p.y = value.y;
             this._makeDirty(PIXEL_OFFSET_INDEX);
@@ -27924,10 +28827,10 @@ define('Scene/Billboard',[
      * Below, the billboard is positioned at the center of the Earth but an eye offset makes it always
      * appear on top of the Earth regardless of the viewer's or Earth's orientation.
      * <br /><br />
-     * <div align="center">
-     * <table border="0" cellpadding="5"><tr>
-     * <td align="center"><img src="images/Billboard.setEyeOffset.one.png" width="250" height="188" /></td>
-     * <td align="center"><img src="images/Billboard.setEyeOffset.two.png" width="250" height="188" /></td>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><img src='images/Billboard.setEyeOffset.one.png' width='250' height='188' /></td>
+     * <td align='center'><img src='images/Billboard.setEyeOffset.two.png' width='250' height='188' /></td>
      * </tr></table>
      * <code>b.setEyeOffset({ x : 0.0, y : 8000000.0, z : 0.0 });</code><br /><br />
      * </div>
@@ -27941,7 +28844,7 @@ define('Scene/Billboard',[
     Billboard.prototype.setEyeOffset = function(value) {
         var e = this._eyeOffset;
 
-        if ((typeof value !== "undefined") && ((e.x !== value.x) || (e.y !== value.y) || (e.z !== value.z))) {
+        if ((typeof value !== 'undefined') && ((e.x !== value.x) || (e.y !== value.y) || (e.z !== value.z))) {
             e.x = value.x;
             e.y = value.y;
             e.z = value.z;
@@ -27966,8 +28869,8 @@ define('Scene/Billboard',[
      * Sets the horizontal origin of this billboard, which determines if the billboard is
      * to the left, center, or right of its position.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Billboard.setHorizontalOrigin.png" width="400" height="300" /><br />
+     * <div align='center'>
+     * <img src='images/Billboard.setHorizontalOrigin.png' width='400' height='300' /><br />
      * </div>
      *
      * @memberof Billboard
@@ -27983,7 +28886,7 @@ define('Scene/Billboard',[
      * b.setVerticalOrigin(VerticalOrigin.BOTTOM);
      */
     Billboard.prototype.setHorizontalOrigin = function(value) {
-        if ((typeof value !== "undefined") && (this._horizontalOrigin !== value)) {
+        if ((typeof value !== 'undefined') && (this._horizontalOrigin !== value)) {
             this._horizontalOrigin = value;
             this._makeDirty(HORIZONTAL_ORIGIN_INDEX);
         }
@@ -28006,8 +28909,8 @@ define('Scene/Billboard',[
      * Sets the vertical origin of this billboard, which determines if the billboard is
      * to the above, below, or at the center of its position.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Billboard.setVerticalOrigin.png" width="400" height="300" /><br />
+     * <div align='center'>
+     * <img src='images/Billboard.setVerticalOrigin.png' width='400' height='300' /><br />
      * </div>
      *
      * @memberof Billboard
@@ -28023,7 +28926,7 @@ define('Scene/Billboard',[
      * b.setVerticalOrigin(VerticalOrigin.BOTTOM);
      */
     Billboard.prototype.setVerticalOrigin = function(value) {
-        if ((typeof value !== "undefined") && (this._verticalOrigin !== value)) {
+        if ((typeof value !== 'undefined') && (this._verticalOrigin !== value)) {
             this._verticalOrigin = value;
             this._makeDirty(VERTICAL_ORIGIN_INDEX);
         }
@@ -28048,8 +28951,8 @@ define('Scene/Billboard',[
      * <code>1.0</code> enlarges the billboard; a positive scale less than <code>1.0</code> shrinks
      * the billboard.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Billboard.setScale.png" width="400" height="300" /><br/>
+     * <div align='center'>
+     * <img src='images/Billboard.setScale.png' width='400' height='300' /><br/>
      * From left to right in the above image, the scales are <code>0.5</code>, <code>1.0</code>,
      * and <code>2.0</code>.
      * </div>
@@ -28062,7 +28965,7 @@ define('Scene/Billboard',[
      * @see Billboard#setImageIndex
      */
     Billboard.prototype.setScale = function(value) {
-        if ((typeof value !== "undefined") && (this._scale !== value)) {
+        if ((typeof value !== 'undefined') && (this._scale !== value)) {
             this._scale = value;
             this._makeDirty(SCALE_INDEX);
         }
@@ -28089,7 +28992,7 @@ define('Scene/Billboard',[
      * @see BillboardCollection#setTextureAtlas
      */
     Billboard.prototype.setImageIndex = function(value) {
-        if ((typeof value !== "undefined") && (this._imageIndex !== value)) {
+        if ((typeof value !== 'undefined') && (this._imageIndex !== value)) {
             this._imageIndex = value;
             this._makeDirty(IMAGE_INDEX_INDEX);
         }
@@ -28116,10 +29019,10 @@ define('Scene/Billboard',[
      * colored billboards.  Second, the color's alpha component can be used to make the billboard translucent as shown below.
      * An alpha of <code>0.0</code> makes the billboard transparent, and <code>1.0</code> makes the billboard opaque.
      * <br /><br />
-     * <div align="center">
-     * <table border="0" cellpadding="5"><tr>
-     * <td align="center"><code>default</code><br/><img src="images/Billboard.setColor.Alpha255.png" width="250" height="188" /></td>
-     * <td align="center"><code>alpha : 0.5</code><br/><img src="images/Billboard.setColor.Alpha127.png" width="250" height="188" /></td>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>default</code><br/><img src='images/Billboard.setColor.Alpha255.png' width='250' height='188' /></td>
+     * <td align='center'><code>alpha : 0.5</code><br/><img src='images/Billboard.setColor.Alpha127.png' width='250' height='188' /></td>
      * </tr></table>
      * </div>
      * <br />
@@ -28154,7 +29057,7 @@ define('Scene/Billboard',[
     Billboard.prototype.setColor = function(value) {
         var c = this._color;
 
-        if ((typeof value !== "undefined") &&
+        if ((typeof value !== 'undefined') &&
             ((c.red !== value.red) || (c.green !== value.green) || (c.blue !== value.blue) || (c.alpha !== value.alpha))) {
 
             c.red = value.red;
@@ -28216,11 +29119,11 @@ define('Scene/Billboard',[
      */
     Billboard.prototype.computeScreenSpacePosition = function(uniformState) {
         if (!this._collection) {
-            throw new DeveloperError("Billboard must be in a collection.  Was it removed?");
+            throw new DeveloperError('Billboard must be in a collection.  Was it removed?');
         }
 
         if (!uniformState) {
-            throw new DeveloperError("uniformState is required.", "uniformState");
+            throw new DeveloperError('uniformState is required.');
         }
 
         return Billboard._computeScreenSpacePosition(this._collection.modelMatrix, this._actualPosition, this._eyeOffset, this._pixelOffset, uniformState);
@@ -28288,7 +29191,7 @@ define('Scene/combineMaterials',[],function() {
      */
     function combineMaterials() {
         var unforms = {};
-        var concatenatedSource = "";
+        var concatenatedSource = '';
         var duplicateUniforms = {};
 
         var length = arguments.length;
@@ -28302,14 +29205,14 @@ define('Scene/combineMaterials',[],function() {
                     if (unforms[name]) {
                         // Rename uniform
                         var count = duplicateUniforms[name] || 1;
-                        var uniqueName = "_agi_" + name + count.toString();
+                        var uniqueName = '_agi_' + name + count.toString();
 
                         // PERFORMANCE_IDEA:  We could cache the RegExp for duplicate uniforms
                         // or see if a pure JavaScript search-and-replace is faster.
 
                         // This could rename other things like GLSL comments and other identifiers
                         // with the same name.
-                        materialSource = materialSource.replace(new RegExp(name, "g"), uniqueName);
+                        materialSource = materialSource.replace(new RegExp(name, 'g'), uniqueName);
                         unforms[uniqueName] = materialUniforms[name];
 
                         duplicateUniforms[name] = count + 1;
@@ -28323,7 +29226,7 @@ define('Scene/combineMaterials',[],function() {
                 materialSource = arguments[i].sourceTransform(materialSource);
             }
 
-            concatenatedSource += "#line 0\n" + materialSource;
+            concatenatedSource += '#line 0\n' + materialSource;
         }
 
         return {
@@ -28466,8 +29369,8 @@ define('Scene/BillboardCollection',[
      * A renderable collection of billboards.  Billboards are viewport-aligned
      * images positioned in the 3D scene.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Billboard.png" width="400" height="300" /><br />
+     * <div align='center'>
+     * <img src='images/Billboard.png' width='400' height='300' /><br />
      * Example billboards
      * </div>
      * <br /><br />
@@ -28543,15 +29446,16 @@ define('Scene/BillboardCollection',[
         this.modelMatrix = Matrix4.IDENTITY;
         this._modelMatrix = Matrix4.IDENTITY;
 
+        this._mode = SceneMode.SCENE3D;
+        this._projection = undefined;
+
         /**
-         * DOC_TBA
+         * The current morph transition time between 2D/Columbus View and 3D,
+         * with 0.0 being 2D or Columbus View and 1.0 being 3D.
          *
          * @type Number
          */
-        this.morphTime = 0.0;
-
-        this._mode = SceneMode.SCENE3D;
-        this._projection = undefined;
+        this.morphTime = this._mode.morphTime;
 
         // The buffer usage for each attribute is determined based on the usage of the attribute over time.
         this._buffersUsage = [
@@ -28779,8 +29683,8 @@ define('Scene/BillboardCollection',[
      * }
      */
     BillboardCollection.prototype.get = function(index) {
-        if (typeof index === "undefined") {
-            throw new DeveloperError("index is required.", "index");
+        if (typeof index === 'undefined') {
+            throw new DeveloperError('index is required.');
         }
 
         this._removeBillboards();
@@ -29211,23 +30115,6 @@ define('Scene/BillboardCollection',[
         this._writeTextureCoordinatesAndImageSize(context, textureAtlasCoordinates, vafWriters, billboard);
     };
 
-    ///////////////////////////////////////////////////////////////////////////
-
-    BillboardCollection.prototype._syncMorphTime = function(mode) {
-        switch (mode) {
-        case SceneMode.SCENE3D:
-            this.morphTime = 1.0;
-            break;
-
-        case SceneMode.SCENE2D:
-        case SceneMode.COLUMBUS_VIEW:
-            this.morphTime = 0.0;
-            break;
-
-        // MORPHING - don't change it
-        }
-    };
-
     BillboardCollection.prototype._updateScene2D = function(projection, billboards) {
         var length = billboards.length;
 
@@ -29261,7 +30148,6 @@ define('Scene/BillboardCollection',[
     BillboardCollection.prototype._updateMode = function(sceneState) {
         var mode = sceneState.mode;
         var projection = sceneState.scene2D.projection;
-        this._syncMorphTime(mode);
 
         var billboards;
         var length;
@@ -29446,7 +30332,7 @@ define('Scene/BillboardCollection',[
 
         this._spPick = context.getShaderCache().getShaderProgram(
                 BillboardCollectionVS,
-                "#define RENDER_FOR_PICK 1\n" + BillboardCollectionFS,
+                '#define RENDER_FOR_PICK 1\n' + BillboardCollectionFS,
                 attributeIndices);
 
         this.updateForPick = function(context) {
@@ -29875,40 +30761,40 @@ define('Renderer/Context',[
     
 
     function _errorToString(gl, error) {
-        var message = "OpenGL Error:  ";
+        var message = 'OpenGL Error:  ';
         switch (error) {
         case gl.INVALID_ENUM:
-            message += "Invalid enumeration";
+            message += 'Invalid enumeration';
             break;
         case gl.INVALID_VALUE:
-            message += "Invalid value";
+            message += 'Invalid value';
             break;
         case gl.INVALID_OPERATION:
-            message += "Invalid operation";
+            message += 'Invalid operation';
             break;
         case gl.OUT_OF_MEMORY:
-            message += "Out of memory";
+            message += 'Out of memory';
             break;
         case gl.CONTEXT_LOST_WEBGL:
-            message += "Context lost";
+            message += 'Context lost';
             break;
         default:
-            message += "Unknown";
+            message += 'Unknown';
         }
 
         return message;
     }
 
     function _createErrorMessage(gl, glFunc, glFuncArguments, error) {
-        var message = _errorToString(gl, error) + ": " + glFunc.name + "(";
+        var message = _errorToString(gl, error) + ': ' + glFunc.name + '(';
 
         for ( var i = 0; i < glFuncArguments.length; ++i) {
             if (i !== 0) {
-                message += ", ";
+                message += ', ';
             }
             message += glFuncArguments[i];
         }
-        message += ");";
+        message += ');';
 
         return message;
     }
@@ -29944,7 +30830,7 @@ define('Renderer/Context',[
             var property = gl[propertyName];
 
             // wrap any functions we encounter, otherwise just copy the property to the wrapper.
-            if (typeof property === "function") {
+            if (typeof property === 'function') {
                 glWrapper[propertyName] = wrapFunction(property);
             } else {
                 glWrapper[propertyName] = property;
@@ -29966,11 +30852,11 @@ define('Renderer/Context',[
      */
     function Context(canvas, options) {
         if (!window.WebGLRenderingContext) {
-            throw new RuntimeError("The browser does not support WebGL.  Visit http://get.webgl.org.");
+            throw new RuntimeError('The browser does not support WebGL.  Visit http://get.webgl.org.');
         }
 
         if (!canvas) {
-            throw new DeveloperError("canvas is required.", "canvas");
+            throw new DeveloperError('canvas is required.');
         }
 
         this._canvas = canvas;
@@ -29985,10 +30871,10 @@ define('Renderer/Context',[
             options.alpha = false;
         }
 
-        this._originalGLContext = canvas.getContext("webgl", options) || canvas.getContext("experimental-webgl", options);
+        this._originalGLContext = canvas.getContext('webgl', options) || canvas.getContext('experimental-webgl', options);
 
         if (!this._originalGLContext) {
-            throw new RuntimeError("The browser supports WebGL, but initialization failed.");
+            throw new RuntimeError('The browser supports WebGL, but initialization failed.');
         }
 
         // Validation and logging disabled by default for speed.
@@ -30029,9 +30915,9 @@ define('Renderer/Context',[
         this._viewport = gl.getParameter(gl.VIEWPORT);
 
         // Query and initialize extensions
-        var textureFilterAnisotropic = gl.getExtension("WEBKIT_EXT_texture_filter_anisotropic") || gl.getExtension("MOZ_EXT_texture_filter_anisotropic");
+        var textureFilterAnisotropic = gl.getExtension('WEBKIT_EXT_texture_filter_anisotropic') || gl.getExtension('MOZ_EXT_texture_filter_anisotropic');
 
-        this._standardDerivatives = gl.getExtension("OES_standard_derivatives");
+        this._standardDerivatives = gl.getExtension('OES_standard_derivatives');
         this._textureFilterAnisotropic = textureFilterAnisotropic;
         this._maximumTextureFilterAnisotropy = textureFilterAnisotropic ? gl.getParameter(textureFilterAnisotropic.MAX_TEXTURE_MAX_ANISOTROPY_EXT) : 1.0;
 
@@ -30316,12 +31202,12 @@ define('Renderer/Context',[
      * });
      */
     Context.prototype.setViewport = function(viewport) {
-        if ((typeof viewport === "undefined") ||
-            (typeof viewport.x === "undefined") ||
-            (typeof viewport.y === "undefined") ||
-            (typeof viewport.width === "undefined") ||
-            (typeof viewport.height === "undefined")) {
-            throw new DeveloperError("A viewport with x, y, width, and height properties is required.", "viewport");
+        if ((typeof viewport === 'undefined') ||
+            (typeof viewport.x === 'undefined') ||
+            (typeof viewport.y === 'undefined') ||
+            (typeof viewport.width === 'undefined') ||
+            (typeof viewport.height === 'undefined')) {
+            throw new DeveloperError('A viewport with x, y, width, and height properties is required.');
         }
 
         var x = viewport.x;
@@ -30330,19 +31216,19 @@ define('Renderer/Context',[
         var h = viewport.height;
 
         if (w < 0) {
-            throw new DeveloperError("viewport.width must be greater than or equal to zero.", "viewport");
+            throw new DeveloperError('viewport.width must be greater than or equal to zero.');
         }
 
         if (w > this.getMaximumViewportWidth()) {
-            throw new RuntimeError("viewport.width must be less than or equal to the maximum viewport width (" + this.getMaximumViewportWidth().toString() + ").  Check getMaximumViewportWidth().", "viewport");
+            throw new RuntimeError('viewport.width must be less than or equal to the maximum viewport width (' + this.getMaximumViewportWidth().toString() + ').  Check getMaximumViewportWidth().');
         }
 
         if (h < 0) {
-            throw new DeveloperError("viewport.height must be greater than or equal to zero.", "viewport");
+            throw new DeveloperError('viewport.height must be greater than or equal to zero.');
         }
 
         if (h > this.getMaximumViewportHeight()) {
-            throw new RuntimeError("viewport.height must be less than or equal to the maximum viewport height (" + this.getMaximumViewportHeight().toString() + ").  Check getMaximumViewportHeight().", "viewport");
+            throw new RuntimeError('viewport.height must be less than or equal to the maximum viewport height (' + this.getMaximumViewportHeight().toString() + ').  Check getMaximumViewportHeight().');
         }
 
         var v = this._viewport;
@@ -30361,7 +31247,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {String} The WebGL version or release number.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml">glGetString</a> with <code>VERSION</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml'>glGetString</a> with <code>VERSION</code>.
      */
     Context.prototype.getVersion = function() {
         return this._version;
@@ -30373,7 +31259,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {String} The version or release number for the shading language.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml">glGetString</a> with <code>SHADING_LANGUAGE_VERSION</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml'>glGetString</a> with <code>SHADING_LANGUAGE_VERSION</code>.
      */
     Context.prototype.getShadingLanguageVersion = function() {
         return this._shadingLanguageVersion;
@@ -30385,7 +31271,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {String} The company responsible for the WebGL implementation.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml">glGetString</a> with <code>VENDOR</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml'>glGetString</a> with <code>VENDOR</code>.
      */
     Context.prototype.getVendor = function() {
         return this._vendor;
@@ -30393,15 +31279,15 @@ define('Renderer/Context',[
 
     /**
      * Returns the name of the renderer/configuration/hardware platform. For example, this may be the model of the
-     * video card, e.g., "GeForce 8800 GTS/PCI/SSE2", or the browser-dependent name of the GL implementation, e.g.
-     * "Mozilla" or "ANGLE."
+     * video card, e.g., 'GeForce 8800 GTS/PCI/SSE2', or the browser-dependent name of the GL implementation, e.g.
+     * 'Mozilla' or 'ANGLE.'
      *
      * @memberof Context
      *
      * @returns {String} The name of the renderer.
      *
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml">glGetString</a> with <code>RENDERER</code>.
-     * @see <a href="http://code.google.com/p/angleproject/">ANGLE</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetString.xml'>glGetString</a> with <code>RENDERER</code>.
+     * @see <a href='http://code.google.com/p/angleproject/'>ANGLE</a>
      */
     Context.prototype.getRenderer = function() {
         return this._renderer;
@@ -30413,7 +31299,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {Number} The number of red bits per component in the color buffer.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>RED_BITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>RED_BITS</code>.
      */
     Context.prototype.getRedBits = function() {
         return this._redBits;
@@ -30425,7 +31311,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {Number} The number of green bits per component in the color buffer.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>GREEN_BITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>GREEN_BITS</code>.
      */
     Context.prototype.getGreenBits = function() {
         return this._greenBits;
@@ -30437,7 +31323,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {Number} The number of blue bits per component in the color buffer.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>BLUE_BITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>BLUE_BITS</code>.
      */
     Context.prototype.getBlueBits = function() {
         return this._blueBits;
@@ -30452,7 +31338,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {Number} The number of alpha bits per component in the color buffer.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>ALPHA_BITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>ALPHA_BITS</code>.
      */
     Context.prototype.getAlphaBits = function() {
         return this._alphaBits;
@@ -30465,7 +31351,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {Number} The number of depth bits per pixel in the default bound framebuffer.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>DEPTH_BITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>DEPTH_BITS</code>.
      */
     Context.prototype.getDepthBits = function() {
         return this._depthBits;
@@ -30477,7 +31363,7 @@ define('Renderer/Context',[
      * @memberof Context
      *
      * @returns {Number} The number of stencil bits per pixel in the default bound framebuffer.
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>STENCIL_BITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>STENCIL_BITS</code>.
      */
     Context.prototype.getStencilBits = function() {
         return this._stencilBits;
@@ -30494,7 +31380,7 @@ define('Renderer/Context',[
      *
      * @see Context#getMaximumTextureImageUnits
      * @see Context#getMaximumVertexTextureImageUnits
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_COMBINED_TEXTURE_IMAGE_UNITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_COMBINED_TEXTURE_IMAGE_UNITS</code>.
      */
     Context.prototype.getMaximumCombinedTextureImageUnits = function() {
         return this._maximumCombinedTextureImageUnits;
@@ -30510,7 +31396,7 @@ define('Renderer/Context',[
      *
      * @see Context#createCubeMap
      * @see Context#getMaximumTextureSize
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_CUBE_MAP_TEXTURE_SIZE</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_CUBE_MAP_TEXTURE_SIZE</code>.
      */
     Context.prototype.getMaximumCubeMapSize = function() {
         return this._maximumCubeMapSize;
@@ -30525,7 +31411,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum number of <code>vec4</code>, <code>ivec4</code>, and <code>bvec4</code> uniforms that can be used by a fragment shader.
      *
      * @see Context#getMaximumVertexUniformVectors
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_FRAGMENT_UNIFORM_VECTORS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_FRAGMENT_UNIFORM_VECTORS</code>.
      */
     Context.prototype.getMaximumFragmentUniformVectors = function() {
         return this._maximumFragmentUniformVectors;
@@ -30540,7 +31426,7 @@ define('Renderer/Context',[
      *
      * @see Context#getMaximumCombinedTextureImageUnits
      * @see Context#getMaximumVertexTextureImageUnits
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_TEXTURE_IMAGE_UNITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_TEXTURE_IMAGE_UNITS</code>.
      */
     Context.prototype.getMaximumTextureImageUnits = function() {
         return this._maximumTextureImageUnits;
@@ -30555,7 +31441,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum renderbuffer width and height.
      *
      * @see Context#createRenderbuffer
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_RENDERBUFFER_SIZE</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_RENDERBUFFER_SIZE</code>.
      */
     Context.prototype.getMaximumRenderbufferSize = function() {
         return this._maximumRenderbufferSize;
@@ -30571,7 +31457,7 @@ define('Renderer/Context',[
      *
      * @see Context#createTexture2D
      * @see Context#getMaximumCubeMapSize
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_TEXTURE_SIZE</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_TEXTURE_SIZE</code>.
      */
     Context.prototype.getMaximumTextureSize = function() {
         return this._maximumTextureSize;
@@ -30585,7 +31471,7 @@ define('Renderer/Context',[
      *
      * @returns {Number} Returns the maximum number of <code>vec4</code> varying variables.
      *
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_VARYING_VECTORS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_VARYING_VECTORS</code>.
      */
     Context.prototype.getMaximumVaryingVectors = function() {
         return this._maximumVaryingVectors;
@@ -30599,7 +31485,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum number of <code>vec4</code> vertex attributes.
      *
      * @see Context#createVertexArray
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_VERTEX_ATTRIBS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_VERTEX_ATTRIBS</code>.
      */
     Context.prototype.getMaximumVertexAttributes = function() {
         return this._maximumVertexAttributes;
@@ -30615,7 +31501,7 @@ define('Renderer/Context',[
      *
      * @see Context#getMaximumCombinedTextureImageUnits
      * @see Context#getMaximumTextureImageUnits
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_VERTEX_TEXTURE_IMAGE_UNITS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_VERTEX_TEXTURE_IMAGE_UNITS</code>.
      */
     Context.prototype.getMaximumVertexTextureImageUnits = function() {
         return this._maximumVertexTextureImageUnits;
@@ -30630,7 +31516,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum number of <code>vec4</code>, <code>ivec4</code>, and <code>bvec4</code> uniforms that can be used by a vertex shader.
      *
      * @see Context#getMaximumFragmentUniformVectors
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_VERTEX_UNIFORM_VECTORS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_VERTEX_UNIFORM_VECTORS</code>.
      */
     Context.prototype.getMaximumVertexUniformVectors = function() {
         return this._maximumVertexUniformVectors;
@@ -30644,7 +31530,7 @@ define('Renderer/Context',[
      * @returns {Number} The minimum aliased line in pixels.
      *
      * @see Context#getMaximumAliasedLineWidth
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>ALIASED_LINE_WIDTH_RANGE</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>ALIASED_LINE_WIDTH_RANGE</code>.
      */
     Context.prototype.getMinimumAliasedLineWidth = function() {
         return this._aliasedLineWidthRange[0];
@@ -30658,7 +31544,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum aliased line in pixels.
      *
      * @see Context#getMinimumAliasedLineWidth
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>ALIASED_LINE_WIDTH_RANGE</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>ALIASED_LINE_WIDTH_RANGE</code>.
      */
     Context.prototype.getMaximumAliasedLineWidth = function() {
         return this._aliasedLineWidthRange[1];
@@ -30672,7 +31558,7 @@ define('Renderer/Context',[
      * @returns {Number} The minimum aliased point size in pixels.
      *
      * @see Context#getMaximumAliasedPointSize
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>ALIASED_POINT_SIZE_RANGE</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>ALIASED_POINT_SIZE_RANGE</code>.
      */
     Context.prototype.getMinimumAliasedPointSize = function() {
         return this._aliasedPointSizeRange[0];
@@ -30686,7 +31572,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum aliased point size in pixels.
      *
      * @see Context#getMinimumAliasedPointSize
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>ALIASED_POINT_SIZE_RANGE</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>ALIASED_POINT_SIZE_RANGE</code>.
      */
     Context.prototype.getMaximumAliasedPointSize = function() {
         return this._aliasedPointSizeRange[1];
@@ -30700,7 +31586,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum supported width of the viewport.
      *
      * @see Context#getMaximumViewportHeight
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_VIEWPORT_DIMS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_VIEWPORT_DIMS</code>.
      */
     Context.prototype.getMaximumViewportWidth = function() {
         return this._maximumViewportDimensions[0];
@@ -30714,7 +31600,7 @@ define('Renderer/Context',[
      * @returns {Number} The maximum supported height of the viewport.
      *
      * @see Context#getMaximumViewportHeight
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml">glGet</a> with <code>MAX_VIEWPORT_DIMS</code>.
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGet.xml'>glGet</a> with <code>MAX_VIEWPORT_DIMS</code>.
      */
     Context.prototype.getMaximumViewportHeight = function() {
         return this._maximumViewportDimensions[1];
@@ -30730,7 +31616,7 @@ define('Renderer/Context',[
      *
      * @returns {Boolean} <code>true</code> if OES_standard_derivatives is supported; otherwise, <code>false</code>.
      *
-     * @see <a href="http://www.khronos.org/registry/gles/extensions/OES/OES_standard_derivatives.txt">OES_standard_derivatives</a>
+     * @see <a href='http://www.khronos.org/registry/gles/extensions/OES/OES_standard_derivatives.txt'>OES_standard_derivatives</a>
      */
     Context.prototype.getStandardDerivatives = function() {
         return !!this._standardDerivatives;
@@ -30743,7 +31629,7 @@ define('Renderer/Context',[
      *
      * @returns {Boolean} <code>true</code> if EXT_texture_filter_anisotropic is supported; otherwise, <code>false</code>.
      *
-     * @see <a href="http://www.khronos.org/registry/webgl/extensions/EXT_texture_filter_anisotropic/">EXT_texture_filter_anisotropic</a>
+     * @see <a href='http://www.khronos.org/registry/webgl/extensions/EXT_texture_filter_anisotropic/'>EXT_texture_filter_anisotropic</a>
      */
     Context.prototype.getTextureFilterAnisotropic = function() {
         return !!this._textureFilterAnisotropic;
@@ -30886,34 +31772,34 @@ define('Renderer/Context',[
      * @see Context#draw
      * @see Context#createVertexArray
      * @see Context#getShaderCache
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glCreateShader.xml">glCreateShader</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glShaderSource.xml">glShaderSource</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glCompileShader.xml">glCompileShader</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glCreateProgram.xml">glCreateProgram</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glAttachShader.xml">glAttachShader</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glLinkProgram.xml">glLinkProgram</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetShaderiv.xml">glGetShaderiv</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetActiveUniform.xml">glGetActiveUniform</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetUniformLocation.xml">glGetUniformLocation</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetUniform.xml">glGetUniform</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glBindAttribLocation.xml">glBindAttribLocation</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetActiveAttrib.xml">glGetActiveAttrib</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetAttribLocation.xml">glGetAttribLocation</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glCreateShader.xml'>glCreateShader</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glShaderSource.xml'>glShaderSource</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glCompileShader.xml'>glCompileShader</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glCreateProgram.xml'>glCreateProgram</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glAttachShader.xml'>glAttachShader</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glLinkProgram.xml'>glLinkProgram</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetShaderiv.xml'>glGetShaderiv</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetActiveUniform.xml'>glGetActiveUniform</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetUniformLocation.xml'>glGetUniformLocation</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetUniform.xml'>glGetUniform</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glBindAttribLocation.xml'>glBindAttribLocation</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetActiveAttrib.xml'>glGetActiveAttrib</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGetAttribLocation.xml'>glGetAttribLocation</a>
      *
      * @example
      * // Example 1. Create a shader program allowing the GL to determine
      * // attribute indices.
-     * var vs = "attribute vec4 position; void main() { gl_Position = position; }";
-     * var fs = "void main() { gl_FragColor = vec4(1.0); }";
+     * var vs = 'attribute vec4 position; void main() { gl_Position = position; }';
+     * var fs = 'void main() { gl_FragColor = vec4(1.0); }';
      * var sp = context.createShaderProgram(vs, fs);
      *
      * ////////////////////////////////////////////////////////////////////////////////
      *
      * // Example 2. Create a shader program with explicit attribute indices.
-     * var vs = "attribute vec4 position;" +
-     *          "attribute vec3 normal;" +
-     *          "void main() { ... }";
-     * var fs = "void main() { gl_FragColor = vec4(1.0); }";
+     * var vs = 'attribute vec4 position;' +
+     *          'attribute vec3 normal;' +
+     *          'void main() { ... }';
+     * var fs = 'void main() { gl_FragColor = vec4(1.0); }';
      * var attributes = {
      *     position : 0,
      *     normal   : 1
@@ -30927,18 +31813,18 @@ define('Renderer/Context',[
     Context.prototype._createBuffer = function(gl, bufferTarget, arrayViewOrSizeInBytes, usage) {
         var sizeInBytes;
 
-        if (typeof arrayViewOrSizeInBytes === "object") {
+        if (typeof arrayViewOrSizeInBytes === 'object') {
             sizeInBytes = arrayViewOrSizeInBytes.byteLength;
         } else {
             sizeInBytes = arrayViewOrSizeInBytes;
         }
 
         if (sizeInBytes <= 0) {
-            throw new DeveloperError("The size in bytes must be greater than zero.", "arrayViewOrSizeInBytes");
+            throw new DeveloperError('arrayViewOrSizeInBytes must be greater than zero.');
         }
 
         if (!BufferUsage.validate(usage)) {
-            throw new DeveloperError("Invalid usage.", "usage");
+            throw new DeveloperError('usage is invalid');
         }
 
         var buffer = gl.createBuffer();
@@ -30967,9 +31853,9 @@ define('Renderer/Context',[
      *
      * @see Context#createVertexArray
      * @see Context#createIndexBuffer
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGenBuffer.xml">glGenBuffer</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glBindBuffer.xml">glBindBuffer</a> with <code>ARRAY_BUFFER</code>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glBufferData.xml">glBufferData</a> with <code>ARRAY_BUFFER</code>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGenBuffer.xml'>glGenBuffer</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glBindBuffer.xml'>glBindBuffer</a> with <code>ARRAY_BUFFER</code>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glBufferData.xml'>glBufferData</a> with <code>ARRAY_BUFFER</code>
      *
      * @example
      * // Example 1. Create a dynamic vertex buffer 16 bytes in size.
@@ -31010,9 +31896,9 @@ define('Renderer/Context',[
      * @see Context#createVertexBuffer
      * @see Context#draw
      * @see VertexArray
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glGenBuffer.xml">glGenBuffer</a>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glBindBuffer.xml">glBindBuffer</a> with <code>ELEMENT_ARRAY_BUFFER</code>
-     * @see <a href="http://www.khronos.org/opengles/sdk/2.0/docs/man/glBufferData.xml">glBufferData</a> with <code>ELEMENT_ARRAY_BUFFER</code>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glGenBuffer.xml'>glGenBuffer</a>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glBindBuffer.xml'>glBindBuffer</a> with <code>ELEMENT_ARRAY_BUFFER</code>
+     * @see <a href='http://www.khronos.org/opengles/sdk/2.0/docs/man/glBufferData.xml'>glBufferData</a> with <code>ELEMENT_ARRAY_BUFFER</code>
      *
      * @example
      * // Example 1. Create a stream index buffer of unsigned shorts that is
@@ -31035,7 +31921,7 @@ define('Renderer/Context',[
         } else if (indexDatatype === IndexDatatype.UNSIGNED_SHORT) {
             bytesPerIndex = Uint16Array.BYTES_PER_ELEMENT;
         } else {
-            throw new DeveloperError("Invalid indexDatatype.", "indexDatatype");
+            throw new DeveloperError('Invalid indexDatatype.');
         }
 
         var buffer = this._createBuffer(gl, gl.ELEMENT_ARRAY_BUFFER, arrayViewOrSizeInBytes, usage);
@@ -31170,41 +32056,41 @@ define('Renderer/Context',[
      */
     Context.prototype.createTexture2D = function(description) {
         if (!description) {
-            throw new DeveloperError("description is required.", "description");
+            throw new DeveloperError('description is required.');
         }
 
         var source = description.source;
         var width = typeof source !== 'undefined' ? source.width : description.width;
         var height = typeof source !== 'undefined' ? source.height : description.height;
 
-        if (typeof width === "undefined" || typeof height === "undefined") {
-            throw new DeveloperError("description requires a source field to create an initialized texture or width and height fields to create a blank texture.", "description");
+        if (typeof width === 'undefined' || typeof height === 'undefined') {
+            throw new DeveloperError('description requires a source field to create an initialized texture or width and height fields to create a blank texture.');
         }
 
         if (width <= 0) {
-            throw new DeveloperError("Width must be greater than zero.", "description");
+            throw new DeveloperError('Width must be greater than zero.');
         }
 
         if (width > this._maximumTextureSize) {
-            throw new DeveloperError("Width must be less than or equal to the maximum texture size (" + this._maximumTextureSize + ").  Check getMaximumTextureSize().", "description");
+            throw new DeveloperError('Width must be less than or equal to the maximum texture size (' + this._maximumTextureSize + ').  Check getMaximumTextureSize().');
         }
 
         if (height <= 0) {
-            throw new DeveloperError("Height must be greater than zero.", "description");
+            throw new DeveloperError('Height must be greater than zero.');
         }
 
         if (height > this._maximumTextureSize) {
-            throw new DeveloperError("Height must be less than or equal to the maximum texture size (" + this._maximumTextureSize + ").  Check getMaximumTextureSize().", "description");
+            throw new DeveloperError('Height must be less than or equal to the maximum texture size (' + this._maximumTextureSize + ').  Check getMaximumTextureSize().');
         }
 
         var pixelFormat = description.pixelFormat || PixelFormat.RGBA;
         if (!PixelFormat.validate(pixelFormat)) {
-            throw new DeveloperError("Invalid description.pixelFormat.", "description");
+            throw new DeveloperError('Invalid description.pixelFormat.');
         }
 
         var pixelDatatype = description.pixelDatatype || PixelDatatype.UNSIGNED_BYTE;
         if (!PixelDatatype.validate(pixelDatatype)) {
-            throw new DeveloperError("Invalid description.pixelDatatype.", "description");
+            throw new DeveloperError('Invalid description.pixelDatatype.');
         }
 
         // Use premultiplied alpha for opaque textures should perform better on Chrome:
@@ -31263,23 +32149,23 @@ define('Renderer/Context',[
     Context.prototype.createTexture2DFromFramebuffer = function(pixelFormat, framebufferXOffset, framebufferYOffset, width, height) {
         pixelFormat = pixelFormat || PixelFormat.RGB;
         if (!PixelFormat.validate(pixelFormat)) {
-            throw new DeveloperError("Invalid pixelFormat.", "pixelFormat");
+            throw new DeveloperError('Invalid pixelFormat.');
         }
 
         if (framebufferXOffset < 0) {
-            throw new DeveloperError("framebufferXOffset must be greater than or equal to zero.", "framebufferXOffset");
+            throw new DeveloperError('framebufferXOffset must be greater than or equal to zero.');
         }
 
         if (framebufferYOffset < 0) {
-            throw new DeveloperError("framebufferYOffset must be greater than or equal to zero.", "framebufferYOffset");
+            throw new DeveloperError('framebufferYOffset must be greater than or equal to zero.');
         }
 
         if (framebufferXOffset + width > this._canvas.clientWidth) {
-            throw new DeveloperError("framebufferXOffset + width must be less than or equal to getCanvas().clientWidth");
+            throw new DeveloperError('framebufferXOffset + width must be less than or equal to getCanvas().clientWidth');
         }
 
         if (framebufferYOffset + height > this._canvas.clientHeight) {
-            throw new DeveloperError("framebufferYOffset + height must be less than or equal to getCanvas().clientHeight.");
+            throw new DeveloperError('framebufferYOffset + height must be less than or equal to getCanvas().clientHeight.');
         }
 
         framebufferXOffset = framebufferXOffset || 0;
@@ -31331,7 +32217,7 @@ define('Renderer/Context',[
      */
     Context.prototype.createCubeMap = function(description) {
         if (!description) {
-            throw new DeveloperError("description is required.", "description");
+            throw new DeveloperError('description is required.');
         }
 
         var source = description.source;
@@ -31342,7 +32228,7 @@ define('Renderer/Context',[
             var faces = [source.positiveX, source.negativeX, source.positiveY, source.negativeY, source.positiveZ, source.negativeZ];
 
             if (!faces[0] || !faces[1] || !faces[2] || !faces[3] || !faces[4] || !faces[5]) {
-                throw new DeveloperError("description.source requires positiveX, negativeX, positiveY, negativeY, positiveZ, and negativeZ faces.", "description");
+                throw new DeveloperError('description.source requires positiveX, negativeX, positiveY, negativeY, positiveZ, and negativeZ faces.');
             }
 
             width = faces[0].width;
@@ -31350,7 +32236,7 @@ define('Renderer/Context',[
 
             for ( var i = 1; i < 6; ++i) {
                 if ((Number(faces[i].width) !== width) || (Number(faces[i].height) !== height)) {
-                    throw new DeveloperError("Each face in description.source must have the same width and height.", "description");
+                    throw new DeveloperError('Each face in description.source must have the same width and height.');
                 }
             }
         } else {
@@ -31358,32 +32244,32 @@ define('Renderer/Context',[
             height = description.height;
         }
 
-        if (typeof width === "undefined" || typeof height === "undefined") {
-            throw new DeveloperError("description requires a source field to create an initialized cube map or width and height fields to create a blank cube map.", "description");
+        if (typeof width === 'undefined' || typeof height === 'undefined') {
+            throw new DeveloperError('description requires a source field to create an initialized cube map or width and height fields to create a blank cube map.');
         }
 
         if (width !== height) {
-            throw new DeveloperError("Width must equal height.", "description");
+            throw new DeveloperError('Width must equal height.');
         }
 
         var size = width;
 
         if (size <= 0) {
-            throw new DeveloperError("Width and height must be greater than zero.", "description");
+            throw new DeveloperError('Width and height must be greater than zero.');
         }
 
         if (size > this._maximumCubeMapSize) {
-            throw new DeveloperError("Width and height must be less than or equal to the maximum cube map size (" + this._maximumCubeMapSize + ").  Check getMaximumCubeMapSize().", "description");
+            throw new DeveloperError('Width and height must be less than or equal to the maximum cube map size (' + this._maximumCubeMapSize + ').  Check getMaximumCubeMapSize().');
         }
 
         var pixelFormat = description.pixelFormat || PixelFormat.RGBA;
         if (!PixelFormat.validate(pixelFormat)) {
-            throw new DeveloperError("Invalid description.pixelFormat.", "description");
+            throw new DeveloperError('Invalid description.pixelFormat.');
         }
 
         var pixelDatatype = description.pixelDatatype || PixelDatatype.UNSIGNED_BYTE;
         if (!PixelDatatype.validate(pixelDatatype)) {
-            throw new DeveloperError("Invalid description.pixelDatatype.", "description");
+            throw new DeveloperError('Invalid description.pixelDatatype.');
         }
 
         // Use premultiplied alpha for opaque textures should perform better on Chrome:
@@ -31448,15 +32334,15 @@ define('Renderer/Context',[
     Context.prototype.createFramebuffer = function(description) {
         if (description) {
             if (description.depthRenderbuffer && description.depthStencilRenderbuffer) {
-                throw new DeveloperError("Cannot have both a depth and depth-stencil attachment.", "description");
+                throw new DeveloperError('Cannot have both a depth and depth-stencil attachment.');
             }
 
             if (description.stencilRenderbuffer && description.depthStencilRenderbuffer) {
-                throw new DeveloperError("Cannot have both a stencil and depth-stencil attachment.", "description");
+                throw new DeveloperError('Cannot have both a stencil and depth-stencil attachment.');
             }
 
             if (description.depthRenderbuffer && description.stencilRenderbuffer) {
-                throw new DeveloperError("Cannot have both a depth and stencil attachment.", "description");
+                throw new DeveloperError('Cannot have both a depth and stencil attachment.');
             }
         }
         return new Framebuffer(this._gl, description);
@@ -31482,29 +32368,29 @@ define('Renderer/Context',[
     Context.prototype.createRenderbuffer = function(description) {
         description = description || {};
         var format = description.format || RenderbufferFormat.RGBA4;
-        var width = (typeof description.width === "undefined") ? this._canvas.clientWidth : description.width;
-        var height = (typeof description.height === "undefined") ? this._canvas.clientHeight : description.height;
+        var width = (typeof description.width === 'undefined') ? this._canvas.clientWidth : description.width;
+        var height = (typeof description.height === 'undefined') ? this._canvas.clientHeight : description.height;
 
 
         var gl = this._gl;
         if (!RenderbufferFormat.validate(format)) {
-            throw new DeveloperError("Invalid format.", "description");
+            throw new DeveloperError('Invalid format.');
         }
 
         if (width <= 0) {
-            throw new DeveloperError("Width must be greater than zero.", "description");
+            throw new DeveloperError('Width must be greater than zero.');
         }
 
         if (width > this.getMaximumRenderbufferSize()) {
-            throw new DeveloperError("Width must be less than or equal to the maximum renderbuffer size (" + this.getMaximumRenderbufferSize() + ").  Check getMaximumRenderbufferSize().", "description");
+            throw new DeveloperError('Width must be less than or equal to the maximum renderbuffer size (' + this.getMaximumRenderbufferSize() + ').  Check getMaximumRenderbufferSize().');
         }
 
         if (height <= 0) {
-            throw new DeveloperError("Height must be greater than zero.", "description");
+            throw new DeveloperError('Height must be greater than zero.');
         }
 
         if (height > this.getMaximumRenderbufferSize()) {
-            throw new DeveloperError("Height must be less than or equal to the maximum renderbuffer size (" + this.getMaximumRenderbufferSize() + ").  Check getMaximumRenderbufferSize().", "description");
+            throw new DeveloperError('Height must be less than or equal to the maximum renderbuffer size (' + this.getMaximumRenderbufferSize() + ').  Check getMaximumRenderbufferSize().');
         }
 
         return new Renderbuffer(gl, format, width, height);
@@ -31558,122 +32444,122 @@ define('Renderer/Context',[
         var sampleCoverage = rs.sampleCoverage || {};
 
         var r = {
-            frontFace : (typeof rs.frontFace === "undefined") ? WindingOrder.COUNTER_CLOCKWISE : rs.frontFace,
+            frontFace : (typeof rs.frontFace === 'undefined') ? WindingOrder.COUNTER_CLOCKWISE : rs.frontFace,
             cull : {
-                enabled : (typeof cull.enabled === "undefined") ? false : cull.enabled,
-                face : (typeof cull.face === "undefined") ? CullFace.BACK : cull.face
+                enabled : (typeof cull.enabled === 'undefined') ? false : cull.enabled,
+                face : (typeof cull.face === 'undefined') ? CullFace.BACK : cull.face
             },
-            lineWidth : (typeof rs.lineWidth === "undefined") ? 1 : rs.lineWidth,
+            lineWidth : (typeof rs.lineWidth === 'undefined') ? 1 : rs.lineWidth,
             polygonOffset : {
-                enabled : (typeof polygonOffset.enabled === "undefined") ? false : polygonOffset.enabled,
-                factor : (typeof polygonOffset.factor === "undefined") ? 0 : polygonOffset.factor,
-                units : (typeof polygonOffset.units === "undefined") ? 0 : polygonOffset.units
+                enabled : (typeof polygonOffset.enabled === 'undefined') ? false : polygonOffset.enabled,
+                factor : (typeof polygonOffset.factor === 'undefined') ? 0 : polygonOffset.factor,
+                units : (typeof polygonOffset.units === 'undefined') ? 0 : polygonOffset.units
             },
             scissorTest : {
-                enabled : (typeof scissorTest.enabled === "undefined") ? false : scissorTest.enabled,
+                enabled : (typeof scissorTest.enabled === 'undefined') ? false : scissorTest.enabled,
                 rectangle : {
-                    x : (typeof scissorTestRectangle.x === "undefined") ? 0 : scissorTestRectangle.x,
-                    y : (typeof scissorTestRectangle.y === "undefined") ? 0 : scissorTestRectangle.y,
-                    width : (typeof scissorTestRectangle.width === "undefined") ? 0 : scissorTestRectangle.width,
-                    height : (typeof scissorTestRectangle.height === "undefined") ? 0 : scissorTestRectangle.height
+                    x : (typeof scissorTestRectangle.x === 'undefined') ? 0 : scissorTestRectangle.x,
+                    y : (typeof scissorTestRectangle.y === 'undefined') ? 0 : scissorTestRectangle.y,
+                    width : (typeof scissorTestRectangle.width === 'undefined') ? 0 : scissorTestRectangle.width,
+                    height : (typeof scissorTestRectangle.height === 'undefined') ? 0 : scissorTestRectangle.height
                 }
             },
             depthRange : {
-                near : (typeof depthRange.near === "undefined") ? 0 : depthRange.near,
-                far : (typeof depthRange.far === "undefined") ? 1 : depthRange.far
+                near : (typeof depthRange.near === 'undefined') ? 0 : depthRange.near,
+                far : (typeof depthRange.far === 'undefined') ? 1 : depthRange.far
             },
             depthTest : {
-                enabled : (typeof depthTest.enabled === "undefined") ? false : depthTest.enabled,
-                func : (typeof depthTest.func === "undefined") ? DepthFunction.LESS : depthTest.func // func, because function is a JavaScript keyword
+                enabled : (typeof depthTest.enabled === 'undefined') ? false : depthTest.enabled,
+                func : (typeof depthTest.func === 'undefined') ? DepthFunction.LESS : depthTest.func // func, because function is a JavaScript keyword
             },
             colorMask : {
-                red : (typeof colorMask.red === "undefined") ? true : colorMask.red,
-                green : (typeof colorMask.green === "undefined") ? true : colorMask.green,
-                blue : (typeof colorMask.blue === "undefined") ? true : colorMask.blue,
-                alpha : (typeof colorMask.alpha === "undefined") ? true : colorMask.alpha
+                red : (typeof colorMask.red === 'undefined') ? true : colorMask.red,
+                green : (typeof colorMask.green === 'undefined') ? true : colorMask.green,
+                blue : (typeof colorMask.blue === 'undefined') ? true : colorMask.blue,
+                alpha : (typeof colorMask.alpha === 'undefined') ? true : colorMask.alpha
             },
-            depthMask : (typeof rs.depthMask === "undefined") ? true : rs.depthMask,
-            stencilMask : (typeof rs.stencilMask === "undefined") ? ~0 : rs.stencilMask,
+            depthMask : (typeof rs.depthMask === 'undefined') ? true : rs.depthMask,
+            stencilMask : (typeof rs.stencilMask === 'undefined') ? ~0 : rs.stencilMask,
             blending : {
-                enabled : (typeof blending.enabled === "undefined") ? false : blending.enabled,
+                enabled : (typeof blending.enabled === 'undefined') ? false : blending.enabled,
                 color : {
-                    red : (typeof blendingColor.red === "undefined") ? 0 : blendingColor.red,
-                    green : (typeof blendingColor.green === "undefined") ? 0 : blendingColor.green,
-                    blue : (typeof blendingColor.blue === "undefined") ? 0 : blendingColor.blue,
-                    alpha : (typeof blendingColor.alpha === "undefined") ? 0 : blendingColor.alpha
+                    red : (typeof blendingColor.red === 'undefined') ? 0 : blendingColor.red,
+                    green : (typeof blendingColor.green === 'undefined') ? 0 : blendingColor.green,
+                    blue : (typeof blendingColor.blue === 'undefined') ? 0 : blendingColor.blue,
+                    alpha : (typeof blendingColor.alpha === 'undefined') ? 0 : blendingColor.alpha
                 },
-                equationRgb : (typeof blending.equationRgb === "undefined") ? BlendEquation.ADD : blending.equationRgb,
-                equationAlpha : (typeof blending.equationAlpha === "undefined") ? BlendEquation.ADD : blending.equationAlpha,
-                functionSourceRgb : (typeof blending.functionSourceRgb === "undefined") ? BlendFunction.ONE : blending.functionSourceRgb,
-                functionSourceAlpha : (typeof blending.functionSourceAlpha === "undefined") ? BlendFunction.ONE : blending.functionSourceAlpha,
-                functionDestinationRgb : (typeof blending.functionDestinationRgb === "undefined") ? BlendFunction.ZERO : blending.functionDestinationRgb,
-                functionDestinationAlpha : (typeof blending.functionDestinationAlpha === "undefined") ? BlendFunction.ZERO : blending.functionDestinationAlpha
+                equationRgb : (typeof blending.equationRgb === 'undefined') ? BlendEquation.ADD : blending.equationRgb,
+                equationAlpha : (typeof blending.equationAlpha === 'undefined') ? BlendEquation.ADD : blending.equationAlpha,
+                functionSourceRgb : (typeof blending.functionSourceRgb === 'undefined') ? BlendFunction.ONE : blending.functionSourceRgb,
+                functionSourceAlpha : (typeof blending.functionSourceAlpha === 'undefined') ? BlendFunction.ONE : blending.functionSourceAlpha,
+                functionDestinationRgb : (typeof blending.functionDestinationRgb === 'undefined') ? BlendFunction.ZERO : blending.functionDestinationRgb,
+                functionDestinationAlpha : (typeof blending.functionDestinationAlpha === 'undefined') ? BlendFunction.ZERO : blending.functionDestinationAlpha
             },
             stencilTest : {
-                enabled : (typeof stencilTest.enabled === "undefined") ? false : stencilTest.enabled,
-                frontFunction : (typeof stencilTest.frontFunction === "undefined") ? StencilFunction.ALWAYS : stencilTest.frontFunction,
-                backFunction : (typeof stencilTest.backFunction === "undefined") ? StencilFunction.ALWAYS : stencilTest.backFunction,
-                reference : (typeof stencilTest.reference === "undefined") ? 0 : stencilTest.reference,
-                mask : (typeof stencilTest.mask === "undefined") ? ~0 : stencilTest.mask,
+                enabled : (typeof stencilTest.enabled === 'undefined') ? false : stencilTest.enabled,
+                frontFunction : (typeof stencilTest.frontFunction === 'undefined') ? StencilFunction.ALWAYS : stencilTest.frontFunction,
+                backFunction : (typeof stencilTest.backFunction === 'undefined') ? StencilFunction.ALWAYS : stencilTest.backFunction,
+                reference : (typeof stencilTest.reference === 'undefined') ? 0 : stencilTest.reference,
+                mask : (typeof stencilTest.mask === 'undefined') ? ~0 : stencilTest.mask,
                 frontOperation : {
-                    fail : (typeof stencilTestFrontOperation.fail === "undefined") ? StencilOperation.KEEP : stencilTestFrontOperation.fail,
-                    zFail : (typeof stencilTestFrontOperation.zFail === "undefined") ? StencilOperation.KEEP : stencilTestFrontOperation.zFail,
-                    zPass : (typeof stencilTestFrontOperation.zPass === "undefined") ? StencilOperation.KEEP : stencilTestFrontOperation.zPass
+                    fail : (typeof stencilTestFrontOperation.fail === 'undefined') ? StencilOperation.KEEP : stencilTestFrontOperation.fail,
+                    zFail : (typeof stencilTestFrontOperation.zFail === 'undefined') ? StencilOperation.KEEP : stencilTestFrontOperation.zFail,
+                    zPass : (typeof stencilTestFrontOperation.zPass === 'undefined') ? StencilOperation.KEEP : stencilTestFrontOperation.zPass
                 },
                 backOperation : {
-                    fail : (typeof stencilTestBackOperation.fail === "undefined") ? StencilOperation.KEEP : stencilTestBackOperation.fail,
-                    zFail : (typeof stencilTestBackOperation.zFail === "undefined") ? StencilOperation.KEEP : stencilTestBackOperation.zFail,
-                    zPass : (typeof stencilTestBackOperation.zPass === "undefined") ? StencilOperation.KEEP : stencilTestBackOperation.zPass
+                    fail : (typeof stencilTestBackOperation.fail === 'undefined') ? StencilOperation.KEEP : stencilTestBackOperation.fail,
+                    zFail : (typeof stencilTestBackOperation.zFail === 'undefined') ? StencilOperation.KEEP : stencilTestBackOperation.zFail,
+                    zPass : (typeof stencilTestBackOperation.zPass === 'undefined') ? StencilOperation.KEEP : stencilTestBackOperation.zPass
                 }
             },
             // TODO:  Also need point_size and point_size_enable for ColladaFX
             // TODO:  Also need sample_alpha_to_coverage_enable for ColladaFX
             sampleCoverage : {
-                enabled : (typeof sampleCoverage.enabled === "undefined") ? false : sampleCoverage.enabled,
-                value : (typeof sampleCoverage.value === "undefined") ? 1.0 : sampleCoverage.value,
-                invert : (typeof sampleCoverage.invert === "undefined") ? false : sampleCoverage.invert
+                enabled : (typeof sampleCoverage.enabled === 'undefined') ? false : sampleCoverage.enabled,
+                value : (typeof sampleCoverage.value === 'undefined') ? 1.0 : sampleCoverage.value,
+                invert : (typeof sampleCoverage.invert === 'undefined') ? false : sampleCoverage.invert
             },
-            dither : (typeof rs.dither === "undefined") ? true : rs.dither
+            dither : (typeof rs.dither === 'undefined') ? true : rs.dither
         };
 
         // Validate
 
         if (!WindingOrder.validate(r.frontFace)) {
-            throw new DeveloperError("Invalid renderState.frontFace.", "renderState");
+            throw new DeveloperError('Invalid renderState.frontFace.');
         }
 
         if (!CullFace.validate(r.cull.face)) {
-            throw new DeveloperError("Invalid renderState.cull.face.", "renderState");
+            throw new DeveloperError('Invalid renderState.cull.face.');
         }
 
         if ((r.lineWidth < this._aliasedLineWidthRange[0]) ||
             (r.lineWidth > this._aliasedLineWidthRange[1])) {
-            throw new RuntimeError("renderState.lineWidth is out of range.  Check getMinimumAliasedLineWidth() and getMaximumAliasedLineWidth().", "renderState");
+            throw new RuntimeError('renderState.lineWidth is out of range.  Check getMinimumAliasedLineWidth() and getMaximumAliasedLineWidth().');
         }
 
         if ((r.scissorTest.rectangle.width < 0) ||
             (r.scissorTest.rectangle.height < 0)) {
-            throw new DeveloperError("renderState.scissorTest.rectangle.width and renderState.scissorTest.rectangle.height must be greater than or equal to zero.", "renderState");
+            throw new DeveloperError('renderState.scissorTest.rectangle.width and renderState.scissorTest.rectangle.height must be greater than or equal to zero.');
         }
 
         if (r.depthRange.near > r.depthRange.far) {
             // WebGL specific - not an error in GL ES
-            throw new DeveloperError("renderState.depthRange.near can't be greater than renderState.depthRange.far.", "renderState");
+            throw new DeveloperError('renderState.depthRange.near can not be greater than renderState.depthRange.far.');
         }
 
         if (r.depthRange.near < 0) {
             // Would be clamped by GL
-            throw new DeveloperError("renderState.depthRange.near must be greater than or equal to zero.", "renderState");
+            throw new DeveloperError('renderState.depthRange.near must be greater than or equal to zero.');
         }
 
         if (r.depthRange.far > 1) {
             // Would be clamped by GL
-            throw new DeveloperError("renderState.depthRange.far must be less than or equal to one.", "renderState");
+            throw new DeveloperError('renderState.depthRange.far must be less than or equal to one.');
         }
 
 
         if (!DepthFunction.validate(r.depthTest.func)) {
-            throw new DeveloperError("Invalid renderState.depthTest.func.", "renderState");
+            throw new DeveloperError('Invalid renderState.depthTest.func.');
         }
 
         if ((r.blending.color.red < 0.0) || (r.blending.color.red > 1.0) ||
@@ -31681,63 +32567,63 @@ define('Renderer/Context',[
             (r.blending.color.blue < 0.0) || (r.blending.color.blue > 1.0) ||
             (r.blending.color.alpha < 0.0) || (r.blending.color.alpha > 1.0)) {
             // Would be clamped by GL
-            throw new DeveloperError("renderState.blending.color components must be greater than or equal to zero and less than or equal to one.", "renderState");
+            throw new DeveloperError('renderState.blending.color components must be greater than or equal to zero and less than or equal to one.');
         }
 
         if (!BlendEquation.validate(r.blending.equationRgb)) {
-            throw new DeveloperError("Invalid renderState.blending.equationRgb.", "renderState");
+            throw new DeveloperError('Invalid renderState.blending.equationRgb.');
         }
 
         if (!BlendEquation.validate(r.blending.equationAlpha)) {
-            throw new DeveloperError("Invalid renderState.blending.equationAlpha.", "renderState");
+            throw new DeveloperError('Invalid renderState.blending.equationAlpha.');
         }
 
         if (!BlendFunction.validate(r.blending.functionSourceRgb)) {
-            throw new DeveloperError("Invalid renderState.blending.functionSourceRgb.", "renderState");
+            throw new DeveloperError('Invalid renderState.blending.functionSourceRgb.');
         }
 
         if (!BlendFunction.validate(r.blending.functionSourceAlpha)) {
-            throw new DeveloperError("Invalid renderState.blending.functionSourceAlpha.", "renderState");
+            throw new DeveloperError('Invalid renderState.blending.functionSourceAlpha.');
         }
 
         if (!BlendFunction.validate(r.blending.functionDestinationRgb)) {
-            throw new DeveloperError("Invalid renderState.blending.functionDestinationRgb.", "renderState");
+            throw new DeveloperError('Invalid renderState.blending.functionDestinationRgb.');
         }
 
         if (!BlendFunction.validate(r.blending.functionDestinationAlpha)) {
-            throw new DeveloperError("Invalid renderState.blending.functionDestinationAlpha.", "renderState");
+            throw new DeveloperError('Invalid renderState.blending.functionDestinationAlpha.');
         }
 
         if (!StencilFunction.validate(r.stencilTest.frontFunction)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.frontFunction.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.frontFunction.');
         }
 
         if (!StencilFunction.validate(r.stencilTest.backFunction)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.backFunction.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.backFunction.');
         }
 
         if (!StencilOperation.validate(r.stencilTest.frontOperation.fail)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.frontOperation.fail.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.frontOperation.fail.');
         }
 
         if (!StencilOperation.validate(r.stencilTest.frontOperation.zFail)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.frontOperation.zFail.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.frontOperation.zFail.');
         }
 
         if (!StencilOperation.validate(r.stencilTest.frontOperation.zPass)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.frontOperation.zPass.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.frontOperation.zPass.');
         }
 
         if (!StencilOperation.validate(r.stencilTest.backOperation.fail)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.backOperation.fail.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.backOperation.fail.');
         }
 
         if (!StencilOperation.validate(r.stencilTest.backOperation.zFail)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.backOperation.zFail.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.backOperation.zFail.');
         }
 
         if (!StencilOperation.validate(r.stencilTest.backOperation.zPass)) {
-            throw new DeveloperError("Invalid renderState.stencilTest.backOperation.zPass.", "renderState");
+            throw new DeveloperError('Invalid renderState.stencilTest.backOperation.zPass.');
         }
 
         return r;
@@ -31762,27 +32648,27 @@ define('Renderer/Context',[
             wrapT : sampler.wrapT || TextureWrap.CLAMP,
             minificationFilter : sampler.minificationFilter || TextureMinificationFilter.LINEAR,
             magnificationFilter : sampler.magnificationFilter || TextureMagnificationFilter.LINEAR,
-            maximumAnisotropy : (typeof sampler.maximumAnisotropy !== "undefined") ? sampler.maximumAnisotropy : 1.0
+            maximumAnisotropy : (typeof sampler.maximumAnisotropy !== 'undefined') ? sampler.maximumAnisotropy : 1.0
         };
 
         if (!TextureWrap.validate(s.wrapS)) {
-            throw new DeveloperError("Invalid sampler.wrapS.", "sampler");
+            throw new DeveloperError('Invalid sampler.wrapS.');
         }
 
         if (!TextureWrap.validate(s.wrapT)) {
-            throw new DeveloperError("Invalid sampler.wrapT.", "sampler");
+            throw new DeveloperError('Invalid sampler.wrapT.');
         }
 
         if (!TextureMinificationFilter.validate(s.minificationFilter)) {
-            throw new DeveloperError("Invalid sampler.minificationFilter.", "sampler");
+            throw new DeveloperError('Invalid sampler.minificationFilter.');
         }
 
         if (!TextureMagnificationFilter.validate(s.magnificationFilter)) {
-            throw new DeveloperError("Invalid sampler.magnificationFilter.", "sampler");
+            throw new DeveloperError('Invalid sampler.magnificationFilter.');
         }
 
         if (s.maximumAnisotropy < 1.0) {
-            throw new DeveloperError("sampler.maximumAnisotropy must be greater than or equal to one.", "sampler");
+            throw new DeveloperError('sampler.maximumAnisotropy must be greater than or equal to one.');
         }
 
         return s;
@@ -31810,7 +32696,7 @@ define('Renderer/Context',[
         var stencil = cs.stencil;
 
         // Clear everything if nothing is specified
-        if ((typeof color === "undefined") && (typeof depth === "undefined") && (typeof stencil === "undefined")) {
+        if ((typeof color === 'undefined') && (typeof depth === 'undefined') && (typeof stencil === 'undefined')) {
             color = this._defaultClearColor;
             depth = this._defaultClearDepth;
             stencil = this._defaultClearStencil;
@@ -31818,23 +32704,23 @@ define('Renderer/Context',[
 
         var c = {
             scissorTest : {
-                enabled : (typeof scissorTest.enabled === "undefined") ? false : scissorTest.enabled,
+                enabled : (typeof scissorTest.enabled === 'undefined') ? false : scissorTest.enabled,
                 rectangle : {
-                    x : (typeof scissorTestRectangle.x === "undefined") ? 0 : scissorTestRectangle.x,
-                    y : (typeof scissorTestRectangle.y === "undefined") ? 0 : scissorTestRectangle.y,
-                    width : (typeof scissorTestRectangle.width === "undefined") ? 0 : scissorTestRectangle.width,
-                    height : (typeof scissorTestRectangle.height === "undefined") ? 0 : scissorTestRectangle.height
+                    x : (typeof scissorTestRectangle.x === 'undefined') ? 0 : scissorTestRectangle.x,
+                    y : (typeof scissorTestRectangle.y === 'undefined') ? 0 : scissorTestRectangle.y,
+                    width : (typeof scissorTestRectangle.width === 'undefined') ? 0 : scissorTestRectangle.width,
+                    height : (typeof scissorTestRectangle.height === 'undefined') ? 0 : scissorTestRectangle.height
                 }
             },
             colorMask : {
-                red : (typeof colorMask.red === "undefined") ? true : colorMask.red,
-                green : (typeof colorMask.green === "undefined") ? true : colorMask.green,
-                blue : (typeof colorMask.blue === "undefined") ? true : colorMask.blue,
-                alpha : (typeof colorMask.alpha === "undefined") ? true : colorMask.alpha
+                red : (typeof colorMask.red === 'undefined') ? true : colorMask.red,
+                green : (typeof colorMask.green === 'undefined') ? true : colorMask.green,
+                blue : (typeof colorMask.blue === 'undefined') ? true : colorMask.blue,
+                alpha : (typeof colorMask.alpha === 'undefined') ? true : colorMask.alpha
             },
-            depthMask : (typeof cs.depthMask === "undefined") ? true : cs.depthMask,
-            stencilMask : (typeof cs.stencilMask === "undefined") ? ~0 : cs.stencilMask,
-            dither : (typeof cs.dither === "undefined") ? true : cs.dither,
+            depthMask : (typeof cs.depthMask === 'undefined') ? true : cs.depthMask,
+            stencilMask : (typeof cs.stencilMask === 'undefined') ? ~0 : cs.stencilMask,
+            dither : (typeof cs.dither === 'undefined') ? true : cs.dither,
 
             framebuffer : cs.framebuffer,
 
@@ -31849,7 +32735,7 @@ define('Renderer/Context',[
         };
 
         if ((c.scissorTest.rectangle.width < 0) || (c.scissorTest.rectangle.height < 0)) {
-            throw new DeveloperError("clearState.scissorTest.rectangle.width and clearState.scissorTest.rectangle.height must be greater than or equal to zero.", "clearState");
+            throw new DeveloperError('clearState.scissorTest.rectangle.width and clearState.scissorTest.rectangle.height must be greater than or equal to zero.');
         }
 
         return c;
@@ -31865,16 +32751,16 @@ define('Renderer/Context',[
 
                 switch (status) {
                 case gl.FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
-                    message = "Framebuffer is not complete.  Incomplete attachment: at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached.  Color-renderable formats include GL_RGBA4, GL_RGB5_A1, and GL_RGB565. GL_DEPTH_COMPONENT16 is the only depth-renderable format. GL_STENCIL_INDEX8 is the only stencil-renderable format.";
+                    message = 'Framebuffer is not complete.  Incomplete attachment: at least one attachment point with a renderbuffer or texture attached has its attached object no longer in existence or has an attached image with a width or height of zero, or the color attachment point has a non-color-renderable image attached, or the depth attachment point has a non-depth-renderable image attached, or the stencil attachment point has a non-stencil-renderable image attached.  Color-renderable formats include GL_RGBA4, GL_RGB5_A1, and GL_RGB565. GL_DEPTH_COMPONENT16 is the only depth-renderable format. GL_STENCIL_INDEX8 is the only stencil-renderable format.';
                     break;
                 case gl.FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
-                    message = "Framebuffer is not complete.  Incomplete dimensions: not all attached images have the same width and height.";
+                    message = 'Framebuffer is not complete.  Incomplete dimensions: not all attached images have the same width and height.';
                     break;
                 case gl.FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
-                    message = "Framebuffer is not complete.  Missing attachment: no images are attached to the framebuffer.";
+                    message = 'Framebuffer is not complete.  Missing attachment: no images are attached to the framebuffer.';
                     break;
                 case gl.FRAMEBUFFER_UNSUPPORTED:
-                    message = "Framebuffer is not complete.  Unsupported: the combination of internal formats of the attached images violates an implementation-dependent set of restrictions.";
+                    message = 'Framebuffer is not complete.  Unsupported: the combination of internal formats of the attached images violates an implementation-dependent set of restrictions.';
                     break;
                 }
 
@@ -31901,7 +32787,7 @@ define('Renderer/Context',[
         var d = clearState.depth;
         var s = clearState.stencil;
 
-        if (typeof c !== "undefined") {
+        if (typeof c !== 'undefined') {
             if (c.red !== this._clearColor.red ||
                 c.green !== this._clearColor.green ||
                 c.blue !== this._clearColor.blue ||
@@ -31916,7 +32802,7 @@ define('Renderer/Context',[
             bitmask |= gl.COLOR_BUFFER_BIT;
         }
 
-        if (typeof d !== "undefined") {
+        if (typeof d !== 'undefined') {
             if (d !== this._clearDepth) {
                 this._clearDepth = d;
                 gl.clearDepth(d);
@@ -31924,7 +32810,7 @@ define('Renderer/Context',[
             bitmask |= gl.DEPTH_BUFFER_BIT;
         }
 
-        if (typeof s !== "undefined") {
+        if (typeof s !== 'undefined') {
             if (s !== this._clearStencil) {
                 this._clearStencil = s;
                 gl.clearStencil(s);
@@ -31959,7 +32845,7 @@ define('Renderer/Context',[
             gl.validateProgram(program);
 
             if (!gl.getProgramParameter(program, gl.VALIDATE_STATUS)) {
-                throw new DeveloperError("Program validation failed.  Link log: " + gl.getProgramInfoLog(program));
+                throw new DeveloperError('Program validation failed.  Link log: ' + gl.getProgramInfoLog(program));
             }
         }
     };
@@ -32015,12 +32901,12 @@ define('Renderer/Context',[
      * @memberof Context
      */
     Context.prototype.beginDraw = function(drawArguments) {
-        if (typeof drawArguments === "undefined") {
-            throw new DeveloperError("drawArguments is required.", "drawArguments");
+        if (typeof drawArguments === 'undefined') {
+            throw new DeveloperError('drawArguments is required.');
         }
 
         if (!drawArguments.shaderProgram) {
-            throw new DeveloperError("drawArguments.shaderProgram is required.", "drawArguments");
+            throw new DeveloperError('drawArguments.shaderProgram is required.');
         }
 
         var framebuffer = drawArguments.framebuffer;
@@ -32031,7 +32917,7 @@ define('Renderer/Context',[
             if (rs.depthTest.enabled &&
                 !framebuffer.getDepthRenderbuffer() &&
                 !framebuffer.getDepthStencilRenderbuffer()) {
-                throw new DeveloperError("The depth test can't be enabled (drawArguments.renderState.depthTest.enabled) because the framebuffer (drawArguments.framebuffer) doesn't have a depth or depth-stencil renderbuffer.", "drawArguments");
+                throw new DeveloperError('The depth test can not be enabled (drawArguments.renderState.depthTest.enabled) because the framebuffer (drawArguments.framebuffer) does not have a depth or depth-stencil renderbuffer.');
             }
         }
 
@@ -32055,21 +32941,21 @@ define('Renderer/Context',[
      */
     Context.prototype.continueDraw = function(drawArguments) {
         var sp = this._currentSp;
-        if (typeof sp === "undefined") {
-            throw new DeveloperError("beginDraw must be called before continueDraw.");
+        if (typeof sp === 'undefined') {
+            throw new DeveloperError('beginDraw must be called before continueDraw.');
         }
 
-        if (typeof drawArguments === "undefined") {
-            throw new DeveloperError("drawArguments is required.", "drawArguments");
+        if (typeof drawArguments === 'undefined') {
+            throw new DeveloperError('drawArguments is required.');
         }
 
         var primitiveType = drawArguments.primitiveType;
         if (!PrimitiveType.validate(primitiveType)) {
-            throw new DeveloperError("drawArguments.primitiveType is required and must be valid.", "drawArguments");
+            throw new DeveloperError('drawArguments.primitiveType is required and must be valid.');
         }
 
         if (!drawArguments.vertexArray) {
-            throw new DeveloperError("drawArguments.vertexArray is required.", "drawArguments");
+            throw new DeveloperError('drawArguments.vertexArray is required.');
         }
 
         var va = drawArguments.vertexArray;
@@ -32087,7 +32973,7 @@ define('Renderer/Context',[
         }
 
         if (offset < 0) {
-            throw new DeveloperError("drawArguments.offset must be omitted or greater than or equal to zero.", "drawArguments");
+            throw new DeveloperError('drawArguments.offset must be omitted or greater than or equal to zero.');
         }
 
         if (count > 0) {
@@ -32137,11 +33023,11 @@ define('Renderer/Context',[
         var framebuffer = readState.framebuffer || null;
 
         if (width <= 0) {
-            throw new DeveloperError("readState.width must be greater than zero.", "readState");
+            throw new DeveloperError('readState.width must be greater than zero.');
         }
 
         if (height <= 0) {
-            throw new DeveloperError("readState.height must be greater than zero.", "readState");
+            throw new DeveloperError('readState.height must be greater than zero.');
         }
 
         var pixels = new Uint8Array(4 * width * height);
@@ -32197,11 +33083,11 @@ define('Renderer/Context',[
 
                 if (currentNumberOfVertices !== numberOfVertices) {
                     throw new RuntimeError(
-                        "Each attribute list must have the same number of vertices.  " +
-                        "Attribute '" + names[j] + "' has a different number of vertices " +
-                        "(" + currentNumberOfVertices.toString() + ")" +
-                        " than attribute '" + names[0] +
-                        "' (" + numberOfVertices.toString() + ").");
+                        'Each attribute list must have the same number of vertices.  ' +
+                        'Attribute ' + names[j] + ' has a different number of vertices ' +
+                        '(' + currentNumberOfVertices.toString() + ')' +
+                        ' than attribute ' + names[0] +
+                        ' (' + numberOfVertices.toString() + ').');
                 }
             }
         }
@@ -32415,7 +33301,7 @@ define('Renderer/Context',[
         if (mesh.indexLists) {
             indexLists = mesh.indexLists;
             if (indexLists.length !== 1) {
-                throw new DeveloperError("The mesh must have zero or one index lists.  This mesh has " + indexLists.length.toString() + " index lists.");
+                throw new DeveloperError('The mesh must have zero or one index lists.  This mesh has ' + indexLists.length.toString() + ' index lists.');
             }
         }
 
@@ -32467,7 +33353,7 @@ define('Renderer/Context',[
 
         function rgbToObjectIndex(unnormalizedRgb) {
             // TODO:  Use alpha?
-            var index = "r" + unnormalizedRgb.red + "g" + unnormalizedRgb.green + "b" + unnormalizedRgb.blue;
+            var index = 'r' + unnormalizedRgb.red + 'g' + unnormalizedRgb.green + 'b' + unnormalizedRgb.blue;
             return index;
         }
 
@@ -32480,7 +33366,7 @@ define('Renderer/Context',[
                     nextRgb.green = 0;
 
                     if (++nextRgb.red === 256) {
-                        throw new RuntimeError("Out of unique Rgb colors.");
+                        throw new RuntimeError('Out of unique Rgb colors.');
                     }
                 }
             }
@@ -32548,7 +33434,11 @@ define('Shaders/CentralBodyFS',[],function() {
 "#else\n" +
 "vec3 startDayColor = vec3(1.0);\n" +
 "#endif\n" +
+"#ifdef AFFECTED_BY_LIGHTING\n" +
 "vec3 rgb = getCentralBodyColor(v_positionMC, v_positionEC, normalMC, normalEC, startDayColor, v_rayleighColor, v_mieColor);\n" +
+"#else\n" +
+"vec3 rgb = startDayColor;\n" +
+"#endif\n" +
 "gl_FragColor = vec4(rgb, 1.0);\n" +
 "}\n" +
 "";
@@ -32827,7 +33717,11 @@ define('Shaders/CentralBodyFSPole',[],function() {
 "#else\n" +
 "vec3 startDayColor = vec3(1.0);\n" +
 "#endif\n" +
+"#ifdef AFFECTED_BY_LIGHTING\n" +
 "vec3 rgb = getCentralBodyColor(positionMC, positionEC, normalMC, normalEC, startDayColor, rayleighColor, mieColor);\n" +
+"#else\n" +
+"vec3 rgb = startDayColor;\n" +
+"#endif\n" +
 "gl_FragColor = vec4(rgb, 1.0);\n" +
 "}\n" +
 "else\n" +
@@ -33032,7 +33926,7 @@ define('Scene/CheckerboardMaterial',['../Shaders/CheckerboardMaterial'], functio
     }
 
     CheckerboardMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" + ShadersCheckerboardMaterial;
+        return '#line 0\n' + ShadersCheckerboardMaterial;
     };
 
     return CheckerboardMaterial;
@@ -33080,7 +33974,7 @@ define('Scene/ColorMaterial',['../Shaders/ColorMaterial'], function(ShadersColor
     }
 
     ColorMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" + ShadersColorMaterial;
+        return '#line 0\n' + ShadersColorMaterial;
     };
 
     return ColorMaterial;
@@ -34079,6 +34973,7 @@ define('Shaders/CustomSensorVolumeFS',[],function() {
 "#extension GL_OES_standard_derivatives : enable\n" +
 "#endif\n" +
 "uniform bool u_showIntersection;\n" +
+"uniform bool u_showThroughEllipsoid;\n" +
 "uniform float u_sensorRadius;\n" +
 "uniform vec4 u_pickColor;\n" +
 "varying vec3 v_positionWC;\n" +
@@ -34143,6 +35038,8 @@ define('Shaders/CustomSensorVolumeFS',[],function() {
 "void main()\n" +
 "{\n" +
 "agi_ellipsoid ellipsoid = agi_getWgs84EllipsoidEC();\n" +
+"if (!u_showThroughEllipsoid)\n" +
+"{\n" +
 "if (agi_pointInEllipsoid(ellipsoid, v_positionWC))\n" +
 "{\n" +
 "discard;\n" +
@@ -34150,6 +35047,7 @@ define('Shaders/CustomSensorVolumeFS',[],function() {
 "if (inSensorShadow(v_sensorVertexWC, ellipsoid, v_positionEC))\n" +
 "{\n" +
 "discard;\n" +
+"}\n" +
 "}\n" +
 "if (distance(v_positionEC, v_sensorVertexEC) > u_sensorRadius)\n" +
 "{\n" +
@@ -34240,7 +35138,7 @@ define('Scene/DiffuseMapMaterial',['../Shaders/DiffuseMapMaterial'], function(Sh
     }
 
     DiffuseMapMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" + ShadersDiffuseMapMaterial;
+        return '#line 0\n' + ShadersDiffuseMapMaterial;
     };
 
     return DiffuseMapMaterial;
@@ -34306,8 +35204,8 @@ define('Scene/DistanceIntervalMaterial',['../Shaders/DistanceIntervalMaterial'],
     }
 
     DistanceIntervalMaterial.prototype._getShaderSource = function() {
-        return "#define NUMBER_OF_DISTANCES " + this.intervals.length.toString() + "\n" +
-               "#line 0\n" + ShadersDistanceIntervalMaterial;
+        return '#define NUMBER_OF_DISTANCES ' + this.intervals.length.toString() + '\n' +
+               '#line 0\n' + ShadersDistanceIntervalMaterial;
     };
 
     return DistanceIntervalMaterial;
@@ -34391,7 +35289,7 @@ define('Scene/DotMaterial',['../Shaders/DotMaterial'], function(ShadersDotMateri
     }
 
     DotMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" + ShadersDotMaterial;
+        return '#line 0\n' + ShadersDotMaterial;
     };
 
     return DotMaterial;
@@ -34617,7 +35515,7 @@ define('Scene/HorizontalStripeMaterial',['../Shaders/HorizontalStripeMaterial'],
     }
 
     HorizontalStripeMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" + ShadersHorizontalStripeMaterial;
+        return '#line 0\n' + ShadersHorizontalStripeMaterial;
     };
 
     return HorizontalStripeMaterial;
@@ -34921,9 +35819,9 @@ define('Scene/BlobMaterial',[
     }
 
     BlobMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" +
+        return '#line 0\n' +
                ShadersNoise +
-               "#line 0\n" +
+               '#line 0\n' +
                ShadersBlobMaterial;
     };
 
@@ -34989,9 +35887,9 @@ define('Scene/FacetMaterial',[
     }
 
     FacetMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" +
+        return '#line 0\n' +
                ShadersNoise +
-               "#line 0\n" +
+               '#line 0\n' +
                ShadersFacetMaterial;
     };
 
@@ -35030,7 +35928,11 @@ define('Shaders/PolygonFS',[],function() {
 "{\n" +
 "vec3 normalEC = normalize(agi_normal * agi_geodeticSurfaceNormal(v_positionMC, vec3(0.0), vec3(1.0)));\n" +
 "vec3 positionToEyeEC = normalize(-v_positionEC);\n" +
+"#ifdef AFFECTED_BY_LIGHTING\n" +
 "float intensity = agi_lightIntensity(normalEC, agi_sunDirectionEC, positionToEyeEC);\n" +
+"#else\n" +
+"float intensity = 1.0;\n" +
+"#endif\n" +
 "vec4 color = getColor();\n" +
 "gl_FragColor = vec4(intensity * color.rgb, color.a);\n" +
 "}\n" +
@@ -35297,6 +36199,20 @@ define('Scene/Polygon',[
         this._bufferUsage = BufferUsage.STATIC_DRAW;
 
         /**
+         * <p>
+         * Determines if the polygon is affected by lighting, i.e., if the polygon is bright on the
+         * day side of the globe, and dark on the night side.  When <code>true</code>, the polygon
+         * is affected by lighting; when <code>false</code>, the polygon is uniformly shaded regardless
+         * of the sun position.
+         * </p>
+         * <p>
+         * The default is <code>true</code>.
+         * </p>
+         */
+        this.affectedByLighting = true;
+        this._affectedByLighting = true;
+
+        /**
          * DOC_TBA
          */
         this.material = new ColorMaterial({
@@ -35316,15 +36232,16 @@ define('Scene/Polygon',[
          */
         this.erosion = 1.0;
 
+        this._mode = SceneMode.SCENE3D;
+        this._projection = undefined;
+
         /**
-         * DOC_TBA
+         * The current morph transition time between 2D/Columbus View and 3D,
+         * with 0.0 being 2D or Columbus View and 1.0 being 3D.
          *
          * @type Number
          */
-        this.morphTime = 1.0;
-
-        this._mode = SceneMode.SCENE3D;
-        this._projection = undefined;
+        this.morphTime = this._mode.morphTime;
 
         var that = this;
         this._uniforms = {
@@ -35378,7 +36295,7 @@ define('Scene/Polygon',[
     Polygon.prototype.setPositions = function(positions, height) {
         // positions can be undefined
         if (typeof positions !== 'undefined' && (positions.length < 3)) {
-            throw new DeveloperError("At least three positions are required.", "positions");
+            throw new DeveloperError('At least three positions are required.');
         }
         this.height = height || 0.0;
         this._extent = undefined;
@@ -35485,35 +36402,12 @@ define('Scene/Polygon',[
         return meshes;
     };
 
-    Polygon._isModeTransition = function(oldMode, newMode) {
-        // SCENE2D, COLUMBUS_VIEW, and MORPHING use the same rendering path, so a
-        // transition only occurs when switching from/to SCENE3D
-        return ((oldMode !== newMode) &&
-                ((oldMode === SceneMode.SCENE3D) ||
-                 (newMode === SceneMode.SCENE3D)));
-    };
-
     Polygon.prototype._getGranularity = function(mode) {
         if (mode === SceneMode.SCENE3D) {
             return this.scene3D.granularity || this.granularity;
         }
 
         return this.scene2D.granularity || this.granularity;
-    };
-
-    Polygon.prototype._syncMorphTime = function(mode) {
-        switch (mode) {
-        case SceneMode.SCENE3D:
-            this.morphTime = 1.0;
-            break;
-
-        case SceneMode.SCENE2D:
-        case SceneMode.COLUMBUS_VIEW:
-            this.morphTime = 0.0;
-            break;
-
-        // MORPHING - don't change it
-        }
     };
 
     /**
@@ -35530,70 +36424,96 @@ define('Scene/Polygon',[
      * @see Polygon#render
      */
     Polygon.prototype.update = function(context, sceneState) {
-
         if (!this.ellipsoid) {
-            throw new DeveloperError("this.ellipsoid must be defined.");
+            throw new DeveloperError('this.ellipsoid must be defined.');
         }
 
         var mode = sceneState.mode;
         var granularity = this._getGranularity(mode);
 
         if (granularity < 0.0) {
-            throw new DeveloperError("this.granularity and scene2D/scene3D overrides must be greater than zero.");
+            throw new DeveloperError('this.granularity and scene2D/scene3D overrides must be greater than zero.');
         }
 
-        if (this.show) {
-            this._syncMorphTime(mode);
+        if (!this.show) {
+            return;
+        }
+
+        if (this._ellipsoid !== this.ellipsoid) {
+            this._createVertexArray = true;
+            this._ellipsoid = this.ellipsoid;
+        }
+
+        if (this._height !== this.height) {
+            this._createVertexArray = true;
+            this._height = this.height;
+        }
+
+        if (this._granularity !== granularity) {
+            this._createVertexArray = true;
+            this._granularity = granularity;
+        }
+
+        if (this._bufferUsage !== this.bufferUsage) {
+            this._createVertexArray = true;
+            this._bufferUsage = this.bufferUsage;
+        }
+
+        var projection = sceneState.scene2D.projection;
+        if (this._projection !== projection) {
+            this._createVertexArray = true;
+            this._projection = projection;
+        }
+
+        if (this._mode !== mode) {
+            // SCENE2D, COLUMBUS_VIEW, and MORPHING use the same rendering path, so a
+            // transition only occurs when switching from/to SCENE3D
+            this._createVertexArray = this._mode === SceneMode.SCENE3D || mode === SceneMode.SCENE3D;
             this._mode = mode;
 
-            var projection = sceneState.scene2D.projection;
-
-            if (this._createVertexArray ||
-                    (this._ellipsoid !== this.ellipsoid) ||
-                    (this._height !== this.height) ||
-                    (this._granularity !== granularity) ||
-                    (this._bufferUsage !== this.bufferUsage) ||
-                    (Polygon._isModeTransition(this._mode, mode)) ||
-                    (this._projection !== projection)) {
-                this._createVertexArray = false;
-                this._ellipsoid = this.ellipsoid;
-                this._height = this.height;
-                this._granularity = granularity;
-                this._bufferUsage = this.bufferUsage;
-
-                this._projection = projection;
-
-                this._vertices.update(context, this._createMeshes(), this.bufferUsage);
+            if (typeof mode.morphTime !== 'undefined') {
+                this.morphTime = mode.morphTime;
             }
+        }
 
-            if (!this._rs) {
-                // TODO: Should not need this in 2D/columbus view, but is hiding a triangulation issue.
-                this._rs = context.createRenderState({
-                    cull : {
-                        enabled : true,
-                        face : CullFace.BACK
-                    },
-                    blending : BlendingState.ALPHA_BLEND
-                });
-            }
+        if (this._createVertexArray) {
+            this._createVertexArray = false;
+            this._vertices.update(context, this._createMeshes(), this.bufferUsage);
+        }
 
-            // Recompile shader when material changes
-            if (!this._material || (this._material !== this.material)) {
-                this._material = this.material || new ColorMaterial();
+        if (!this._rs) {
+            // TODO: Should not need this in 2D/columbus view, but is hiding a triangulation issue.
+            this._rs = context.createRenderState({
+                cull : {
+                    enabled : true,
+                    face : CullFace.BACK
+                },
+                blending : BlendingState.ALPHA_BLEND
+            });
+        }
 
-                var fsSource =
-                    "#line 0\n" +
-                    Noise +
-                    "#line 0\n" +
-                    this.material._getShaderSource() +
-                    "#line 0\n" +
-                    PolygonFS;
+        // Recompile shader when material or lighting changes
+        if (typeof this._material === 'undefined' ||
+            this._material !== this.material ||
+            this._affectedByLighting !== this.affectedByLighting) {
 
-                this._sp = this._sp && this._sp.release();
-                this._sp = context.getShaderCache().getShaderProgram(PolygonVS, fsSource, attributeIndices);
+            this.material = this.material || new ColorMaterial();
+            this._material = this.material;
+            this._affectedByLighting = this.affectedByLighting;
 
-                this._drawUniforms = combine(this._uniforms, this.material._uniforms);
-            }
+            var fsSource =
+                '#line 0\n' +
+                Noise +
+                '#line 0\n' +
+                this._material._getShaderSource() +
+                (this._affectedByLighting ? '#define AFFECTED_BY_LIGHTING 1\n' : '') +
+                '#line 0\n' +
+                PolygonFS;
+
+            this._sp = this._sp && this._sp.release();
+            this._sp = context.getShaderCache().getShaderProgram(PolygonVS, fsSource, attributeIndices);
+
+            this._drawUniforms = combine(this._uniforms, this._material._uniforms);
         }
     };
 
@@ -35732,6 +36652,7 @@ define('Scene/Polygon',[
 
     return Polygon;
 });
+
 
 /*global define*/
 define('Shaders/PolylineFS',[],function() {
@@ -36046,21 +36967,22 @@ define('Scene/Polyline',[
         this._rsThree = undefined;
         this._rsPick = undefined;
 
+        this._mode = SceneMode.SCENE3D;
+        this._projection = undefined;
+
         /**
-         * DOC_TBA
+         * The current morph transition time between 2D/Columbus View and 3D,
+         * with 0.0 being 2D or Columbus View and 1.0 being 3D.
          *
          * @type Number
          */
-        this.morphTime = 0.0;
-
-        this._mode = SceneMode.SCENE3D;
-        this._projection = undefined;
+        this.morphTime = this._mode.morphTime;
 
         var that = this;
 
         var drawUniformsOne = {
             u_color : function() {
-                return that.color; // Doesn't matter; doesn't write color
+                return that.color; // does not matter; does not write color
             },
             u_morphTime : function() {
                 return that.morphTime;
@@ -36415,21 +37337,6 @@ define('Scene/Polyline',[
         return this.show && (this.color.alpha !== 0);
     };
 
-    Polyline.prototype._syncMorphTime = function(mode) {
-        switch (mode) {
-        case SceneMode.SCENE3D:
-            this.morphTime = 1.0;
-            break;
-
-        case SceneMode.SCENE2D:
-        case SceneMode.COLUMBUS_VIEW:
-            this.morphTime = 0.0;
-            break;
-
-        // MORPHING - don't change it
-        }
-    };
-
     /**
      * Commits changes to properties before rendering by updating the object's WebGL resources.
      * This must be called before calling {@link Polyline#render} in order to realize
@@ -36523,14 +37430,17 @@ define('Scene/Polyline',[
 
             var mode = sceneState.mode;
             var projection = sceneState.scene2D.projection;
-            this._syncMorphTime(mode);
+
+            if (this._mode !== mode && typeof mode.morphTime !== 'undefined') {
+                this.morphTime = mode.morphTime;
+            }
 
             if (this.columbusView.groundTrack.show || (mode === SceneMode.SCENE2D)) {
                 this._spGroundTrack =
                     this._spGroundTrack ||
                     context.getShaderCache().getShaderProgram(
-                            "#define GROUND_TRACK\n" +
-                            "#line 0\n" +
+                            '#define GROUND_TRACK\n' +
+                            '#line 0\n' +
                             PolylineVS, PolylineFS, attributeIndices);
             } else {
                 this._spGroundTrack = this._spGroundTrack && this._spGroundTrack.release();
@@ -36540,8 +37450,8 @@ define('Scene/Polyline',[
                 this._spHeightTrack =
                     this._spHeightTrack ||
                     context.getShaderCache().getShaderProgram(
-                            "#define HEIGHT_TRACK\n" +
-                            "#line 0\n" +
+                            '#define HEIGHT_TRACK\n' +
+                            '#line 0\n' +
                             PolylineVS, PolylineFS, attributeIndices);
             } else {
                 this._spHeightTrack = this._spHeightTrack && this._spHeightTrack.release();
@@ -37266,14 +38176,14 @@ define('Scene/ComplexConicSensorVolume',[
          *
          * @type Boolean
          */
-        this.show = (typeof t.show === "undefined") ? true : t.show;
+        this.show = (typeof t.show === 'undefined') ? true : t.show;
 
         /**
          * DOC_TBA
          *
          * @type Boolean
          */
-        this.showIntersection = (typeof t.showIntersection === "undefined") ? true : t.showIntersection;
+        this.showIntersection = (typeof t.showIntersection === 'undefined') ? true : t.showIntersection;
 
         /**
          * The 4x4 transformation matrix that transforms this sensor from model to world coordinates.  In it's model
@@ -37281,8 +38191,8 @@ define('Scene/ComplexConicSensorVolume',[
          * angles are measured from the x-axis.  This matrix is available to GLSL vertex and fragment shaders via
          * {@link agi_model} and derived uniforms.
          * <br /><br />
-         * <div align="center">
-         * <img src="images/ComplexConicSensorVolume.setModelMatrix.png" width="400" height="258" /><br />
+         * <div align='center'>
+         * <img src='images/ComplexConicSensorVolume.setModelMatrix.png' width='400' height='258' /><br />
          * Model coordinate system for a conic sensor
          * </div>
          *
@@ -37305,7 +38215,7 @@ define('Scene/ComplexConicSensorVolume',[
          *
          * @see ComplexConicSensorVolume#outerHalfAngle
          */
-        this.innerHalfAngle = (typeof t.innerHalfAngle === "undefined") ? CesiumMath.PI_OVER_TWO : t.innerHalfAngle;
+        this.innerHalfAngle = (typeof t.innerHalfAngle === 'undefined') ? CesiumMath.PI_OVER_TWO : t.innerHalfAngle;
 
         /**
          * DOC_TBA
@@ -37314,7 +38224,7 @@ define('Scene/ComplexConicSensorVolume',[
          *
          * @see ComplexConicSensorVolume#innerHalfAngle
          */
-        this.outerHalfAngle = (typeof t.outerHalfAngle === "undefined") ? CesiumMath.PI_OVER_TWO : t.outerHalfAngle;
+        this.outerHalfAngle = (typeof t.outerHalfAngle === 'undefined') ? CesiumMath.PI_OVER_TWO : t.outerHalfAngle;
         this._outerHalfAngle = undefined;
 
         /**
@@ -37324,7 +38234,7 @@ define('Scene/ComplexConicSensorVolume',[
          *
          * @see ComplexConicSensorVolume#innerHalfAngle
          */
-        this.maximumClockAngle = (typeof t.maximumClockAngle === "undefined") ? Math.PI : t.maximumClockAngle;
+        this.maximumClockAngle = (typeof t.maximumClockAngle === 'undefined') ? Math.PI : t.maximumClockAngle;
         this._maximumClockAngle = undefined;
 
         /**
@@ -37334,7 +38244,7 @@ define('Scene/ComplexConicSensorVolume',[
          *
          * @see ComplexConicSensorVolume#innerHalfAngle
          */
-        this.minimumClockAngle = (typeof t.minimumClockAngle === "undefined") ? -Math.PI : t.minimumClockAngle;
+        this.minimumClockAngle = (typeof t.minimumClockAngle === 'undefined') ? -Math.PI : t.minimumClockAngle;
         this._minimumClockAnglee = undefined;
 
         /**
@@ -37342,7 +38252,7 @@ define('Scene/ComplexConicSensorVolume',[
          *
          * @type Number
          */
-        this.radius = (typeof t.radius === "undefined") ? Number.POSITIVE_INFINITY : t.radius;
+        this.radius = (typeof t.radius === 'undefined') ? Number.POSITIVE_INFINITY : t.radius;
         this._radius = undefined;
 
         //        /**
@@ -37350,14 +38260,14 @@ define('Scene/ComplexConicSensorVolume',[
         //         *
         //         * @type Number
         //         */
-        //        this.minimumClockAngle = (typeof t.minimumClockAngle === "undefined") ? (-Math.PI / 4.0) : t.minimumClockAngle;
+        //        this.minimumClockAngle = (typeof t.minimumClockAngle === 'undefined') ? (-Math.PI / 4.0) : t.minimumClockAngle;
 
         //        /**
         //         * DOC_TBA
         //         *
         //         * @type Number
         //         */
-        //        this.maximumClockAngle = (typeof t.maximumClockAngle === "undefined") ? (Math.PI / 4.0) : t.maximumClockAngle;
+        //        this.maximumClockAngle = (typeof t.maximumClockAngle === 'undefined') ? (Math.PI / 4.0) : t.maximumClockAngle;
 
         /**
          * DOC_TBA
@@ -37398,7 +38308,7 @@ define('Scene/ComplexConicSensorVolume',[
          *
          * @type Number
          */
-        this.erosion = (typeof t.erosion === "undefined") ? 1.0 : t.erosion;
+        this.erosion = (typeof t.erosion === 'undefined') ? 1.0 : t.erosion;
 
         var that = this;
         this._uniforms = {
@@ -37489,22 +38399,22 @@ define('Scene/ComplexConicSensorVolume',[
         return combineMaterials({
             material : this.outerMaterial,
             sourceTransform : function(source) {
-                return source.replace(new RegExp("agi_getMaterialColor", "g"), "agi_getOuterMaterialColor");
+                return source.replace(new RegExp('agi_getMaterialColor', 'g'), 'agi_getOuterMaterialColor');
             }
         }, {
             material : this.innerMaterial,
             sourceTransform : function(source) {
-                return source.replace(new RegExp("agi_getMaterialColor", "g"), "agi_getInnerMaterialColor");
+                return source.replace(new RegExp('agi_getMaterialColor', 'g'), 'agi_getInnerMaterialColor');
             }
         }, {
             material : this.capMaterial,
             sourceTransform : function(source) {
-                return source.replace(new RegExp("agi_getMaterialColor", "g"), "agi_getCapMaterialColor");
+                return source.replace(new RegExp('agi_getMaterialColor', 'g'), 'agi_getCapMaterialColor');
             }
         }, {
             material : this.silhouetteMaterial,
             sourceTransform : function(source) {
-                return source.replace(new RegExp("agi_getMaterialColor", "g"), "agi_getSilhouetteMaterialColor");
+                return source.replace(new RegExp('agi_getMaterialColor', 'g'), 'agi_getSilhouetteMaterialColor');
             }
         });
     };
@@ -37524,11 +38434,11 @@ define('Scene/ComplexConicSensorVolume',[
         }
 
         if (this.innerHalfAngle > this.outerHalfAngle) {
-            throw new DeveloperError("this.innerHalfAngle cannot be greater than this.outerHalfAngle.");
+            throw new DeveloperError('this.innerHalfAngle cannot be greater than this.outerHalfAngle.');
         }
 
         if (this.radius < 0.0) {
-            throw new DeveloperError("this.radius must be greater than or equal to zero.");
+            throw new DeveloperError('this.radius must be greater than or equal to zero.');
         }
 
         if (this.show) {
@@ -37559,17 +38469,17 @@ define('Scene/ComplexConicSensorVolume',[
                 this._drawUniforms = combine(this._uniforms, material._uniforms);
 
                 var fsSource =
-                    "#line 0\n" +
+                    '#line 0\n' +
                     ShadersNoise +
-                    "#line 0\n" +
+                    '#line 0\n' +
                     ShadersRay +
-                    "#line 0\n" +
+                    '#line 0\n' +
                     ShadersConstructiveSolidGeometry +
-                    "#line 0\n" +
+                    '#line 0\n' +
                     ShadersSensorVolume +
-                    "#line 0\n" +
+                    '#line 0\n' +
                     material._getShaderSource() +
-                    "#line 0\n" +
+                    '#line 0\n' +
                     ComplexConicSensorVolumeFS;
 
                 this._sp = this._sp && this._sp.release();
@@ -37620,14 +38530,14 @@ define('Scene/ComplexConicSensorVolume',[
         if (this._mode === SceneMode.SCENE3D && this.show) {
             // Since this ignores all other materials, if a material does discard, the sensor will still be picked.
             var fsSource =
-                "#define RENDER_FOR_PICK 1\n" +
-                "#line 0\n" +
+                '#define RENDER_FOR_PICK 1\n' +
+                '#line 0\n' +
                 ShadersRay +
-                "#line 0\n" +
+                '#line 0\n' +
                 ShadersConstructiveSolidGeometry +
-                "#line 0\n" +
+                '#line 0\n' +
                 ShadersSensorVolume +
-                "#line 0\n" +
+                '#line 0\n' +
                 ComplexConicSensorVolumeFS;
 
             this._spPick = context.getShaderCache().getShaderProgram(ComplexConicSensorVolumeVS, fsSource, attributeIndices);
@@ -37754,19 +38664,28 @@ define('Scene/CustomSensorVolume',[
          * <code>true</code> if this sensor will be shown; otherwise, <code>false</code>
          *
          * @type Boolean
-         *
-         * @see CustomSensorVolume#showIntersection
          */
-        this.show = (typeof t.show === "undefined") ? true : t.show;
+        this.show = (typeof t.show === 'undefined') ? true : t.show;
 
         /**
          * DOC_TBA
          *
          * @type Boolean
-         *
-         * @see CustomSensorVolume#show
          */
-        this.showIntersection = (typeof t.showIntersection === "undefined") ? true : t.showIntersection;
+        this.showIntersection = (typeof t.showIntersection === 'undefined') ? true : t.showIntersection;
+
+        /**
+         * <p>
+         * Determines if a sensor intersecting the ellipsoid is drawn through the ellipsoid and potentially out
+         * to the other side, or if the part of the sensor intersecting the ellipsoid stops at the ellipsoid.
+         * </p>
+         * <p>
+         * The default is <code>false</code>, meaning the sensor will not go through the ellipsoid.
+         * </p>
+         *
+         * @type Boolean
+         */
+        this.showThroughEllipsoid = (typeof t.showThroughEllipsoid === 'undefined') ? false : t.showThroughEllipsoid;
 
         /**
          * The 4x4 transformation matrix that transforms this sensor from model to world coordinates.  In it's model
@@ -37776,8 +38695,8 @@ define('Scene/CustomSensorVolume',[
          * This matrix is available to GLSL vertex and fragment shaders via
          * {@link agi_model} and derived uniforms.
          * <br /><br />
-         * <div align="center">
-         * <img src="images/CustomSensorVolume.setModelMatrix.png" /><br />
+         * <div align='center'>
+         * <img src='images/CustomSensorVolume.setModelMatrix.png' /><br />
          * Model coordinate system for a custom sensor
          * </div>
          *
@@ -37806,7 +38725,7 @@ define('Scene/CustomSensorVolume',[
          *
          * @type Number
          */
-        this.radius = (typeof t.radius === "undefined") ? Number.POSITIVE_INFINITY : t.radius;
+        this.radius = (typeof t.radius === 'undefined') ? Number.POSITIVE_INFINITY : t.radius;
 
         this._directions = undefined;
         this._directionsDirty = false;
@@ -37833,12 +38752,15 @@ define('Scene/CustomSensorVolume',[
          *
          * @type Number
          */
-        this.erosion = (typeof t.erosion === "undefined") ? 1.0 : t.erosion;
+        this.erosion = (typeof t.erosion === 'undefined') ? 1.0 : t.erosion;
 
         var that = this;
         this._uniforms = {
             u_model : function() {
                 return that.modelMatrix;
+            },
+            u_showThroughEllipsoid : function() {
+                return that.showThroughEllipsoid;
             },
             u_showIntersection : function() {
                 return that.showIntersection;
@@ -37984,7 +38906,7 @@ define('Scene/CustomSensorVolume',[
         }
 
         if (this.radius < 0.0) {
-            throw new DeveloperError("this.radius must be greater than or equal to zero.");
+            throw new DeveloperError('this.radius must be greater than or equal to zero.');
         }
 
         if (this.show) {
@@ -38006,25 +38928,31 @@ define('Scene/CustomSensorVolume',[
                     depthMask : false
                 });
             }
+            // This would be better served by depth testing with a depth buffer that does not
+            // include the ellipsoid depth - or a g-buffer containing an ellipsoid mask
+            // so we can selectively depth test.
+            this._rs.depthTest.enabled = !this.showThroughEllipsoid;
 
             // Recompile shader when material changes
             if (!this._material || (this._material !== this.material)) {
-                this._material = this.material || new ColorMaterial();
+
+                this.material = this.material || new ColorMaterial();
+                this._material = this.material;
 
                 var fsSource =
-                    "#line 0\n" +
+                    '#line 0\n' +
                     ShadersNoise +
-                    "#line 0\n" +
+                    '#line 0\n' +
                     ShadersSensorVolume +
-                    "#line 0\n" +
-                    this.material._getShaderSource() +
-                    "#line 0\n" +
+                    '#line 0\n' +
+                    this._material._getShaderSource() +
+                    '#line 0\n' +
                     CustomSensorVolumeFS;
 
                 this._sp = this._sp && this._sp.release();
                 this._sp = context.getShaderCache().getShaderProgram(CustomSensorVolumeVS, fsSource, attributeIndices);
 
-                this._drawUniforms = combine(this._uniforms, this.material._uniforms);
+                this._drawUniforms = combine(this._uniforms, this._material._uniforms);
             }
 
             // Recreate vertex buffer when directions change
@@ -38065,10 +38993,10 @@ define('Scene/CustomSensorVolume',[
         if (this._mode === SceneMode.SCENE3D && this.show && this._va) {
             // Since this ignores all other materials, if a material does discard, the sensor will still be picked.
             var fsSource =
-                "#define RENDER_FOR_PICK 1\n" +
-                "#line 0\n" +
+                '#define RENDER_FOR_PICK 1\n' +
+                '#line 0\n' +
                 ShadersSensorVolume +
-                "#line 0\n" +
+                '#line 0\n' +
                 CustomSensorVolumeFS;
 
             this._spPick = context.getShaderCache().getShaderProgram(CustomSensorVolumeVS, fsSource, attributeIndices);
@@ -38160,19 +39088,28 @@ define('Scene/RectangularPyramidSensorVolume',[
          * <code>true</code> if this sensor will be shown; otherwise, <code>false</code>
          *
          * @type Boolean
-         *
-         * @see RectangularPyramidSensorVolume#showIntersection
          */
-        this.show = (typeof t.show === "undefined") ? true : t.show;
+        this.show = (typeof t.show === 'undefined') ? true : t.show;
 
         /**
          * DOC_TBA
          *
          * @type Boolean
-         *
-         * @see RectangularPyramidSensorVolume#show
          */
-        this.showIntersection = (typeof t.showIntersection === "undefined") ? true : t.showIntersection;
+        this.showIntersection = (typeof t.showIntersection === 'undefined') ? true : t.showIntersection;
+
+        /**
+         * <p>
+         * Determines if a sensor intersecting the ellipsoid is drawn through the ellipsoid and potentially out
+         * to the other side, or if the part of the sensor intersecting the ellipsoid stops at the ellipsoid.
+         * </p>
+         * <p>
+         * The default is <code>false</code>, meaning the sensor will not go through the ellipsoid.
+         * </p>
+         *
+         * @type Boolean
+         */
+        this.showThroughEllipsoid = (typeof t.showThroughEllipsoid === 'undefined') ? false : t.showThroughEllipsoid;
 
         /**
          * The 4x4 transformation matrix that transforms this sensor from model to world coordinates.  In it's model
@@ -38181,8 +39118,8 @@ define('Scene/RectangularPyramidSensorVolume',[
          * cross section.  This matrix is available to GLSL vertex and fragment shaders via
          * {@link agi_model} and derived uniforms.
          * <br /><br />
-         * <div align="center">
-         * <img src="images/RectangularPyramidSensorVolume.setModelMatrix.png" /><br />
+         * <div align='center'>
+         * <img src='images/RectangularPyramidSensorVolume.setModelMatrix.png' /><br />
          * Model coordinate system for a sensor
          * </div>
          *
@@ -38210,7 +39147,7 @@ define('Scene/RectangularPyramidSensorVolume',[
          *
          * @type Number
          */
-        this.radius = (typeof t.radius === "undefined") ? Number.POSITIVE_INFINITY : t.radius;
+        this.radius = (typeof t.radius === 'undefined') ? Number.POSITIVE_INFINITY : t.radius;
 
         /**
          * DOC_TBA
@@ -38219,7 +39156,7 @@ define('Scene/RectangularPyramidSensorVolume',[
          *
          * @see RectangularPyramidSensorVolume#yHalfAngle
          */
-        this.xHalfAngle = (typeof t.xHalfAngle === "undefined") ? CesiumMath.PI_OVER_TWO : t.xHalfAngle;
+        this.xHalfAngle = (typeof t.xHalfAngle === 'undefined') ? CesiumMath.PI_OVER_TWO : t.xHalfAngle;
         this._xHalfAngle = undefined;
 
         /**
@@ -38229,7 +39166,7 @@ define('Scene/RectangularPyramidSensorVolume',[
          *
          * @see RectangularPyramidSensorVolume#xHalfAngle
          */
-        this.yHalfAngle = (typeof t.yHalfAngle === "undefined") ? CesiumMath.PI_OVER_TWO : t.yHalfAngle;
+        this.yHalfAngle = (typeof t.yHalfAngle === 'undefined') ? CesiumMath.PI_OVER_TWO : t.yHalfAngle;
         this._yHalfAngle = undefined;
 
         /**
@@ -38252,7 +39189,7 @@ define('Scene/RectangularPyramidSensorVolume',[
          *
          * @type Number
          */
-        this.erosion = (typeof t.erosion === "undefined") ? 1.0 : t.erosion;
+        this.erosion = (typeof t.erosion === 'undefined') ? 1.0 : t.erosion;
 
         t._pickIdThis = t._pickIdThis || this;
         this._customSensor = new CustomSensorVolume(t);
@@ -38268,13 +39205,14 @@ define('Scene/RectangularPyramidSensorVolume',[
      */
     RectangularPyramidSensorVolume.prototype.update = function(context, sceneState) {
         if ((this.xHalfAngle > CesiumMath.PI_OVER_TWO) || (this.yHalfAngle > CesiumMath.PI_OVER_TWO)) {
-            throw new DeveloperError("this.xHalfAngle and this.yHalfAngle must each be less than or equal to 90 degrees.");
+            throw new DeveloperError('this.xHalfAngle and this.yHalfAngle must each be less than or equal to 90 degrees.');
         }
 
         var s = this._customSensor;
 
         s.show = this.show;
         s.showIntersection = this.showIntersection;
+        s.showThroughEllipsoid = this.showThroughEllipsoid;
         s.modelMatrix = this.modelMatrix;
         s.bufferUsage = this.bufferUsage;
         s.radius = this.radius;
@@ -38479,8 +39417,8 @@ define('Scene/SensorVolumeCollection',[
      * @see SensorVolumeCollection#getLength
      */
     SensorVolumeCollection.prototype.get = function(index) {
-        if (typeof index === "undefined") {
-            throw new DeveloperError("index is required.", "index");
+        if (typeof index === 'undefined') {
+            throw new DeveloperError('index is required.');
         }
 
         return this._sensors[index];
@@ -38798,9 +39736,9 @@ define('Scene/TieDyeMaterial',[
     }
 
     TieDyeMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" +
+        return '#line 0\n' +
                ShadersNoise +
-               "#line 0\n" +
+               '#line 0\n' +
                ShadersTieDyeMaterial;
     };
 
@@ -38891,7 +39829,7 @@ define('Scene/VerticalStripeMaterial',['../Shaders/VerticalStripeMaterial'], fun
     }
 
     VerticalStripeMaterial.prototype._getShaderSource = function() {
-        return "#line 0\n" + ShadersVerticalStripeMaterial;
+        return '#line 0\n' + ShadersVerticalStripeMaterial;
     };
 
     return VerticalStripeMaterial;
@@ -39299,14 +40237,14 @@ define('Scene/CentralBody',[
     function TileTextureCachePolicy(description) {
         var desc = description || {};
 
-        if (!desc.fetchFunc || typeof desc.fetchFunc !== "function") {
-            throw new DeveloperError("description.fetchFunc is a required function.", "description.fetchFunc");
+        if (!desc.fetchFunc || typeof desc.fetchFunc !== 'function') {
+            throw new DeveloperError('description.fetchFunc is a required function.');
         }
 
         this._limit = desc.limit || 128;
         this._count = 0;
         this._fetchFunc = desc.fetchFunc;
-        this._removeFunc = (typeof desc.removeFunc === "function") ? desc.removeFunc : undefined;
+        this._removeFunc = (typeof desc.removeFunc === 'function') ? desc.removeFunc : undefined;
     }
 
     TileTextureCachePolicy.prototype.hit = function(object) {
@@ -39365,7 +40303,6 @@ define('Scene/CentralBody',[
     /**
      * DOC_TBA
      *
-     * @param {Camera} camera DOC_TBA
      * @param {Ellipsoid} [ellipsoid=WGS84 Ellipsoid] Determines the size and shape of the central body.
      *
      * @name CentralBody
@@ -39373,11 +40310,7 @@ define('Scene/CentralBody',[
      *
      * @exception {DeveloperError} camera is required.
      */
-    function CentralBody(camera, ellipsoid) {
-        if (!camera) {
-            throw new DeveloperError("camera is required.", "camera");
-        }
-
+    function CentralBody(ellipsoid) {
         ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         this._ellipsoid = ellipsoid;
@@ -39387,12 +40320,12 @@ define('Scene/CentralBody',[
             CesiumMath.PI,
             CesiumMath.PI_OVER_TWO
         );
-        this._camera = camera;
         this._rootTile = new Tile({
             extent : this._maxExtent,
             zoom : 0,
             ellipsoid : ellipsoid
         });
+        this._occluder = new Occluder(new BoundingSphere(Cartesian3.ZERO, ellipsoid.getMinimumRadius()), Cartesian3.ZERO);
 
         this._renderQueue = new Queue();
         this._imageQueue = new Queue();
@@ -39527,6 +40460,20 @@ define('Scene/CentralBody',[
         this.showSkyAtmosphere = false;
 
         /**
+         * <p>
+         * Determines if the central body is affected by lighting, i.e., if sun light brightens the
+         * day side of the globe, and and the night side appears dark.  When <code>true</code>, the
+         * central body is affected by lighting; when <code>false</code>, the central body is uniformly
+         * shaded with the day tile provider, i.e., no night lights, atmosphere, etc. are used.
+         * </p>
+         * <p>
+         * The default is <code>true</code>.
+         * </p>
+         */
+        this.affectedByLighting = true;
+        this._affectedByLighting = true;
+
+        /**
          * DOC_TBA
          */
         this.dayTileProvider = undefined;
@@ -39539,9 +40486,9 @@ define('Scene/CentralBody',[
          * is <code>true</code>.
          * <br /><br />
          * Example day image:
-         * <div align="center">
-         * <img src="../images/CentralBody.nightImageSource.jpg" width="512" height="256" />
-         * <a href="http://visibleearth.nasa.gov/view_rec.php?id=1438">NASA Visible Earth</a>.
+         * <div align='center'>
+         * <img src='../images/CentralBody.nightImageSource.jpg' width='512' height='256' />
+         * <a href='http://visibleearth.nasa.gov/view_rec.php?id=1438'>NASA Visible Earth</a>.
          * Data courtesy Marc Imhoff of NASA GSFC and Christopher Elvidge of
          * NOAA NGDC. Image by Craig Mayhew and Robert Simmon, NASA GSFC.
          * </div>
@@ -39561,9 +40508,9 @@ define('Scene/CentralBody',[
          * image is loaded and {@link CentralBody#showSpecular} is <code>true</code>.
          * <br /><br />
          * Example specular map:
-         * <div align="center">
-         * <img src="../images/CentralBody.specularMapSource.jpg" width="512" height="256" />
-         * <a href="http://planetpixelemporium.com/earth.html">Planet Texture Maps</a>
+         * <div align='center'>
+         * <img src='../images/CentralBody.specularMapSource.jpg' width='512' height='256' />
+         * <a href='http://planetpixelemporium.com/earth.html'>Planet Texture Maps</a>
          * </div>
          *
          * @type {String}
@@ -39581,9 +40528,9 @@ define('Scene/CentralBody',[
          * image is loaded and {@link CentralBody#showClouds} is <code>true</code>.
          * <br /><br />
          * Example cloud map:
-         * <div align="center">
-         * <img src="../images/CentralBody.cloudsMapSource.jpg" width="512" height="256" />
-         * <a href="http://planetpixelemporium.com/earth.html">Planet Texture Maps</a>
+         * <div align='center'>
+         * <img src='../images/CentralBody.cloudsMapSource.jpg' width='512' height='256' />
+         * <a href='http://planetpixelemporium.com/earth.html'>Planet Texture Maps</a>
          * </div>
          *
          * @type {String}
@@ -39601,9 +40548,9 @@ define('Scene/CentralBody',[
          * image is loaded and {@link CentralBody#showBumps} is <code>true</code>.
          * <br /><br />
          * Example bump map:
-         * <div align="center">
-         * <img src="../images/CentralBody.bumpMapSource.jpg" width="512" height="256" />
-         * <a href="http://planetpixelemporium.com/earth.html">Planet Texture Maps</a>
+         * <div align='center'>
+         * <img src='../images/CentralBody.bumpMapSource.jpg' width='512' height='256' />
+         * <a href='http://planetpixelemporium.com/earth.html'>Planet Texture Maps</a>
          * </div>
          *
          * @type {String}
@@ -39617,8 +40564,8 @@ define('Scene/CentralBody',[
         /**
          * When <code>true</code>, textures from the <code>dayTileProvider</code> are shown on the central body.
          * <br /><br />
-         * <div align="center">
-         * <img src="../images/CentralBody.showDay.jpg" width="400" height="300" />
+         * <div align='center'>
+         * <img src='../images/CentralBody.showDay.jpg' width='400' height='300' />
          * </div>
          *
          * @type {Boolean}
@@ -39633,8 +40580,8 @@ define('Scene/CentralBody',[
          * When <code>true</code>, the night texture is shown on the side of the central body not illuminated by the sun.
          * The day and night textures are blended across the terminator using {@link CentralBody#dayNightBlendDelta}.
          * When <code>false</code>, the day textures are shown on the entire globe (if enabled).
-         * <div align="center">
-         * <img src="../images/CentralBody.showNight.jpg" width="400" height="300" />
+         * <div align='center'>
+         * <img src='../images/CentralBody.showNight.jpg' width='400' height='300' />
          * </div>
          *
          * @type {Boolean}
@@ -39645,7 +40592,7 @@ define('Scene/CentralBody',[
          *
          * @example
          * cb.showNight = true;
-         * cb.nightImageSource = "night.jpg";
+         * cb.nightImageSource = 'night.jpg';
          */
         this.showNight = true;
         this._showNight = false;
@@ -39653,8 +40600,8 @@ define('Scene/CentralBody',[
         /**
          * When <code>true</code>, diffuse-lit clouds are shown on the central body.  When {@link CentralBody#showNight}
          * is also true, clouds on the dark side of the globe will fully or partially occlude the night texture.
-         * <div align="center">
-         * <img src="../images/CentralBody.showClouds.jpg" width="400" height="300" />
+         * <div align='center'>
+         * <img src='../images/CentralBody.showClouds.jpg' width='400' height='300' />
          * </div>
          *
          * @type {Boolean}
@@ -39665,7 +40612,7 @@ define('Scene/CentralBody',[
          *
          * @example
          * cb.showClouds = true;
-         * cb.cloudsMapSource = "clouds.jpg";
+         * cb.cloudsMapSource = 'clouds.jpg';
          */
         this.showClouds = true;
         this._showClouds = false;
@@ -39674,10 +40621,10 @@ define('Scene/CentralBody',[
          * When <code>true</code>, clouds on the daytime side of the globe cast approximate shadows.  The
          * shadows can be shown with or without the clouds themselves, which are controlled with
          * {@link CentralBody#showClouds}.
-         * <div align="center">
-         * <table border="0" cellpadding="5"><tr>
-         * <td align="center"><code>true</code><br/><img src="../images/CentralBody.showCloudShadows.true.jpg" width="250" height="188" /></td>
-         * <td align="center"><code>false</code><br/><img src="../images/CentralBody.showCloudShadows.false.jpg" width="250" height="188" /></td>
+         * <div align='center'>
+         * <table border='0' cellpadding='5'><tr>
+         * <td align='center'><code>true</code><br/><img src='../images/CentralBody.showCloudShadows.true.jpg' width='250' height='188' /></td>
+         * <td align='center'><code>false</code><br/><img src='../images/CentralBody.showCloudShadows.false.jpg' width='250' height='188' /></td>
          * </tr></table>
          * </div>
          *
@@ -39689,17 +40636,17 @@ define('Scene/CentralBody',[
          * @example
          * cb.showClouds = true;
          * cb.showCloudShadows = true;
-         * cb.cloudsMapSource = "clouds.jpg";
+         * cb.cloudsMapSource = 'clouds.jpg';
          */
         this.showCloudShadows = true;
         this._showCloudShadows = false;
 
         /**
          * When <code>true</code>, a specular map (also called a gloss map) is used so only the ocean receives specular light.
-         * <div align="center">
-         * <table border="0" cellpadding="5"><tr>
-         * <td align="center"><code>true</code><br/><img src="../images/CentralBody.showSpecular.true.jpg" width="250" height="188" /></td>
-         * <td align="center"><code>false</code><br/><img src="../images/CentralBody.showSpecular.false.jpg" width="250" height="188" /></td>
+         * <div align='center'>
+         * <table border='0' cellpadding='5'><tr>
+         * <td align='center'><code>true</code><br/><img src='../images/CentralBody.showSpecular.true.jpg' width='250' height='188' /></td>
+         * <td align='center'><code>false</code><br/><img src='../images/CentralBody.showSpecular.false.jpg' width='250' height='188' /></td>
          * </tr></table>
          * </div>
          *
@@ -39709,7 +40656,7 @@ define('Scene/CentralBody',[
          *
          * @example
          * cb.showSpecular = true;
-         * cb.specularMapSource = "specular.jpg";
+         * cb.specularMapSource = 'specular.jpg';
          */
         this.showSpecular = true;
         this._showSpecular = false;
@@ -39718,10 +40665,10 @@ define('Scene/CentralBody',[
          * When <code>true</code>, a bump map is used to add lighting detail to the mountainous areas of the central body.
          * This gives the appearance of extra geometric complexity even though the central body is still a smooth ellipsoid.
          * The apparent steepness of the mountains is controlled by {@link CentralBody#bumpMapNormalZ}.
-         * <div align="center">
-         * <table border="0" cellpadding="5"><tr>
-         * <td align="center"><code>true</code><br/><img src="../images/CentralBody.showBumps.true.jpg" width="250" height="188" /></td>
-         * <td align="center"><code>false</code><br/><img src="../images/CentralBody.showBumps.false.jpg" width="250" height="188" /></td>
+         * <div align='center'>
+         * <table border='0' cellpadding='5'><tr>
+         * <td align='center'><code>true</code><br/><img src='../images/CentralBody.showBumps.true.jpg' width='250' height='188' /></td>
+         * <td align='center'><code>false</code><br/><img src='../images/CentralBody.showBumps.false.jpg' width='250' height='188' /></td>
          * </tr></table>
          * </div>
          *
@@ -39732,15 +40679,15 @@ define('Scene/CentralBody',[
          *
          * @example
          * cb.showBumps = true;
-         * cb.bumpMapSource = "bump.jpg";
+         * cb.bumpMapSource = 'bump.jpg';
          */
         this.showBumps = true;
         this._showBumps = false;
 
         /**
          * When <code>true</code>, shows a line on the central body where day meets night.
-         * <div align="center">
-         * <img src="../images/CentralBody.showTerminator.jpg" width="400" height="300" />
+         * <div align='center'>
+         * <img src='../images/CentralBody.showTerminator.jpg' width='400' height='300' />
          * </div>
          *
          * @type {Boolean}
@@ -39755,10 +40702,10 @@ define('Scene/CentralBody',[
          * When {@link CentralBody#showBumps} is <code>true</code>, <code>bumpMapNormalZ</code> controls the
          * apparent steepness of the mountains.  A value less than one over-exaggerates the steepness; a value greater
          * than one under-exaggerates, making mountains less noticeable.
-         * <div align="center">
-         * <table border="0" cellpadding="5"><tr>
-         * <td align="center"><code>0.25</code><br/><img src="../images/Centralbody.bumpMapNormalZ.025.jpg" width="250" height="188" /></td>
-         * <td align="center"><code>1.25</code><br/><img src="../images/Centralbody.bumpMapNormalZ.125.jpg" width="250" height="188" /></td>
+         * <div align='center'>
+         * <table border='0' cellpadding='5'><tr>
+         * <td align='center'><code>0.25</code><br/><img src='../images/Centralbody.bumpMapNormalZ.025.jpg' width='250' height='188' /></td>
+         * <td align='center'><code>1.25</code><br/><img src='../images/Centralbody.bumpMapNormalZ.125.jpg' width='250' height='188' /></td>
          * </tr></table>
          * </div>
          *
@@ -39768,7 +40715,7 @@ define('Scene/CentralBody',[
          *
          * @example
          * cb.showBumps = true;
-         * cb.bumpMapSource = "bump.jpg";
+         * cb.bumpMapSource = 'bump.jpg';
          * cb.bumpMapNormalZ = 1.0;
          */
         this.bumpMapNormalZ = 0.5;
@@ -39778,10 +40725,10 @@ define('Scene/CentralBody',[
          * <code>dayNightBlendDelta</code> determines the size of the blend region surrounding the terminator (where day
          * meets night).  A value of zero indicates a sharp transition without blending; a larger value creates a linearly
          * blended region based on the diffuse lighting component:  <code>-dayNightBlendDelta &lt; diffuse &lt; dayNightBlendDelta</code>.
-         * <div align="center">
-         * <table border="0" cellpadding="5"><tr>
-         * <td align="center"><code>0.0</code><br/><img src="../images/Centralbody.dayNightBlendDelta.0.jpg" width="250" height="188" /></td>
-         * <td align="center"><code>0.05</code><br/><img src="../images/Centralbody.dayNightBlendDelta.05.jpg" width="250" height="188" /></td>
+         * <div align='center'>
+         * <table border='0' cellpadding='5'><tr>
+         * <td align='center'><code>0.0</code><br/><img src='../images/Centralbody.dayNightBlendDelta.0.jpg' width='250' height='188' /></td>
+         * <td align='center'><code>0.05</code><br/><img src='../images/Centralbody.dayNightBlendDelta.05.jpg' width='250' height='188' /></td>
          * </tr></table>
          * </div>
          *
@@ -39793,9 +40740,9 @@ define('Scene/CentralBody',[
          *
          * @example
          * cb.showDay = true;
-         * cb.dayImageSource = "day.jpg";
+         * cb.dayImageSource = 'day.jpg';
          * cb.showNight = true;
-         * cb.nightImageSource = "night.jpg";
+         * cb.nightImageSource = 'night.jpg';
          * cb.dayNightBlendDelta = 0.0;  // Sharp transition
          */
         this.dayNightBlendDelta = 0.05;
@@ -39808,9 +40755,10 @@ define('Scene/CentralBody',[
         this.nightIntensity = 2.0;
 
         /**
-         * DOC_TBA
+         * The current morph transition time between 2D/Columbus View and 3D,
+         * with 0.0 being 2D or Columbus View and 1.0 being 3D.
          *
-         * @type {Number}
+         * @type Number
          */
         this.morphTime = 1.0;
 
@@ -39955,21 +40903,6 @@ define('Scene/CentralBody',[
                  (newMode === SceneMode.SCENE3D)));
     };
 
-    CentralBody.prototype._syncMorphTime = function(mode) {
-        switch (mode) {
-        case SceneMode.SCENE3D:
-            this.morphTime = 1.0;
-            break;
-
-        case SceneMode.SCENE2D:
-        case SceneMode.COLUMBUS_VIEW:
-            this.morphTime = 0.0;
-            break;
-
-        // MORPHING - don't change it
-        }
-    };
-
     CentralBody.prototype._prefetchImages = function() {
         var limit = Math.max(Math.min(this._prefetchLimit, this._dayTileProvider.zoomMax), this._dayTileProvider.zoomMin);
         var stack = [this._rootTile];
@@ -40029,25 +40962,24 @@ define('Scene/CentralBody',[
         return this._dayTileProvider.loadTileImage(tile, onload, onerror, oninvalid);
     };
 
-    CentralBody.prototype._getTileBoundingSphere = function (tile, state) {
-        var boundingVolume;
-        if (state.mode === SceneMode.SCENE3D) {
-            boundingVolume = tile.get3DBoundingSphere().clone();
-        } else if (state.mode === SceneMode.COLUMBUS_VIEW){
-            boundingVolume = tile.get2DBoundingSphere(state.projection).clone();
+    CentralBody.prototype._getTileBoundingSphere = function(tile, sceneState) {
+        if (sceneState.mode === SceneMode.SCENE3D) {
+            return tile.get3DBoundingSphere();
+        } else if (sceneState.mode === SceneMode.COLUMBUS_VIEW) {
+            var boundingVolume = tile.get2DBoundingSphere(sceneState.scene2D.projection).clone();
             boundingVolume.center = new Cartesian3(0.0, boundingVolume.center.x, boundingVolume.center.y);
+            return boundingVolume;
         } else {
-            boundingVolume = tile.computeMorphBounds(this.morphTime, state.projection);
+            return tile.computeMorphBounds(this.morphTime, sceneState.scene2D.projection);
         }
-        return boundingVolume;
     };
 
-    CentralBody.prototype._cull = function(tile, state) {
-        if (state.mode === SceneMode.SCENE2D) {
-            var bRect = tile.get2DBoundingRectangle(state.projection);
+    CentralBody.prototype._cull = function(tile, sceneState) {
+        if (sceneState.mode === SceneMode.SCENE2D) {
+            var bRect = tile.get2DBoundingRectangle(sceneState.scene2D.projection);
 
-            var frustum = this._camera.frustum;
-            var position = this._camera.position;
+            var frustum = sceneState.camera.frustum;
+            var position = sceneState.camera.position;
             var x = position.x + frustum.left;
             var y = position.y + frustum.bottom;
             var w = position.x + frustum.right - x;
@@ -40057,24 +40989,25 @@ define('Scene/CentralBody',[
             return !Rectangle.rectangleRectangleIntersect(bRect, fRect);
         }
 
-        var boundingVolume = this._getTileBoundingSphere(tile, state);
-        if (this._camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE) {
+        var boundingVolume = this._getTileBoundingSphere(tile, sceneState);
+        if (sceneState.camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE) {
             return true;
         }
 
-        if (state.mode === SceneMode.SCENE3D) {
+        if (sceneState.mode === SceneMode.SCENE3D) {
             var occludeePoint = tile.getOccludeePoint();
-            return (occludeePoint && !state.occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !state.occluder.isVisible(boundingVolume);
+            var occluder = this._occluder;
+            return (occludeePoint && !occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !occluder.isVisible(boundingVolume);
         }
 
         return false;
     };
 
-    CentralBody.prototype._throttleImages = function(state) {
+    CentralBody.prototype._throttleImages = function(sceneState) {
         for ( var i = 0, len = this._imageQueue.length; i < len && i < this._imageThrottleLimit; ++i) {
             var tile = this._imageQueue.dequeue();
 
-            if (this._cull(tile, state)) {
+            if (this._cull(tile, sceneState)) {
                 tile.state = TileState.READY;
                 continue;
             }
@@ -40095,18 +41028,18 @@ define('Scene/CentralBody',[
     CentralBody.prototype._createBaseTile = function() {
         // Some tile servers, like Bing, don't have a base image for the entire central body.
         // Create a 1x1 image that will never get rendered.
-        var canvas = document.createElement("canvas");
+        var canvas = document.createElement('canvas');
         canvas.width = 1.0;
         canvas.height = 1.0;
 
         return canvas;
     };
 
-    CentralBody.prototype._throttleReprojection = function(state) {
+    CentralBody.prototype._throttleReprojection = function(sceneState) {
         for ( var i = 0, len = this._reprojectQueue.length; i < len && i < this._reprojectThrottleLimit; ++i) {
             var tile = this._reprojectQueue.dequeue();
 
-            if (this._cull(tile, state)) {
+            if (this._cull(tile, sceneState)) {
                 tile.image = undefined;
                 tile.state = TileState.READY;
                 continue;
@@ -40118,11 +41051,11 @@ define('Scene/CentralBody',[
         }
     };
 
-    CentralBody.prototype._throttleTextures = function(state) {
+    CentralBody.prototype._throttleTextures = function(context, sceneState) {
         for ( var i = 0, len = this._textureQueue.length; i < len && i < this._textureThrottleLimit; ++i) {
             var tile = this._textureQueue.dequeue();
 
-            if (this._cull(tile, state) || !tile.image) {
+            if (this._cull(tile, sceneState) || !tile.image) {
                 tile.image = undefined;
                 tile.state = TileState.READY;
                 continue;
@@ -40136,7 +41069,7 @@ define('Scene/CentralBody',[
                 wrapT : TextureWrap.CLAMP,
                 minificationFilter : TextureMinificationFilter.LINEAR_MIPMAP_LINEAR,
                 magnificationFilter : TextureMagnificationFilter.LINEAR,
-                maximumAnisotropy : state.context.getMaximumTextureFilterAnisotropy() || 8 // TODO: Remove Chrome work around
+                maximumAnisotropy : context.getMaximumTextureFilterAnisotropy() || 8 // TODO: Remove Chrome work around
             });
             tile.state = TileState.TEXTURE_LOADED;
             tile.image = undefined;
@@ -40179,14 +41112,13 @@ define('Scene/CentralBody',[
         }
     };
 
-    CentralBody.prototype._enqueueTile = function(tile, state) {
+    CentralBody.prototype._enqueueTile = function(tile, context, sceneState) {
         if (this._renderQueue.contains(tile)) {
             return;
         }
 
-        var mode = state.mode;
-        var projection = state.projection;
-        var context = state.context;
+        var mode = sceneState.mode;
+        var projection = sceneState.scene2D.projection;
 
         // create vertex array the first time it is needed or when morphing
         if (!tile._extentVA ||
@@ -40332,13 +41264,13 @@ define('Scene/CentralBody',[
         this._renderQueue.enqueue(tile);
     };
 
-    CentralBody.prototype._createTileDistanceFunction = function(width, height) {
+    CentralBody.prototype._createTileDistanceFunction = function(sceneState, width, height) {
         var provider = this._dayTileProvider;
         if (typeof provider === 'undefined') {
             return undefined;
         }
 
-        var frustum = this._camera.frustum;
+        var frustum = sceneState.camera.frustum;
         var extent = provider.maxExtent;
 
         var pixelSizePerDistance = 2.0 * Math.tan(frustum.fovy * 0.5);
@@ -40360,9 +41292,9 @@ define('Scene/CentralBody',[
         };
     };
 
-    CentralBody.prototype._refine3D = function(tile, state) {
+    CentralBody.prototype._refine3D = function(tile, context, sceneState) {
         var provider = this._dayTileProvider;
-        if (typeof provider === "undefined") {
+        if (typeof provider === 'undefined') {
             return false;
         }
 
@@ -40370,11 +41302,11 @@ define('Scene/CentralBody',[
             return true;
         }
 
-        var boundingVolume = this._getTileBoundingSphere(tile, state);
-        var cameraPosition = state.camera.position;
-        var direction = state.camera.direction;
+        var boundingVolume = this._getTileBoundingSphere(tile, sceneState);
+        var cameraPosition = sceneState.camera.getPositionWC();
+        var direction = sceneState.camera.getDirectionWC();
 
-        var texturePixelError = (this.pixelError3D !== "undefined" && this.pixelError3D > 0.0) ? this.pixelError3D : 1.0;
+        var texturePixelError = (this.pixelError3D !== 'undefined' && this.pixelError3D > 0.0) ? this.pixelError3D : 1.0;
         var dmin = this._minTileDistance(tile.zoom, texturePixelError);
 
         var toCenter = boundingVolume.center.subtract(cameraPosition);
@@ -40388,18 +41320,18 @@ define('Scene/CentralBody',[
         return false;
     };
 
-    CentralBody.prototype._refine2D = function(tile, state) {
-        var camera = this._camera;
+    CentralBody.prototype._refine2D = function(tile, context, sceneState) {
+        var camera = sceneState.camera;
         var frustum = camera.frustum;
         var pixelError = this.pixelError2D;
         var provider = this._dayTileProvider;
 
-        var projection = state.projection;
-        var viewport = state.context.getViewport();
+        var projection = sceneState.scene2D.projection;
+        var viewport = context.getViewport();
         var viewportWidth = viewport.width;
         var viewportHeight = viewport.height;
 
-        if (typeof provider === "undefined") {
+        if (typeof provider === 'undefined') {
             return false;
         }
 
@@ -40413,7 +41345,7 @@ define('Scene/CentralBody',[
         if (tile.texture && !tile.texture.isDestroyed()) {
             tileWidth = tile.texture.getWidth();
             tileHeight = tile.texture.getHeight();
-        } else if (tile.image && typeof tile.image.width !== "undefined") {
+        } else if (tile.image && typeof tile.image.width !== 'undefined') {
             tileWidth = tile.image.width;
             tileHeight = tile.image.height;
         } else {
@@ -40434,19 +41366,12 @@ define('Scene/CentralBody',[
         return false;
     };
 
-    /**
-     * Determines whether a tile should be refined to a higher resolution.
-     *
-     * @memberof CentralBody
-     *
-     * @return {Boolean} <code>true</code> if a higher resolution tile should be displayed or <code>false</code> if a higher resolution tile is not needed.
-     */
-    CentralBody.prototype.refine = function(tile, state) {
-        if (state.mode === SceneMode.SCENE2D) {
-            return this._refine2D(tile, state);
+    CentralBody.prototype._refine = function(tile, context, sceneState) {
+        if (sceneState.mode === SceneMode.SCENE2D) {
+            return this._refine2D(tile, context, sceneState);
         }
 
-        return this._refine3D(tile, state);
+        return this._refine3D(tile, context, sceneState);
     };
 
     CentralBody.prototype._createScissorRectangle = function(description) {
@@ -40476,15 +41401,12 @@ define('Scene/CentralBody',[
         };
     };
 
-    CentralBody.prototype._computeDepthQuad = function() {
+    CentralBody.prototype._computeDepthQuad = function(sceneState) {
         // PERFORMANCE_TODO: optimize diagonal matrix multiplies.
         var dInverse = Matrix3.createNonUniformScale(this._ellipsoid.getRadii());
         var d = Matrix3.createNonUniformScale(this._ellipsoid.getOneOverRadii());
 
-        // TODO: Stop transforming camera position to world coordinates all the time.
-        var p = this._camera.position;
-        p = new Cartesian4(p.x, p.y, p.z, 1.0);
-        p = this._camera.transform.multiplyWithVector(p).getXYZ();
+        var p = sceneState.camera.getPositionWC();
 
         // Find the corresponding position in the scaled space of the ellipsoid.
         var q = d.multiplyWithVector(p);
@@ -40496,7 +41418,7 @@ define('Scene/CentralBody',[
         var eUnit = Cartesian3.UNIT_Z.cross(q).normalize();
         var nUnit = qUnit.cross(eUnit).normalize();
 
-        // Determine the radius of the "limb" of the ellipsoid.
+        // Determine the radius of the 'limb' of the ellipsoid.
         var wMagnitude = Math.sqrt(q.magnitudeSquared() - 1.0);
 
         // Compute the center and offsets.
@@ -40513,7 +41435,7 @@ define('Scene/CentralBody',[
         return [upperLeft.x, upperLeft.y, upperLeft.z, lowerLeft.x, lowerLeft.y, lowerLeft.z, upperRight.x, upperRight.y, upperRight.z, lowerRight.x, lowerRight.y, lowerRight.z];
     };
 
-    CentralBody.prototype._computePoleQuad = function(maxLat, maxGivenLat, viewProjMatrix, viewportTransformation) {
+    CentralBody.prototype._computePoleQuad = function(sceneState, maxLat, maxGivenLat, viewProjMatrix, viewportTransformation) {
         var pt1 = this._ellipsoid.toCartesian(new Cartographic2(0.0, maxGivenLat));
         var pt2 = this._ellipsoid.toCartesian(new Cartographic2(Math.PI, maxGivenLat));
         var radius = pt1.subtract(pt2).magnitude() * 0.5;
@@ -40521,7 +41443,7 @@ define('Scene/CentralBody',[
         var center = this._ellipsoid.toCartesian(new Cartographic2(0.0, maxLat));
 
         var right;
-        var dir = this._camera.direction;
+        var dir = sceneState.camera.direction;
         if (1.0 - Cartesian3.UNIT_Z.negate().dot(dir) < CesiumMath.EPSILON6) {
             right = Cartesian3.UNIT_X;
         } else {
@@ -40545,13 +41467,13 @@ define('Scene/CentralBody',[
                 halfHeight * 2.0);
     };
 
-    CentralBody.prototype._fillPoles = function(state) {
-        if (typeof this._dayTileProvider === 'undefined' || state.mode !== SceneMode.SCENE3D) {
+    CentralBody.prototype._fillPoles = function(context, sceneState) {
+        if (typeof this._dayTileProvider === 'undefined' || sceneState.mode !== SceneMode.SCENE3D) {
             return;
         }
 
-        var viewProjMatrix = state.context.getUniformState().getViewProjection();
-        var viewportTransformation = state.context.getUniformState().getViewportTransformation();
+        var viewProjMatrix = context.getUniformState().getViewProjection();
+        var viewportTransformation = context.getUniformState().getViewportTransformation();
         var latitudeExtension = 0.05;
 
         var extent;
@@ -40563,6 +41485,7 @@ define('Scene/CentralBody',[
         var mesh;
         var rect;
         var positions;
+        var occluder = this._occluder;
 
         // handle north pole
         if (this._dayTileProvider.maxExtent.north < CesiumMath.PI_OVER_TWO) {
@@ -40573,13 +41496,13 @@ define('Scene/CentralBody',[
                 CesiumMath.PI_OVER_TWO
             );
             boundingVolume = Extent.compute3DBoundingSphere(extent, this._ellipsoid);
-            frustumCull = this._camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE;
+            frustumCull = sceneState.camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE;
             occludeePoint = Extent.computeOccludeePoint(extent, this._ellipsoid).occludeePoint;
-            occluded = (occludeePoint && !state.occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !state.occluder.isVisible(boundingVolume);
+            occluded = (occludeePoint && !occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !occluder.isVisible(boundingVolume);
 
             this._drawNorthPole = !frustumCull && !occluded;
             if (this._drawNorthPole) {
-                rect = this._computePoleQuad(extent.north, extent.south - latitudeExtension, viewProjMatrix, viewportTransformation);
+                rect = this._computePoleQuad(sceneState, extent.north, extent.south - latitudeExtension, viewProjMatrix, viewportTransformation);
                 positions = [
                     rect.x, rect.y,
                     rect.x + rect.width, rect.y,
@@ -40597,7 +41520,7 @@ define('Scene/CentralBody',[
                             }
                         }
                     };
-                    this._vaNorthPole = state.context.createVertexArrayFromMesh({
+                    this._vaNorthPole = context.createVertexArrayFromMesh({
                         mesh : mesh,
                         attributeIndices : {
                             position : 0
@@ -40620,13 +41543,13 @@ define('Scene/CentralBody',[
                 this._dayTileProvider.maxExtent.south
             );
             boundingVolume = Extent.compute3DBoundingSphere(extent, this._ellipsoid);
-            frustumCull = this._camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE;
+            frustumCull = sceneState.camera.getVisibility(boundingVolume, BoundingSphere.planeSphereIntersect) === Intersect.OUTSIDE;
             occludeePoint = Extent.computeOccludeePoint(extent, this._ellipsoid).occludeePoint;
-            occluded = (occludeePoint && !state.occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !state.occluder.isVisible(boundingVolume);
+            occluded = (occludeePoint && !occluder.isVisible(new BoundingSphere(occludeePoint, 0.0))) || !occluder.isVisible(boundingVolume);
 
             this._drawSouthPole = !frustumCull && !occluded;
             if (this._drawSouthPole) {
-                rect = this._computePoleQuad(extent.south, extent.north + latitudeExtension, viewProjMatrix, viewportTransformation);
+                rect = this._computePoleQuad(sceneState, extent.south, extent.north + latitudeExtension, viewProjMatrix, viewportTransformation);
                 positions = [
                      rect.x, rect.y,
                      rect.x + rect.width, rect.y,
@@ -40644,7 +41567,7 @@ define('Scene/CentralBody',[
                              }
                          }
                      };
-                     this._vaSouthPole = state.context.createVertexArrayFromMesh({
+                     this._vaSouthPole = context.createVertexArrayFromMesh({
                          mesh : mesh,
                          attributeIndices : {
                              position : 0
@@ -40700,8 +41623,6 @@ define('Scene/CentralBody',[
 
         var mode = sceneState.mode;
         var projection = sceneState.scene2D.projection;
-
-        this._syncMorphTime(mode);
 
         if (this._dayTileProvider !== this.dayTileProvider) {
             this._dayTileProvider = this.dayTileProvider;
@@ -40764,7 +41685,7 @@ define('Scene/CentralBody',[
             (!this._quadV || this._quadV.isDestroyed()) ||
             (!this._quadH || this._quadH.isDestroyed())) {
 
-            this._minTileDistance = this._createTileDistanceFunction(width, height);
+            this._minTileDistance = this._createTileDistanceFunction(sceneState, width, height);
 
             this._fb = this._fb && this._fb.destroy();
             this._quadV = this._quadV && this._quadV.destroy();
@@ -40781,7 +41702,7 @@ define('Scene/CentralBody',[
 
             // create viewport quad for vertical gaussian blur pass
             this._quadV = new ViewportQuad(new Rectangle(0.0, 0.0, width, height));
-            this._quadV.vertexShader = "#define VERTICAL 1\n" + CentralBodyVSFilter;
+            this._quadV.vertexShader = '#define VERTICAL 1\n' + CentralBodyVSFilter;
             this._quadV.fragmentShader = CentralBodyFSFilter;
             this._quadV.uniforms.u_height = function() {
                 return height;
@@ -40827,17 +41748,17 @@ define('Scene/CentralBody',[
                 bufferUsage : BufferUsage.STATIC_DRAW
             });
 
-            vs = "#define SKY_FROM_SPACE \n" +
-                 "#line 0 \n" +
+            vs = '#define SKY_FROM_SPACE \n' +
+                 '#line 0 \n' +
                  SkyAtmosphereVS;
 
-            fs = "#line 0\n" +
+            fs = '#line 0\n' +
                  SkyAtmosphereFS;
 
             this._spSkyFromSpace = context.getShaderCache().getShaderProgram(vs, fs);
 
-            vs = "#define SKY_FROM_ATMOSPHERE" +
-                 "#line 0 \n" +
+            vs = '#define SKY_FROM_ATMOSPHERE' +
+                 '#line 0 \n' +
                  SkyAtmosphereVS;
 
             this._spSkyFromAtmosphere = context.getShaderCache().getShaderProgram(vs, fs);
@@ -40889,7 +41810,7 @@ define('Scene/CentralBody',[
         this._rsDepth.cull.enabled = cull;
 
         // update scisor/depth plane
-        var depthQuad = this._computeDepthQuad();
+        var depthQuad = this._computeDepthQuad(sceneState);
 
         // TODO: re-enable scissorTest
         /*if (mode === SceneMode.SCENE3D) {
@@ -40940,7 +41861,7 @@ define('Scene/CentralBody',[
         if (!this._spDepth) {
             this._spDepth = context.getShaderCache().getShaderProgram(
                     CentralBodyVSDepth,
-                    "#line 0\n" +
+                    '#line 0\n' +
                     CentralBodyFSDepth, {
                         position : 0
                     });
@@ -40971,7 +41892,7 @@ define('Scene/CentralBody',[
                 });
             };
             nightImage.onerror = function() {
-                that._exception = "Could not load image: " + this.src + ".";
+                that._exception = 'Could not load image: ' + this.src + '.';
             };
             nightImage.src = this.nightImageSource;
         }
@@ -40988,7 +41909,7 @@ define('Scene/CentralBody',[
                 });
             };
             specularImage.onerror = function() {
-                that._exception = "Could not load image: " + this.src + ".";
+                that._exception = 'Could not load image: ' + this.src + '.';
             };
             specularImage.src = this.specularMapSource;
         }
@@ -41005,7 +41926,7 @@ define('Scene/CentralBody',[
                 });
             };
             cloudsImage.onerror = function() {
-                that._exception = "Could not load image: " + this.src + ".";
+                that._exception = 'Could not load image: ' + this.src + '.';
             };
             cloudsImage.src = this.cloudsMapSource;
         }
@@ -41022,7 +41943,7 @@ define('Scene/CentralBody',[
                 });
             };
             bumpImage.onerror = function() {
-                that._exception = "Could not load image: " + this.src + ".";
+                that._exception = 'Could not load image: ' + this.src + '.';
             };
             bumpImage.src = this.bumpMapSource;
         }
@@ -41037,23 +41958,25 @@ define('Scene/CentralBody',[
 
         if (typeof this._sp === 'undefined' || typeof this._spPoles === 'undefined' ||
             (dayChanged || nightChanged || cloudsChanged || cloudShadowsChanged || specularChanged || bumpsChanged) ||
-            (this._showTerminator !== this.showTerminator)) {
+            (this._showTerminator !== this.showTerminator) ||
+            (this._affectedByLighting !== this.affectedByLighting)) {
 
-            var fsPrepend = ((this.showDay && this._dayTileProvider) ? "#define SHOW_DAY 1\n" : "") +
-                ((this.showNight && this._nightTexture) ? "#define SHOW_NIGHT 1\n" : "") +
-                ((this.showClouds && this._cloudsTexture) ? "#define SHOW_CLOUDS 1\n" : "") +
-                ((this.showCloudShadows && this._cloudsTexture) ? "#define SHOW_CLOUD_SHADOWS 1\n" : "") +
-                ((this.showSpecular && this._specularTexture) ? "#define SHOW_SPECULAR 1\n" : "") +
-                ((this.showBumps && this._bumpTexture) ? "#define SHOW_BUMPS 1\n" : "") +
-                (this.showTerminator ? "#define SHOW_TERMINATOR 1\n" : "") +
-                "#line 0\n" +
+            var fsPrepend = ((this.showDay && this._dayTileProvider) ? '#define SHOW_DAY 1\n' : '') +
+                ((this.showNight && this._nightTexture) ? '#define SHOW_NIGHT 1\n' : '') +
+                ((this.showClouds && this._cloudsTexture) ? '#define SHOW_CLOUDS 1\n' : '') +
+                ((this.showCloudShadows && this._cloudsTexture) ? '#define SHOW_CLOUD_SHADOWS 1\n' : '') +
+                ((this.showSpecular && this._specularTexture) ? '#define SHOW_SPECULAR 1\n' : '') +
+                ((this.showBumps && this._bumpTexture) ? '#define SHOW_BUMPS 1\n' : '') +
+                (this.showTerminator ? '#define SHOW_TERMINATOR 1\n' : '') +
+                (this.affectedByLighting ? '#define AFFECTED_BY_LIGHTING 1\n' : '') +
+                '#line 0\n' +
                 CentralBodyFSCommon;
-            var groundFromSpacePrepend = "#define SHOW_GROUND_ATMOSPHERE 1\n" +
-                "#define SHOW_GROUND_ATMOSPHERE_FROM_SPACE 1\n";
-            var groundFromAtmospherePrepend = "#define SHOW_GROUND_ATMOSPHERE 1\n" +
-                "#define SHOW_GROUND_ATMOSPHERE_FROM_ATMOSPHERE 1\n";
+            var groundFromSpacePrepend = '#define SHOW_GROUND_ATMOSPHERE 1\n' +
+                '#define SHOW_GROUND_ATMOSPHERE_FROM_SPACE 1\n';
+            var groundFromAtmospherePrepend = '#define SHOW_GROUND_ATMOSPHERE 1\n' +
+                '#define SHOW_GROUND_ATMOSPHERE_FROM_ATMOSPHERE 1\n';
 
-            vs = "#line 0\n" +
+            vs = '#line 0\n' +
                  GroundAtmosphere +
                  CentralBodyVS;
 
@@ -41098,11 +42021,11 @@ define('Scene/CentralBody',[
             this._showSpecular = specularChanged ? this.showSpecular : this._showSpecular;
             this._showBumps = bumpsChanged ? this.showBumps : this._showBumps;
             this._showTerminator = this.showTerminator;
+            this._affectedByLighting = this.affectedByLighting;
         }
 
-        var camera = this._camera;
-        var cameraPosition = camera.transform.multiplyWithVector(new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0)).getXYZ();
-        var cameraDirection = camera.transform.multiplyWithVector(new Cartesian4(camera.direction.x, camera.direction.y, camera.direction.z, 0.0)).getXYZ();
+        var camera = sceneState.camera;
+        var cameraPosition = camera.getPositionWC();
 
         this._fCameraHeight2 = cameraPosition.magnitudeSquared();
         this._fCameraHeight = Math.sqrt(this._fCameraHeight2);
@@ -41130,35 +42053,26 @@ define('Scene/CentralBody',[
             this._spSky = this._spSkyFromAtmosphere;
         }
 
-        var state = {
-                context : context,
-                camera : {
-                    position : cameraPosition,
-                    direction : cameraDirection
-                },
-                occluder : new Occluder(new BoundingSphere(Cartesian3.ZERO, this._ellipsoid.getMinimumRadius()), cameraPosition),
-                mode : mode,
-                projection : projection
-        };
+        this._occluder.setCameraPosition(cameraPosition);
 
         // TODO: refactor
-        this._fillPoles(state);
+        this._fillPoles(context, sceneState);
 
-        this._throttleImages(state);
-        this._throttleReprojection(state);
-        this._throttleTextures(state);
+        this._throttleImages(sceneState);
+        this._throttleReprojection(sceneState);
+        this._throttleTextures(context, sceneState);
 
         var stack = [this._rootTile];
         while (stack.length !== 0) {
             var tile = stack.pop();
 
-            if (this._cull(tile, state)) {
+            if (this._cull(tile, sceneState)) {
                 continue;
             }
 
             if (!this._dayTileProvider || (tile.state === TileState.TEXTURE_LOADED && tile.texture && !tile.texture.isDestroyed())) {
-                if ((this._dayTileProvider && tile.zoom + 1 > this._dayTileProvider.zoomMax) || !this.refine(tile, state)) {
-                    this._enqueueTile(tile, state);
+                if ((this._dayTileProvider && tile.zoom + 1 > this._dayTileProvider.zoomMax) || !this._refine(tile, context, sceneState)) {
+                    this._enqueueTile(tile, context, sceneState);
                 } else {
                     var children = tile.getChildren();
                     for (var i = 0; i < children.length; ++i) {
@@ -41166,7 +42080,7 @@ define('Scene/CentralBody',[
                         if ((child.state === TileState.TEXTURE_LOADED && child.texture && !child.texture.isDestroyed())) {
                             stack.push(child);
                         } else {
-                            this._enqueueTile(tile, state);
+                            this._enqueueTile(tile, context, sceneState);
                             this._processTile(child);
                         }
                     }
@@ -42189,9 +43103,9 @@ define('Scene/AnimationCollection',[
      */
     AnimationCollection.prototype.add = function(template) {
         var t = template || {};
-        t.duration = (typeof t.duration === "undefined") ? 3000 : t.duration;
-        t.delayDuration = (typeof t.delayDuration === "undefined") ? 0 : t.delayDuration;
-        t.easingFunction = (typeof t.easingFunction === "undefined") ? Tween.Easing.Linear.EaseNone : t.easingFunction;
+        t.duration = (typeof t.duration === 'undefined') ? 3000 : t.duration;
+        t.delayDuration = (typeof t.delayDuration === 'undefined') ? 0 : t.delayDuration;
+        t.easingFunction = (typeof t.easingFunction === 'undefined') ? Tween.Easing.Linear.EaseNone : t.easingFunction;
 
         var value = clone(t.startValue);
         var tween = new Tween.Tween(value);
@@ -42219,32 +43133,32 @@ define('Scene/AnimationCollection',[
      * @exception {DeveloperError} material has no properties with alpha components.
      */
     AnimationCollection.prototype.addAlpha = function(material, start, stop, template) {
-        if (typeof material === "undefined") {
-            throw new DeveloperError("material is required.", "material");
+        if (typeof material === 'undefined') {
+            throw new DeveloperError('material is required.');
         }
 
         var properties = [];
 
         for ( var property in material) {
             if (material.hasOwnProperty(property) &&
-                typeof material[property] !== "undefined" &&
-                typeof material[property].alpha !== "undefined") {
+                typeof material[property] !== 'undefined' &&
+                typeof material[property].alpha !== 'undefined') {
                 properties.push(property);
             }
         }
 
         if (properties.length === 0) {
-            throw new DeveloperError("material has no properties with alpha components.", "material");
+            throw new DeveloperError('material has no properties with alpha components.');
         }
 
         // Default to fade in
-        start = (typeof start === "undefined") ? 0.0 : start;
-        stop = (typeof stop === "undefined") ? 1.0 : stop;
+        start = (typeof start === 'undefined') ? 0.0 : start;
+        stop = (typeof stop === 'undefined') ? 1.0 : stop;
 
         var t = template || {};
-        t.duration = (typeof t.duration === "undefined") ? 3000 : t.duration;
-        t.delayDuration = (typeof t.delayDuration === "undefined") ? 0 : t.delayDuration;
-        t.easingFunction = (typeof t.easingFunction === "undefined") ? Tween.Easing.Linear.EaseNone : t.easingFunction;
+        t.duration = (typeof t.duration === 'undefined') ? 3000 : t.duration;
+        t.delayDuration = (typeof t.delayDuration === 'undefined') ? 0 : t.delayDuration;
+        t.easingFunction = (typeof t.easingFunction === 'undefined') ? Tween.Easing.Linear.EaseNone : t.easingFunction;
 
         var value = {
             alpha : start
@@ -42274,22 +43188,22 @@ define('Scene/AnimationCollection',[
      * @memberof AnimationCollection
      */
     AnimationCollection.prototype.addProperty = function(object, property, start, stop, template) {
-        if (typeof object === "undefined") {
-            throw new DeveloperError("object is required.", "object");
+        if (typeof object === 'undefined') {
+            throw new DeveloperError('object is required.');
         }
 
-        if (typeof property === "undefined") {
-            throw new DeveloperError("property is required.", "property");
+        if (typeof property === 'undefined') {
+            throw new DeveloperError('property is required.');
         }
 
-        if (typeof object[property] === "undefined") {
-            throw new DeveloperError("object must have the specified property.");
+        if (typeof object[property] === 'undefined') {
+            throw new DeveloperError('object must have the specified property.');
         }
 
         var t = template || {};
-        t.duration = (typeof t.duration === "undefined") ? 3000 : t.duration;
-        t.delayDuration = (typeof t.delayDuration === "undefined") ? 0 : t.delayDuration;
-        t.easingFunction = (typeof t.easingFunction === "undefined") ? Tween.Easing.Linear.EaseNone : t.easingFunction;
+        t.duration = (typeof t.duration === 'undefined') ? 3000 : t.duration;
+        t.delayDuration = (typeof t.delayDuration === 'undefined') ? 0 : t.delayDuration;
+        t.easingFunction = (typeof t.easingFunction === 'undefined') ? Tween.Easing.Linear.EaseNone : t.easingFunction;
 
         var value = {
             value : start
@@ -42319,18 +43233,18 @@ define('Scene/AnimationCollection',[
      * @exception {DeveloperError} material must have an offset property.
      */
     AnimationCollection.prototype.addOffsetIncrement = function(material, template) {
-        if (typeof material === "undefined") {
-            throw new DeveloperError("material is required.", "material");
+        if (typeof material === 'undefined') {
+            throw new DeveloperError('material is required.');
         }
 
-        if (typeof material.offset === "undefined") {
-            throw new DeveloperError("material must have an offset property.", "material");
+        if (typeof material.offset === 'undefined') {
+            throw new DeveloperError('material must have an offset property.');
         }
 
         var t = template || {};
-        t.duration = (typeof t.duration === "undefined") ? 3000 : t.duration;
-        t.delayDuration = (typeof t.delayDuration === "undefined") ? 0 : t.delayDuration;
-        t.easingFunction = (typeof t.easingFunction === "undefined") ? Tween.Easing.Linear.EaseNone : t.easingFunction;
+        t.duration = (typeof t.duration === 'undefined') ? 3000 : t.duration;
+        t.delayDuration = (typeof t.delayDuration === 'undefined') ? 0 : t.delayDuration;
+        t.easingFunction = (typeof t.easingFunction === 'undefined') ? Tween.Easing.Linear.EaseNone : t.easingFunction;
 
         var value = {
             offset : material.offset
@@ -42400,7 +43314,8 @@ define('Scene/Scene',[
         './Camera',
         './CompositePrimitive',
         './AnimationCollection',
-        './SceneMode'
+        './SceneMode',
+        './SceneState'
     ], function(
         destroyObject,
         EquidistantCylindricalProjection,
@@ -42409,7 +43324,8 @@ define('Scene/Scene',[
         Camera,
         CompositePrimitive,
         AnimationCollection,
-        SceneMode) {
+        SceneMode,
+        SceneState) {
     
 
     /**
@@ -42421,6 +43337,7 @@ define('Scene/Scene',[
     function Scene(canvas) {
         var context = new Context(canvas);
 
+        this._sceneState = new SceneState();
         this._canvas = canvas;
         this._context = context;
         this._primitives = new CompositePrimitive();
@@ -42442,7 +43359,9 @@ define('Scene/Scene',[
         this._shaderFrameCount = 0;
 
         /**
-         * DOC_TBA
+         * The current mode of the scene.
+         *
+         * @type SceneMode
          */
         this.mode = SceneMode.SCENE3D;
 
@@ -42451,10 +43370,18 @@ define('Scene/Scene',[
          */
         this.scene2D = {
             /**
-             * DOC_TBA
+             * The projection to use in 2D mode.
              */
             projection : new EquidistantCylindricalProjection(Ellipsoid.WGS84)
         };
+
+        /**
+         * The current morph transition time between 2D/Columbus View and 3D,
+         * with 0.0 being 2D or Columbus View and 1.0 being 3D.
+         *
+         * @type Number
+         */
+        this.morphTime = 1.0;
     }
 
     /**
@@ -42560,10 +43487,12 @@ define('Scene/Scene',[
             this._animate();
         }
 
-        this._primitives.update(this._context, {
-            mode : this.mode,
-            scene2D : this.scene2D
-        });
+        var sceneState = this._sceneState;
+        sceneState.mode = this.mode;
+        sceneState.scene2D = this.scene2D;
+        sceneState.camera = camera;
+
+        this._primitives.update(this._context, sceneState);
     };
 
     /**
@@ -42676,11 +43605,10 @@ define('Scene/SceneTransitioner',[
         frustum.near = 0.01 * maxRadii;
         frustum.far = 60.0 * maxRadii;
 
-        var transform = new Matrix4(
-                0.0, 0.0, 1.0, 0.0,
-                1.0, 0.0, 0.0, 0.0,
-                0.0, 1.0, 0.0, 0.0,
-                0.0, 0.0, 0.0, 1.0);
+        var transform = new Matrix4(0.0, 0.0, 1.0, 0.0,
+                                    1.0, 0.0, 0.0, 0.0,
+                                    0.0, 1.0, 0.0, 0.0,
+                                    0.0, 0.0, 0.0, 1.0);
 
         this._camera2D = {
             position : position,
@@ -42750,6 +43678,55 @@ define('Scene/SceneTransitioner',[
         this.endMorphOnMouseInput = true;
     }
 
+    //immediately set the morph time of all objects in the scene
+    function setMorphTime(scene, morphTime) {
+        scene.morphTime = morphTime;
+
+        var primitives = scene.getPrimitives();
+        for ( var i = 0, len = primitives.getLength(); i < len; i++) {
+            var primitive = primitives.get(i);
+            if (typeof primitive.morphTime !== 'undefined') {
+                primitive.morphTime = morphTime;
+            }
+        }
+
+        var centralBody = primitives.getCentralBody();
+        centralBody.morphTime = morphTime;
+    }
+
+    //in the future the animations will be more complicated
+    function addMorphTimeAnimations(transitioner, scene, start, stop, duration, onComplete) {
+        //for now, all objects morph at the same rate
+        var template = {
+            duration : duration,
+            easingFunction : Tween.Easing.Quartic.EaseOut
+        };
+
+        var primitives = scene.getPrimitives();
+        var sceneAnimations = scene.getAnimations();
+        var animation;
+        for ( var i = 0, len = primitives.getLength(); i < len; i++) {
+            var primitive = primitives.get(i);
+            if (typeof primitive.morphTime !== 'undefined') {
+                animation = sceneAnimations.addProperty(primitive, 'morphTime', start, stop, template);
+                transitioner._currentAnimations.push(animation);
+            }
+        }
+
+        var centralBody = primitives.getCentralBody();
+        animation = sceneAnimations.addProperty(centralBody, 'morphTime', start, stop, template);
+        transitioner._currentAnimations.push(animation);
+
+        if (typeof onComplete !== 'undefined') {
+            template.onComplete = function() {
+                onComplete.call(transitioner);
+            };
+        }
+
+        animation = sceneAnimations.addProperty(scene, 'morphTime', start, stop, template);
+        transitioner._currentAnimations.push(animation);
+    }
+
     /**
      * DOC_TBA
      * @memberof SceneTransitioner
@@ -42759,6 +43736,7 @@ define('Scene/SceneTransitioner',[
 
         if (scene.mode !== SceneMode.SCENE2D) {
             scene.mode = SceneMode.SCENE2D;
+            setMorphTime(scene, 0.0);
 
             this._destroyMorphHandler();
 
@@ -42787,6 +43765,7 @@ define('Scene/SceneTransitioner',[
 
         if (scene.mode !== SceneMode.COLUMBUS_VIEW) {
             scene.mode = SceneMode.COLUMBUS_VIEW;
+            setMorphTime(scene, 0.0);
 
             this._destroyMorphHandler();
 
@@ -42820,6 +43799,7 @@ define('Scene/SceneTransitioner',[
 
         if (scene.mode !== SceneMode.SCENE3D) {
             scene.mode = SceneMode.SCENE3D;
+            setMorphTime(scene, 1.0);
 
             this._destroyMorphHandler();
 
@@ -42843,7 +43823,7 @@ define('Scene/SceneTransitioner',[
         }
     };
 
-    SceneTransitioner.prototype._createMorphHandler = function (endMorphFunction) {
+    SceneTransitioner.prototype._createMorphHandler = function(endMorphFunction) {
         var that = this;
 
         var controllers = this._scene.getCamera().getControllers();
@@ -42851,28 +43831,21 @@ define('Scene/SceneTransitioner',[
 
         if (this.endMorphOnMouseInput) {
             this._morphHandler = new EventHandler(this._scene.getCanvas());
-            this._morphHandler.setMouseAction(function () {
+
+            var cancelMorph = function() {
                 that._morphCancelled = true;
                 endMorphFunction.call(that);
-            }, MouseEventType.LEFT_DOWN);
-            this._morphHandler.setMouseAction(function () {
-                that._morphCancelled = true;
-                endMorphFunction.call(that);
-            }, MouseEventType.MIDDLE_DOWN);
-            this._morphHandler.setMouseAction(function () {
-                that._morphCancelled = true;
-                endMorphFunction.call(that);
-            }, MouseEventType.RIGHT_DOWN);
-            this._morphHandler.setMouseAction(function () {
-                that._morphCancelled = true;
-                endMorphFunction.call(that);
-            }, MouseEventType.WHEEL);
+            };
+            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.LEFT_DOWN);
+            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.MIDDLE_DOWN);
+            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.RIGHT_DOWN);
+            this._morphHandler.setMouseAction(cancelMorph, MouseEventType.WHEEL);
         }
     };
 
-    SceneTransitioner.prototype._destroyMorphHandler = function () {
+    SceneTransitioner.prototype._destroyMorphHandler = function() {
         var animations = this._scene.getAnimations();
-        for (var i = 0; i < this._currentAnimations.length; ++i) {
+        for ( var i = 0; i < this._currentAnimations.length; ++i) {
             animations.remove(this._currentAnimations[i]);
         }
         this._currentAnimations.length = 0;
@@ -43113,8 +44086,6 @@ define('Scene/SceneTransitioner',[
         var that = this;
 
         var scene = this._scene;
-        var primitives = scene.getPrimitives();
-        var cb = primitives.getCentralBody();
 
         var camera = scene.getCamera();
         this._changeCameraTransform(camera, this._cameraCV.transform);
@@ -43133,6 +44104,7 @@ define('Scene/SceneTransitioner',[
             camera.up = that._columbusViewMorph(startUp, endUp, value.time);
             camera.right = camera.direction.cross(camera.up);
         };
+
         var animation = scene.getAnimations().add({
             duration : duration,
             easingFunction : Tween.Easing.Quartic.EaseOut,
@@ -43151,33 +44123,10 @@ define('Scene/SceneTransitioner',[
         });
         this._currentAnimations.push(animation);
 
-        for ( var i = 0; i < primitives.getLength(); ++i) {
-            var p = primitives.get(i);
-            if(typeof p.morphTime !== 'undefined')
-            {
-                animation = scene.getAnimations().addProperty(p, "morphTime", 1.0, 0.0, {
-                    duration : duration,
-                    easingFunction : Tween.Easing.Quartic.EaseOut
-                // TODO:
-                //delayDuration : p.delayDuration
-                });
-                this._currentAnimations.push(animation);
-            }
-        }
-
-        animation = scene.getAnimations().addProperty(cb, "morphTime", 1.0, 0.0, {
-            duration : duration,
-            easingFunction : Tween.Easing.Quartic.EaseOut,
-            onComplete : function () {
-                if (onComplete) {
-                    onComplete.call(that);
-                }
-            }
-        });
-        this._currentAnimations.push(animation);
+        addMorphTimeAnimations(this, scene, 1.0, 0.0, duration, onComplete);
     };
 
-    SceneTransitioner.prototype._scene2DTo3D = function (duration, onComplete) {
+    SceneTransitioner.prototype._scene2DTo3D = function(duration, onComplete) {
         duration = duration * 0.5;
 
         var camera = this._scene.getCamera();
@@ -43189,25 +44138,8 @@ define('Scene/SceneTransitioner',[
         });
     };
 
-    SceneTransitioner.prototype._sceneCVTo3D = function (duration, onComplete) {
+    SceneTransitioner.prototype._sceneCVTo3D = function(duration, onComplete) {
         var scene = this._scene;
-        var primitives = scene.getPrimitives();
-        var cb = primitives.getCentralBody();
-
-        var animation;
-        for ( var i = 0; i < primitives.getLength(); ++i) {
-            var p = primitives.get(i);
-            if(typeof p.morphTime !== 'undefined')
-            {
-                animation = scene.getAnimations().addProperty(p, "morphTime", 0.0, 1.0, {
-                    duration : duration,
-                    easingFunction : Tween.Easing.Quartic.EaseOut
-                //TODO:
-                //delayDuration : p.delayDuration
-                });
-                this._currentAnimations.push(animation);
-            }
-        }
 
         var that = this;
 
@@ -43231,7 +44163,8 @@ define('Scene/SceneTransitioner',[
             camera.up = that._columbusViewMorph(startUp, endUp, value.time);
             camera.right = camera.direction.cross(camera.up);
         };
-        animation = scene.getAnimations().add({
+
+        var animation = scene.getAnimations().add({
             duration : duration,
             easingFunction : Tween.Easing.Quartic.EaseOut,
             startValue : {
@@ -43244,14 +44177,7 @@ define('Scene/SceneTransitioner',[
         });
         this._currentAnimations.push(animation);
 
-        animation = scene.getAnimations().addProperty(cb, "morphTime", 0.0, 1.0, {
-            duration : duration,
-            easingFunction : Tween.Easing.Quartic.EaseOut,
-            onComplete : function() {
-                onComplete.call(that);
-            }
-        });
-        this._currentAnimations.push(animation);
+        addMorphTimeAnimations(this, scene, 0.0, 1.0, duration, onComplete);
     };
 
     /**
@@ -43330,7 +44256,7 @@ define('Scene/SceneTransitioner',[
      *
      * @see SceneTransitioner#destroy
      */
-    SceneTransitioner.prototype.isDestroyed = function () {
+    SceneTransitioner.prototype.isDestroyed = function() {
         return false;
     };
 
@@ -43350,14 +44276,13 @@ define('Scene/SceneTransitioner',[
      * @example
      * transitioner = transitioner && transitioner.destroy();
      */
-    SceneTransitioner.prototype.destroy = function () {
+    SceneTransitioner.prototype.destroy = function() {
         this._destroyMorphHandler();
         return destroyObject(this);
     };
 
     return SceneTransitioner;
 });
-
 /*!
   This library rewrites the Canvas2D "measureText" function
   so that it returns a more complete metrics object.
@@ -43580,15 +44505,15 @@ define('Scene/Label',[
      * @see LabelCollection#add
      * @see Billboard
      *
-     * @see <a href="http://www.whatwg.org/specs/web-apps/current-work/#2dcontext">HTML canvas 2D context</a>
+     * @see <a href='http://www.whatwg.org/specs/web-apps/current-work/#2dcontext'>HTML canvas 2D context</a>
      */
     function Label(labelTemplate, labelCollection) {
         var l = labelTemplate || {};
-        var show = (typeof l.show === "undefined") ? true : l.show;
+        var show = (typeof l.show === 'undefined') ? true : l.show;
         var billboardCollection = labelCollection._getCollection();
 
-        this._text = l.text || "";
-        this._font = l.font || "30px sans-serif";
+        this._text = l.text || '';
+        this._font = l.font || '30px sans-serif';
         this._fillColor = l.fillColor || {
             red : 1.0,
             green : 1.0,
@@ -43608,7 +44533,7 @@ define('Scene/Label',[
         this._eyeOffset = l.eyeOffset ? new Cartesian3(l.eyeOffset.x, l.eyeOffset.y, l.eyeOffset.z) : Cartesian3.ZERO.clone();
 
         this._position = l.position ? new Cartesian3(l.position.x, l.position.y, l.position.z) : Cartesian3.ZERO.clone();
-        this._scale = (typeof l.scale === "undefined") ? 1.0 : l.scale;
+        this._scale = (typeof l.scale === 'undefined') ? 1.0 : l.scale;
         this._show = show;
 
         this._billboardCollection = billboardCollection;
@@ -43643,7 +44568,7 @@ define('Scene/Label',[
      * @see Label#getShow
      */
     Label.prototype.setShow = function(value) {
-        if ((typeof value !== "undefined") && (value !== this._show)) {
+        if ((typeof value !== 'undefined') && (value !== this._show)) {
             this._show = value;
 
             var billboards = this._billboards;
@@ -43696,7 +44621,7 @@ define('Scene/Label',[
     Label.prototype.setPosition = function(value) {
         var p = this._position;
 
-        if ((typeof value !== "undefined") &&
+        if ((typeof value !== 'undefined') &&
             ((p.x !== value.x) || (p.y !== value.y) || (p.z !== value.z))) {
 
             p.x = value.x;
@@ -43730,7 +44655,7 @@ define('Scene/Label',[
      * @see Label#getText
      */
     Label.prototype.setText = function(value) {
-        if ((typeof value !== "undefined") && (value !== this._text)) {
+        if ((typeof value !== 'undefined') && (value !== this._text)) {
             this._text = value;
             this._createBillboards();
         }
@@ -43757,10 +44682,10 @@ define('Scene/Label',[
      * @see Label#getFont
      * @see Label#setFillColor
      * @see Label#setOutlineColor
-     * @see <a href="http://www.whatwg.org/specs/web-apps/current-work/#dom-context-2d-font">HTML canvas 2D context font</a>
+     * @see <a href='http://www.whatwg.org/specs/web-apps/current-work/#dom-context-2d-font'>HTML canvas 2D context font</a>
      */
     Label.prototype.setFont = function(value) {
-        if ((typeof value !== "undefined") && (this._font !== value)) {
+        if ((typeof value !== 'undefined') && (this._font !== value)) {
             this._font = value;
             this._createBillboards();
         }
@@ -43790,7 +44715,7 @@ define('Scene/Label',[
      */
     Label.prototype.setFillColor = function(value) {
         var c = this._fillColor;
-        if ((typeof value !== "undefined") &&
+        if ((typeof value !== 'undefined') &&
             (c.red !== value.red || c.green !== value.green || c.blue !== value.blue || c.alpha !== value.alpha)) {
             this._fillColor = value;
             this._createBillboards();
@@ -43821,7 +44746,7 @@ define('Scene/Label',[
      */
     Label.prototype.setOutlineColor = function(value) {
         var c = this._outlineColor;
-        if ((typeof value !== "undefined") &&
+        if ((typeof value !== 'undefined') &&
             (c.red !== value.red || c.green !== value.green || c.blue !== value.blue || c.alpha !== value.alpha)) {
             this._outlineColor = value;
             this._createBillboards();
@@ -43851,7 +44776,7 @@ define('Scene/Label',[
      * @see Label#setFillColor
      */
     Label.prototype.setStyle = function(value) {
-        if ((typeof value !== "undefined") && (this._style !== value)) {
+        if ((typeof value !== 'undefined') && (this._style !== value)) {
             this._style = value;
             this._createBillboards();
         }
@@ -43881,10 +44806,10 @@ define('Scene/Label',[
      * changing it after calling <code>setPixelOffset</code> does not affect the label's pixel
      * offset; an explicit call to <code>setPixelOffset</code> is required.
      * <br /><br />
-     * <div align="center">
-     * <table border="0" cellpadding="5"><tr>
-     * <td align="center"><code>default</code><br/><img src="images/Label.setPixelOffset.default.png" width="250" height="188" /></td>
-     * <td align="center"><code>l.setPixelOffset({ x : 25, y : -75 });</code><br/><img src="images/Label.setPixelOffset.x50y-25.png" width="250" height="188" /></td>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>default</code><br/><img src='images/Label.setPixelOffset.default.png' width='250' height='188' /></td>
+     * <td align='center'><code>l.setPixelOffset({ x : 25, y : -75 });</code><br/><img src='images/Label.setPixelOffset.x50y-25.png' width='250' height='188' /></td>
      * </tr></table>
      * The label's origin is indicated by the yellow point.
      * </div>
@@ -43898,7 +44823,7 @@ define('Scene/Label',[
      */
     Label.prototype.setPixelOffset = function(value) {
         var p = this._pixelOffset;
-        if ((typeof value !== "undefined") && ((p.x !== value.x) || (p.y !== value.y))) {
+        if ((typeof value !== 'undefined') && ((p.x !== value.x) || (p.y !== value.y))) {
             p.x = value.x;
             p.y = value.y;
             this._setPixelOffsets();
@@ -43935,10 +44860,10 @@ define('Scene/Label',[
      * Below, the label is positioned at the center of the Earth but an eye offset makes it always
      * appear on top of the Earth regardless of the viewer's or Earth's orientation.
      * <br /><br />
-     * <div align="center">
-     * <table border="0" cellpadding="5"><tr>
-     * <td align="center"><img src="images/Billboard.setEyeOffset.one.png" width="250" height="188" /></td>
-     * <td align="center"><img src="images/Billboard.setEyeOffset.two.png" width="250" height="188" /></td>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><img src='images/Billboard.setEyeOffset.one.png' width='250' height='188' /></td>
+     * <td align='center'><img src='images/Billboard.setEyeOffset.two.png' width='250' height='188' /></td>
      * </tr></table>
      * <code>l.setEyeOffset({ x : 0.0, y : 8000000.0, z : 0.0 });</code><br /><br />
      * </div>
@@ -43952,7 +44877,7 @@ define('Scene/Label',[
     Label.prototype.setEyeOffset = function(value) {
         var e = this._eyeOffset;
 
-        if ((typeof value !== "undefined") &&
+        if ((typeof value !== 'undefined') &&
             ((e.x !== value.x) || (e.y !== value.y) || (e.z !== value.z))) {
             e.x = value.x;
             e.y = value.y;
@@ -43988,8 +44913,8 @@ define('Scene/Label',[
      * Sets the horizontal origin of this label, which determines if the label is
      * to the left, center, or right of its position.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Billboard.setHorizontalOrigin.png" width="400" height="300" /><br />
+     * <div align='center'>
+     * <img src='images/Billboard.setHorizontalOrigin.png' width='400' height='300' /><br />
      * </div>
      *
      * @memberof Label
@@ -44005,7 +44930,7 @@ define('Scene/Label',[
      * l.setVerticalOrigin(VerticalOrigin.TOP);
      */
     Label.prototype.setHorizontalOrigin = function(value) {
-        if ((typeof value !== "undefined") && (this._horizontalOrigin !== value)) {
+        if ((typeof value !== 'undefined') && (this._horizontalOrigin !== value)) {
             this._horizontalOrigin = value;
             this._createBillboards();
         }
@@ -44028,8 +44953,8 @@ define('Scene/Label',[
      * Sets the vertical origin of this label, which determines if the label is
      * to the above, below, or at the center of its position.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Billboard.setVerticalOrigin.png" width="400" height="300" /><br />
+     * <div align='center'>
+     * <img src='images/Billboard.setVerticalOrigin.png' width='400' height='300' /><br />
      * </div>
      *
      * @memberof Label
@@ -44045,7 +44970,7 @@ define('Scene/Label',[
      * l.setVerticalOrigin(VerticalOrigin.TOP);
      */
     Label.prototype.setVerticalOrigin = function(value) {
-        if ((typeof value !== "undefined") && (this._verticalOrigin !== value)) {
+        if ((typeof value !== 'undefined') && (this._verticalOrigin !== value)) {
             this._verticalOrigin = value;
             this._createBillboards();
         }
@@ -44073,8 +44998,8 @@ define('Scene/Label',[
      * Applying a large scale value may pixelate the label.  To make text larger without pixelation,
      * use a larger font size when calling {@link Label#setFont} instead.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Label.setScale.png" width="400" height="300" /><br/>
+     * <div align='center'>
+     * <img src='images/Label.setScale.png' width='400' height='300' /><br/>
      * From left to right in the above image, the scales are <code>0.5</code>, <code>1.0</code>,
      * and <code>2.0</code>.
      * </div>
@@ -44087,7 +45012,7 @@ define('Scene/Label',[
      * @see Label#setFont
      */
     Label.prototype.setScale = function(value) {
-        if ((typeof value !== "undefined") && (this._scale !== value)) {
+        if ((typeof value !== 'undefined') && (this._scale !== value)) {
             this._scale = value;
             var billboards = this._billboards;
             var length = this._billboards ? this._billboards.length : 0;
@@ -44213,9 +45138,9 @@ define('Scene/Label',[
 
     Label.prototype._createId = function(charValue) {
         return JSON.stringify({
-            fillColor : this._fillColor.red.toString() + "," + this._fillColor.green.toString() + "," + this._fillColor.blue.toString() + "," + this._fillColor.alpha.toString(),
+            fillColor : this._fillColor.red.toString() + ',' + this._fillColor.green.toString() + ',' + this._fillColor.blue.toString() + ',' + this._fillColor.alpha.toString(),
             font : this._font,
-            outlineColor : this._outlineColor.red.toString() + "," + this._outlineColor.green.toString() + "," + this._outlineColor.blue.toString() + "," + this._outlineColor.alpha.toString(),
+            outlineColor : this._outlineColor.red.toString() + ',' + this._outlineColor.green.toString() + ',' + this._outlineColor.blue.toString() + ',' + this._outlineColor.alpha.toString(),
             style : this._style,
             verticalOrigin : this._verticalOrigin,
             value : charValue
@@ -44225,12 +45150,12 @@ define('Scene/Label',[
     Label.prototype._createCanvas = function(charValue) {
         var font = this._font;
 
-        var canvas = document.createElement("canvas");
+        var canvas = document.createElement('canvas');
         canvas.width = canvas.height = 1;
         canvas.style.font = font;
         canvas.style.display = 'hidden';
 
-        var context2D = canvas.getContext("2d");
+        var context2D = canvas.getContext('2d');
         context2D.font = font;
 
 
@@ -44238,11 +45163,11 @@ define('Scene/Label',[
         //It's magic.
         var verticalOrigin = this._verticalOrigin;
         if (verticalOrigin === VerticalOrigin.BOTTOM) {
-            context2D.textBaseline = "bottom";
+            context2D.textBaseline = 'bottom';
         } else if (verticalOrigin === VerticalOrigin.TOP) {
-            context2D.textBaseline = "top";
+            context2D.textBaseline = 'top';
         } else {// VerticalOrigin.CENTER
-            context2D.textBaseline = "middle";
+            context2D.textBaseline = 'middle';
         }
 
         //in order for measureText to calculate style, the canvas has to be
@@ -44255,8 +45180,8 @@ define('Scene/Label',[
         canvas.height = dimensions.height;
         context2D.font = font;
         // font must be explicitly set again after changing width and height
-        context2D.fillStyle = "rgba(" + this._fillColor.red * 255 + ", " + this._fillColor.green * 255 + ", " + this._fillColor.blue * 255 + ", " + this._fillColor.alpha + ")";
-        context2D.strokeStyle = "rgba(" + this._outlineColor.red * 255 + ", " + this._outlineColor.green * 255 + ", " + this._outlineColor.blue * 255 + ", " + this._outlineColor.alpha + ")";
+        context2D.fillStyle = 'rgba(' + this._fillColor.red * 255 + ', ' + this._fillColor.green * 255 + ', ' + this._fillColor.blue * 255 + ', ' + this._fillColor.alpha + ')';
+        context2D.strokeStyle = 'rgba(' + this._outlineColor.red * 255 + ', ' + this._outlineColor.green * 255 + ', ' + this._outlineColor.blue * 255 + ', ' + this._outlineColor.alpha + ')';
 
         var y = canvas.height - baseline;
         var style = this._style;
@@ -44408,7 +45333,7 @@ define('Scene/LabelCollection',[
         var canvas = label._createCanvas(charValue);
         this._sources[id] = canvas;
         canvas.index = this._sourcesArray.push(canvas) - 1;
-        if (typeof canvasCreated !== "undefined") {
+        if (typeof canvasCreated !== 'undefined') {
             canvasCreated();
         }
         return canvas.index;
@@ -44423,7 +45348,7 @@ define('Scene/LabelCollection',[
     };
 
     CanvasContainer.prototype._contains = function(id) {
-        return typeof this._sources[id] !== "undefined";
+        return typeof this._sources[id] !== 'undefined';
     };
 
     CanvasContainer.prototype._getCanvas = function(id) {
@@ -44434,8 +45359,8 @@ define('Scene/LabelCollection',[
      * A renderable collection of labels.  Labels are viewport-aligned text positioned in the 3D scene.
      * Each label can have a different font, color, scale, etc.
      * <br /><br />
-     * <div align="center">
-     * <img src="images/Label.png" width="400" height="300" /><br />
+     * <div align='center'>
+     * <img src='images/Label.png' width='400' height='300' /><br />
      * Example labels
      * </div>
      * <br /><br />
@@ -44462,11 +45387,11 @@ define('Scene/LabelCollection',[
      * var labels = new LabelCollection();
      * labels.add({
      *   position : { x : 1.0, y : 2.0, z : 3.0 },
-     *   text : "A label"
+     *   text : 'A label'
      * });
      * labels.add({
      *   position : { x : 4.0, y : 5.0, z : 6.0 },
-     *   text : "Another label"
+     *   text : 'Another label'
      * });
      */
     function LabelCollection() {
@@ -44493,29 +45418,30 @@ define('Scene/LabelCollection',[
          * labels.modelMatrix = Transforms.eastNorthUpToFixedFrame(center);
          * labels.add({
          *   position : new Cartesian3(0.0, 0.0, 0.0),
-         *   text     : "Center"
+         *   text     : 'Center'
          * });
          * labels.add({
          *   position : new Cartesian3(1000000.0, 0.0, 0.0),
-         *   text     : "East"
+         *   text     : 'East'
          * });
          * labels.add({
          *   position : new Cartesian3(0.0, 1000000.0, 0.0),
-         *   text     : "North"
+         *   text     : 'North'
          * });
          * labels.add({
          *   position : new Cartesian3(0.0, 0.0, 1000000.0),
-         *   text     : "Up"
+         *   text     : 'Up'
          * });
          */
         this.modelMatrix = Matrix4.IDENTITY;
 
         /**
-         * DOC_TBA
+         * The current morph transition time between 2D/Columbus View and 3D,
+         * with 0.0 being 2D or Columbus View and 1.0 being 3D.
          *
          * @type Number
          */
-        this.morphTime = 0.0;
+        this.morphTime = 1.0;
 
         /**
          * The usage hint for the collection's vertex buffer.
@@ -44567,10 +45493,10 @@ define('Scene/LabelCollection',[
      * var l = labels.add({
      *   show : true,
      *   position : Cartesian3.ZERO,
-     *   text : "",
-     *   font : "30px sans-serif",
-     *   fillColor : "white",
-     *   outlineColor : "white",
+     *   text : '',
+     *   font : '30px sans-serif',
+     *   fillColor : 'white',
+     *   outlineColor : 'white',
      *   style : LabelStyle.FILL,
      *   pixelOffset : Cartesian2.ZERO,
      *   eyeOffset : Cartesian3.ZERO,
@@ -44585,8 +45511,8 @@ define('Scene/LabelCollection',[
      *   position : ellipsoid.toCartesian(
      *     CesiumMath.cartographic3ToRadians(
      *       new Cartographic3(longitude, latitude, height))),
-     *   text : "Hello World",
-     *   font : "24px Helvetica",
+     *   text : 'Hello World',
+     *   font : '24px Helvetica',
      * });
      */
     LabelCollection.prototype.add = function(label) {
@@ -44735,8 +45661,8 @@ define('Scene/LabelCollection',[
      * }
      */
     LabelCollection.prototype.get = function(index) {
-        if (typeof index === "undefined") {
-            throw new DeveloperError("index is required.", "index");
+        if (typeof index === 'undefined') {
+            throw new DeveloperError('index is required.');
         }
 
         this._removeLabels();
@@ -44881,7 +45807,7 @@ define('Scene/LabelCollection',[
     return LabelCollection;
 });
 /*global define*/
-define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cache', 'Core/CachePolicy', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic2', 'Core/Cartographic3', 'Core/CatmullRomSpline', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/Enumeration', 'Core/EquidistantCylindricalProjection', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/FullScreen', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Jobs', 'Core/JulianDate', 'Core/LeapSecond', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MercatorProjection', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/Quaternion', 'Core/Queue', 'Core/Rectangle', 'Core/RuntimeError', 'Core/Shapes', 'Core/SunPosition', 'Core/TimeConstants', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/createGuid', 'Core/destroyObject', 'Core/isLeapYear', 'Core/jsonp', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/shallowEquals', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Scene/AnimationCollection', 'Scene/ArcGISTileProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsStyle', 'Scene/BingMapsTileProvider', 'Scene/BlobMaterial', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CheckerboardMaterial', 'Scene/ColorMaterial', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CompositeTileProvider', 'Scene/CustomSensorVolume', 'Scene/DiffuseMapMaterial', 'Scene/DistanceIntervalMaterial', 'Scene/DotMaterial', 'Scene/EulerSolver', 'Scene/FacetMaterial', 'Scene/GravityForce', 'Scene/HorizontalOrigin', 'Scene/HorizontalStripeMaterial', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/OpenStreetMapTileProvider', 'Scene/OrthographicFrustum', 'Scene/Particle', 'Scene/ParticleSystem', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileProvider', 'Scene/SolidColorTileProvider', 'Scene/SphericalRepulsionForce', 'Scene/SpringForce', 'Scene/Texture2DPool', 'Scene/TieDyeMaterial', 'Scene/Tile', 'Scene/TileState', 'Scene/VectorForce', 'Scene/VerticalOrigin', 'Scene/VerticalStripeMaterial', 'Scene/ViewportQuad', 'Scene/ViscousDrag', 'Scene/combineMaterials', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BlobMaterial', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSCommon', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSFilter', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSFilter', 'Shaders/CentralBodyVSPole', 'Shaders/CheckerboardMaterial', 'Shaders/ColorMaterial', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/DiffuseMapMaterial', 'Shaders/DistanceIntervalMaterial', 'Shaders/DotMaterial', 'Shaders/FacetMaterial', 'Shaders/GroundAtmosphere', 'Shaders/HorizontalStripeMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/TieDyeMaterial', 'Shaders/VerticalStripeMaterial', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Chain', 'ThirdParty/Tween', 'ThirdParty/measureText'], function (Core_AxisAlignedBoundingBox, Core_BoundingSphere, Core_BoxTessellator, Core_Cache, Core_CachePolicy, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic2, Core_Cartographic3, Core_CatmullRomSpline, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_Enumeration, Core_EquidistantCylindricalProjection, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_FullScreen, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Jobs, Core_JulianDate, Core_LeapSecond, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MercatorProjection, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Rectangle, Core_RuntimeError, Core_Shapes, Core_SunPosition, Core_TimeConstants, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_createGuid, Core_destroyObject, Core_isLeapYear, Core_jsonp, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_shallowEquals, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_Context, Renderer_CubeMap, Renderer_CullFace, Renderer_DepthFunction, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGISTileProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsStyle, Scene_BingMapsTileProvider, Scene_BlobMaterial, Scene_Camera, Scene_Camera2DController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CheckerboardMaterial, Scene_ColorMaterial, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CompositeTileProvider, Scene_CustomSensorVolume, Scene_DiffuseMapMaterial, Scene_DistanceIntervalMaterial, Scene_DotMaterial, Scene_EulerSolver, Scene_FacetMaterial, Scene_GravityForce, Scene_HorizontalOrigin, Scene_HorizontalStripeMaterial, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_OpenStreetMapTileProvider, Scene_OrthographicFrustum, Scene_Particle, Scene_ParticleSystem, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_Polygon, Scene_Polyline, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileProvider, Scene_SolidColorTileProvider, Scene_SphericalRepulsionForce, Scene_SpringForce, Scene_Texture2DPool, Scene_TieDyeMaterial, Scene_Tile, Scene_TileState, Scene_VectorForce, Scene_VerticalOrigin, Scene_VerticalStripeMaterial, Scene_ViewportQuad, Scene_ViscousDrag, Scene_combineMaterials, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BlobMaterial, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSCommon, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSFilter, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSFilter, Shaders_CentralBodyVSPole, Shaders_CheckerboardMaterial, Shaders_ColorMaterial, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_DiffuseMapMaterial, Shaders_DistanceIntervalMaterial, Shaders_DotMaterial, Shaders_FacetMaterial, Shaders_GroundAtmosphere, Shaders_HorizontalStripeMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_TieDyeMaterial, Shaders_VerticalStripeMaterial, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Chain, ThirdParty_Tween, ThirdParty_measureText) {
+define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cache', 'Core/CachePolicy', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic2', 'Core/Cartographic3', 'Core/CatmullRomSpline', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/Enumeration', 'Core/EquidistantCylindricalProjection', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/FullScreen', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Jobs', 'Core/JulianDate', 'Core/LeapSecond', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MercatorProjection', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/Quaternion', 'Core/Queue', 'Core/Rectangle', 'Core/RuntimeError', 'Core/Shapes', 'Core/SunPosition', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/createGuid', 'Core/destroyObject', 'Core/isLeapYear', 'Core/jsonp', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/shallowEquals', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Scene/AnimationCollection', 'Scene/ArcGISTileProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsStyle', 'Scene/BingMapsTileProvider', 'Scene/BlobMaterial', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CheckerboardMaterial', 'Scene/ColorMaterial', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CompositeTileProvider', 'Scene/CustomSensorVolume', 'Scene/DiffuseMapMaterial', 'Scene/DistanceIntervalMaterial', 'Scene/DotMaterial', 'Scene/EulerSolver', 'Scene/FacetMaterial', 'Scene/GravityForce', 'Scene/HorizontalOrigin', 'Scene/HorizontalStripeMaterial', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/OpenStreetMapTileProvider', 'Scene/OrthographicFrustum', 'Scene/Particle', 'Scene/ParticleSystem', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneState', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileProvider', 'Scene/SolidColorTileProvider', 'Scene/SphericalRepulsionForce', 'Scene/SpringForce', 'Scene/Texture2DPool', 'Scene/TieDyeMaterial', 'Scene/Tile', 'Scene/TileState', 'Scene/VectorForce', 'Scene/VerticalOrigin', 'Scene/VerticalStripeMaterial', 'Scene/ViewportQuad', 'Scene/ViscousDrag', 'Scene/combineMaterials', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BlobMaterial', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSCommon', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSFilter', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSFilter', 'Shaders/CentralBodyVSPole', 'Shaders/CheckerboardMaterial', 'Shaders/ColorMaterial', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/DiffuseMapMaterial', 'Shaders/DistanceIntervalMaterial', 'Shaders/DotMaterial', 'Shaders/FacetMaterial', 'Shaders/GroundAtmosphere', 'Shaders/HorizontalStripeMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/TieDyeMaterial', 'Shaders/VerticalStripeMaterial', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Chain', 'ThirdParty/Tween', 'ThirdParty/measureText'], function (Core_AxisAlignedBoundingBox, Core_BoundingSphere, Core_BoxTessellator, Core_Cache, Core_CachePolicy, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic2, Core_Cartographic3, Core_CatmullRomSpline, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_Enumeration, Core_EquidistantCylindricalProjection, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_FullScreen, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Jobs, Core_JulianDate, Core_LeapSecond, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MercatorProjection, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Rectangle, Core_RuntimeError, Core_Shapes, Core_SunPosition, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_createGuid, Core_destroyObject, Core_isLeapYear, Core_jsonp, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_shallowEquals, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_Context, Renderer_CubeMap, Renderer_CullFace, Renderer_DepthFunction, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGISTileProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsStyle, Scene_BingMapsTileProvider, Scene_BlobMaterial, Scene_Camera, Scene_Camera2DController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CheckerboardMaterial, Scene_ColorMaterial, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CompositeTileProvider, Scene_CustomSensorVolume, Scene_DiffuseMapMaterial, Scene_DistanceIntervalMaterial, Scene_DotMaterial, Scene_EulerSolver, Scene_FacetMaterial, Scene_GravityForce, Scene_HorizontalOrigin, Scene_HorizontalStripeMaterial, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_OpenStreetMapTileProvider, Scene_OrthographicFrustum, Scene_Particle, Scene_ParticleSystem, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_Polygon, Scene_Polyline, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneState, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileProvider, Scene_SolidColorTileProvider, Scene_SphericalRepulsionForce, Scene_SpringForce, Scene_Texture2DPool, Scene_TieDyeMaterial, Scene_Tile, Scene_TileState, Scene_VectorForce, Scene_VerticalOrigin, Scene_VerticalStripeMaterial, Scene_ViewportQuad, Scene_ViscousDrag, Scene_combineMaterials, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BlobMaterial, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSCommon, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSFilter, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSFilter, Shaders_CentralBodyVSPole, Shaders_CheckerboardMaterial, Shaders_ColorMaterial, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_DiffuseMapMaterial, Shaders_DistanceIntervalMaterial, Shaders_DotMaterial, Shaders_FacetMaterial, Shaders_GroundAtmosphere, Shaders_HorizontalStripeMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_TieDyeMaterial, Shaders_VerticalStripeMaterial, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Chain, ThirdParty_Tween, ThirdParty_measureText) {
   
   var Cesium = { _shaders : {} };
   Cesium.AxisAlignedBoundingBox = Core_AxisAlignedBoundingBox;
@@ -44938,6 +45864,8 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.Shapes = Core_Shapes;
   Cesium.SunPosition = Core_SunPosition;
   Cesium.TimeConstants = Core_TimeConstants;
+  Cesium.TimeInterval = Core_TimeInterval;
+  Cesium.TimeIntervalCollection = Core_TimeIntervalCollection;
   Cesium.TimeStandard = Core_TimeStandard;
   Cesium.Tipsify = Core_Tipsify;
   Cesium.Transforms = Core_Transforms;
@@ -45032,6 +45960,7 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.RectangularPyramidSensorVolume = Scene_RectangularPyramidSensorVolume;
   Cesium.Scene = Scene_Scene;
   Cesium.SceneMode = Scene_SceneMode;
+  Cesium.SceneState = Scene_SceneState;
   Cesium.SceneTransitioner = Scene_SceneTransitioner;
   Cesium.SensorVolumeCollection = Scene_SensorVolumeCollection;
   Cesium.SingleTileProvider = Scene_SingleTileProvider;
