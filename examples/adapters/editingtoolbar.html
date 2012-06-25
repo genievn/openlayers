@@ -4,6 +4,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
         <meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">  <!-- Use Chrome Frame in IE -->
         <title>OpenLayers Editing Toolbar Example</title>
         
         <link rel="stylesheet" href="../../theme/default/style.css" type="text/css">
@@ -18,8 +19,11 @@
             var map, layer;
 
             function init(){
-                layer = new OpenLayers.Layer.WMS( "OpenLayers WMS",
-                        "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
+                layer = new OpenLayers.Layer.Bing({
+                    name: "Aerial",
+                    key: "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf",
+                    type: "Aerial"
+                });
     
                 vlayer = new OpenLayers.Layer.Vector( "Editable" );
                 map = new OpenLayers.Globe( 'map', {
