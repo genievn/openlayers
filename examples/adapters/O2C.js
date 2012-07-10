@@ -3,15 +3,23 @@ if (typeof OpenLayers !== 'undefined') {
     var O2C = {};
     O2C.globeWasMoving = false;
     O2C.globeMoveTime = 0;
-    Cesium.Camera.prototype._updateOrig = Cesium.Camera.prototype._update; 
+    Cesium.Camera.prototype._updateOrig = Cesium.Camera.prototype._update;
     Cesium.Camera.prototype._update = function() {
         if ((this.position && !this.position.equals(this._position)) || (this.direction && !this.direction.equals(this._direction)) || (this.up && !this.up.equals(this._up)) ||
                 (this.right && !this.right.equals(this._right)) || (this.transform && !this.transform.equals(this._transform))) {
+            if (!O2C.globeWasMoving){
+                this.map.events.triggerEvent("movestart");
+            }
             O2C.globeWasMoving = true;
             O2C.globeMoveTime = new Date().getTime();
-        } else if (O2C.globeWasMoving && new Date().getTime()-O2C.globeMoveTime>100){ // 100 milliseconds
-            this.map.events.triggerEvent("moveend");
+        } else if (O2C.globeWasMoving && new Date().getTime()-O2C.globeMoveTime>250){ // 250 milliseconds
             O2C.globeWasMoving = false;
+            this.map.events.triggerEvent("moveend");
+
+            //will fire events that clustering needs
+            for(var x=0;x<this.map.layers.length;x++){
+                this.map.layers[x].events.triggerEvent("moveend", {"zoomChanged":true});
+            }
         }
         this._updateOrig();
     }
@@ -38,9 +46,11 @@ if (typeof OpenLayers !== 'undefined') {
         OpenLayers.Layer.prototype.display.apply(this, arguments);
         console.log("display override: "+display);
         if (display){
-            for (var i in this.features){
-                var feature = this.features[i];
-                this.drawFeature(feature);
+            if(this.features && this.features.length>0){
+                for (var i=0; i<this.features.length;i++){
+                    var feature = this.features[i];
+                    this.drawFeature(feature);
+                }
             }
         } else {
             this.renderer.eraseFeatures(this.features);
@@ -85,7 +95,7 @@ if (typeof OpenLayers !== 'undefined') {
             this.ellipsoid = Cesium.Ellipsoid.WGS84;
             this.scene = new Cesium.Scene(this.canvas);
             this.primitives = this.scene.getPrimitives();
-            this.cb = new Cesium.CentralBody(this.ellipsoid, this.scene.getCamera());  // TODO AGI changed the api.  do I still need camera parameter??
+            this.cb = new Cesium.CentralBody(this.ellipsoid);
             var bing = new Cesium.BingMapsTileProvider({
                 server : "dev.virtualearth.net",
                 mapStyle : Cesium.BingMapsStyle.AERIAL
@@ -152,11 +162,6 @@ if (typeof OpenLayers !== 'undefined') {
             // Example keyboard and Mouse handlers
 
             var handler = new Cesium.EventHandler(this.canvas);
-
-            handler.setKeyAction(function() {
-                /* ... */
-                // Handler for key press
-            }, "1");
 
             handler.setMouseAction(function(movement) {
                 /* ... */
@@ -262,7 +267,7 @@ if (typeof OpenLayers !== 'undefined') {
 
         getLonLatFromPixel: function (pos) {
             if (pos){
-                var p = this.scene.getCamera().pickEllipsoid(this.ellipsoid, new Cesium.Cartesian2(pos.x, pos.y));
+                var p = this.scene.pickEllipsoid(new Cesium.Cartesian2(pos.x, pos.y), this.ellipsoid);
                 if (p) {
                     var d = Cesium.Math.cartographic2ToDegrees(this.ellipsoid.toCartographic2(p));
                     return new OpenLayers.LonLat(d.longitude, d.latitude);
@@ -270,11 +275,15 @@ if (typeof OpenLayers !== 'undefined') {
             } else {
                 console.log("position is null");
             }
-            return  new OpenLayers.LonLat(-1000, -1000); // avoid null pointers   
+            return  new OpenLayers.LonLat(-1000, -1000); // avoid null pointers
+        },
+        
+        getLonLatFromViewPortPx: function (viewPortPx) {
+            return this.getLonLatFromPixel(viewPortPx);
         },
 
         getMaxExtent: function(){
-            return new OpenLayers.Bounds(-45, -45, 45, 45); // TODO this will be wider if viewing in 2D    
+            return new OpenLayers.Bounds(-45, -45, 45, 45); // TODO this will be wider if viewing in 2D
         },
 
         getExtent: function () {
@@ -293,7 +302,7 @@ if (typeof OpenLayers !== 'undefined') {
             }
             return new OpenLayers.Bounds(leftCenter.lon,bottomCenter.lat,rightCenter.lon,topCenter.lat);
         },
-        
+
         moveByPx: function(dx, dy) {},
 
         pan: function(dx, dy, options) {
@@ -308,14 +317,14 @@ if (typeof OpenLayers !== 'undefined') {
             // scroll mouse wheel twice
             var scrollwheel = this.scene.getCamera().getControllers().get(0)._zoomWheel._eventHandler._mouseEvents["WHEEL"];
             scrollwheel(360);
-            scrollwheel(360); 
+            scrollwheel(360);
         },
 
         zoomOut: function() {
             // scroll mouse wheel twice
             var scrollwheel = this.scene.getCamera().getControllers().get(0)._zoomWheel._eventHandler._mouseEvents["WHEEL"];
             scrollwheel(-360);
-            scrollwheel(-360); 
+            scrollwheel(-360);
         },
 
         zoomToMaxExtent: function(options) {
@@ -395,6 +404,52 @@ if (typeof OpenLayers !== 'undefined') {
             return OpenLayers.Util.getScaleFromResolution(this.getResolution(), 'dd');
         },
         
+        getViewPortPxFromLonLat: function (lonlat) {
+            var px = Cesium.Transforms.pointToWindowCoordinates(this.scene.getUniformState().getModelViewProjection(),this.scene.getUniformState().getViewportTransformation(),this.ellipsoid.cartographicDegreesToCartesian(new Cesium.Cartographic2(lonlat.lon, lonlat.lat)));
+            return new OpenLayers.Pixel(px.x,this.canvas.height-px.y);  
+        },
+        
+        getViewPortPxFromLayerPx:function(layerPx) {
+            return layerPx;
+        },
+        
+        getLayerPxFromViewPortPx:function(viewPortPx) {
+            return viewPortPx;
+        },
+        
+        addPopup: function(popup, exclusive) {
+            if (exclusive) {
+                //remove all other popups from screen
+                for (var i = this.popups.length - 1; i >= 0; --i) {
+                    this.removePopup(this.popups[i]);
+                }
+            }
+    
+            popup.map = this;
+            popup.panMapIfOutOfView=false;
+            this.popups.push(popup);
+            var popupDiv = popup.draw();
+            if (popupDiv) {
+                popupDiv.style.zIndex = this.Z_INDEX_BASE['Popup'] +
+                                        this.popups.length;
+                //popupDiv.style.width="250px";
+                this.viewPortDiv.appendChild(popupDiv);
+            }
+        },
+        
+        removePopup: function(popup) {
+            if (popup.blocks){
+                popup.destroy();
+            }
+            OpenLayers.Util.removeItem(this.popups, popup);
+            if (popup.div) {
+                try { this.viewPortDiv.removeChild(popup.div); }
+                catch (e) { } // Popups sometimes apparently get disconnected
+                          // from the layerContainerDiv, and cause complaints.
+            }
+            delete popup;
+        },
+        
         getCenter: function () {
             return this.getLonLatFromPixel({x:this.canvas.width/2,y:this.canvas.height/2});
         },
@@ -404,10 +459,17 @@ if (typeof OpenLayers !== 'undefined') {
         },
 
         activateNavigation: function(){
+            if (this.scene.getCamera().getControllers().getLength() > 0) {
+                return false;
+            }
             if (this.scene){
-                this.scene.getCamera().getControllers().addSpindle();
-                this.scene.getCamera().getControllers().addFreeLook();
-                this.scene.getCamera().getControllers().get(0).mouseConstrainedZAxis = true;
+                if(this.scene.mode.toString() == "SCENE2D") {
+                    this.scene.getCamera().getControllers().add2D(this.scene.scene2D.projection);
+                } else if(this.scene.mode.toString() == "SCENE3D") {
+                    var spindle = this.scene.getCamera().getControllers().addSpindle();
+                    this.scene.getCamera().getControllers().addFreeLook();
+                    spindle.constrainedAxis = Cesium.Cartesian3.UNIT_Z;
+                }
             }
         },
 
@@ -418,14 +480,30 @@ if (typeof OpenLayers !== 'undefined') {
         },
         
         do2DView: function(){
+            this.cb.showSkyAtmosphere = false;
+            this.cb.showGroundAtmosphere = false;
             this.transitioner.morphTo2D(); // TODO using to2D breaks image tile loading (Cesium issue #61)
+            this.cb.affectedByLighting = false;
+        },
+        
+        doColumbusView: function(){
+            this.cb.showSkyAtmosphere = false;
+            this.cb.showGroundAtmosphere = false;
+            this.transitioner.morphToColumbusView();
             this.cb.affectedByLighting = false;
         },
 
         do3DView: function(){
             this.cb.affectedByLighting = true;
             this.transitioner.to3D(); // TODO change to morphTo3D when agi works out the bugs
-            this.scene.getCamera().getControllers().get(0).mouseConstrainedZAxis = true;
+
+            //Use our own CameraSpindleControl and CameraFreeLookControl instead of the
+            //CameraCentralBodyControl, since it does not currently allow access to its
+            //CameraSpindleControl to constrain the Z axis.
+            if (this.scene){
+                this.scene.getCamera().getControllers().removeAll();
+            }
+            this.activateNavigation();
         },
 
         CLASS_NAME: "OpenLayers.Globe"
@@ -481,7 +559,10 @@ if (typeof OpenLayers !== 'undefined') {
             context2D.fillStyle = "rgb(255, 255, 255)";
             context2D.fill();
             this.images.push(canvas);
-            this.billboards.setTextureAtlas(map.scene.getContext().createTextureAtlas([canvas]));
+            var textureAtlas = this.map.scene.getContext().createTextureAtlas({
+                image: canvas
+            });
+            this.billboards.setTextureAtlas(textureAtlas);
             this.labels = new Cesium.LabelCollection();
             this.primitives.add(this.labels);
             this.primitives.add(this.billboards);
@@ -535,7 +616,7 @@ if (typeof OpenLayers !== 'undefined') {
             }
         },
 
-        drawGeometry: function(geometry, style, featureId) {
+        drawGeometry: function(geometry, style, feature) {
             //console.log("drawGeometry() "+geometry);
             var className = geometry.CLASS_NAME;
             if ((className == "OpenLayers.Geometry.Collection") ||
@@ -543,23 +624,23 @@ if (typeof OpenLayers !== 'undefined') {
                 (className == "OpenLayers.Geometry.MultiLineString") ||
                 (className == "OpenLayers.Geometry.MultiPolygon")) {
                 for (var i = 0; i < geometry.components.length; i++) {
-                    this.drawGeometry(geometry.components[i], style, featureId);
+                    this.drawGeometry(geometry.components[i], style, feature);
                 }
                 return;
             }
             switch (geometry.CLASS_NAME) {
                 case "OpenLayers.Geometry.Point":
-                    this.drawPoint(geometry, style, featureId);
+                    this.drawPoint(geometry, style, feature);
                     break;
                 case "OpenLayers.Geometry.LineString":
-                    this.drawLineString(geometry, style, featureId);
+                    this.drawLineString(geometry, style, feature);
                     break;
                 case "OpenLayers.Geometry.LinearRing":
                     console.log("linearRing");
-                    this.drawLineString(geometry, style, featureId);
+                    this.drawLineString(geometry, style, feature);
                     break;
                 case "OpenLayers.Geometry.Polygon":
-                    this.drawPolygon(geometry, style, featureId);
+                    this.drawPolygon(geometry, style, feature);
                     break;
                 default:
                     break;
@@ -576,7 +657,7 @@ if (typeof OpenLayers !== 'undefined') {
                         if (!this.features.hasOwnProperty(id)) { continue; }
                         feature = this.features[id][0];
                         style = this.features[id][1];
-                        this.drawGeometry(feature.geometry, style, feature.id);
+                        this.drawGeometry(feature.geometry, style, feature);
                         style.label = style.label || feature.data.name; // seeing cases where label is not set when there should be one
                         if(style.label && this.map.showLabels) {
                             labelMap.push([feature, style]);
@@ -585,7 +666,7 @@ if (typeof OpenLayers !== 'undefined') {
                     var item;
                     for (var i=0, len=labelMap.length; i<len; ++i) {
                         item = labelMap[i];
-                        this.drawText(item[0].geometry.getCentroid(), item[1], item[0].id);
+                        this.drawText(item[0].geometry.getCentroid(), item[1], item[0]);
                     }
                 } catch (e){
                     console.log(e);
@@ -593,16 +674,16 @@ if (typeof OpenLayers !== 'undefined') {
             }
         },
 
-        drawText: function(location, style, featureId) {
+        drawText: function(location, style, feature) {
             //console.log("drawText() "+style.label);
             if (!location){
                 return;
             }
-            var text = this.labelHash[featureId];
+            var text = this.labelHash[feature.id];
             if (!text){
                 text = new Cesium.Label(null, this.labels);
                 text = this.labels.add(text);
-                this.labelHash[featureId] = text;
+                this.labelHash[feature.id] = text;
             }
             text.setPosition(this.map.ellipsoid.cartographicDegreesToCartesian(
                 new Cesium.Cartographic3(location.x, location.y, 0)));
@@ -621,7 +702,7 @@ if (typeof OpenLayers !== 'undefined') {
                 //console.log("outline: "+style.labelOutlineColor);
                 var rgb;
                 if (style.labelOutlineColor.indexOf('#')>-1){
-                    rgb = this.hexToRGB(style.fontStrokeColor);
+                    rgb = this.hexToRGB(style.labelOutlineColor);
                 } else if (style.labelOutlineColor=="white"){
                     rgb = [1,1,1];
                 }
@@ -634,18 +715,19 @@ if (typeof OpenLayers !== 'undefined') {
                     });
                 }
             }
+            var fontStr = "";
+            if(style.fontWeight === "bold") {
+                fontStr += "bold ";
+            }
+            if(style.fontStyle === "italic") {
+                fontStr += "italic ";
+            }
             if (style.fontFamily && style.fontSize) {
-                //console.log("family: "+style.fontFamily);
-                text.setFont(style.fontSize+" "+style.fontFamily);
+                fontStr += style.fontSize + " " + style.fontFamily;
             } else {
-                text.setFont("16px Helvetica");
+                fontStr += "16px Helvetica";
             }
-            if (style.fontWeight) {
-                //console.log("weight: "+style.fontWeight);
-            }
-            if (style.fontStyle) {
-                //console.log("style: "+style.fontStyle);
-            }
+            text.setFont(fontStr);
             text.setStyle(Cesium.LabelStyle.FILL_AND_OUTLINE);
             text.setText(style.label);
             var halign = OpenLayers.Renderer.GlobeRenderer.LABEL_ALIGN_H[style.labelAlign[0]];
@@ -663,24 +745,16 @@ if (typeof OpenLayers !== 'undefined') {
             }
         },
 
-        drawPoint: function(geometry, style, featureId) {
+        drawPoint: function(geometry, style, feature) {
             //console.log("drawPoint()");
-            var point = this.billboardHash[featureId];
+            var point = this.billboardHash[feature.id];
             if (!point){
                 var point = new Cesium.Billboard();
-                var rgb = this.hexToRGB(style.fillColor);
                 point = this.billboards.add(point);
-                this.billboardHash[featureId] = point;
-                point.setColor({
-                    red: rgb[0],
-                    green: rgb[1],
-                    blue: rgb[2],
-                    alpha: style.fillOpacity
-                });
+                this.billboardHash[feature.id] = point;
             }
             var graphicURL = style.externalGraphic || style.backgroundGraphic;
             if (graphicURL){
-                console.log("img: "+graphicURL);
                 if (style.fillColor=="#000000"){ // don't allow completely black images
                     point.setColor({red: 1,green: 1,blue: 1,alpha: 1});
                 }
@@ -699,8 +773,10 @@ if (typeof OpenLayers !== 'undefined') {
                     this.images.push(image);
                     var that = this;
                     image.onload = function() {
-                        console.log("image loaded");
-                        that.billboards.setTextureAtlas(that.map.scene.getContext().createTextureAtlas(that.images));
+                        var textureAtlas = that.map.scene.getContext().createTextureAtlas({
+                            images: that.images
+                        });
+                        that.billboards.setTextureAtlas(textureAtlas);
                         var newIndex = that.images.length-1;
                         point.setImageIndex(newIndex);
                         // make sure the correct index is set for all billboards using this image now that it is loaded
@@ -714,47 +790,60 @@ if (typeof OpenLayers !== 'undefined') {
                 } else {
                     image = this.images[index];
                     var origIndex = point.getImageIndex();
-                    if (image.width!=0){ // image isn't loaded yet
-                        console.log("reusing image "+this.images[index].src);
+                    if (image.width!=0){ 
                         point.setImageIndex(index);
                         point.setScale(width/image.width);
-                    } else {
+                    } else { // image isn't loaded yet
                         point.setImageIndex(0);
                         point.imgURL = image.src;
                     }
                 }
             } else {
-                point.setScale(0.75);
+                if(feature.cluster && style.pointRadius > 6){ //6 is default point size
+                    var clusterSizeMultiplier = .5;
+                    var clusterSizeIncrease = (style.pointRadius - 6) * clusterSizeMultiplier;
+                    point.setScale( ( -.1 + clusterSizeIncrease ) ); //initial cluster size is 2 (8-6)
+                }else{
+                    point.setScale(0.75);
+                    var rgb = this.hexToRGB(style.fillColor);
+                    point.setColor({
+                       red: rgb[0],
+                       green: rgb[1],
+                       blue: rgb[2],
+                       alpha: style.fillOpacity
+                    });
+                }
             }
             point.setPosition(this.map.ellipsoid.cartographicDegreesToCartesian(
                 new Cesium.Cartographic3(geometry.x, geometry.y, 0)));
 
         },
 
-        drawPolygon: function(geometry, style, featureId){
-            //console.log("drawpolygon()");
-            for (var i in geometry.components) {
+        drawPolygon: function(geometry, style, feature){
+            for (var i = 0; i<geometry.components.length; i++) {
                 var subgeom = geometry.components[i];
                 var positions = [];
                 var contains = function(p){
-                    for (var i in positions){
-                        if (p.equals(positions[i])){
+                    for (var j = 0; j<positions.length; j++){
+                        if (p.equals(positions[j])){
                             return true;
                         }
                     }
                     return false;
                 }
-                for (var i in subgeom.components){
-                    var point = subgeom.components[i];
-                    var p = new Cesium.Cartographic2(point.x, point.y);
-                    if (!contains(p)){ // cesium doesn't like polygons with duplicate points
-                        positions.push(p);
+                if (subgeom.components){
+                    for (var j = 0; j<subgeom.components.length;j++){
+                        var point = subgeom.components[j];
+                        var p = new Cesium.Cartographic2(point.x, point.y);
+                        if (!contains(p)){ // cesium doesn't like polygons with duplicate points
+                            positions.push(p);
+                        }
                     }
                 }
                 if (positions.length<3){ // cesium doesn't like polygons with only two points
-                    this.drawLineString(subgeom, style, featureId);
+                    this.drawLineString(subgeom, style, feature);
                 } else {
-                    var polygon = this.primitivesHash[featureId];
+                    var polygon = this.primitivesHash[feature.id];
                     if (!polygon || polygon instanceof Cesium.Polyline){
                         if (polygon){
                             this.primitives.remove(polygon);
@@ -769,7 +858,8 @@ if (typeof OpenLayers !== 'undefined') {
                                 alpha: style.fillOpacity
                             };
                         }
-                        this.primitivesHash[featureId] = polygon;
+                        polygon.affectedByLighting = false;
+                        this.primitivesHash[feature.id] = polygon;
                         this.primitives.add(polygon);
                         this.primitives.sendToBack(polygon); // keep polygons behind labels
                     }
@@ -778,47 +868,48 @@ if (typeof OpenLayers !== 'undefined') {
             }
         },
 
-        drawLineString: function(geometry, style, featureId){
+        drawLineString: function(geometry, style, feature){
             var positions = [];
             for (var i in geometry.components){
                 var point = geometry.components[i];
                 positions.push(new Cesium.Cartographic2(point.x, point.y));
             }
-            var polyline = this.primitivesHash[featureId];
-            if (!polyline || polyline instanceof Cesium.Polygon){
-                if (polyline){
-                    this.primitives.remove(polyline);
-                }
-                var polyline = new Cesium.Polyline();
-                if (style){
-                    var rgb = this.hexToRGB(style.fillColor);
-                    polyline.color = {
-                        red: rgb[0],
-                        green: rgb[1],
-                        blue: rgb[2],
-                        alpha: style.fillOpacity
-                    };
-                    var rgb = this.hexToRGB(style.fillColor);
-                    polyline.color = {
-                        red: rgb[0],
-                        green: rgb[1],
-                        blue: rgb[2],
-                        alpha: style.fillOpacity
-                    };
-                    rgb = this.hexToRGB(style.strokeColor);
-                    polyline.outlineColor = {
-                        red: rgb[0],
-                        green: rgb[1],
-                        blue: rgb[2],
-                        alpha: style.fillOpacity
-                    };
-                    polyline.width = 1;
-                    polyline.strokeWidth = style.outlineWidth;  // width is only 1px when ANGLE is enabled
-                }
-                this.primitivesHash[featureId] = polyline;
-                this.primitives.add(polyline);
-                this.primitives.sendToBack(polyline); // keep polylines behind labels
+            var polyline = this.primitivesHash[feature.id];
+            if (polyline) {
+              if(polyline instanceof Cesium.Polygon) {
+                return;
+              }
+              this.primitives.remove(polyline);
             }
+            polyline = new Cesium.Polyline();
+            if (style){
+                var rgb = this.hexToRGB(style.fillColor);
+                polyline.color = {
+                    red: rgb[0],
+                    green: rgb[1],
+                    blue: rgb[2],
+                    alpha: style.fillOpacity
+                };
+                var rgb = this.hexToRGB(style.fillColor);
+                polyline.color = {
+                    red: rgb[0],
+                    green: rgb[1],
+                    blue: rgb[2],
+                    alpha: style.fillOpacity
+                };
+                rgb = this.hexToRGB(style.strokeColor);
+                polyline.outlineColor = {
+                    red: rgb[0],
+                    green: rgb[1],
+                    blue: rgb[2],
+                    alpha: style.fillOpacity
+                };
+                polyline.width = 1;
+                polyline.strokeWidth = style.outlineWidth;  // width is only 1px when ANGLE is enabled
+            }
+            this.primitivesHash[feature.id] = polyline;
+            this.primitives.add(polyline);
+            this.primitives.sendToBack(polyline); // keep polylines behind labels
             polyline.setPositions(this.map.ellipsoid.cartographicDegreesToCartesians(positions));
         },
 
