@@ -307,7 +307,7 @@ define('Core/Cartesian2',[],function() {
      * If either <code>x</code> or <code>y</code> is undefined, then the corresponding
      * component will be initialized to 0.0.
      *
-     * @name Cartesian2
+     * @alias Cartesian2
      * @constructor
      *
      * @param {Number} x The x-coordinate for the Cartesian type.
@@ -316,7 +316,7 @@ define('Core/Cartesian2',[],function() {
      * @see Cartesian3
      * @see Cartesian4
      */
-    function Cartesian2(x, y) {
+    var Cartesian2 = function(x, y) {
 
         /**
          * DOC_TBA
@@ -335,7 +335,7 @@ define('Core/Cartesian2',[],function() {
          * @see Cartesian2.x
          */
         this.y = (typeof y !== 'undefined') ? y : 0.0;
-    }
+    };
 
     /**
      * Returns a duplicate of a Cartesian2.
@@ -525,7 +525,10 @@ define('Core/Cartesian2',[],function() {
 });
 
 /*global define*/
-define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
+define('Core/Cartesian3',[
+        './Cartesian2'
+       ], function(
+         Cartesian2) {
     
 
     /**
@@ -534,7 +537,7 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
      * If either <code>x</code>, <code>y</code>, or <code>z</code> is undefined, then the corresponding
      * component will be initialized to 0.0.
      *
-     * @name Cartesian3
+     * @alias Cartesian3
      * @constructor
      *
      * @param {Number} x The x-coordinate for the Cartesian type.
@@ -544,7 +547,7 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
      * @see Cartesian2
      * @see Cartesian4
      */
-    function Cartesian3(x, y, z) {
+    var Cartesian3 = function(x, y, z) {
        /**
          * DOC_TBA
          *
@@ -574,16 +577,46 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
          * @see Cartesian3.y
          */
         this.z = (typeof z !== 'undefined') ? z : 0.0;
-    }
+    };
+
+    /**
+     * Converts the provided Spherical into Cartesian3 coordinates.
+     * @memberof Cartesian3
+     *
+     * @param {Spherical} spherical The Spherical to be converted to Cartesian3.
+     * @param {Cartesian3} [cartesian3] The object in which the result will be stored, if undefined a new instance will be created.
+     * @returns The modified result parameter, or a new instance if none was provided.
+     */
+    Cartesian3.fromSpherical = function(spherical, result) {
+        if (typeof result === 'undefined') {
+            result = new Cartesian3();
+        }
+        var clock = spherical.clock;
+        var cone = spherical.cone;
+        var magnitude = spherical.magnitude;
+        var radial = magnitude * Math.sin(cone);
+        result.x = radial * Math.cos(clock);
+        result.y = radial * Math.sin(clock);
+        result.z = magnitude * Math.cos(cone);
+        return result;
+    };
 
     /**
      * Returns a duplicate of a Cartesian3.
+     * @memberof Cartesian3
      *
-     * @param {Cartesian3} cartesian The cartesian to clone.
-     * @return {Cartesian3} A new Cartesian3 instance.
+     * @param {Cartesian3} cartesian The Cartesian to clone.
+     * @param {Cartesian} [result] The object to store the result in, if undefined a new instance will be created.
+     * @return {Cartesian3} The modified result parameter or a new instance if result was undefined.
      */
-    Cartesian3.clone = function(cartesian) {
-        return new Cartesian3(cartesian.x, cartesian.y, cartesian.z);
+    Cartesian3.clone = function(cartesian, result) {
+        if (typeof result === 'undefined') {
+            return new Cartesian3(cartesian.x, cartesian.y, cartesian.z);
+        }
+        result.x = cartesian.x;
+        result.y = cartesian.y;
+        result.z = cartesian.z;
+        return result;
     };
 
     /**
@@ -669,13 +702,24 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
 
     /**
      * Returns this Cartesian normalized.
-     *
      * @memberof Cartesian3
-     * @return {Cartesian3} The normalized Cartesian.
+     *
+     * @param {Cartesian} [result] The object to store the result in, if undefined a new instance will be created.
+     * @return {Cartesian3} The modified result parameter or a new instance if result was undefined.
      */
-    Cartesian3.prototype.normalize = function() {
+    Cartesian3.prototype.normalize = function(result) {
+        if (typeof result === 'undefined') {
+            result = new Cartesian3();
+        }
         var magnitude = this.magnitude();
-        return new Cartesian3(this.x / magnitude, this.y / magnitude, this.z / magnitude);
+        if (magnitude > 0) {
+            result.x = this.x / magnitude;
+            result.y = this.y / magnitude;
+            result.z = this.z / magnitude;
+        } else {
+            result.x = result.y = result.z = 0;
+        }
+        return result;
     };
 
     /**
@@ -887,23 +931,24 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
 
     /**
      * Returns a duplicate of a Cartesian3 instance.
-     *
      * @memberof Cartesian3
-     * @return {Cartesian3} A new copy of the Cartesian3 instance received as an argument.
+     *
+     * @param {Cartesian} [result] The object to store the result in, if undefined a new instance will be created.
+     * @return {Cartesian3} The modified result parameter or a new instance if result was undefined.
      */
-    Cartesian3.prototype.clone = function() {
-        return new Cartesian3(this.x, this.y, this.z);
+    Cartesian3.prototype.clone = function(result) {
+        return Cartesian3.clone(this, result);
     };
 
     /**
      * Returns true if this Cartesian equals other componentwise.
-     *
      * @memberof Cartesian3
+     *
      * @param {Cartesian3} other The Cartesian to compare for equality.
      * @return {Boolean} <code>true</code> if the Cartesians are equal componentwise; otherwise, <code>false</code>.
      */
     Cartesian3.prototype.equals = function(other) {
-        return (this.x === other.x) && (this.y === other.y) && (this.z === other.z);
+        return (typeof other !== 'undefined') && (this.x === other.x) && (this.y === other.y) && (this.z === other.z);
     };
 
     /**
@@ -918,7 +963,8 @@ define('Core/Cartesian3',['./Cartesian2'], function(Cartesian2) {
      */
     Cartesian3.prototype.equalsEpsilon = function(other, epsilon) {
         epsilon = epsilon || 0.0;
-        return (Math.abs(this.x - other.x) <= epsilon) &&
+        return (typeof other !== 'undefined') &&
+               (Math.abs(this.x - other.x) <= epsilon) &&
                (Math.abs(this.y - other.y) <= epsilon) &&
                (Math.abs(this.z - other.z) <= epsilon);
     };
@@ -955,7 +1001,7 @@ define('Core/Cartesian4',[
      * When called with four numeric arguments; x, y, z, and w; the Cartesian is initialized to (x, y, z, w).
      * </p>
      *
-     * @name Cartesian4
+     * @alias Cartesian4
      * @constructor
      *
      * @param {Number} x The x-coordinate for the Cartesian type.
@@ -966,7 +1012,7 @@ define('Core/Cartesian4',[
      * @see Cartesian2
      * @see Cartesian3
      */
-    function Cartesian4(x, y, z, w) {
+    var Cartesian4 = function(x, y, z, w) {
 
         /**
          * DOC_TBA
@@ -1011,7 +1057,7 @@ define('Core/Cartesian4',[
          * @see Cartesian4.z
          */
         this.w = (typeof w !== 'undefined') ? w : 0.0;
-    }
+    };
 
     /**
      * Returns a duplicate of a Cartesian4.
@@ -1307,11 +1353,11 @@ define('Core/Cartographic2',[],function() {
      * When called with two numeric arguments, longitude and latitude, the position is initialized to (longitude, latitude).
      * </p>
      *
-     * @name Cartographic2
+     * @alias Cartographic2
      * @constructor
      * @see Cartographic3
      */
-    function Cartographic2() {
+    var Cartographic2 = function() {
         var longitude = 0.0;
         var latitude = 0.0;
 
@@ -1340,7 +1386,7 @@ define('Core/Cartographic2',[],function() {
          * @see Cartographic2#longitude
          */
         this.latitude = latitude;
-    }
+    };
 
     /**
      * An immutable Cartographic2 instance initialized to (0.0, 0.0).
@@ -1413,12 +1459,12 @@ define('Core/Cartographic3',[],function() {
      * When called with two numeric arguments; longitude, latitude, and height; the position is initialized to (longitude, latitude, height).
      * </p>
      *
-     * @name Cartographic3
+     * @alias Cartographic3
      * @constructor
      *
      * @see Cartographic2
      */
-    function Cartographic3() {
+    var Cartographic3 = function() {
         var longitude = 0.0;
         var latitude = 0.0;
         var height = 0.0;
@@ -1459,7 +1505,7 @@ define('Core/Cartographic3',[],function() {
          * @type Number
          */
         this.height = height;
-    }
+    };
 
     /**
      * An immutable Cartographic3 instance initialized to (0.0, 0.0, 0.0).
@@ -1531,27 +1577,179 @@ define('Core/Color',[],function() {
      * which range from <code>0</code> (no intensity) to <code>1.0</code> (full intensity).
      *
      * @constructor
-     * @name Color
+     * @alias Color
      */
-    function Color(red, green, blue, alpha) {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.alpha = alpha;
-    }
+    var Color = function(red, green, blue, alpha) {
+        /**
+         * The red component.
+         */
+        this.red = typeof red === 'undefined' ? 1.0 : red;
+        /**
+         * The green component.
+         */
+        this.green = typeof green === 'undefined' ? 1.0 : green;
+        /**
+         * The blue component.
+         */
+        this.blue = typeof blue === 'undefined' ? 1.0 : blue;
+        /**
+         * The alpha component.
+         */
+        this.alpha = typeof alpha === 'undefined' ? 1.0 : alpha;
+    };
 
     /**
-     * Returns a string containing a CSS color value for this color.
+     * Converts a 'byte' color component in the range of 0 to 255 into
+     * a 'float' color component range of 0 to 1.0.
+     * @memberof Color
+     *
+     * @param {Number} number The number to be converted.
+     * @returns {number} The converted number.
+     */
+    Color.byteToFloat = function(number) {
+        return number / 255.0;
+    };
+
+    /**
+     * Converts a 'float' color component in the range of 0 to 1.0 into
+     * a 'byte' color component range of 0 to 255.
+     * @memberof Color
+     *
+     * @param {Number} number The number to be converted.
+     * @returns {number} The converted number.
+     */
+    Color.floatToByte = function(number) {
+        return number === 1.0 ? 255.0 : (number * 256.0) | 0;
+    };
+
+    /**
+     * Duplicates a Color.
+     * @memberof Color
+     *
+     * @param {Color} color The Color to duplicate.
+     * @param {Color} [result] The object to store the result in, if undefined a new instance will be created.
+     * @return {Color} The modified result parameter or a new instance if result was undefined.
+     */
+    Color.clone = function(color, result) {
+        if (typeof result === 'undefined') {
+            return new Color(color.red, color.green, color.blue, color.alpha);
+        }
+        result.red = color.red;
+        result.green = color.green;
+        result.blue = color.blue;
+        result.alpha = color.alpha;
+        return result;
+    };
+
+    /**
+     * Returns a duplicate of a Color instance.
+     * @memberof Color
+     *
+     * @param {Color} [result] The object to store the result in, if undefined a new instance will be created.
+     * @return {Color} The modified result parameter or a new instance if result was undefined.
+     */
+    Color.prototype.clone = function(result) {
+        return Color.clone(this, result);
+    };
+
+    /**
+     * Returns true if this Color equals other componentwise.
+     * @memberof Color
+     *
+     * @param {Color} other The Color to compare for equality.
+     * @return {Boolean} <code>true</code> if the Colors are equal componentwise; otherwise, <code>false</code>.
+     */
+    Color.prototype.equals = function(other) {
+        return (this === other) ||
+        (typeof this !== 'undefined' &&
+         typeof other !== 'undefined' &&
+         this.red === other.red &&
+         this.green === other.green &&
+         this.blue === other.blue &&
+         this.alpha === other.alpha);
+    };
+
+    /**
+     * Returns <code>true</code> if this Color equals other componentwise within the specified epsilon.
+     * @memberof Color
+     *
+     * @param {Color} other The Color to compare for equality.
+     * @param {Number} [epsilon=0.0] The epsilon to use for equality testing.
+     * @return {Boolean} <code>true</code> if the Colors are equal within the specified epsilon; otherwise, <code>false</code>.
+     */
+    Color.prototype.equalsEpsilon = function(other, epsilon) {
+        return (this === other) ||
+                ((typeof other !== 'undefined') &&
+                 (Math.abs(this.red - other.red) <= epsilon) &&
+                 (Math.abs(this.green - other.green) <= epsilon) &&
+                 (Math.abs(this.blue - other.blue) <= epsilon) &&
+                 (Math.abs(this.alpha - other.alpha) <= epsilon));
+    };
+
+    /**
+     * Creates a string containing the CSS color value for this color.
+     * @memberof Color
+     *
+     * @return {String} The CSS equivalent of this color.
      */
     Color.prototype.toCSSColor = function() {
-        var r = this.red * 255 | 0;
-        var g = this.green * 255 | 0;
-        var b = this.blue * 255 | 0;
+        var r = Color.floatToByte(this.red);
+        var g = Color.floatToByte(this.green);
+        var b = Color.floatToByte(this.blue);
         return 'rgba(' + r + ',' + g + ',' + b + ',' + this.alpha + ')';
     };
 
+    /**
+     * An immutable Color instance initialized to white, RGBA (1.0, 1.0, 1.0, 1.0).
+     * @memberof Color
+     */
+    Color.WHITE = Object.freeze(new Color(1.0, 1.0, 1.0, 1.0));
+
+    /**
+     * An immutable Color instance initialized to black, RGBA (0.0, 0.0, 0.0, 1.0).
+     * @memberof Color
+     */
+    Color.BLACK = Object.freeze(new Color(0.0, 0.0, 0.0, 1.0));
+
+    /**
+     * An immutable Color instance initialized to red, RGBA (1.0, 0.0, 0.0, 1.0).
+     * @memberof Color
+     */
+    Color.RED = Object.freeze(new Color(1.0, 0.0, 0.0, 1.0));
+
+    /**
+     * An immutable Color instance initialized to green, RGBA (0.0, 1.0, 0.0, 1.0).
+     * @memberof Color
+     */
+    Color.GREEN = Object.freeze(new Color(0.0, 1.0, 0.0, 1.0));
+
+    /**
+     * An immutable Color instance initialized to blue, RGBA (0.0, 0.0, 1.0, 1.0).
+     * @memberof Color
+     */
+    Color.BLUE = Object.freeze(new Color(0.0, 0.0, 1.0, 1.0));
+
+    /**
+     * An immutable Color instance initialized to yellow, RGBA (1.0, 1.0, 0.0, 1.0).
+     * @memberof Color
+     */
+    Color.YELLOW = Object.freeze(new Color(1.0, 1.0, 0.0, 1.0));
+
+    /**
+     * An immutable Color instance initialized to magenta, RGBA (1.0, 0.0, 1.0, 1.0).
+     * @memberof Color
+     */
+    Color.MAGENTA = Object.freeze(new Color(1.0, 0.0, 1.0, 1.0));
+
+    /**
+     * An immutable Color instance initialized to cyan, RGBA (0.0, 1.0, 1.0, 1.0).
+     * @memberof Color
+     */
+    Color.CYAN = Object.freeze(new Color(0.0, 1.0, 1.0, 1.0));
+
     return Color;
 });
+
 /*global define*/
 define('Core/DefaultProxy',[],function() {
     
@@ -1560,17 +1758,19 @@ define('Core/DefaultProxy',[],function() {
      * A simple proxy that appends the desired resource as the sole query parameter
      * to the given proxy URL.
      *
-     * @name DefaultProxy
+     * @alias DefaultProxy
      * @constructor
      *
      * @param {String} proxy The proxy URL that will be used to requests all resources.
      */
-    function DefaultProxy(proxy) {
+    var DefaultProxy = function(proxy) {
         this.proxy = proxy;
-    }
+    };
 
     /**
      * Get the final URL to use to request a given resource.
+     *
+     * @memberof DefaultProxy
      *
      * @param {String} resource The resource to request.
      */
@@ -1594,14 +1794,14 @@ define('Core/DeveloperError',[],function() {
      * be thrown at runtime, e.g., out of memory, that the calling code should be prepared
      * to catch.
      *
-     * @name DeveloperError
+     * @alias DeveloperError
      *
      * @param {String} [message=undefined] The error message for this exception.
      *
      * @see RuntimeError
      * @constructor
      */
-    function DeveloperError(message) {
+    var DeveloperError = function(message) {
         /**
          * 'DeveloperError' indicating that this exception was thrown due to a developer error.
          *
@@ -1616,7 +1816,7 @@ define('Core/DeveloperError',[],function() {
          * @type String
          */
         this.message = message;
-    }
+    };
 
     return DeveloperError;
 });
@@ -1633,7 +1833,7 @@ define('Core/Enumeration',[],function() {
      * @param {String} [name=undefined] The name of the enumeration for debugging purposes.
      * @param {Object} [properties=undefined] An object containing extra properties to be added to the enumeration.
      *
-     * @name Enumeration
+     * @alias Enumeration
      * @constructor
      * @example
      * // Create an object with two enumerations.
@@ -1642,7 +1842,7 @@ define('Core/Enumeration',[],function() {
      *     LINEAR : new Enumeration(0x2601, 'LINEAR')
      * };
      */
-    function Enumeration(value, name, properties) {
+    var Enumeration = function(value, name, properties) {
         /**
          * The numeric value of the enumeration.
          * @type Number
@@ -1662,7 +1862,7 @@ define('Core/Enumeration',[],function() {
                 }
             }
         }
-    }
+    };
 
     /**
      * Returns the numeric value of the enumeration.
@@ -1689,6 +1889,77 @@ define('Core/Enumeration',[],function() {
     return Enumeration;
 });
 /*global define*/
+define('Core/ClockRange',[
+        './Enumeration'
+       ], function(
+         Enumeration) {
+    
+
+    /**
+     * Constants used by {@link Clock#tick} to determine behavior
+     * when {@link Clock#startTime} or {@link Clock#stopTime} is reached.
+     *
+     * @exports ClockRange
+     *
+     * @see Clock
+     * @see ClockStep
+     */
+    var ClockRange = {
+        /**
+         * {@link Clock#tick} will always advances the clock in its current direction.
+         */
+        UNBOUNDED : new Enumeration(0, 'UNBOUNDED'),
+
+        /**
+         * When {@link Clock#startTime} or {@link Clock#stopTime} is reached,
+         * {@link Clock#tick} will not advance {@link Clock#currentTime} any further.
+         */
+        CLAMPED : new Enumeration(1, 'CLAMPED'),
+
+        /**
+         * When {@link Clock#startTime} or {@link Clock#stopTime} is reached,
+         * {@link Clock#tick} will advance {@link Clock#currentTime} to the opposite end of the interval.
+         */
+        LOOP : new Enumeration(1, 'LOOP')
+    };
+
+    return ClockRange;
+});
+
+/*global define*/
+define('Core/ClockStep',[
+        './Enumeration'
+       ], function(
+         Enumeration) {
+    
+
+    /**
+     * Constants to determine how much time advances with each call
+     * to {@link Clock#tick}.
+     *
+     * @exports ClockStep
+     *
+     * @see Clock
+     * @see ClockRange
+     */
+    var ClockStep = {
+        /**
+         * {@link Clock#tick} advances the current time by a fixed step,
+         * which is the number of seconds specified by {@link Clock#multiplier}.
+         */
+        TICK_DEPENDENT : new Enumeration(0, 'TICK_DEPENDENT'),
+
+        /**
+         * {@link Clock#tick} advances the current time by the amount of system
+         * time elapsed since the previous call multiplied by {@link Clock#multiplier}.
+         */
+        SYSTEM_CLOCK_DEPENDENT : new Enumeration(1, 'SYSTEM_CLOCK_DEPENDENT')
+    };
+
+    return ClockStep;
+});
+
+/*global define*/
 define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
     
 
@@ -1704,7 +1975,7 @@ define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
     /**
      * DOC_TBA
      *
-     * @name ComponentDatatype
+     * @alias ComponentDatatype
      * @enumeration
      */
     var ComponentDatatype = {};
@@ -1809,6 +2080,117 @@ define('Core/ComponentDatatype',['./Enumeration'], function(Enumeration) {
 });
 
 /*global define*/
+define('Core/Event',[
+        './DeveloperError'
+       ], function(
+         DeveloperError) {
+    
+
+    /**
+     * A generic utility class for managing subscribers for a particular event.
+     * This class is usually instantiated inside of a container class and
+     * exposed as a property for others to subscribe to.
+     *
+     * @alias Event
+     * @constructor
+     *
+     * @example
+     * MyObject.prototype.myListener = function(arg1, arg2) {
+     *     this.myArg1Copy = arg1;
+     *     this.myArg2Copy = arg2;
+     * }
+     *
+     * var myObjectInstance = new MyObject();
+     * var evt = new Event();
+     * evt.addEventListener(MyObject.prototype.myListener, myObjectInstance);
+     * evt.raiseEvent('1', '2');
+     * evt.removeEventListener(MyObject.prototype.myListener);
+     */
+    function Event() {
+        this._listeners = [];
+        this._scopes = [];
+    }
+
+    /**
+     * Registers a callback function to be executed whenever the event is raised.
+     * An optional scope can be provided to serve as the <code>this</code> pointer
+     * in which the function will execute.
+     * @memberof Event
+     *
+     * @param {Function} listener The function to be executed when the event is raised.
+     * @param {Object} [scope] An optional object scope to serve as the <code>this</code>
+     * pointer in which the listener function will execute.
+     *
+     * @see Event#raiseEvent
+     * @see Event#removeEventListener
+     *
+     * @exception {DeveloperError} listener is required and must be a function.
+     * @exception {DeveloperError} listener is already subscribed.
+     */
+    Event.prototype.addEventListener = function(listener, scope) {
+        if (typeof listener !== 'function') {
+            throw new DeveloperError('listener is required and must be a function.');
+        }
+
+        var thisListeners = this._listeners;
+        var index = thisListeners.indexOf(listener);
+
+        if (index !== -1) {
+            throw new DeveloperError('listener is already subscribed.');
+        }
+
+        thisListeners.push(listener);
+        this._scopes.push(scope);
+    };
+
+    /**
+     * Unregisters a previously registered callback.
+     * @memberof Event
+     *
+     * @param {Function} listener The function to be unregistered.
+     *
+     * @see Event#addEventListener
+     * @see Event#raiseEvent
+     *
+     * @exception {DeveloperError} listener is required and must be a function.
+     * @exception {DeveloperError} listener is not subscribed.
+     */
+    Event.prototype.removeEventListener = function(listener) {
+        if (typeof listener !== 'function') {
+            throw new DeveloperError('listener is required and must be a function.');
+        }
+
+        var thisListeners = this._listeners;
+        var index = thisListeners.indexOf(listener);
+
+        if (index === -1) {
+            throw new DeveloperError('listener is not subscribed.');
+        }
+
+        thisListeners.splice(index, 1);
+        this._scopes.splice(index, 1);
+    };
+
+    /**
+     * Raises the event by calling each registered listener with all supplied arguments.
+     * @memberof Event
+     *
+     * @param {*} arguments This method takes any number of parameters and passes them through to the listener functions.
+     *
+     * @see Event#addEventListener
+     * @see Event#removeEventListener
+     */
+    Event.prototype.raiseEvent = function() {
+        var listeners = this._listeners;
+        var scopes = this._scopes;
+        for ( var i = listeners.length - 1; i > -1; i--) {
+            listeners[i].apply(scopes[i], arguments);
+        }
+    };
+
+    return Event;
+});
+/*global define*/
 define('Core/EventModifier',['./Enumeration'], function(Enumeration) {
     
 
@@ -1851,9 +2233,9 @@ define('Core/FAR',[],function() {
     
 
     /**
-     * DOC_TBA
-     *
      * Distance from the Sun to Pluto in meters.
+     *
+     * @exports FAR
      */
     var FAR = 5906376272000.0;
 
@@ -2179,7 +2561,7 @@ define('Core/AxisAlignedBoundingBox',[
      * Creates an instance of an AxisAlignedBoundingBox. The box is determined by finding the points spaced the
      * furthest apart on the x-, y-, and z-axes.
      *
-     * @name AxisAlignedBoundingBox
+     * @alias AxisAlignedBoundingBox
      *
      * @param {Array} positions List of points that the bounding box will enclose.  Each point must have a <code>x</code>, <code>y</code>, and <code>z</code> properties.
      *
@@ -2193,7 +2575,7 @@ define('Core/AxisAlignedBoundingBox',[
      * var box = new AxisAlignedBoundingBox(
      *     [new Cartesian3(2, 0, 0), new Cartesian3(-2, 0, 0)]);
      */
-    function AxisAlignedBoundingBox(positions) {
+    var AxisAlignedBoundingBox = function(positions) {
         if (!positions) {
             throw new DeveloperError('positions is required.');
         }
@@ -2267,7 +2649,7 @@ define('Core/AxisAlignedBoundingBox',[
             this.maximum = undefined;
             this.center = undefined;
         }
-    }
+    };
 
     /**
      * DOC_TBA
@@ -2320,7 +2702,7 @@ define('Core/BoundingSphere',[
      * as its radius.
      * </p>
      *
-     * @name BoundingSphere
+     * @alias BoundingSphere
      *
      * @param {Array} positions List of points that the bounding sphere will enclose.  Each point must have <code>x</code>, <code>y</code>, and <code>z</code> properties.
      * @param {Number} radius An optional parameter, only to be supplied if <code>positions</code> contains a single point.
@@ -2341,7 +2723,7 @@ define('Core/BoundingSphere',[
      * // Compute the same bounding sphere using a center point and a radius.
      * var sphere = new BoundingSphere(new Cartesian3(0, 0, 0), 2);
      */
-    function BoundingSphere(positions, radius) {
+    var BoundingSphere = function(positions, radius) {
         if (!positions) {
             throw new DeveloperError('positions is required.');
         }
@@ -2476,7 +2858,7 @@ define('Core/BoundingSphere',[
                 this.radius = naiveRadius;
             }
         }
-    }
+    };
 
     /**
      * DOC_TBA
@@ -2570,6 +2952,102 @@ define('Core/Jobs',[],function() {
     return Jobs;
 });
 /*global define*/
+define('Core/LagrangePolynomialApproximation',[],function() {
+    
+
+    /**
+     * Functions for performing Lagrange interpolation.
+     * @exports LagrangePolynomialApproximation
+     *
+     * @see LinearApproximation
+     * @see HermitePolynomialApproximation
+     */
+    var LagrangePolynomialApproximation = {
+        type : 'Lagrange'
+    };
+
+    /**
+     * Given the desired degree, returns the number of data points required for interpolation.
+     *
+     * @memberof LagrangePolynomialApproximation
+     *
+     * @param degree The desired degree of interpolation.
+     *
+     * @returns The number of required data points needed for the desired degree of interpolation.
+     */
+    LagrangePolynomialApproximation.getRequiredDataPoints = function(degree) {
+        return Math.max(degree + 1.0, 2);
+    };
+
+    /**
+     * <p>
+     * Interpolates values using the supplied interpolation algorithm.  The appropriate subset of input
+     * values to use for the interpolation is determined automatically from an interpolation given
+     * degree.
+     * </p>
+     * <p>
+     * The xTable array can contain any number of elements, and the appropriate subset will be
+     * selected according to the degree of interpolation requested.  For example, if degree is 5,
+     * the 6 elements surrounding x will be used for interpolation.  When using
+     * {@link LinearApproximation} the degree should be 1 since it always deals with only 2 elements
+     * surrounding x. The yTable array should contain a number of elements equal to:
+     * <code>xTable.length * yStride</code>.  If insufficient elements are provided
+     * to perform the requested degree of interpolation, the highest possible degree of interpolation
+     * will be performed.
+     * </p>
+     *
+     * @param {Number} x The independent variable for which the dependent variables will be interpolated.
+     *
+     * @param {Array} xTable The array of independent variables to use to interpolate.  The values
+     * in this array must be in increasing order and the same value must not occur twice in the array.
+     *
+     * @param {Array} yTable The array of dependent variables to use to interpolate.  For a set of three
+     * dependent values (p,q,w) and their derivatives (dp, dq, dw) at time 1 and time 2 this should be
+     * as follows: {p1, q1, w1, dp1, dq1, dw1, p2, q2, w2, dp2, dq2, dw2}.
+     *
+     * @param {Number} yStride The number of dependent variable values in yTable corresponding to
+     * each independent variable value in xTable.
+     *
+     * @returns An array of interpolated values.  The array contains at least yStride elements, each
+     * of which is an interpolated dependent variable value.
+     *
+     * @see LinearApproximation
+     * @see HermitePolynomialApproximation
+     *
+     * @memberof LagrangePolynomialApproximation
+     *
+     */
+    LagrangePolynomialApproximation.interpolateOrderZero = function(x, xTable, yTable, yStride) {
+        var i;
+        var j;
+        var length = xTable.length;
+        var result = new Array(yStride);
+
+        for (i = 0; i < yStride; i++) {
+            result[i] = 0;
+        }
+
+        for (i = 0; i < length; i++) {
+            var coefficient = 1;
+
+            for (j = 0; j < length; j++) {
+                if (j !== i) {
+                    var diffX = xTable[i] - xTable[j];
+                    coefficient *= (x - xTable[j]) / diffX;
+                }
+            }
+
+            for (j = 0; j < yStride; j++) {
+                result[j] += coefficient * yTable[i * yStride + j];
+            }
+        }
+
+        return result;
+    };
+
+    return LagrangePolynomialApproximation;
+});
+/*global define*/
 define('Core/LeapSecond',[
         'require',
         './DeveloperError'
@@ -2590,7 +3068,7 @@ define('Core/LeapSecond',[
      * Describes a single leap second, which is constructed from a {@link JulianDate} and a
      * numerical offset representing the number of seconds between the TAI and UTC time standards.
      *
-     * @name LeapSecond
+     * @alias LeapSecond
      * @constructor
      *
      * @param {JulianDate} date A Julian date representing the time of the leap second.
@@ -2617,7 +3095,7 @@ define('Core/LeapSecond',[
      * var date = 'January 1, 1990 00:00:00 UTC';
      * var leapSecond = new LeapSecond(date, 25.0);
      */
-    function LeapSecond(date, offset) {
+    var LeapSecond = function(date, offset) {
         var julianDate;
         var totalTaiOffsetFromUtc;
 
@@ -2649,7 +3127,7 @@ define('Core/LeapSecond',[
          * @type {Number}
          */
         this.offset = totalTaiOffsetFromUtc;
-    }
+    };
 
     /**
      * Sets the list of currently known leap seconds from user provided data.
@@ -2804,13 +3282,113 @@ define('Core/LeapSecond',[
     return LeapSecond;
 });
 /*global define*/
+define('Core/LinearApproximation',[
+        './DeveloperError'
+       ],function(
+         DeveloperError) {
+    
+
+
+    /**
+     * Functions for performing linear interpolation.
+     * @exports LinearApproximation
+     *
+     * @see LagrangePolynomialApproximation
+     * @see HermitePolynomialApproximation
+     */
+    var LinearApproximation = {
+        type : 'Linear'
+    };
+
+    /**
+     * Given the desired degree, returns the number of data points required for interpolation.
+     *
+     * @memberof LinearApproximation
+     *
+     * @param degree The desired degree of interpolation.
+     *
+     * @exception {DeveloperError} Linear interpolation can only generate a first degree polynomial.
+     *
+     * @returns The number of required data points needed for the desired degree of interpolation.
+     */
+    LinearApproximation.getRequiredDataPoints = function(degree) {
+        if (degree !== 1) {
+            throw new DeveloperError('Linear interpolation can only generate a first degree polynomial.');
+        }
+        return 2;
+    };
+
+    /**
+     * <p>
+     * Interpolates values using the supplied interpolation algorithm.  The appropriate subset of input
+     * values to use for the interpolation is determined automatically from an interpolation given
+     * degree.
+     * </p>
+     * <p>
+     * The xTable array can contain any number of elements, and the appropriate subset will be
+     * selected according to the degree of interpolation requested.  For example, if degree is 5,
+     * the 6 elements surrounding x will be used for interpolation.  When using
+     * {@link LinearApproximation} the degree should be 1 since it always deals with only 2 elements
+     * surrounding x. The yTable array should contain a number of elements equal to:
+     * <code>xTable.length * yStride</code>.  If insufficient elements are provided
+     * to perform the requested degree of interpolation, the highest possible degree of interpolation
+     * will be performed.
+     * </p>
+     *
+     * @param {Number} x The independent variable for which the dependent variables will be interpolated.
+     *
+     * @param {Array} xTable The array of independent variables to use to interpolate.  The values
+     * in this array must be in increasing order and the same value must not occur twice in the array.
+     *
+     * @param {Array} yTable The array of dependent variables to use to interpolate.  For a set of three
+     * dependent values (p,q,w) and their derivatives (dp, dq, dw) at time 1 and time 2 this should be
+     * as follows: {p1, q1, w1, dp1, dq1, dw1, p2, q2, w2, dp2, dq2, dw2}.
+     *
+     * @param {Number} yStride The number of dependent variable values in yTable corresponding to
+     * each independent variable value in xTable.
+     *
+     * @returns An array of interpolated values.  The array contains at least yStride elements, each
+     * of which is an interpolated dependent variable value.
+     *
+     * @see LagrangePolynomialApproximation
+     * @see HermitePolynomialApproximation
+     *
+     *
+     * @memberof LinearApproximation
+     */
+    LinearApproximation.interpolateOrderZero = function(x, xTable, yTable, yStride) {
+        if (xTable.length !== 2) {
+            throw new DeveloperError('The xTable provided to the linear interpolator must have exactly two elements.');
+        } else if (yStride <= 0) {
+            throw new DeveloperError('There must be at least 1 dependent variable for each independent variable.');
+        }
+
+        var result = new Array(yStride), x0 = xTable[0], x1 = xTable[1], i, y0, y1;
+
+        for (i = 0; i < yStride; i++) {
+            //calculates the interpolated values
+
+            y0 = yTable[i];
+            y1 = yTable[i + yStride];
+
+            result[i] = (((y1 - y0) * x) + (x1 * y0) - (x0 * y1)) / (x1 - x0);
+        }
+
+        return result;
+    };
+
+    return LinearApproximation;
+});
+/*global define*/
 define('Core/Math',[
+        './DeveloperError',
         './Cartesian2',
         './Cartesian3',
         './Cartographic2',
         './Cartographic3'
     ],
     function(
+        DeveloperError,
         Cartesian2,
         Cartesian3,
         Cartographic2,
@@ -2818,8 +3396,8 @@ define('Core/Math',[
     
 
     /**
-     * @exports CesiumMath
      * Math functions.
+     * @exports CesiumMath
      */
     var CesiumMath = {};
 
@@ -3292,6 +3870,40 @@ define('Core/Math',[
         return Math.abs(left - right) <= epsilon;
     };
 
+    var factorials = [1];
+
+    /**
+     * Computes the factorial of the provided number.
+     *
+     * @memberof CesiumMath
+     *
+     * @param {Number} n The number whose factorial is to be computed.
+     *
+     * @return {Number} The factorial of the provided number or undefined if the number is less than 0.
+     *
+     * @see <a href='http://en.wikipedia.org/wiki/Factorial'>Factorial on Wikipedia</a>.
+     *
+     * @example
+     * //Compute 7!, which is equal to 5040
+     * var computedFactorial = CesiumMath.factorial(7);
+     *
+     * @exception {DeveloperError} number greater than or equal to 0 is required.
+     */
+    CesiumMath.factorial = function(n) {
+        if (typeof n !== 'number' || n < 0) {
+            throw new DeveloperError('number greater than or equal to 0 is required.');
+        }
+
+        var length = factorials.length;
+        if (n >= length) {
+            var sum = factorials[length - 1];
+            for ( var i = length; i <= n; i++) {
+                factorials.push(sum * i);
+            }
+        }
+        return factorials[n];
+    };
+
     return CesiumMath;
 });
 
@@ -3312,7 +3924,7 @@ define('Core/Ellipsoid',[
 
     /**
      * DOC_TBA
-     * @name Ellipsoid
+     * @alias Ellipsoid
      *
      * @param {Cartesian3} radii The ellipsoid's radius in the x, y, and z ds.
      *
@@ -3322,7 +3934,7 @@ define('Core/Ellipsoid',[
      * @exception {DeveloperError} radii is required.
      * @exception {DeveloperError} All radii components must be greater than or equal to zero.
      */
-    function Ellipsoid(radii) {
+    var Ellipsoid = function(radii) {
         if (arguments.length === 0) {
             throw new DeveloperError('radii is required.');
         }
@@ -3353,7 +3965,7 @@ define('Core/Ellipsoid',[
                 1.0 / (x * x),
                 1.0 / (y * y),
                 1.0 / (z * z));
-    }
+    };
 
     /**
      * DOC_TBA
@@ -3754,21 +4366,23 @@ define('Core/Ellipsoid',[
 define('Core/EquidistantCylindricalProjection',[
         './Math',
         './Cartesian3',
+        './Cartographic3',
         './Ellipsoid'
     ], function(
         CesiumMath,
         Cartesian3,
+        Cartographic3,
         Ellipsoid) {
     
 
     /**
      * DOC_TBA
-     * @name EquidistantCylindricalProjection
+     * @alias EquidistantCylindricalProjection
      * @constructor
      *
      * @immutable
      */
-    function EquidistantCylindricalProjection(ellipsoid) {
+    var EquidistantCylindricalProjection = function(ellipsoid) {
         ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         var radii = ellipsoid.getRadii();
@@ -3776,9 +4390,9 @@ define('Core/EquidistantCylindricalProjection',[
         this._ellipsoid = ellipsoid;
         this._halfEquatorCircumference = Math.PI * (Math.max(radii.x, radii.y));
         this._quarterPolarCircumference = 0.5 * Math.PI * radii.z;
-    }
+    };
 
-    /*
+    /**
      * DOC_TBA
      * @memberof EquidistantCylindricalProjection
      */
@@ -3786,7 +4400,7 @@ define('Core/EquidistantCylindricalProjection',[
         return this._ellipsoid;
     };
 
-    /*
+    /**
      * DOC_TBA
      * @memberof EquidistantCylindricalProjection
      */
@@ -3799,9 +4413,196 @@ define('Core/EquidistantCylindricalProjection',[
         return new Cartesian3(lon * this._halfEquatorCircumference, lat * this._quarterPolarCircumference, cartographic.height);
     };
 
+    /**
+     * DOC_TBA
+     * @memberof EquidistantCylindricalProjection
+     */
+    EquidistantCylindricalProjection.prototype.unproject = function(cartesian) {
+        var lon = cartesian.x / this._halfEquatorCircumference;
+        var lat = cartesian.y / this._quarterPolarCircumference;
+
+        return new Cartographic3(lon * Math.PI, lat * CesiumMath.PI_OVER_TWO, cartesian.z);
+    };
+
     return EquidistantCylindricalProjection;
 });
 
+/*global define*/
+define('Core/HermitePolynomialApproximation',['./Math'
+       ], function(
+        CesiumMath) {
+    
+
+    var factorial = CesiumMath.factorial;
+
+    function calculateCoefficientTerm(x, zIndices, xTable, derivOrder, termOrder, reservedIndices) {
+        var result = 0;
+        var reserved;
+        var i;
+        var j;
+
+        if (derivOrder > 0) {
+            for (i = 0; i < termOrder; i++) {
+                reserved = false;
+                for (j = 0; j < reservedIndices.length && !reserved; j++) {
+                    if (i === reservedIndices[j]) {
+                        reserved = true;
+                    }
+                }
+
+                if (!reserved) {
+                    reservedIndices.push(i);
+                    result += calculateCoefficientTerm(x, zIndices, xTable, derivOrder - 1, termOrder, reservedIndices);
+                    reservedIndices.splice(reservedIndices.length - 1, 1);
+                }
+            }
+
+            return result;
+        }
+
+        result = 1;
+        for (i = 0; i < termOrder; i++) {
+            reserved = false;
+            for (j = 0; j < reservedIndices.length && !reserved; j++) {
+                if (i === reservedIndices[j]) {
+                    reserved = true;
+                }
+            }
+
+            if (!reserved) {
+                result *= x - xTable[zIndices[i]];
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * Functions for performing Hermite interpolation.
+     * @exports HermitePolynomialApproximation
+     *
+     * @see LinearApproximation
+     * @see LagrangePolynomialApproximation
+     */
+    var HermitePolynomialApproximation = {
+        type : 'Hermite'
+    };
+
+    /**
+     * Given the desired degree, returns the number of data points required for interpolation.
+     *
+     * @memberof HermitePolynomialApproximation
+     *
+     * @param degree The desired degree of interpolation.
+     *
+     * @returns The number of required data points needed for the desired degree of interpolation.
+     */
+    HermitePolynomialApproximation.getRequiredDataPoints = function(degree) {
+        return Math.max(degree + 1, 2);
+    };
+
+    /**
+     * <p>
+     * Interpolates values using the supplied interpolation algorithm.  The appropriate subset of input
+     * values to use for the interpolation is determined automatically from an interpolation given
+     * degree.
+     * </p>
+     * <p>
+     * The xTable array can contain any number of elements, and the appropriate subset will be
+     * selected according to the degree of interpolation requested.  For example, if degree is 5,
+     * the 6 elements surrounding x will be used for interpolation.  When using
+     * {@link LinearApproximation} the degree should be 1 since it always deals with only 2 elements
+     * surrounding x. The yTable array should contain a number of elements equal to:
+     * <code>xTable.length * yStride</code>.  If insufficient elements are provided
+     * to perform the requested degree of interpolation, the highest possible degree of interpolation
+     * will be performed.
+     * </p>
+     *
+     * @param {Number} x The independent variable for which the dependent variables will be interpolated.
+     *
+     * @param {Array} xTable The array of independent variables to use to interpolate.  The values
+     * in this array must be in increasing order and the same value must not occur twice in the array.
+     *
+     * @param {Array} yTable The array of dependent variables to use to interpolate.  For a set of three
+     * dependent values (p,q,w) and their derivatives (dp, dq, dw) at time 1 and time 2 this should be
+     * as follows: {p1, q1, w1, dp1, dq1, dw1, p2, q2, w2, dp2, dq2, dw2}.
+     *
+     * @param {Number} yStride The number of dependent variable values in yTable corresponding to
+     * each independent variable value in xTable.
+     *
+     * @returns An array of interpolated values.  The array contains at least yStride elements, each
+     * of which is an interpolated dependent variable value.
+     *
+     * @see LinearApproximation
+     * @see LagrangePolynomialApproximation
+     *
+     * @memberof HermitePolynomialApproximation
+     */
+    HermitePolynomialApproximation.interpolateOrderZero = function(x, xTable, yTable, yStride) {
+        var length = xTable.length, i, j, d, s, len, index, result = new Array(yStride), coefficients = new Array(yStride);
+
+        for (i = 0; i < yStride; i++) {
+            result[i] = 0;
+
+            var l = new Array(length);
+            coefficients[i] = l;
+            for (j = 0; j < length; j++) {
+                l[j] = [];
+            }
+        }
+
+        var zIndicesLength = length, zIndices = new Array(zIndicesLength);
+
+        for (i = 0; i < zIndicesLength; i++) {
+            zIndices[i] = i;
+        }
+
+        var highestNonZeroCoef = length - 1;
+        for (s = 0; s < yStride; s++) {
+            for (j = 0; j < zIndicesLength; j++) {
+                index = zIndices[j] * yStride + s;
+                coefficients[s][0].push(yTable[index]);
+            }
+
+            for (i = 1; i < zIndicesLength; i++) {
+                var nonZeroCoefficients = false;
+                for (j = 0; j < zIndicesLength - i; j++) {
+                    var zj = xTable[zIndices[j]];
+                    var zn = xTable[zIndices[j + i]];
+
+                    var numerator;
+                    if (zn - zj <= 0) {
+                        index = zIndices[j] * yStride + yStride * i + s;
+                        numerator = yTable[index];
+                        coefficients[s][i].push(numerator / factorial(i));
+                    } else {
+                        numerator = (coefficients[s][i - 1][j + 1] - coefficients[s][i - 1][j]);
+                        coefficients[s][i].push(numerator / (zn - zj));
+                    }
+                    nonZeroCoefficients = nonZeroCoefficients || (numerator !== 0);
+                }
+
+                if (!nonZeroCoefficients) {
+                    highestNonZeroCoef = i - 1;
+                }
+            }
+        }
+
+        for (d = 0, len = 0; d <= len; d++) {
+            for (i = d; i <= highestNonZeroCoef; i++) {
+                var tempTerm = calculateCoefficientTerm(x, zIndices, xTable, d, i, []);
+                for (s = 0; s < yStride; s++) {
+                    var coeff = coefficients[s][i][0];
+                    result[s + d * yStride] += coeff * tempTerm;
+                }
+            }
+        }
+
+        return result;
+    };
+
+    return HermitePolynomialApproximation;
+});
 /*global define*/
 define('Core/IntersectionTests',[
         './DeveloperError',
@@ -3823,35 +4624,29 @@ define('Core/IntersectionTests',[
         /**
          * DOC_TBA
          *
-         * @param {Cartesian3} rayOrigin DOC_TBA
-         * @param {Cartesian3} rayDirection DOC_TBA
+         * @param {Ray} ray DOC_TBA
          * @param {Cartesian3} planeNormal DOC_TBA
          * @param {Number} planeD DOC_TBA
          *
-         * @exception {DeveloperError} rayOrigin is required.
-         * @exception {DeveloperError} rayDirection is required.
+         * @exception {DeveloperError} ray is required.
          * @exception {DeveloperError} planeNormal is required.
          * @exception {DeveloperError} planeD is required.
          */
-        rayPlane : function(rayOrigin, rayDirection, planeNormal, planeD) {
-            if (!rayOrigin) {
-                throw new DeveloperError('rayOrigin is required.');
+        rayPlane : function(ray, planeNormal, planeD) {
+            if (typeof ray === 'undefined') {
+                throw new DeveloperError('ray is required.');
             }
 
-            if (!rayDirection) {
-                throw new DeveloperError('rayDirection is required.');
-            }
-
-            if (!planeNormal) {
+            if (typeof planeNormal === 'undefined') {
                 throw new DeveloperError('planeNormal is required.');
             }
 
-            if (!planeD) {
+            if (typeof planeD === 'undefined') {
                 throw new DeveloperError('planeD is required.');
             }
 
-            var origin = Cartesian3.clone(rayOrigin);
-            var direction = Cartesian3.clone(rayDirection);
+            var origin = Cartesian3.clone(ray.origin);
+            var direction = Cartesian3.clone(ray.direction);
             var normal = Cartesian3.clone(planeNormal);
 
             var denominator = normal.dot(direction);
@@ -3870,22 +4665,27 @@ define('Core/IntersectionTests',[
             return origin.add(direction.multiplyWithScalar(t));
         },
 
-        rayEllipsoid : function(rayOrigin, rayDirection, ellipsoid) {
-            if (!rayOrigin) {
-                throw new DeveloperError('rayOrigin is required.');
+        /**
+         * DOC_TBA
+         *
+         * @param {Ray} ray DOC_TBA
+         * @param {Ellipsoid} ellipsoid DOC_TBA
+         *
+         * @exception {DeveloperError} ray is required.
+         * @exception {DeveloperError} ellipsoid is required.
+         */
+        rayEllipsoid : function(ray, ellipsoid) {
+            if (typeof ray === 'undefined') {
+                throw new DeveloperError('ray is required.');
             }
 
-            if (!rayDirection) {
-                throw new DeveloperError('rayDirection is required.');
-            }
-
-            if (!ellipsoid) {
+            if (typeof ellipsoid === 'undefined') {
                 throw new DeveloperError('ellipsoid is required.');
             }
 
             var inverseRadii = ellipsoid.getOneOverRadii();
-            var q = inverseRadii.multiplyComponents(rayOrigin);
-            var w = inverseRadii.multiplyComponents(rayDirection);
+            var q = inverseRadii.multiplyComponents(ray.origin);
+            var w = inverseRadii.multiplyComponents(ray.direction);
 
             var q2 = q.magnitudeSquared();
             var qw = q.dot(w);
@@ -4004,14 +4804,14 @@ define('Core/Matrix2',[
      * When called with four numeric arguments which define the matrix elements in row-major order; column0Row0, column1Row0, column0Row1, and column1Row1; the matrix is initialized to [column0Row0, column0Row1] [column1Row0, column1Row1].
      * </p>
      *
-     * @name Matrix2
+     * @alias Matrix2
      * @constructor
      * @immutable
      *
      * @see Matrix3
      * @see Matrix4
      */
-    function Matrix2() {
+    var Matrix2 = function() {
         var values = this.values = []; // Column-major
         values.length = numberOfElements;
 
@@ -4033,7 +4833,7 @@ define('Core/Matrix2',[
             values[2] = arguments[1]; // Column 0, Row 0
             values[3] = arguments[3]; // Column 1, Row 1
         }
-    }
+    };
 
     /**
      * Returns the element at column 0, row 0.
@@ -4358,8 +5158,10 @@ define('Core/Matrix2',[
      * @return {Boolean} <code>true</code> if the matrices are equal element-wise; otherwise, <code>false</code>.
      */
     Matrix2.prototype.equals = function(other) {
-        for ( var i = 0; i < numberOfElements; ++i) {
-            if (this.getColumnMajorValue(i) !== other.getColumnMajorValue(i)) {
+        var thisValues = this.values;
+        var otherValues = other.values;
+        for ( var i = 0, len = thisValues.length; i < len; i++) {
+            if (thisValues[i] !== otherValues[i]) {
                 return false;
             }
         }
@@ -4378,8 +5180,10 @@ define('Core/Matrix2',[
      */
     Matrix2.prototype.equalsEpsilon = function(other, epsilon) {
         epsilon = epsilon || 0.0;
-        for ( var i = 0; i < numberOfElements; ++i) {
-            if (Math.abs(this.getColumnMajorValue(i) - other.getColumnMajorValue(i)) > epsilon) {
+        var thisValues = this.values;
+        var otherValues = other.values;
+        for ( var i = 0, len = thisValues.length; i < len; i++) {
+            if (Math.abs(thisValues[i] - otherValues[i]) > epsilon) {
                 return false;
             }
         }
@@ -4422,7 +5226,7 @@ define('Core/Matrix3',[
      * When called with nine numeric arguments in row-major order, these arguments define the elements of the matrix.
      * </p>
      *
-     * @name Matrix3
+     * @alias Matrix3
      * @constructor
      * @immutable
      *
@@ -4431,7 +5235,7 @@ define('Core/Matrix3',[
      * @see Matrix4
      * @see Quaternion
      */
-    function Matrix3() {
+    var Matrix3 = function() {
         var values = this.values = []; // Column-major
         values.length = numberOfElements;
 
@@ -4464,7 +5268,7 @@ define('Core/Matrix3',[
             values[7] = arguments[5]; // Column 2, Row 1
             values[8] = arguments[8]; // Column 2, Row 2
         }
-    }
+    };
 
     /**
      * Returns the element at column 0, row 0.
@@ -5018,8 +5822,10 @@ define('Core/Matrix3',[
      * @return {Boolean} <code>true</code> if the matrices are equal element-wise; otherwise, <code>false</code>.
      */
     Matrix3.prototype.equals = function(other) {
-        for ( var i = 0; i < numberOfElements; ++i) {
-            if (this.getColumnMajorValue(i) !== other.getColumnMajorValue(i)) {
+        var thisValues = this.values;
+        var otherValues = other.values;
+        for ( var i = 0, len = thisValues.length; i < len; i++) {
+            if (thisValues[i] !== otherValues[i]) {
                 return false;
             }
         }
@@ -5035,8 +5841,10 @@ define('Core/Matrix3',[
      */
     Matrix3.prototype.equalsEpsilon = function(other, epsilon) {
         epsilon = epsilon || 0.0;
-        for ( var i = 0; i < numberOfElements; ++i) {
-            if (Math.abs(this.getColumnMajorValue(i) - other.getColumnMajorValue(i)) > epsilon) {
+        var thisValues = this.values;
+        var otherValues = other.values;
+        for ( var i = 0, len = thisValues.length; i < len; i++) {
+            if (Math.abs(thisValues[i] - otherValues[i]) > epsilon) {
                 return false;
             }
         }
@@ -5166,21 +5974,23 @@ define('Core/Matrix3',[
 define('Core/MercatorProjection',[
         './Math',
         './Cartesian3',
+        './Cartographic3',
         './Ellipsoid'
     ], function(
         CesiumMath,
         Cartesian3,
+        Cartographic3,
         Ellipsoid) {
     
 
     /**
-     * @name MercatorProjection
+     * @alias MercatorProjection
      *
      * @constructor
      *
      * @immutable
      */
-    function MercatorProjection(ellipsoid) {
+    var MercatorProjection = function(ellipsoid) {
         ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         var radii = ellipsoid.getRadii();
@@ -5188,9 +5998,9 @@ define('Core/MercatorProjection',[
         this._ellipsoid = ellipsoid;
         this._halfEquatorCircumference = Math.PI * (Math.max(radii.x, radii.y));
         this._quarterPolarCircumference = 0.5 * Math.PI * radii.z;
-    }
+    };
 
-    /*
+    /**
      * DOC_TBA
      * @memberof MercatorProjection
      */
@@ -5209,6 +6019,19 @@ define('Core/MercatorProjection',[
 
         // TODO: Deal with latitude outside ~(-85, 85) degrees
         return new Cartesian3(lon * this._halfEquatorCircumference, Math.log((1.0 + Math.sin(lat)) / Math.cos(lat)) * this._quarterPolarCircumference, cartographic.height);
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof MercatorProjection
+     */
+    MercatorProjection.prototype.unproject = function(cartesian) {
+        var lon = cartesian.x / this._halfEquatorCircumference;
+
+        var lat = Math.exp(cartesian.y / this._quarterPolarCircumference);
+        lat = 2.0 * Math.atan((lat - 1.0) / (lat + 1.0));
+
+        return new Cartographic3(lon * Math.PI, lat * CesiumMath.PI_OVER_TWO, cartesian.z);
     };
 
     return MercatorProjection;
@@ -5511,6 +6334,7 @@ define('Core/BoxTessellator',[
     /**
      * DOC_TBA
      *
+     * @alias BoxTessellator
      * @exports BoxTessellator
      *
      * @see CubeMapEllipsoidTessellator
@@ -5867,7 +6691,7 @@ define('Core/Quaternion',[
     /**
      * DOC_TBA
      *
-     * @name Quaternion
+     * @alias Quaternion
      *
      * @constructor
      *
@@ -5878,7 +6702,7 @@ define('Core/Quaternion',[
      *
      * @see Matrix3
      */
-    function Quaternion(x, y, z, w) {
+    var Quaternion = function(x, y, z, w) {
 
         /**
          * The x coordinate.
@@ -5923,7 +6747,7 @@ define('Core/Quaternion',[
          * @see Quaternion.z
          */
         this.w = (typeof w !== 'undefined') ? w : 0.0;
-    }
+    };
 
     /**
      * Returns a duplicate of a Quaternion.
@@ -5954,10 +6778,19 @@ define('Core/Quaternion',[
      *
      * @memberof Quaternion
      *
-     * @return {Quaternion} The conjugate of this quaternion.
+     * @param {Quaternion} [result] The object to store the result into, if undefined a new instance will be created.
+     *
+     * @return {Quaternion} The modified result parameter or a new instance if result was undefined.
      */
-    Quaternion.prototype.conjugate = function() {
-        return new Quaternion(-this.x, -this.y, -this.z, this.w);
+    Quaternion.prototype.conjugate = function(result) {
+        if (typeof result === 'undefined') {
+            result = new Quaternion();
+        }
+        result.x = -this.x;
+        result.y = -this.y;
+        result.z = -this.z;
+        result.w = this.w;
+        return result;
     };
 
     /**
@@ -5991,15 +6824,20 @@ define('Core/Quaternion',[
      *
      * @memberof Quaternion
      *
-     * @returns {Quaternion} This quaternion normalized.
+     * @param {Quaternion} [result] The object to store the result into, if undefined a new instance will be created.
+     *
+     * @return {Quaternion} The modified result parameter or a new instance if result was undefined.
      */
-    Quaternion.prototype.normalize = function() {
+    Quaternion.prototype.normalize = function(result) {
+        if (typeof result === 'undefined') {
+            result = new Quaternion();
+        }
         var inverseMagnitude = 1.0 / this.norm();
-        return new Quaternion(
-                this.x * inverseMagnitude,
-                this.y * inverseMagnitude,
-                this.z * inverseMagnitude,
-                this.w * inverseMagnitude);
+        result.x = this.x * inverseMagnitude;
+        result.y = this.y * inverseMagnitude;
+        result.z = this.z * inverseMagnitude;
+        result.w = this.w * inverseMagnitude;
+        return result;
     };
 
     /**
@@ -6007,10 +6845,13 @@ define('Core/Quaternion',[
      *
      * @memberof Quaternion
      *
-     * @return {Quaternion} The inverse.
+     * @param {Quaternion} [result] The object to store the result into, if undefined a new instance will be created.
+     *
+     * @return {Quaternion} The modified result parameter or a new instance if result was undefined.
      */
-    Quaternion.prototype.inverse = function() {
-        return this.conjugate().multiplyWithScalar(1.0 / this.normSquared());
+    Quaternion.prototype.inverse = function(result) {
+        var normSquared = this.normSquared();
+        return this.conjugate(result).multiplyWithScalar(1.0 / normSquared, result);
     };
 
     /**
@@ -6075,17 +6916,31 @@ define('Core/Quaternion',[
      * @memberof Quaternion
      *
      * @param {Quaternion} other The quaternion to multiply with <code>this</code>.
+     * @param {Quaternion} [result] The object to store the result into, if undefined a new instance will be created.
      *
-     * @return {Quaternion} The product two quaternions, <code>this</code> and <code>other</code>.
+     * @return {Quaternion} The modified result parameter or a new instance if result was undefined.
      *
      * @see Quaternion#dot
      */
-    Quaternion.prototype.multiply = function(other) {
-        return new Quaternion(
-                this.y * other.z - this.z * other.y + this.x * other.w + this.w * other.x,
-                this.z * other.x - this.x * other.z + this.y * other.w + this.w * other.y,
-                this.x * other.y - this.y * other.x + this.z * other.w + this.w * other.z,
-                this.w * other.w - this.x * other.x - this.y * other.y - this.z * other.z);
+    Quaternion.prototype.multiply = function(other, result) {
+        var leftX = this.x;
+        var leftY = this.y;
+        var leftZ = this.z;
+        var leftW = this.w;
+
+        var rightX = other.x;
+        var rightY = other.y;
+        var rightZ = other.z;
+        var rightW = other.w;
+
+        if (typeof result === 'undefined') {
+            result = new Quaternion();
+        }
+        result.x = leftY * rightZ - leftZ * rightY + leftX * rightW + leftW * rightX;
+        result.y = leftZ * rightX - leftX * rightZ + leftY * rightW + leftW * rightY;
+        result.z = leftX * rightY - leftY * rightX + leftZ * rightW + leftW * rightZ;
+        result.w = leftW * rightW - leftX * rightX - leftY * rightY - leftZ * rightZ;
+        return result;
     };
 
     /**
@@ -6094,13 +6949,21 @@ define('Core/Quaternion',[
      * @memberof Quaternion
      *
      * @param {Number} scalar The scalar that is multiplied with <code>this</code>.
+     * @param {Quaternion} [result] The object to store the result into, if undefined a new instance will be created.
      *
-     * @return {Quaternion} This quaternion scaled by a scalar.
+     * @return {Quaternion} The modified result parameter or a new instance if result was undefined.
      *
      * @see Quaternion#divideByScalar
      */
-    Quaternion.prototype.multiplyWithScalar = function(scalar) {
-        return new Quaternion(this.x * scalar, this.y * scalar, this.z * scalar, this.w * scalar);
+    Quaternion.prototype.multiplyWithScalar = function(scalar, result) {
+        if (typeof result === 'undefined') {
+            result = new Quaternion();
+        }
+        result.x = this.x * scalar;
+        result.y = this.y * scalar;
+        result.z = this.z * scalar;
+        result.w = this.w * scalar;
+        return result;
     };
 
     /**
@@ -6143,13 +7006,22 @@ define('Core/Quaternion',[
      * @see Quaternion#getAngle
      * @see Quaternion.fromAxisAngle
      */
-    Quaternion.prototype.getAxis = function() {
-        if (Math.abs(this.w - 1.0) < CesiumMath.EPSILON6) {
-            return Cartesian3.ZERO;
+    Quaternion.prototype.getAxis = function(result) {
+        if (typeof result === 'undefined') {
+            result = new Cartesian3();
         }
 
-        var scalar = 1.0 / Math.sqrt(1.0 - (this.w * this.w));
-        return new Cartesian3(this.x * scalar, this.y * scalar, this.z * scalar);
+        var w = this.w;
+        if (Math.abs(w - 1.0) < CesiumMath.EPSILON6) {
+            result.x = result.y = result.z = 0;
+            return result;
+        }
+
+        var scalar = 1.0 / Math.sqrt(1.0 - (w * w));
+        result.x = this.x * scalar;
+        result.y = this.y * scalar;
+        result.z = this.z * scalar;
+        return result;
     };
 
     /**
@@ -6345,6 +7217,9 @@ define('Core/Quaternion',[
         return '(' + this.x + ', ' + this.y + ', ' + this.z + ', ' + this.w + ')';
     };
 
+    //Cached temp variable used by Quaternion.fromAxisAngle.
+    var fromAxisAngleCartesian = new Cartesian3();
+
     /**
      * Creates a quaternion representing a rotation around an axis.
      *
@@ -6352,21 +7227,26 @@ define('Core/Quaternion',[
      *
      * @param {Cartesian3} axis The axis of rotation.
      * @param {Number} angle The angle in degrees to rotate around the axis.
+     * @param {Quaternion} [result] The object to store the result into, if undefined a new instance will be created.
      *
-     * @return {Quaternion} The quaternion representing the rotation.
+     * @return {Quaternion} The modified result parameter or a new instance if result was undefined.
      *
      * @see Quaternion#getAxis
      * @see Quaternion#getAngle
      * @see Matrix3.fromAxisAngle
      */
-    Quaternion.fromAxisAngle = function(axis, angle) {
-        var a = Cartesian3.clone(axis);
+    Quaternion.fromAxisAngle = function(axis, angle, result) {
+        if (typeof result === 'undefined') {
+            result = new Quaternion();
+        }
         var halfAngle = angle / 2.0;
         var s = Math.sin(halfAngle);
-        var c = Math.cos(halfAngle);
-        var nAxis = a.normalize();
-
-        return new Quaternion(nAxis.x * s, nAxis.y * s, nAxis.z * s, c);
+        axis.normalize(fromAxisAngleCartesian);
+        result.x = fromAxisAngleCartesian.x * s;
+        result.y = fromAxisAngleCartesian.y * s;
+        result.z = fromAxisAngleCartesian.z * s;
+        result.w = Math.cos(halfAngle);
+        return result;
     };
 
     /**
@@ -6483,7 +7363,7 @@ define('Core/Quaternion',[
                 Math.cos(theta));
     };
 
-   return Quaternion;
+    return Quaternion;
 });
 
 /*global define*/
@@ -6500,7 +7380,7 @@ define('Core/OrientationInterpolator',[
      * Smoothly interpolates orientation, represented by <code>Quaternion</code>s, over time.
      * For example, this can be used to set a camera's axes along a path.
      *
-     * @name OrientationInterpolator
+     * @alias OrientationInterpolator
      * @constructor
      *
      * @param {Array} controlPoints An array, of at least length 2, of objects with <code>orientation</code> and
@@ -6512,14 +7392,14 @@ define('Core/OrientationInterpolator',[
      * @see CatmullRomSpline
      * @see HermiteSpline
      */
-    function OrientationInterpolator(controlPoints) {
+    var OrientationInterpolator = function(controlPoints) {
         if (!controlPoints || !(controlPoints instanceof Array) || controlPoints.length < 2) {
             throw new DeveloperError('controlPoints is required. It must be an array with at least a length of 3.');
         }
 
         this._points = controlPoints;
         this._lastTimeIndex = 0;
-    }
+    };
 
     /**
      * Returns the array of control points.
@@ -6601,8 +7481,11 @@ define('Core/Queue',[],function() {
 
     /**
      * A queue that can enqueue items at the end, and dequeue items from the front.
+     *
+     * @alias Queue
+     * @constructor
      */
-    function Queue() {
+    var Queue = function() {
         this._array = [];
         this._offset = 0;
 
@@ -6610,12 +7493,13 @@ define('Core/Queue',[],function() {
          * The length of the queue.
          */
         this.length = 0;
-    }
+    };
 
     /**
      * Enqueues the specified item.
      *
      * @param {Object} item The item to enqueue.
+     * @memberof Queue
      */
     Queue.prototype.enqueue = function(item) {
         this._array.push(item);
@@ -6624,6 +7508,8 @@ define('Core/Queue',[],function() {
 
     /**
      * Dequeues an item.  Returns undefined if the queue is empty.
+     *
+     * @memberof Queue
      */
     Queue.prototype.dequeue = function() {
         if (this.length === 0) {
@@ -6652,6 +7538,7 @@ define('Core/Queue',[],function() {
      * Check whether this queue contains the specified item.
      *
      * @param {Object} the item to search for.
+     * @memberof Queue
      */
     Queue.prototype.contains = function(item) {
         return this._array.indexOf(item) !== -1;
@@ -6659,6 +7546,7 @@ define('Core/Queue',[],function() {
 
     /**
      * Remove all items from the queue.
+     * @memberof Queue
      */
     Queue.prototype.clear = function() {
         this._array.length = this._offset = this.length = 0;
@@ -6668,6 +7556,7 @@ define('Core/Queue',[],function() {
      * Sort the items in the queue in-place.
      *
      * @param {Function} compareFunction a function that defines the sort order.
+     * @memberof Queue
      */
     Queue.prototype.sort = function(compareFunction) {
         if (this._offset > 0) {
@@ -6682,13 +7571,75 @@ define('Core/Queue',[],function() {
     return Queue;
 });
 /*global define*/
+define('Core/Ray',['./Cartesian3', './DeveloperError'], function(Cartesian3, DeveloperError) {
+    
+
+    /**
+     * Represents a ray that has an origin and extends infinitely in a given direction.
+     *
+     * @alias Ray
+     * @constructor
+     *
+     * @param {Cartesian3} origin The origin of the ray.
+     * @param {Cartesian3} direction The unit length direction of the ray.
+     *
+     * @exception {DeveloperError} origin is required.
+     * @exception {DeveloperError} direction is required.
+     */
+    var Ray = function(origin, direction) {
+        if (typeof origin === 'undefined') {
+            throw new DeveloperError('origin is required');
+        }
+
+        if (typeof direction === 'undefined') {
+            throw new DeveloperError('direction is required');
+        }
+
+        /**
+         * The origin of the ray.
+         *
+         * @type {Cartesian3}
+         */
+        this.origin = origin;
+
+        /**
+         * The direction of the ray.
+         *
+         * @type {Cartesian3}
+         */
+        this.direction = direction.normalize();
+    };
+
+    /**
+     * Returns a point along the ray given by r(t) = o + t*d, where o is the origin of the ray
+     * and d is the direction.
+     *
+     * @memberof Ray
+     *
+     * @param {Number} [t=0.0] A scalar value.
+     *
+     * @returns {Cartesian3} The point along the ray.
+     *
+     * @example
+     * //Get the first intersection point of a ray and an ellipsoid.
+     * var intersection = IntersectionTests.rayEllipsoid(ray, ellipsoid);
+     * var point = ray.getPoint(intersection.start);
+     */
+    Ray.prototype.getPoint = function(t) {
+        t = (typeof t === 'undefined') ? 0.0 : t;
+        return this.origin.add(this.direction.multiplyWithScalar(t));
+    };
+
+    return Ray;
+});
+/*global define*/
 define('Core/Rectangle',['./DeveloperError'], function(DeveloperError) {
     
 
     /**
      * DOC_TBA
      *
-     * @name Rectangle
+     * @alias Rectangle
      *
      * @param {Number} [x=0.0] The x coordinate of the rectangle.
      * @param {Number} [y=0.0] The y coordinate of the rectangle.
@@ -6697,7 +7648,7 @@ define('Core/Rectangle',['./DeveloperError'], function(DeveloperError) {
      *
      * @constructor
      */
-    function Rectangle(x, y, width, height) {
+    var Rectangle = function(x, y, width, height) {
         /**
          * The x coordinate of the rectangle
          *
@@ -6733,8 +7684,17 @@ define('Core/Rectangle',['./DeveloperError'], function(DeveloperError) {
          * @see Rectangle.width
          */
         this.height = height || 0.0;
-    }
+    };
 
+    /**
+     * DOC_TBA
+     *
+     * @memberof Rectangle
+     *
+     * @param {Array} positions
+     *
+     * @return {Rectangle} An axis aligned rectangle bounding the positions.
+     */
     Rectangle.createAxisAlignedBoundingRectangle = function(positions) {
         if (typeof positions === 'undefined') {
             throw new DeveloperError('positions is required.');
@@ -6860,14 +7820,14 @@ define('Core/RuntimeError',[],function() {
      * to a developer error, e.g., invalid argument, that usually indicates a bug in the
      * calling code.
      *
-     * @name RuntimeError
+     * @alias RuntimeError
      *
      * @param {String} [message=undefined] The error message for this exception.
      *
      * @see DeveloperError
      * @constructor
      */
-    function RuntimeError(message) {
+    var RuntimeError = function(message) {
         /**
          * 'RuntimeError' indicating that this exception was thrown due to a runtime error.
          *
@@ -6882,7 +7842,7 @@ define('Core/RuntimeError',[],function() {
          * @type String
          */
         this.message = message;
-    }
+    };
 
     return RuntimeError;
 });
@@ -6917,7 +7877,7 @@ define('Core/Matrix4',[
      * When called with sixteen numeric arguments in row-major order, these arguments define the elements of the matrix.
      * </p>
      *
-     * @name Matrix4
+     * @alias Matrix4
      * @constructor
      * @immutable
      *
@@ -6925,7 +7885,7 @@ define('Core/Matrix4',[
      * @see Matrix2
      * @see Matrix3
      */
-    function Matrix4() {
+    var Matrix4 = function() {
         var values = this.values = []; // Column-major
         values.length = numberOfElements;
 
@@ -6997,7 +7957,7 @@ define('Core/Matrix4',[
             values[14] = arguments[11];// Column 3, Row 2
             values[15] = arguments[15];// Column 3, Row 3
         }
-    }
+    };
 
     /**
      * Returns the element at column 0, row 0.
@@ -8205,8 +9165,10 @@ define('Core/Matrix4',[
      * @return {Boolean} <code>true</code> if the matrices are equal element-wise; otherwise, <code>false</code>.
      */
     Matrix4.prototype.equals = function(other) {
-        for ( var i = 0; i < numberOfElements; ++i) {
-            if (this.getColumnMajorValue(i) !== other.getColumnMajorValue(i)) {
+        var thisValues = this.values;
+        var otherValues = other.values;
+        for ( var i = 0, len = thisValues.length; i < len; i++) {
+            if (thisValues[i] !== otherValues[i]) {
                 return false;
             }
         }
@@ -8225,8 +9187,10 @@ define('Core/Matrix4',[
      */
     Matrix4.prototype.equalsEpsilon = function(other, epsilon) {
         epsilon = epsilon || 0.0;
-        for ( var i = 0; i < numberOfElements; ++i) {
-            if (Math.abs(this.getColumnMajorValue(i) - other.getColumnMajorValue(i)) > epsilon) {
+        var thisValues = this.values;
+        var otherValues = other.values;
+        for ( var i = 0, len = thisValues.length; i < len; i++) {
+            if (Math.abs(thisValues[i] - otherValues[i]) > epsilon) {
                 return false;
             }
         }
@@ -8248,6 +9212,199 @@ define('Core/Matrix4',[
     };
 
     return Matrix4;
+});
+
+/*global define*/
+define('Core/Spherical',[],function() {
+    
+
+    /**
+     * A set of curvilinear 3-dimensional coordinates.
+     *
+     * @alias Spherical
+     * @constructor
+     *
+     * @param {Number} [clock=0.0] The angular coordinate lying in the xy-plane measured from the positive x-axis and toward the positive y-axis.
+     * @param {Number} [cone=0.0] The angular coordinate measured from the positive z-axis and toward the negative z-axis.
+     * @param {Number} [magnitude=1.0] The linear coordinate measured from the origin.
+     */
+    var Spherical = function(clock, cone, magnitude) {
+        this.clock = typeof clock === 'undefined' ? 0.0 : clock;
+        this.cone = typeof cone === 'undefined' ? 0.0 : cone;
+        this.magnitude = typeof magnitude === 'undefined' ? 1.0 : magnitude;
+    };
+
+    /**
+     * Converts the provided Cartesian3 into Spherical coordinates.
+     * @memberof Spherical
+     *
+     * @param {Cartesian3} cartesian3 The Cartesian3 to be converted to Spherical.
+     * @param {Spherical} [spherical] The object in which the result will be stored, if undefined a new instance will be created.
+     *
+     * @returns The modified result parameter, or a new instance if none was provided.
+     */
+    Spherical.fromCartesian3 = function(cartesian3, result) {
+        if (typeof result === 'undefined') {
+            result = new Spherical();
+        }
+        var x = cartesian3.x;
+        var y = cartesian3.y;
+        var z = cartesian3.z;
+        var radialSquared = x * x + y * y;
+        result.clock = Math.atan2(y, x);
+        result.cone = Math.atan2(Math.sqrt(radialSquared), z);
+        result.magnitude = Math.sqrt(radialSquared + z * z);
+        return result;
+    };
+
+    /**
+     * Creates a duplicate of a Spherical.
+     * @memberof Spherical
+     *
+     * @param {Spherical} spherical The spherical to clone.
+     * @param {Spherical} [result] The object to store the result into, if undefined a new instance will be created.
+     *
+     * @return The modified result parameter or a new instance if result was undefined.
+     */
+    Spherical.clone = function(spherical, result) {
+        if (typeof result === 'undefined') {
+            result = new Spherical();
+        }
+        result.clock = spherical.clock;
+        result.cone = spherical.cone;
+        result.magnitude = spherical.magnitude;
+        return result;
+    };
+
+    /**
+     * Computes the normalized version of the provided spherical.
+     * @memberof Spherical
+     *
+     * @param {Spherical} spherical The spherical to be normalized.
+     * @param {Spherical} [result] The object to store the result into, if undefined a new instance will be created.
+     *
+     * @return The modified result parameter or a new instance if result was undefined.
+     */
+    Spherical.normalize = function(spherical, result) {
+        if (typeof result === 'undefined') {
+            result = new Spherical();
+        }
+        result.clock = spherical.clock;
+        result.cone = spherical.cone;
+        result.magnitude = 1.0;
+        return result;
+    };
+
+    /**
+     * Returns true if the first spherical is equal to the second spherical, false otherwise.
+     * @memberof Spherical
+     *
+     * @param {Spherical} left The first Spherical to be compared.
+     * @param {Spherical} right The second Spherical to be compared.
+     *
+     * @return true if the first spherical is equal to the second spherical, false otherwise.
+     */
+    Spherical.equals = function(left, right) {
+        return (left === right) ||
+               ((typeof left !== 'undefined') &&
+                (typeof right !== 'undefined') &&
+                (left.clock === right.clock) &&
+                (left.cone === right.cone) &&
+                (left.magnitude === right.magnitude));
+    };
+
+    /**
+     * Returns true if the first spherical is within the provided epsilon of the second spherical, false otherwise.
+     * @memberof Spherical
+     *
+     * @param {Spherical} left The first Spherical to be compared.
+     * @param {Spherical} right The second Spherical to be compared.
+     * @param {Number} [epsilon=0.0] The epsilon to compare against.
+     *
+     * @return true if the first spherical is within the provided epsilon of the second spherical, false otherwise.
+     */
+    Spherical.equalsEpsilon = function(left, right, epsilon) {
+        epsilon = typeof epsilon === 'undefined' ? 0.0 : epsilon;
+        return (left === right) ||
+               ((typeof left !== 'undefined') &&
+                (typeof right !== 'undefined') &&
+                (Math.abs(left.clock - right.clock) <= epsilon) &&
+                (Math.abs(left.cone - right.cone) <= epsilon) &&
+                (Math.abs(left.magnitude - right.magnitude) <= epsilon));
+    };
+
+    /**
+     * Returns a string representing the provided instance in the format (clock, cone, magnitude).
+     * @memberof Spherical
+     *
+     * @param {Spherical} spherical The object to be converted.
+     *
+     * @return A string representing the provided instance.
+     */
+    Spherical.toString = function(spherical) {
+        return '(' + spherical.clock + ', ' + spherical.cone + ', ' + spherical.magnitude + ')';
+    };
+
+    /**
+     * Creates a duplicate of this Spherical.
+     * @memberof Spherical
+     *
+     * @param {Spherical} [result] The object to store the result into, if undefined a new instance will be created.
+     *
+     * @return The modified result parameter or a new instance if result was undefined.
+     */
+    Spherical.prototype.clone = function(result) {
+        return Spherical.clone(this, result);
+    };
+
+    /**
+     * Computes the normalized version of this spherical.
+     * @memberof Spherical
+     *
+     * @param {Spherical} [result] The object to store the result into, if undefined a new instance will be created.
+     *
+     * @return The modified result parameter or a new instance if result was undefined.
+     */
+    Spherical.prototype.normalize = function(result) {
+        return Spherical.normalize(this, result);
+    };
+
+    /**
+     * Returns true if this spherical is equal to the provided spherical, false otherwise.
+     * @memberof Spherical
+     *
+     * @param {Spherical} other The Spherical to be compared.
+     *
+     * @return true if this spherical is equal to the provided spherical, false otherwise.
+     */
+    Spherical.prototype.equals = function(other) {
+        return Spherical.equals(this, other);
+    };
+
+    /**
+     * Returns true if this spherical is within the provided epsilon of the provided spherical, false otherwise.
+     * @memberof Spherical
+     *
+     * @param {Spherical} other The Spherical to be compared.
+     * @param {Number} epsilon The epsilon to compare against.
+     *
+     * @return true if this spherical is within the provided epsilon of the provided spherical, false otherwise.
+     */
+    Spherical.prototype.equalsEpsilon = function(other, epsilon) {
+        return Spherical.equalsEpsilon(this, other, epsilon);
+    };
+
+    /**
+     * Returns a string representing this instance in the format (clock, cone, magnitude).
+     * @memberof Spherical
+     *
+     * @return A string representing this instance.
+     */
+    Spherical.prototype.toString = function() {
+        return Spherical.toString(this);
+    };
+
+    return Spherical;
 });
 
 /*global define*/
@@ -9236,7 +10393,7 @@ define('Core/HermiteSpline',[
      *
      * Natural and clamped cubic splines are in the class C<sup>2</sup>.
      *
-     * @name HermiteSpline
+     * @alias HermiteSpline
      * @constructor
      *
      * @param {Array} controlPoints An array, of at least length 3, of objects with <code>point</code>,
@@ -9278,7 +10435,7 @@ define('Core/HermiteSpline',[
      *
      * var spline = new HermiteSpline(controlPoints);
      */
-    function HermiteSpline(controlPoints) {
+    var HermiteSpline = function(controlPoints) {
         if (!controlPoints || !(controlPoints instanceof Array) || controlPoints.length < 3) {
             throw new DeveloperError('controlPoints is required. It must be an array with at least a length of 3.');
         }
@@ -9292,7 +10449,7 @@ define('Core/HermiteSpline',[
         } else if (this._points[0].tangent && !this._points[1].tangent && this._points[this._points.length - 1].tangent && !this._points[this._points.length - 2].tangent) {
             this._generateClamped();
         }
-    }
+    };
 
     HermiteSpline.hermiteCoefficientMatrix = new Matrix4(
              2.0, -3.0,  0.0,  1.0,
@@ -9469,7 +10626,7 @@ define('Core/CatmullRomSpline',[
      * except the first and last, are computed using the previous and next control points.
      * Catmull-Rom splines are in the class C<sup>1</sup>.
      *
-     * @name CatmullRomSpline
+     * @alias CatmullRomSpline
      * @constructor
      *
      * @param {Array} controlPoints The array of control points. Each element of the array should be an object with <code>point</code> and <code>time</code> properties.
@@ -9494,7 +10651,7 @@ define('Core/CatmullRomSpline',[
      * ];
      * var spline = new CatmullRomSpline(controlPoints);
      */
-    function CatmullRomSpline(controlPoints, firstTangent, lastTangent) {
+    var CatmullRomSpline = function(controlPoints, firstTangent, lastTangent) {
         if (!controlPoints || !(controlPoints instanceof Array) || controlPoints.length < 3) {
             throw new DeveloperError('controlPoints is required and must be an array of objects with point and time properties, with a length of at least 3.');
         }
@@ -9530,7 +10687,7 @@ define('Core/CatmullRomSpline',[
                            .add(controlPointn2)
                            .multiplyWithScalar(0.5);
         }
-    }
+    };
 
     CatmullRomSpline.catmullRomCoefficientMatrix = new Matrix4(
             -0.5,  1.0, -0.5,  0.0,
@@ -9737,7 +10894,7 @@ define('Core/Occluder',[
      * The occluder can be used to determine whether or not other objects are visible or hidden behind the
      * visible horizon defined by the occluder and camera position.
      *
-     * @name Occluder
+     * @alias Occluder
      *
      * @param {BoundingSphere} occluderBoundingSphere The bounding sphere surrounding the occluder.
      * @param {Cartesian3} cameraPosition The coordinate of the viewer/camera.
@@ -9753,7 +10910,7 @@ define('Core/Occluder',[
      * var occluderBoundingSphere = new BoundingSphere(new Cartesian3(0, 0, -1), 1);
      * var occluder = new Occluder(occluderBoundingSphere, cameraPosition);
      */
-    function Occluder(occluderBoundingSphere, cameraPosition) {
+    var Occluder = function(occluderBoundingSphere, cameraPosition) {
         if (!occluderBoundingSphere) {
             throw new DeveloperError('occluderBoundingSphere is required.');
         }
@@ -9772,7 +10929,7 @@ define('Core/Occluder',[
 
         // setCameraPosition fills in the above values
         this.setCameraPosition(cameraPosition);
-    }
+    };
 
     /**
      * Returns the position of the occluder.
@@ -10154,7 +11311,7 @@ define('Core/Extent',[
     /**
      * Two-dimensional coordinates given in latitude and longitude.
      *
-     * @name Extent
+     * @alias Extent
      * @constructor
      *
      * @param {Number} north The northernmost latitude in the range [-Pi/2, Pi/2].
@@ -10164,7 +11321,7 @@ define('Core/Extent',[
      *
      * @exception {DeveloperError} One of the parameters is out of range.
      */
-    function Extent(west, south, east, north) {
+    var Extent = function(west, south, east, north) {
         /**
          * The northernmost latitude.
          *
@@ -10194,7 +11351,7 @@ define('Core/Extent',[
         this.east = east;
 
         Extent.validate(this);
-    }
+    };
 
     /**
      * Returns a duplicate of this Extent.
@@ -10793,6 +11950,8 @@ define('Core/binarySearch',['./DeveloperError'], function(DeveloperError) {
     /**
      * Finds an item in a sorted array.
      *
+     * @exports binarySearch
+     *
      * @param {Array} array The sorted array to search.
      * @param {Object} itemToFind The item to find in the array.
      *
@@ -10810,7 +11969,6 @@ define('Core/binarySearch',['./DeveloperError'], function(DeveloperError) {
      * @exception {DeveloperError} <code>array</code> is required.
      * @exception {DeveloperError} <code>toFind</code> is required.
      * @exception {DeveloperError} <code>comparator</code> is required.
-     * @exports binarySearch
      *
      * @example
      * // Create a comparator function to search through an array of numbers.
@@ -10820,7 +11978,7 @@ define('Core/binarySearch',['./DeveloperError'], function(DeveloperError) {
      * var numbers = [0, 2, 4, 6, 8];
      * var index = binarySearch(numbers, 6, comparator); // 3
      */
-    function binarySearch(array, itemToFind, comparator) {
+    var binarySearch = function(array, itemToFind, comparator) {
         if (!array) {
             throw new DeveloperError('array is required.');
         }
@@ -10850,7 +12008,7 @@ define('Core/binarySearch',['./DeveloperError'], function(DeveloperError) {
             return i;
         }
         return ~(high + 1);
-    }
+    };
 
     return binarySearch;
 });
@@ -11193,25 +12351,27 @@ define('Core/EllipsoidTangentPlane',[
         './AxisAlignedBoundingBox',
         './IntersectionTests',
         './Cartesian2',
-        './Cartesian3'
+        './Cartesian3',
+        './Ray'
     ], function(
         DeveloperError,
         Transforms,
         AxisAlignedBoundingBox,
         IntersectionTests,
         Cartesian2,
-        Cartesian3) {
+        Cartesian3,
+        Ray) {
     
 
     /**
      * DOC_TBA
-     * @name EllipsoidTangentPlane
+     * @alias EllipsoidTangentPlane
      * @constructor
      *
      * @param {Ellipsoid} ellipsoid
      * @param {Cartesian3} origin
      */
-    function EllipsoidTangentPlane(ellipsoid, origin) {
+    var EllipsoidTangentPlane = function (ellipsoid, origin) {
         var o = Cartesian3.clone(origin);
         var eastNorthUp = Transforms.eastNorthUpToFixedFrame(o, ellipsoid);
 
@@ -11221,7 +12381,7 @@ define('Core/EllipsoidTangentPlane',[
         this.normal = eastNorthUp.getColumn2().getXYZ();
         this.d = -o.dot(o);
         this.ellipsoid = ellipsoid;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -11266,7 +12426,7 @@ define('Core/EllipsoidTangentPlane',[
     EllipsoidTangentPlane.prototype.projectPointOntoPlane = function(position) {
         if (position) {
             var pos = Cartesian3.clone(position);
-            var intersectionPoint = IntersectionTests.rayPlane(pos, pos.normalize(), this.normal, this.d);
+            var intersectionPoint = IntersectionTests.rayPlane(new Ray(pos, pos.normalize()), this.normal, this.d);
 
             if (intersectionPoint) {
                 var v = intersectionPoint.subtract(this.origin);
@@ -11465,7 +12625,7 @@ define('Core/Shapes',[
             granularity = granularity || CesiumMath.toRadians(1.0);
 
             if (granularity <= 0.0) {
-                throw new DeveloperError('granularity must be greater than zero.', 'granularity');
+                throw new DeveloperError('granularity must be greater than zero.');
             }
 
             if (semiMajorAxis < semiMinorAxis) {
@@ -11559,6 +12719,8 @@ define('Core/combine',['./DeveloperError'], function(DeveloperError) {
     /**
      * DOC_TBA
      *
+     * @exports combine
+     *
      * @exception {DeveloperError} Duplicate member.
      */
     function combine() {
@@ -11591,19 +12753,21 @@ define('Core/createGuid',[],function() {
     /**
      * Creates a Globally unique identifier (GUID) string.  A GUID is 128 bits long, and can guarantee uniqueness across space and time.
      *
+     * @exports createGuid
+     *
      * @see <a href='http://www.ietf.org/rfc/rfc4122.txt'>RFC 4122 A Universally Unique IDentifier (UUID) URN Namespace</a>
      *
      * @example
      * this.guid = createGuid();
      */
-    function createGuid() {
+    var createGuid = function() {
         // http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
         return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
             var r = Math.random() * 16 | 0;
             var v = c === 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
-    }
+    };
 
     return createGuid;
 });
@@ -11619,6 +12783,8 @@ define('Core/destroyObject',['./DeveloperError'], function(DeveloperError) {
      * This function is used by objects that hold native resources, e.g., WebGL resources, which need to be explicitly released.  Client code
      * calls an object's <code>destroy</code> function, which then releases the native resource and calls <code>destroyObject</code> to put
      * itself in a destroyed state.
+     *
+     * @exports destroyObject
      *
      * @param {Object} object The object to destroy.
      * @param {String} [name=undefined] The message to include in the exception that is thrown if a destroyed object's function is called.
@@ -11672,7 +12838,7 @@ define('Core/Cache',[
     /**
      * A software cache implementation.
      *
-     * @name Cache
+     * @alias Cache
      *
      * @constructor
      *
@@ -11684,7 +12850,7 @@ define('Core/Cache',[
      *
      * @see CachePolicy.LRU
      */
-    function Cache(policy) {
+    var Cache = function(policy) {
         if (!policy) {
             throw new DeveloperError('policy is required.');
         }
@@ -11699,7 +12865,7 @@ define('Core/Cache',[
 
         this._cache = {};
         this._policy = policy;
-    }
+    };
 
     /**
      * Returns the object at key in the cache. It is the responsibility of the cache replacement policy
@@ -11823,11 +12989,85 @@ define('Core/Cache',[
 });
 
 /*global define*/
+define('Core/getImageFromUrl',['./DeveloperError'
+       ], function(
+        DeveloperError) {
+    
+
+    /**
+     * Asynchronously loads the provided url into an Image.
+     * @exports getImageFromUrl
+     *
+     * @param {String} url The url of the image to retrieve.  Both data and cross-origin urls are supported.
+     * @param {Function} onLoad The function to call once the image is loaded.
+     * @param {Function} [onError] The function to call if an image load error is encountered.
+     * @param {Function} [onAbort] The function to call if the image load is aborted.
+     *
+     * @exception {DeveloperError} url is a required string parameter.
+     * @exception {DeveloperError} onLoad is a required function parameter.
+     * @exception {DeveloperError} onError must be a function.
+     * @exception {DeveloperError} onAbort must be a function.
+     *
+     * @return {Image} A new Image instance with the onload, onerror, onabort, and src properties set.
+     *
+     * @example
+     * getImageFromUrl('http://cesium.agi.com/Cesium-Logo-onBlack.jpg', function(logoImage) {
+     *     //logoImage loaded and ready for use.
+     * });
+     */
+    var getImageFromUrl = function(url, onLoad, onError, onAbort) {
+        if (typeof url !== 'string') {
+            throw new DeveloperError('url is a required string parameter.');
+        }
+
+        if (typeof onLoad !== 'function') {
+            throw new DeveloperError('onLoad is a required function parameter.');
+        }
+
+        if (typeof onError !== 'function' && typeof onError !== 'undefined') {
+            throw new DeveloperError('onError must be a function.');
+        }
+
+        if (typeof onAbort !== 'function' && typeof onError !== 'undefined') {
+            throw new DeveloperError('onAbort must be a function.');
+        }
+
+        var image = new Image();
+        image.onload = function() {
+            onLoad(image);
+        };
+
+        if (typeof onError !== 'undefined') {
+            image.onerror = function() {
+                onError(image);
+            };
+        }
+
+        if (typeof onAbort !== 'undefined') {
+            image.onabort = function() {
+                onAbort(image);
+            };
+        }
+
+        //Only add the crossOrigin flag for non-data URLs
+        if (url.substr(0, 5) !== 'data:') {
+            image.crossOrigin = '';
+        }
+
+        image.src = url;
+        return image;
+    };
+
+    return getImageFromUrl;
+});
+/*global define*/
 define('Core/isLeapYear',['Core/DeveloperError'], function(DeveloperError) {
     
 
     /**
      * Determines if a given date is a leap year.
+     *
+     * @exports isLeapYear
      *
      * @param {Number} year The year to be tested.
      *
@@ -11934,7 +13174,7 @@ function(DeveloperError,
      * two UTC dates that are on opposite sides of a leap second will correctly take the leap second into
      * account.</p>
      *
-     * @name JulianDate
+     * @alias JulianDate
      * @constructor
      * @immutable
      *
@@ -11957,7 +13197,7 @@ function(DeveloperError,
      * var secondsOfDay = 21600;        // 06:00:00
      * var julianDate = new JulianDate(julianDayNumber, secondsOfDay, TimeStandard.UTC);
      */
-    function JulianDate(julianDayNumber, julianSecondsOfDay, timeStandard) {
+    var JulianDate = function(julianDayNumber, julianSecondsOfDay, timeStandard) {
         var wholeDays, secondsOfDay;
 
         //If any of the properties are defined, then we are constructing from components.
@@ -12004,7 +13244,7 @@ function(DeveloperError,
         this._julianDayNumber = wholeDays;
         this._secondsOfDay = secondsOfDay;
         this._timeStandard = timeStandard;
-    }
+    };
 
     /**
      * Creates an immutable JulianDate instance from a JavaScript Date object.
@@ -12295,11 +13535,11 @@ function(DeveloperError,
 
         //Now create the JulianDate components from the Gregorian date and actually create our instance.
         var components = computeJulianDateComponents(year, month, day, hours, minutes, seconds, milliseconds);
-        var result = new JulianDate(components[0], components[1], TimeStandard.UTC);
+        var result = TimeStandard.convertUtcToTai(new JulianDate(components[0], components[1], TimeStandard.UTC));
 
         //If we were on a leap second, add it back.
         if (isLeapSecond) {
-            result = TimeStandard.convertUtcToTai(result).addSeconds(1);
+            result = result.addSeconds(1);
         }
 
         return result;
@@ -12899,7 +14139,7 @@ define('Core/CachePolicy',[
     /**
      * Defines cache replacement policies.
      *
-     * @name CachePolicy
+     * @exports CachePolicy
      *
      * @see Cache
      */
@@ -12909,9 +14149,6 @@ define('Core/CachePolicy',[
      * Least recently used cache replacement policy that replaces the least recently used
      * item from the cache first.
      *
-     * @name CachePolicy.LRU
-     *
-     * @constructor
      *
      * @param {Function} description.fetchFunc A function that given the key will return an object to store in the cache.
      * @param {Function} description.removeFunc A optional function that will be called when the object will be removed from the cache.
@@ -12936,8 +14173,6 @@ define('Core/CachePolicy',[
      * This function is called by the cache when an object is requested and is stored in the cache.
      * Updates the object as used recently.
      *
-     * @memberof CachePolicy.LRU
-     *
      * @param {Object} object The value stored in the cache that was requested by its key.
      */
     CachePolicy.LRU.prototype.hit = function(object) {
@@ -12948,8 +14183,6 @@ define('Core/CachePolicy',[
     /**
      * This function is called by the cache when an object is requested and is not stored in the cache.
      * Replaces the LRU object with the object returned by the fetch function given to the constructor.
-     *
-     * @memberof CachePolicy.LRU
      *
      * @param {String} name The string name used as a key into the hash.
      * @param {Object} key The object that was used as a key into the cache;
@@ -12996,6 +14229,202 @@ define('Core/CachePolicy',[
 });
 
 /*global define*/
+define('Core/Clock',[
+        './DeveloperError',
+        './JulianDate',
+        './ClockStep',
+        './ClockRange',
+        './TimeStandard'
+       ], function(
+         DeveloperError,
+         JulianDate,
+         ClockStep,
+         ClockRange,
+         TimeStandard) {
+    
+
+    /**
+     * A simple clock for keeping track of simulated time.
+     * @alias Clock
+     * @constructor
+     *
+     * @param {Object} [template] The template object containing the properties to be set on the clock.
+     * @exception {DeveloperError} startTime must come before stopTime.
+     *
+     * @see ClockStep
+     * @see ClockRange
+     * @see JulianDate
+     *
+     * @example
+     * //Create a clock that loops on Christmas day 2012 and runs
+     * //in real-time.  currentTime will default to startTime.
+     * var clock = new Clock({
+     *    startTime : JulianDate.fromIso8601("12-25-2012");
+     *    stopTime : JulianDate.fromIso8601("12-26-2012");
+     *    clockRange : ClockRange.LOOP;
+     * });
+     */
+    var Clock = function(template) {
+        var t = template;
+        if (typeof t === 'undefined') {
+            t = {};
+        }
+
+        var startTime = t.startTime;
+        var startTimeUndefined = typeof startTime === 'undefined';
+
+        var stopTime = t.stopTime;
+        var stopTimeUndefined = typeof stopTime === 'undefined';
+
+        var currentTime = t.currentTime;
+        var currentTimeUndefined = typeof currentTime === 'undefined';
+
+        if (startTimeUndefined && stopTimeUndefined && currentTimeUndefined) {
+            currentTime = new JulianDate();
+            startTime = currentTime.addDays(-0.5);
+            stopTime = currentTime.addDays(0.5);
+        } else if (startTimeUndefined && stopTimeUndefined) {
+            startTime = currentTime.addDays(-0.5);
+            stopTime = currentTime.addDays(0.5);
+        } else if (startTimeUndefined && currentTimeUndefined) {
+            startTime = stopTime.addDays(-1.0);
+            currentTime = stopTime.addDays(0.5);
+        } else if (currentTimeUndefined && stopTimeUndefined) {
+            currentTime = startTime.addDays(0.5);
+            stopTime = startTime.addDays(1.0);
+        } else if (currentTimeUndefined) {
+            currentTime = startTime.addSeconds(startTime.secondsDifference(stopTime));
+        } else if (stopTimeUndefined) {
+            stopTime = currentTime.addDays(0.5);
+        } else if (startTimeUndefined) {
+            startTime = currentTime.addDays(-0.5);
+        }
+
+        if (startTime.greaterThan(stopTime)) {
+            throw new DeveloperError('startTime must come before stopTime.');
+        }
+
+        var multiplier = t.multiplier;
+        if (typeof multiplier === 'undefined') {
+            multiplier = 1.0;
+        }
+
+        var clockStep = t.clockStep;
+        if (typeof clockStep === 'undefined') {
+            clockStep = ClockStep.SYSTEM_CLOCK_DEPENDENT;
+        }
+
+        var clockRange = t.clockRange;
+        if (typeof clockRange === 'undefined') {
+            clockRange = ClockRange.UNBOUNDED;
+        }
+
+        /**
+         * The start time of the clock.
+         * @type JulianDate
+         */
+        this.startTime = TimeStandard.convertUtcToTai(startTime);
+
+        /**
+         * The stop time of the clock.
+         * @type JulianDate
+         */
+        this.stopTime = TimeStandard.convertUtcToTai(stopTime);
+
+        /**
+         * The current time.
+         * @type JulianDate
+         */
+        this.currentTime = TimeStandard.convertUtcToTai(currentTime);
+
+        /**
+         * Determines how much time advances when tick is called, negative values allow for advancing backwards.
+         * If <code>clockStep</code> is set to ClockStep.TICK_DEPENDENT this is the number of seconds to advance.
+         * If <code>clockStep</code> is set to ClockStep.SYSTEM_CLOCK_DEPENDENT this value is multiplied by the
+         * elapsed system time since the last call to tick.
+         * @type Number
+         */
+        this.multiplier = multiplier;
+
+        /**
+         * Determines if calls to <code>tick</code> are frame dependent or system clock dependent.
+         * @type ClockStep
+         */
+        this.clockStep = clockStep;
+
+        /**
+         * Determines how tick should behave when <code>startTime</code> or <code>stopTime</code> is reached.
+         * @type ClockRange
+         */
+        this.clockRange = clockRange;
+
+        this._lastCpuTime = new Date().getTime();
+    };
+
+    /**
+     * Advances the clock from the currentTime based on the current configuration options.
+     * @memberof Clock
+     *
+     * @param {Number} [secondsToTick] optional parameter to force the clock to tick the provided number of seconds,
+     * regardless of the value of <code>clockStep</code> and <code>multiplier</code>.
+     * @returns {JulianDate} The new value of the <code>currentTime<code> property.
+     */
+    Clock.prototype.tick = function(secondsToTick) {
+        return this._tick(secondsToTick, this.multiplier);
+    };
+
+    /**
+     * Advances the clock in the opposite direction of the current <code>multiplier<code>.
+     * If <code>multiplier<code> is positive this will advance the clock backwards one tick.
+     * If <code>multiplier<code> is negative this will advance the clock forward one tick.
+     * @memberof Clock
+     *
+     * @returns {JulianDate} The new value of Clock.currentTime
+     */
+    Clock.prototype.reverseTick = function() {
+        return this._tick(undefined, -this.multiplier);
+    };
+
+    Clock.prototype._tick = function(secondsToTick, multiplier) {
+        var startTime = this.startTime;
+        var stopTime = this.stopTime;
+        var currentTime = this.currentTime;
+        var currentCpuTime = new Date().getTime();
+
+        if (typeof secondsToTick === 'undefined') {
+            if (this.clockStep === ClockStep.TICK_DEPENDENT) {
+                currentTime = currentTime.addSeconds(multiplier);
+            } else {
+                var milliseconds = currentCpuTime - this._lastCpuTime;
+                currentTime = currentTime.addSeconds(multiplier * (milliseconds / 1000.0));
+            }
+        } else {
+            currentTime = currentTime.addSeconds(secondsToTick);
+        }
+
+        if (this.clockRange === ClockRange.CLAMPED) {
+            if (currentTime.lessThan(startTime)) {
+                currentTime = startTime;
+            } else if (currentTime.greaterThan(stopTime)) {
+                currentTime = stopTime;
+            }
+        } else if (this.clockRange === ClockRange.LOOP) {
+            while (currentTime.lessThan(startTime)) {
+                currentTime = stopTime.addSeconds(startTime.getSecondsDifference(currentTime));
+            }
+            while (currentTime.greaterThan(stopTime)) {
+                currentTime = startTime.addSeconds(stopTime.getSecondsDifference(currentTime));
+            }
+        }
+
+        this.currentTime = currentTime;
+        this._lastCpuTime = currentCpuTime;
+        return currentTime;
+    };
+
+    return Clock;
+});
+/*global define*/
 define('Core/EventHandler',[
         './DeveloperError',
         './destroyObject',
@@ -13016,14 +14445,12 @@ define('Core/EventHandler',[
      * Handles user input events. Custom functions can be added to be executed on
      * when the user enters input.
      *
-     * @name EventHandler
+     * @alias EventHandler
      *
      * @param {DOC_TBA} element The element to add events to. Defaults to document.
      * @constructor
      */
-    function EventHandler(element) {
-        this._keyEvents = {};
-
+    var EventHandler = function(element) {
         this._mouseEvents = {};
         for ( var button in MouseEventType) {
             if (MouseEventType.hasOwnProperty(button)) {
@@ -13031,15 +14458,8 @@ define('Core/EventHandler',[
             }
         }
 
-        this._modifiedKeyEvents = {};
-        for ( var modifier in EventModifier) {
-            if (EventModifier.hasOwnProperty(modifier)) {
-                this._modifiedKeyEvents[modifier] = {};
-            }
-        }
-
         this._modifiedMouseEvents = {};
-        for (modifier in EventModifier) {
+        for ( var modifier in EventModifier) {
             if (EventModifier.hasOwnProperty(modifier)) {
                 this._modifiedMouseEvents[modifier] = {};
                 for (button in MouseEventType) {
@@ -13065,7 +14485,7 @@ define('Core/EventHandler',[
         this._element = element || document;
 
         this._register();
-    }
+    };
 
     EventHandler.prototype._getPosition = function(event) {
         if (this._element === document) {
@@ -13080,253 +14500,6 @@ define('Core/EventHandler',[
             x : event.clientX - rect.left,
             y : event.clientY - rect.top
         };
-    };
-
-    /**
-     * Returns <code>true</code> if the left mouse button is pressed and <code>false</code> otherwise.
-     *
-     * @memberof EventHandler
-     *
-     * @return {Boolean} <code>true</code> if the left mouse button is pressed and <code>false</code> otherwise.
-     *
-     * @see EventHandler#isMiddleMouseButtonDown
-     * @see EventHandler#isRightMouseButtonDown
-     */
-    EventHandler.prototype.isLeftMouseButtonDown = function() {
-        return this._leftMouseButtonDown;
-    };
-
-    /**
-     * Returns the last time that the left mouse button was pressed.
-     *
-     * @memberof EventHandler
-     *
-     * @return {JulianDate} The time the left mouse button was pressed.
-     *
-     * @see EventHandler#getLeftReleaseTime
-     * @see EventHandler#getRightPressTime
-     * @see EventHandler#getMiddlePressTime
-     */
-    EventHandler.prototype.getLeftPressTime = function() {
-        return this._leftPressTime;
-    };
-
-    /**
-     * Returns the last time that the left mouse button was released.
-     *
-     * @memberof EventHandler
-     *
-     * @return {JulianDate} The time the left mouse button was released.
-     *
-     * @see EventHandler#getLeftPressTime
-     * @see EventHandler#getRightReleaseTime
-     * @see EventHandler#getMiddleReleaseTime
-     */
-    EventHandler.prototype.getLeftReleaseTime = function() {
-        return this._leftReleaseTime;
-    };
-
-    /**
-     * Returns <code>true</code> if the middle mouse button is pressed and <code>false</code> otherwise.
-     *
-     * @memberof EventHandler
-     *
-     * @return {Boolean} <code>true</code> if the middle mouse button is pressed and <code>false</code> otherwise.
-     *
-     * @see EventHandler#isMiddleMouseButtonDown
-     * @see EventHandler#isLeftMouseButtonDown
-     */
-    EventHandler.prototype.isMiddleMouseButtonDown = function() {
-        return this._middleMouseButtonDown;
-    };
-
-    /**
-     * Returns the last time that the middle mouse button was pressed.
-     *
-     * @memberof EventHandler
-     *
-     * @return {JulianDate} The time the middle mouse button was pressed.
-     *
-     * @see EventHandler#getMiddleReleaseTime
-     * @see EventHandler#getRightPressTime
-     * @see EventHandler#getLeftPressTime
-     */
-    EventHandler.prototype.getMiddlePressTime = function() {
-        return this._middlePressTime;
-    };
-
-    /**
-     * Returns the last time that the middle mouse button was released.
-     *
-     * @memberof EventHandler
-     *
-     * @return {JulianDate} The time the middle mouse button was released.
-     *
-     * @see EventHandler#getMiddlePressTime
-     * @see EventHandler#getRightReleaseTime
-     * @see EventHandler#getLeftReleaseTime
-     */
-    EventHandler.prototype.getMiddleReleaseTime = function() {
-        return this._middleReleaseTime;
-    };
-
-    /**
-     * Returns <code>true</code> if the right mouse button is pressed and <code>false</code> otherwise.
-     *
-     * @memberof EventHandler
-     *
-     * @return {Boolean} <code>true</code> if the right mouse button is pressed and <code>false</code> otherwise.
-     *
-     * @see EventHandler#isMiddleMouseButtonDown
-     * @see EventHandler#isLeftMouseButtonDown
-     */
-    EventHandler.prototype.isRightMouseButtonDown = function() {
-        return this._rightMouseButtonDown;
-    };
-
-    /**
-     * Returns the last time that the right mouse button was pressed.
-     *
-     * @memberof EventHandler
-     *
-     * @return {JulianDate} The time the right mouse button was pressed.
-     *
-     * @see EventHandler#getRightReleaseTime
-     * @see EventHandler#getLeftPressTime
-     * @see EventHandler#getMiddlePressTime
-     */
-    EventHandler.prototype.getRightPressTime = function() {
-        return this._rightPressTime;
-    };
-
-    /**
-     * Returns the last time that the right mouse button was released.
-     *
-     * @memberof EventHandler
-     *
-     * @return {JulianDate} The time the right mouse button was released.
-     *
-     * @see EventHandler#getRightPressTime
-     * @see EventHandler#getLeftReleaseTime
-     * @see EventHandler#getMiddleReleaseTime
-     */
-    EventHandler.prototype.getRightReleaseTime = function() {
-        return this._rightReleaseTime;
-    };
-
-    /**
-     * Set a function to be executed when a key is entered.
-     *
-     * @memberof EventHandler
-     *
-     * @param {Function} action Function to be executed when <code>key</code> is pressed.
-     * @param {Character} key The key that is pressed.
-     * @param {Enumeration} modifier A EventModifier key that is held when <code>key</code> is pressed.
-     *
-     * @exception {DeveloperError} action is required.
-     * @exception {DeveloperError} key is required.
-     *
-     * @see EventHandler#getKeyAction
-     * @see EventHandler#removeKeyAction
-     *
-     * @example
-     * // Set the camera to a 'home' position when 'h' is pressed.
-     * customHandler.setKeyAction(
-     *    function() {
-     *        var position = new Cartesian3(2.0 * Ellipsoid.WGS84.getRadii().getMaximumComponent(), 0.0, 0.0);
-     *        var dir = Cartesian3.ZERO.subtract(position).normalize();
-     *        var up = Cartesian3.UNIT_Z;
-     *        camera.position = position;
-     *        camera.direction = dir;
-     *        camera.up = up;
-     *    },
-     *    'h'
-     * );
-     */
-    EventHandler.prototype.setKeyAction = function(action, key, modifier) {
-        if (!action) {
-            throw new DeveloperError('action is required.');
-        }
-
-        if (!key) {
-            throw new DeveloperError('key is required.');
-        }
-
-        var keyEvents;
-        if (modifier && modifier.name) {
-            keyEvents = this._modifiedKeyEvents[modifier.name];
-        } else {
-            keyEvents = this._keyEvents;
-        }
-
-        if (keyEvents) {
-            var ucKey = key.toUpperCase();
-            keyEvents[ucKey] = action;
-        }
-    };
-
-    /**
-     * Returns the function executed when <code>key</code> is pressed.
-     *
-     * @memberof EventHandler
-     *
-     * @param {Character} key The key
-     * @param {Enumeration} The modifier.
-     *
-     * @exception {DeveloperError} key is required.
-     *
-     * @see EventHandler#setKeyAction
-     * @see EventHandler#removeKeyAction
-     */
-    EventHandler.prototype.getKeyAction = function(key, modifier) {
-        if (!key) {
-            throw new DeveloperError('key is required.');
-        }
-
-        var keyEvents;
-        if (modifier && modifier.name) {
-            keyEvents = this._modifiedKeyEvents[modifier.name];
-        } else {
-            keyEvents = this._keyEvents;
-        }
-
-        var ucKey = key.toUpperCase();
-        if (keyEvents && keyEvents[ucKey]) {
-            return keyEvents[ucKey];
-        }
-
-        return null;
-    };
-
-    /**
-     * Removes the function executed when <code>key</code> is pressed.
-     *
-     * @memberof EventHandler
-     *
-     * @param {Character} key The key
-     * @param {Enumeration} The modifier.
-     *
-     * @exception {DeveloperError} key is required.
-     *
-     * @see EventHandler#setKeyAction
-     * @see EventHandler#getKeyAction
-     */
-    EventHandler.prototype.removeKeyAction = function(key, modifier) {
-        if (!key) {
-            throw new DeveloperError('key is required.');
-        }
-
-        var keyEvents;
-        if (modifier && modifier.name) {
-            keyEvents = this._modifiedKeyEvents[modifier.name];
-        } else {
-            keyEvents = this._keyEvents;
-        }
-
-        var ucKey = key.toUpperCase();
-        if (keyEvents && keyEvents[ucKey]) {
-            delete keyEvents[ucKey];
-        }
     };
 
     /**
@@ -13396,7 +14569,7 @@ define('Core/EventHandler',[
             return mouseEvents[type.name];
         }
 
-        return null;
+        return undefined;
     };
 
     /**
@@ -13439,7 +14612,7 @@ define('Core/EventHandler',[
             return EventModifier.ALT;
         }
 
-        return null;
+        return undefined;
     };
 
     EventHandler.prototype._handleMouseDown = function(event) {
@@ -13460,15 +14633,12 @@ define('Core/EventHandler',[
         // constants somewhere?
         if (event.button === 0) {
             this._leftMouseButtonDown = true;
-            this._leftPressTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.LEFT_DOWN, modifier);
         } else if (event.button === 1) {
             this._middleMouseButtonDown = true;
-            this._middlePressTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.MIDDLE_DOWN, modifier);
         } else if (event.button === 2) {
             this._rightMouseButtonDown = true;
-            this._rightPressTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.RIGHT_DOWN, modifier);
         }
 
@@ -13493,17 +14663,14 @@ define('Core/EventHandler',[
         // constants somewhere?
         if (event.button === 0) {
             this._leftMouseButtonDown = false;
-            this._leftReleaseTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.LEFT_UP, modifier);
             clickAction = this.getMouseAction(MouseEventType.LEFT_CLICK, modifier);
         } else if (event.button === 1) {
             this._middleMouseButtonDown = false;
-            this._middleReleaseTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.MIDDLE_UP, modifier);
             clickAction = this.getMouseAction(MouseEventType.MIDDLE_CLICK, modifier);
         } else if (event.button === 2) {
             this._rightMouseButtonDown = false;
-            this._rightReleaseTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.RIGHT_UP, modifier);
             clickAction = this.getMouseAction(MouseEventType.RIGHT_CLICK, modifier);
         }
@@ -13571,7 +14738,6 @@ define('Core/EventHandler',[
             var action;
 
             this._leftMouseButtonDown = true;
-            this._leftPressTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.LEFT_DOWN, modifier);
 
             if (action) {
@@ -13593,7 +14759,6 @@ define('Core/EventHandler',[
 
         if (this._leftMouseButtonDown) {
             this._leftMouseButtonDown = false;
-            this._leftReleaseTime = new JulianDate();
             action = this.getMouseAction(MouseEventType.LEFT_UP, modifier);
             clickAction = this.getMouseAction(MouseEventType.LEFT_CLICK, modifier);
         }
@@ -13649,15 +14814,6 @@ define('Core/EventHandler',[
             if (this._leftMouseButtonDown || this._middleMouseButtonDown || this._rightMouseButtonDown) {
                 event.preventDefault();
             }
-        }
-    };
-
-    EventHandler.prototype._handleKeyDown = function(event) {
-        var modifier = this._getModifier(event);
-        var key = String.fromCharCode(event.keyCode);
-        var action = this.getKeyAction(key, modifier);
-        if (action) {
-            action();
         }
     };
 
@@ -13738,13 +14894,6 @@ define('Core/EventHandler',[
             }
         });
         this._callbacks.push({
-            name : 'keydown',
-            onDoc : false,
-            action : function(e) {
-                that._handleKeyDown(e);
-            }
-        });
-        this._callbacks.push({
             name : 'touchstart',
             onDoc : false,
             action : function(e) {
@@ -13820,7 +14969,7 @@ define('Core/EventHandler',[
     };
 
     /**
-     * Removes mouse and keyboard listeners held by this object.
+     * Removes mouse listeners held by this object.
      * <br /><br />
      * Once an object is destroyed, it should not be used; calling any function other than
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
@@ -14023,9 +15172,11 @@ define('Core/SunPosition',[
 /*global define*/
 define('Core/TimeInterval',[
         './JulianDate',
+        './TimeStandard',
         './DeveloperError'
     ], function(
         JulianDate,
+        TimeStandard,
         DeveloperError) {
     
 
@@ -14033,7 +15184,7 @@ define('Core/TimeInterval',[
      * An interval defined by a start date and a stop date.  The end points are optionally included
      * in the interval.  The interval should be treated as immutable.
      *
-     * @name TimeInterval
+     * @alias TimeInterval
      * @constructor
      *
      * @param {JulianDate} start The start date of the interval.
@@ -14053,7 +15204,7 @@ define('Core/TimeInterval',[
      * // Construct an Timeinterval closed on one end with a Color payload.
      * var interval = new TimeInterval(JulianDate.fromTotalDays(1000), JulianDate.fromTotalDays(1001), true, false, Color.WHITE);
      */
-    function TimeInterval(start, stop, isStartIncluded, isStopIncluded, data) {
+    var TimeInterval = function(start, stop, isStartIncluded, isStopIncluded, data) {
         if (typeof start === 'undefined') {
             throw new DeveloperError('start must be specified.');
         }
@@ -14072,13 +15223,31 @@ define('Core/TimeInterval',[
 
         var stopComparedToStart = JulianDate.compare(stop, start);
 
+        /**
+         * The start time of the interval.
+         */
         this.start = start;
+        /**
+         * The stop time of the interval.
+         */
         this.stop = stop;
+        /**
+         * The data associated with this interval.
+         */
         this.data = data;
+        /**
+         * Indicates if <code>start</code> is included in the interval or not.
+         */
         this.isStartIncluded = isStartIncluded;
+        /**
+         * Indicates if <code>stop</code> is included in the interval or not.
+         */
         this.isStopIncluded = isStopIncluded;
+        /**
+         * Indicates if the interval is empty.
+         */
         this.isEmpty = stopComparedToStart < 0 || (stopComparedToStart === 0 && (!isStartIncluded || !isStopIncluded));
-    }
+    };
 
     /**
      * Creates an immutable TimeInterval from an ISO 8601 interval string.
@@ -14125,7 +15294,7 @@ define('Core/TimeInterval',[
      * @memberof TimeInterval
      *
      */
-    TimeInterval.EMPTY = Object.freeze(new TimeInterval(new JulianDate(0, 0), new JulianDate(0, 0), false, false));
+    TimeInterval.EMPTY = Object.freeze(new TimeInterval(new JulianDate(0, 0, TimeStandard.TAI), new JulianDate(0, 0, TimeStandard.TAI), false, false));
 
     /**
      * Computes an interval which is the intersection of this interval with another while
@@ -14263,6 +15432,50 @@ define('Core/TimeInterval',[
 
     return TimeInterval;
 });
+
+/*global define*/
+define('Core/Iso8601',['./JulianDate',
+        './TimeInterval',
+        './TimeStandard'
+       ], function(
+       JulianDate,
+       TimeInterval,
+       TimeStandard) {
+    
+
+    var MINIMUM_VALUE = Object.freeze(TimeStandard.convertUtcToTai(JulianDate.fromDate(new Date(Date.UTC(-1, 0, 1, 0, 0, 0)))));
+    var MAXIMUM_VALUE = Object.freeze(TimeStandard.convertUtcToTai(JulianDate.fromDate(new Date(Date.UTC(10000, 0, 1, 0, 0, 0)))));
+
+    /**
+     * Constants related to ISO8601 support.
+     * @exports Iso8601
+     *
+     * @see <a href='http://en.wikipedia.org/wiki/ISO_8601'>ISO 8601 on Wikipedia</a>.
+     * @see JulianDate
+     * @see TimeInterval
+     */
+    var Iso8601 = {
+
+        /**
+         * A {@link JulianDate} representing the earliest time representable by an ISO8601 date.
+         * This is equivalent to the date string '0000-01-01T00:00:00Z'
+         */
+        MINIMUM_VALUE : MINIMUM_VALUE,
+
+        /**
+         * A {@link JulianDate} representing the latest time representable by an ISO8601 date.
+         * This is equivalent to the date string '9999-12-31T24:00:00Z'
+         */
+        MAXIMUM_VALUE : MAXIMUM_VALUE,
+
+        /**
+         * A {@link TimeInterval} representing the largest interval representable by an ISO8601 interval.
+         * This is equivalent to the interval string '0000-01-01T00:00:00Z/9999-12-31T24:00:00Z'
+         */
+        MAXIMUM_INTERVAL : Object.freeze(new TimeInterval(MINIMUM_VALUE, MAXIMUM_VALUE, true, true))
+    };
+    return Iso8601;
+});
 /*global define*/
 define('Core/TimeIntervalCollection',[
         './DeveloperError',
@@ -14276,23 +15489,23 @@ define('Core/TimeIntervalCollection',[
          JulianDate) {
     
 
-    function compareIntervalStartTimes(lhs, rhs) {
-        return JulianDate.compare(lhs.start, rhs.start);
+    function compareIntervalStartTimes(left, right) {
+        return JulianDate.compare(left.start, right.start);
     }
 
     /**
      * A non-overlapping collection of TimeIntervals sorted by start date.
      *
-     * @name TimeIntervalCollection
+     * @alias TimeIntervalCollection
      * @constructor
      *
      * @see TimeInterval
      * @see JulianDate
      *
      */
-     function TimeIntervalCollection() {
+     var TimeIntervalCollection = function() {
         this._intervals = [];
-    }
+    };
 
     /**
      * Gets the interval at the specified index.
@@ -14807,6 +16020,7 @@ define('Core/TimeIntervalCollection',[
 
     return TimeIntervalCollection;
 });
+
 /*global define*/
 define('Core/jsonp',['./DeveloperError'], function(DeveloperError) {
     
@@ -14818,13 +16032,15 @@ define('Core/jsonp',['./DeveloperError'], function(DeveloperError) {
     /**
      * Requests a resource using JSONP.
      *
+     * @exports jsonp
+     *
      * @param {String} url The URL to request.
      * @param {Function} callback The callback function to call, passing the requested resource as the single parameter.
      * @param {Object} [options.parameters] Any extra query parameters to append to the URL.
      * @param {String} [options.callbackParameterName='callback'] The callback parameter name that the server expects.
      * @param {Object} [options.proxy] A proxy to use for the request. This object is expected to have a getURL function which returns the proxied URL, if needed.
      */
-    function jsonp(url, callback, options) {
+    var jsonp = function (url, callback, options) {
         if (typeof url === 'undefined') {
             throw new DeveloperError('url is required.');
         }
@@ -14891,7 +16107,7 @@ define('Core/jsonp',['./DeveloperError'], function(DeveloperError) {
         };
 
         head.appendChild(script);
-    }
+    };
 
     return jsonp;
 });
@@ -15383,6 +16599,8 @@ define('Core/requestAnimationFrame',[],function() {
      * A browser-independent function to request a new animation frame.  This is used to create
      * an application's draw loop as shown in the example below.
      *
+     * @exports requestAnimationFrame
+     *
      * @param {Object} callback The function to call when animation is ready.
      *
      * @example
@@ -15416,6 +16634,8 @@ define('Core/shallowEquals',[],function() {
 
     /**
      * DOC_TBA
+     *
+     * @exports shallowEquals
      */
     function shallowEquals(left, right) {
         if (left && !right) {
@@ -15441,6 +16661,2870 @@ define('Core/shallowEquals',[],function() {
     return shallowEquals;
 });
 
+/*global define*/
+define('DynamicScene/CzmlBoolean',[],function() {
+    
+
+    /**
+     * Provides methods for working with a boolean defined in CZML.
+     *
+     * @exports CzmlBoolean
+     *
+     * @see DynamicProperty
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlBoolean = {
+        /**
+         * Returns the packed boolean representation contained within the provided CZML interval
+         * or undefined if the interval does not contain boolean data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            /*jshint sub:true*/
+            var result = czmlInterval['boolean']; // boolean is a JS reserved word
+            return typeof result === 'undefined' ? czmlInterval : result;
+        },
+
+        /**
+         * Since CZML booleans can not be sampled, this method always returns false.
+         */
+        isSampled : function() {
+            return false;
+        },
+
+        /**
+         * Returns the boolean value contained within the unwrappedInterval.  For booleans
+         * this is the unwrappedInterval itself.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlBoolean.unwrapInterval.
+         * @returns The boolean value.
+         */
+        getValue : function(unwrappedInterval) {
+            return unwrappedInterval;
+        }
+    };
+
+    return CzmlBoolean;
+});
+/*global define*/
+define('DynamicScene/CzmlCartesian2',[
+        '../Core/Cartesian2'
+       ], function(
+         Cartesian2) {
+    
+
+    var doublesPerValue = 2;
+
+    /**
+     * Provides methods for working with a Cartesian2 defined in CZML.
+     *
+     * @exports CzmlCartesian2
+     *
+     * @see Cartesian2
+     * @see DynamicProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlCartesian2 = {
+        /**
+         * The number of doubles per packed Cartesian2 value.
+         */
+        doublesPerValue : doublesPerValue,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerValue,
+
+        /**
+         * Returns the packed Cartesian2 representation contained within the provided CZML interval
+         * or undefined if the interval does not contain Cartesian2 data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            return czmlInterval.cartesian2;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlCartesian2.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval) && unwrappedInterval.length > doublesPerValue;
+        },
+
+        /**
+         * Given a non-sampled unwrapped interval, returns a Cartesian2 instance of the data.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlCartesian2.unwrapInterval.
+         * @param {Cartesian2} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartesian2 instance if result was not defined.
+         */
+        getValue : function(unwrappedInterval, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartesian2();
+            }
+            result.x = unwrappedInterval[0];
+            result.y = unwrappedInterval[1];
+            return result;
+        },
+
+        /**
+         * Given a packed array of x and y values, extracts a Cartesian2 instance.
+         *
+         * @param {Array} array A packed array of Cartesian2 values, where every two elements represents an x,y pair.
+         * @param {Number} startingIndex The index into the array that contains the x value of the Cartesian2 you would like.
+         * @param {Cartesian2} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartesian2 instance if result was not defined.
+         */
+        getValueFromArray : function(array, startingIndex, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartesian2();
+            }
+            result.x = array[startingIndex];
+            result.y = array[startingIndex + 1];
+            return result;
+        }
+    };
+
+    return CzmlCartesian2;
+});
+/*global define*/
+define('DynamicScene/CzmlCartesian3',[
+        '../Core/Cartesian3'
+       ], function(
+         Cartesian3) {
+    
+
+    var doublesPerValue = 3;
+
+    /**
+     * Provides methods for working with a Cartesian3 defined in CZML.
+     *
+     * @exports CzmlCartesian3
+     *
+     * @see Cartesian3
+     * @see DynamicProperty
+     * @see DynamicPositionProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlCartesian3 = {
+         /**
+         * The number of doubles per packed Cartesian3 value.
+         */
+        doublesPerValue : doublesPerValue,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerValue,
+
+        /**
+         * Returns the packed Cartesian3 representation contained within the provided CZML interval
+         * or undefined if the interval does not contain Cartesian3 data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            return czmlInterval.cartesian;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlCartesian3.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval) && unwrappedInterval.length > doublesPerValue;
+        },
+
+        /**
+         * Given a non-sampled unwrapped interval, returns a Cartesian3 instance of the data.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlCartesian3.unwrapInterval.
+         * @param {Cartesian3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartesian3 instance if result was not defined.
+         */
+        getValue : function(unwrappedInterval, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartesian3();
+            }
+            result.x = unwrappedInterval[0];
+            result.y = unwrappedInterval[1];
+            result.z = unwrappedInterval[2];
+            return result;
+        },
+
+        /**
+         * Given a packed array of x, y, and z values, extracts a Cartesian3 instance.
+         *
+         * @param {Array} array A packed array of Cartesian3 values, where every three elements represents a Cartesian3.
+         * @param {Number} startingIndex The index into the array that contains the x value of the Cartesian3 you would like.
+         * @param {Cartesian3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartesian3 instance if result was not defined.
+         */
+        getValueFromArray : function(array, startingIndex, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartesian3();
+            }
+            result.x = array[startingIndex];
+            result.y = array[startingIndex + 1];
+            result.z = array[startingIndex + 2];
+            return result;
+        }
+    };
+
+    return CzmlCartesian3;
+});
+/*global define*/
+define('DynamicScene/CzmlCartographic3',[
+        '../Core/Cartographic3',
+        '../Core/Math'
+       ], function(
+         Cartographic3,
+         CesiumMath) {
+    
+
+    var doublesPerValue = 3;
+
+    /**
+     * Provides methods for working with a Cartographic3 defined in CZML.
+     *
+     * @exports CzmlCartographic3
+     *
+     * @see Cartographic3
+     * @see DynamicProperty
+     * @see DynamicPositionProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlCartographic3 = {
+        /**
+         * The number of doubles per packed Cartographic3 value.
+         */
+        doublesPerValue : doublesPerValue,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerValue,
+
+        /**
+         * Returns the packed Cartographic3 representation contained within the provided CZML interval
+         * or undefined if the interval does not contain Cartographic3 data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            var cartographic = czmlInterval.cartographicRadians;
+            if (typeof cartographic !== 'undefined') {
+                return cartographic;
+            }
+
+            var cartographicDegrees = czmlInterval.cartographicDegrees;
+            if (typeof cartographicDegrees === 'undefined') {
+                return undefined;
+            }
+
+            if (!this.isSampled(cartographicDegrees)) {
+                return [CesiumMath.toRadians(cartographicDegrees[0]),
+                        CesiumMath.toRadians(cartographicDegrees[1]),
+                        cartographicDegrees[2]];
+            }
+
+            var len = cartographicDegrees.length;
+            cartographic = new Array(len);
+            for ( var i = 0; i < len; i += 4) {
+                cartographic[i] = cartographicDegrees[i];
+                cartographic[i + 1] = CesiumMath.toRadians(cartographicDegrees[i + 1]);
+                cartographic[i + 2] = CesiumMath.toRadians(cartographicDegrees[i + 2]);
+                cartographic[i + 3] = cartographicDegrees[i + 3];
+            }
+            return cartographic;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlCartographic3.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval) && unwrappedInterval.length > doublesPerValue;
+        },
+
+        /**
+         * Given a non-sampled unwrapped interval, returns a Cartographic3 instance of the data.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlCartographic3.unwrapInterval.
+         * @param {Cartographic3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartographic3 instance if result was not defined.
+         */
+        getValue : function(unwrappedInterval, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartographic3();
+            }
+            result.longitude = unwrappedInterval[0];
+            result.latitude = unwrappedInterval[1];
+            result.height = unwrappedInterval[2];
+            return result;
+        },
+
+        /**
+         * Given a packed array of longitude, latitude, and height values, extracts a Cartographic3 instance.
+         *
+         * @param {Array} array A packed array of Cartographic3 values, where every three elements represents a Cartographic3.
+         * @param {Number} startingIndex The index into the array that contains the longitude value of the Cartographic3 you would like.
+         * @param {Cartographic3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartographic3 instance if result was not defined.
+         */
+        getValueFromArray : function(array, startingIndex, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartographic3();
+            }
+            result.longitude = array[startingIndex];
+            result.latitude = array[startingIndex + 1];
+            result.height = array[startingIndex + 2];
+            return result;
+        }
+    };
+
+    return CzmlCartographic3;
+});
+/*global define*/
+define('DynamicScene/CzmlColor',[
+        '../Core/Color'
+       ], function(
+         Color) {
+    
+
+    var doublesPerValue = 4;
+
+    /**
+     * Provides methods for working with a Color defined in CZML.
+     *
+     * @exports CzmlColor
+     *
+     * @see Color
+     * @see DynamicProperty
+     * @see DynamicPositionProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlColor = {
+        /**
+         * The number of doubles per packed Color value.
+         */
+        doublesPerValue : doublesPerValue,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerValue,
+
+        /**
+         * Returns the packed Color representation contained within the provided CZML interval
+         * or undefined if the interval does not contain Color data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            var rgbaf = czmlInterval.rgbaf;
+            if (typeof rgbaf !== 'undefined') {
+                return rgbaf;
+            }
+
+            var rgba = czmlInterval.rgba;
+            if (typeof rgba === 'undefined') {
+                return undefined;
+            }
+
+            if (!this.isSampled(rgba)) {
+                return [Color.byteToFloat(rgba[0]),
+                        Color.byteToFloat(rgba[1]),
+                        Color.byteToFloat(rgba[2]),
+                        Color.byteToFloat(rgba[3])];
+            }
+
+            var len = rgba.length;
+            rgbaf = new Array(len);
+            for ( var i = 0; i < len; i += 5) {
+                rgbaf[i] = rgba[i];
+                rgbaf[i + 1] = Color.byteToFloat(rgba[i + 1]);
+                rgbaf[i + 2] = Color.byteToFloat(rgba[i + 2]);
+                rgbaf[i + 3] = Color.byteToFloat(rgba[i + 3]);
+                rgbaf[i + 4] = Color.byteToFloat(rgba[i + 4]);
+            }
+            return rgbaf;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlColor.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval) && unwrappedInterval.length > doublesPerValue;
+        },
+
+        /**
+         * Given a non-sampled unwrapped interval, returns a Color instance of the data.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlColor.unwrapInterval.
+         * @param {Color} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Color instance if result was not defined.
+         */
+        getValue : function(unwrappedInterval, result) {
+            if (typeof result === 'undefined') {
+                result = new Color();
+            }
+            result.red = unwrappedInterval[0];
+            result.green = unwrappedInterval[1];
+            result.blue = unwrappedInterval[2];
+            result.alpha = unwrappedInterval[3];
+            return result;
+        },
+
+
+        /**
+         * Given a packed array of red, green, blue, and alpha values, extracts a Color instance.
+         *
+         * @param {Array} array A packed array of Color values, where every four elements represents a Color.
+         * @param {Number} startingIndex The index into the array that contains the red value of the Color you would like.
+         * @param {Color} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Color instance if result was not defined.
+         */
+        getValueFromArray : function(array, startingIndex, result) {
+            if (typeof result === 'undefined') {
+                result = new Color();
+            }
+            result.red = array[startingIndex];
+            result.green = array[startingIndex + 1];
+            result.blue = array[startingIndex + 2];
+            result.alpha = array[startingIndex + 3];
+            return result;
+        }
+    };
+    return CzmlColor;
+});
+/*global define*/
+define('DynamicScene/CzmlNumber',[],function() {
+    
+
+    var doublesPerValue = 1;
+
+    /**
+     * Provides methods for working with a number defined in CZML.
+     *
+     * @exports CzmlNumber
+     *
+     * @see DynamicProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlNumber = {
+        /**
+         * The number of doubles per packed value.
+         */
+        doublesPerValue : doublesPerValue,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerValue,
+
+        /**
+         * Returns the packed numerical representation contained within the provided CZML interval
+         * or undefined if the interval does not contain numerical data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            var result = czmlInterval.number;
+            return typeof result === 'undefined' ? czmlInterval : result;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlNumber.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval);
+        },
+
+        /**
+         * Returns the numerical value contained within the unwrappedInterval.  For numbers
+         * this is the unwrappedInterval itself.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlNumber.unwrapInterval.
+         * @returns The boolean value.
+         */
+        getValue : function(unwrappedInterval) {
+            return unwrappedInterval;
+        },
+
+        /**
+         * Given a packed array of numerical values, returns the number at the given index..
+         *
+         * @param {Array} array An array of numbers.
+         * @param {Number} startingIndex The index into the array that contains the value you would like.
+         * @returns The value at the specified index.
+         */
+        getValueFromArray : function(array, startingIndex) {
+            return array[startingIndex];
+        }
+    };
+
+    return CzmlNumber;
+});
+/*global define*/
+define('DynamicScene/CzmlString',[],function() {
+    
+
+    /**
+     * Provides methods for working with a string defined in CZML.
+     *
+     * @exports CzmlString
+     *
+     * @see DynamicProperty
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlString = {
+        /**
+         * Returns the packed string representation contained within the provided CZML interval
+         * or undefined if the interval does not contain string data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            var result = czmlInterval.string;
+            return typeof result === 'undefined' ? czmlInterval : result;
+        },
+
+        /**
+         * Since CZML strings can not be sampled, this method always returns false.
+         */
+        isSampled : function() {
+            return false;
+        },
+
+        /**
+         * Returns the string value contained within the unwrappedInterval.  For strings
+         * this is the unwrappedInterval itself.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlString.unwrapInterval.
+         * @returns The string value.
+         */
+        getValue : function(unwrappedInterval) {
+            return unwrappedInterval;
+        }
+    };
+
+    return CzmlString;
+});
+/*global define*/
+define('DynamicScene/CzmlUnitCartesian3',[
+        '../Core/Cartesian3'
+       ], function(
+         Cartesian3) {
+    
+
+    var doublesPerValue = 3;
+
+    /**
+     * Provides methods for working with a unit Cartesian3 defined in CZML.
+     *
+     * @exports CzmlUnitCartesian3
+     *
+     * @see Cartesian3
+     * @see DynamicProperty
+     * @see DynamicPositionProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlUnitCartesian3 = {
+         /**
+         * The number of doubles per packed Cartesian3 value.
+         */
+        doublesPerValue : doublesPerValue,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerValue,
+
+        /**
+         * Returns the packed Cartesian3 representation contained within the provided CZML interval
+         * or undefined if the interval does not contain Cartesian3 data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            return czmlInterval.unitCartesian;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlUnitCartesian3.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval) && unwrappedInterval.length > doublesPerValue;
+        },
+
+        /**
+         * Given a non-sampled unwrapped interval, returns a Cartesian3 instance of the data.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlUnitCartesian3.unwrapInterval.
+         * @param {Cartesian3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartesian3 instance if result was not defined.
+         */
+        getValue : function(unwrappedInterval, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartesian3();
+            }
+            result.x = unwrappedInterval[0];
+            result.y = unwrappedInterval[1];
+            result.z = unwrappedInterval[2];
+            return result.normalize(result);
+        },
+
+        /**
+         * Given a packed array of x, y, and z values, extracts a Cartesian3 instance.
+         *
+         * @param {Array} array A packed array of Cartesian3 values, where every three elements represents a Cartesian3.
+         * @param {Number} startingIndex The index into the array that contains the x value of the Cartesian3 you would like.
+         * @param {Cartesian3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Cartesian3 instance if result was not defined.
+         */
+        getValueFromArray : function(array, startingIndex, result) {
+            if (typeof result === 'undefined') {
+                result = new Cartesian3();
+            }
+            result.x = array[startingIndex];
+            result.y = array[startingIndex + 1];
+            result.z = array[startingIndex + 2];
+            return result.normalize(result);
+        }
+    };
+
+    return CzmlUnitCartesian3;
+});
+/*global define*/
+define('DynamicScene/CzmlUnitQuaternion',[
+        '../Core/Quaternion',
+        '../Core/Cartesian3'
+    ], function(
+        Quaternion,
+        Cartesian3) {
+    
+
+    var doublesPerCartesian = 3;
+    var doublesPerQuaternion = 4;
+    var axis = new Cartesian3();
+    var rotationVector = new Cartesian3();
+    var tmpQuaternion = new Quaternion();
+    var quaternion0 = new Quaternion();
+    var quaternion0Conjugate = new Quaternion();
+
+    /**
+     * Provides methods for working with a unit Quaternion defined in CZML.
+     *
+     * @exports CzmlUnitQuaternion
+     *
+     * @see Quaternion
+     * @see DynamicProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlUnitQuaternion = {
+        /**
+         * The number of doubles per packed Quaternion value.
+         */
+        doublesPerValue : doublesPerQuaternion,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerCartesian,
+
+        /**
+         * Returns the packed Quaternion representation contained within the provided CZML interval
+         * or undefined if the interval does not contain Quaternion data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            return czmlInterval.unitQuaternion;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlUnitQuaternion.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval) && unwrappedInterval.length > doublesPerQuaternion;
+        },
+
+        /**
+         * Given a packed array of x, y, z, and w values, creates a packed array of
+         * Cartesian3 axis-angle rotations suitable for interpolation.
+         *
+         * @param {Array} sourceArray The packed array of quaternion values.
+         * @param {Array} destinationArray The array to store the packed axis-angle rotations.
+         * @param {Number} firstIndex The index of the first element to be packed.
+         * @param {Number} lastIndex The index of the last element to be packed.
+         */
+        packValuesForInterpolation : function(sourceArray, destinationArray, firstIndex, lastIndex) {
+            CzmlUnitQuaternion.getValueFromArray(sourceArray, lastIndex * doublesPerQuaternion, quaternion0Conjugate);
+            quaternion0Conjugate.conjugate(quaternion0Conjugate);
+
+            for ( var i = 0, len = lastIndex - firstIndex + 1; i < len; i++) {
+                var offset = i * doublesPerCartesian;
+                CzmlUnitQuaternion.getValueFromArray(sourceArray, (firstIndex + i) * doublesPerQuaternion, tmpQuaternion);
+
+                tmpQuaternion.multiply(quaternion0Conjugate, tmpQuaternion);
+
+                if (tmpQuaternion.w < 0) {
+                    tmpQuaternion = tmpQuaternion.negate();
+                }
+
+                tmpQuaternion.getAxis(axis);
+                var angle = tmpQuaternion.getAngle();
+                destinationArray[offset] = axis.x * angle;
+                destinationArray[offset + 1] = axis.y * angle;
+                destinationArray[offset + 2] = axis.z * angle;
+            }
+        },
+
+        /**
+         * Given a non-sampled unwrapped interval, returns a Quaternion instance of the data.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlUnitQuaternion.unwrapInterval.
+         * @param {Cartesian3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Quaternion instance if result was not defined.
+         */
+        getValue : function(unwrappedInterval, result) {
+            if (typeof result === 'undefined') {
+                result = new Quaternion();
+            }
+            result.x = unwrappedInterval[0];
+            result.y = unwrappedInterval[1];
+            result.z = unwrappedInterval[2];
+            result.w = unwrappedInterval[3];
+            return result.normalize(result);
+        },
+
+        /**
+         * Given a packed array of x, y, z, and w values, extracts a Quaternion instance.
+         *
+         * @param {Array} array A packed array of Quaternion values, where every four elements represents a Cartesian3.
+         * @param {Number} startingIndex The index into the array that contains the x value of the Quaternion you would like.
+         * @param {Cartesian3} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Quaternion instance if result was not defined.
+         */
+        getValueFromArray : function(array, startingIndex, result) {
+            if (typeof result === 'undefined') {
+                result = new Quaternion();
+            }
+            result.x = array[startingIndex];
+            result.y = array[startingIndex + 1];
+            result.z = array[startingIndex + 2];
+            result.w = array[startingIndex + 3];
+            return result.normalize(result);
+        },
+
+        /**
+         * Given a packed array of axis-angle rotations returned from CzmlUnitQuaternion.packValuesForInterpolation,
+         * converts the desired index into a unit Quaternion.
+         *
+         * @param {Array} array The array containing the packed axis-angle rotations.
+         * @param {Quaternion} result The object to store the result in, if undefined a new instance will be created.
+         * @param {Array} sourceArray The source array of the original Quaternion values previously passed to CzmlUnitQuaternion.packValuesForInterpolation.
+         * @param {Number} firstIndex The index previously passed to CzmlUnitQuaternion.packValuesForInterpolation.
+         * @param {Number} lastIndex The index previously passed to CzmlUnitQuaternion.packValuesForInterpolation
+         * @returns The modified result parameter or a new Quaternion instance if result was not defined.
+         */
+        getValueFromInterpolationResult : function(array, result, sourceArray, firstIndex, lastIndex) {
+            if (typeof result === 'undefined') {
+                result = new Quaternion();
+            }
+            rotationVector.x = array[0];
+            rotationVector.y = array[1];
+            rotationVector.z = array[2];
+            var magnitude = rotationVector.magnitude();
+
+            CzmlUnitQuaternion.getValueFromArray(sourceArray, lastIndex * doublesPerQuaternion, quaternion0);
+
+            if (magnitude === 0) {
+                //Can't just use Quaternion.IDENTITY here because tmpQuaternion may be modified in the future.
+                tmpQuaternion.x = tmpQuaternion.y = tmpQuaternion.z = 0.0;
+                tmpQuaternion.w = 1.0;
+            } else {
+                Quaternion.fromAxisAngle(rotationVector, magnitude, tmpQuaternion);
+            }
+
+            return result.normalize(tmpQuaternion.multiply(quaternion0, result));
+        }
+    };
+
+    return CzmlUnitQuaternion;
+});
+/*global define*/
+define('DynamicScene/CzmlUnitSpherical',[
+        '../Core/Spherical'
+       ], function(
+         Spherical) {
+    
+
+    var doublesPerValue = 2;
+
+    /**
+     * Provides methods for working with a unit Spherical defined in CZML.
+     *
+     * @exports CzmlUnitSpherical
+     *
+     * @see Spherical
+     * @see DynamicProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlUnitSpherical = {
+        /**
+         * The number of doubles per packed Spherical value.
+         */
+        doublesPerValue : doublesPerValue,
+
+        /**
+         * The number of doubles per packed value used for interpolation.
+         */
+        doublesPerInterpolationValue : doublesPerValue,
+
+        /**
+         * Returns the packed Spherical representation contained within the provided CZML interval
+         * or undefined if the interval does not contain Spherical data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            return czmlInterval.unitSpherical;
+        },
+
+        /**
+         * Returns true if this interval represents data that should be interpolated by the client
+         * or false if it's a single value.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlUnitSpherical.unwrapInterval.
+         */
+        isSampled : function(unwrappedInterval) {
+            return Array.isArray(unwrappedInterval) && unwrappedInterval.length > doublesPerValue;
+        },
+
+        /**
+         * Given a non-sampled unwrapped interval, returns a Spherical instance of the data.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlUnitSpherical.unwrapInterval.
+         * @param {Spherical} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Spherical instance if result was not defined.
+         */
+        getValue : function(unwrappedInterval, spherical) {
+            if (typeof spherical === 'undefined') {
+                spherical = new Spherical();
+            }
+            spherical.clock = unwrappedInterval[0];
+            spherical.cone = unwrappedInterval[1];
+            spherical.magnitude = 1.0;
+            return spherical;
+        },
+
+        /**
+         * Given a packed array of clock and cone values, extracts a Spherical instance.
+         *
+         * @param {Array} array A packed array of Spherical values, where every two elements represents a Spherical.
+         * @param {Number} startingIndex The index into the array that contains the clock value of the Spherical you would like.
+         * @param {Spherical} result The object to store the result in, if undefined a new instance will be created.
+         * @returns The modified result parameter or a new Spherical instance if result was not defined.
+         */
+        getValueFromArray : function(array, startingIndex, spherical) {
+            if (typeof spherical === 'undefined') {
+                spherical = new Spherical();
+            }
+            spherical.clock = array[startingIndex];
+            spherical.cone = array[startingIndex + 1];
+            spherical.magnitude = 1.0;
+            return spherical;
+        }
+    };
+
+    return CzmlUnitSpherical;
+});
+/*global define*/
+define('DynamicScene/DynamicDirectionsProperty',[
+        '../Core/JulianDate',
+        '../Core/TimeInterval',
+        '../Core/TimeIntervalCollection',
+        '../Core/Cartesian3',
+        '../Core/Spherical',
+        '../Core/Iso8601'
+    ], function(
+        JulianDate,
+        TimeInterval,
+        TimeIntervalCollection,
+        Cartesian3,
+        Spherical,
+        Iso8601) {
+    
+
+    function ValueHolder(czmlInterval) {
+        var i;
+        var len;
+        var values = [];
+        var tmp = czmlInterval.unitSpherical;
+        if (typeof tmp !== 'undefined') {
+            for (i = 0, len = tmp.length; i < len; i += 2) {
+                values.push(new Spherical(tmp[i], tmp[i + 1]));
+            }
+            this.spherical = values;
+        }
+
+        tmp = czmlInterval.unitCartesian;
+        if (typeof tmp !== 'undefined') {
+            for (i = 0, len = tmp.length; i < len; i += 3) {
+                values.push(new Cartesian3(tmp[i], tmp[i + 1], tmp[i + 2], true));
+            }
+            this.cartesian = values;
+        }
+    }
+
+    ValueHolder.prototype.getValueSpherical = function() {
+        var sphericals = this.spherical;
+        if (typeof sphericals === 'undefined') {
+            sphericals = [];
+            this.spherical = sphericals;
+            var cartesians = this.cartesian;
+            for ( var i = 0, len = cartesians.length; i < len; i++) {
+                sphericals.push(Spherical.fromCartesian3(cartesians[i]));
+            }
+        }
+        return sphericals;
+    };
+
+    ValueHolder.prototype.getValueCartesian = function() {
+        var cartesians = this.cartesian;
+        if (typeof cartesians === 'undefined') {
+            cartesians = [];
+            this.cartesian = cartesians;
+            var sphericals = this.spherical;
+            for ( var i = 0, len = sphericals.length; i < len; i++) {
+                cartesians.push(Cartesian3.fromSpherical(sphericals[i]));
+            }
+        }
+        return cartesians;
+    };
+
+    /**
+     * A dynamic property which maintains an array of directions that can change over time.
+     * The directions can be represented as both Cartesian and Spherical coordinates.
+     * Rather than creating instances of this object directly, it's typically
+     * created and managed via loading CZML data into a DynamicObjectCollection.
+     * Instances of this type are exposed via DynamicObject and it's sub-objects
+     * and are responsible for interpreting and interpolating the data for visualization.
+     * </p>
+     *
+     * @alias DynamicDirectionsProperty
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see ReferenceProperty
+     * @see DynamicMaterialProperty
+     * @see DynamicPositionProperty
+     * @see DynamicVertexPositionsProperty
+     */
+    var DynamicDirectionsProperty = function() {
+        this._propertyIntervals = new TimeIntervalCollection();
+    };
+
+    /**
+     * Processes the provided CZML interval or intervals into this property.
+     *
+     * @memberof DynamicDirectionsProperty
+     *
+     * @param {Object} czmlIntervals The CZML data to process.
+     * @param {TimeInterval} [constrainedInterval] Constrains the processing so that any times outside of this interval are ignored.
+     * @param {DynamicObjectCollection} dynamicObjectCollection The DynamicObjectCollection to be used as a target for resolving links within this property.
+     */
+    DynamicDirectionsProperty.prototype.processCzmlIntervals = function(czmlIntervals, constrainedInterval, dynamicObjectCollection) {
+        if (Array.isArray(czmlIntervals)) {
+            for ( var i = 0, len = czmlIntervals.length; i < len; i++) {
+                this._addCzmlInterval(czmlIntervals[i], constrainedInterval, dynamicObjectCollection);
+            }
+        } else {
+            this._addCzmlInterval(czmlIntervals, constrainedInterval, dynamicObjectCollection);
+        }
+    };
+
+    /**
+     * Retrieves the values at the supplied time as Spherical coordinates.
+     * @memberof DynamicDirectionsProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @returns An array of spherical coordinates for the provided time.
+     */
+    DynamicDirectionsProperty.prototype.getValueSpherical = function(time) {
+        var interval = this._propertyIntervals.findIntervalContainingDate(time);
+        if (typeof interval === 'undefined') {
+            return undefined;
+        }
+        return interval.data.getValueSpherical();
+    };
+
+    /**
+     * Retrieves the values at the supplied time as unit cartesian coordinates.
+     * @memberof DynamicDirectionsProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @returns An array of unit cartesian coordinates for the provided time.
+     */
+    DynamicDirectionsProperty.prototype.getValueCartesian = function(time) {
+        var interval = this._propertyIntervals.findIntervalContainingDate(time);
+        if (typeof interval === 'undefined') {
+            return undefined;
+        }
+        return interval.data.getValueCartesian();
+    };
+
+    DynamicDirectionsProperty.prototype._addCzmlInterval = function(czmlInterval, constrainedInterval, dynamicObjectCollection) {
+        var iso8601Interval = czmlInterval.interval;
+        if (typeof iso8601Interval === 'undefined') {
+            iso8601Interval = Iso8601.MAXIMUM_INTERVAL.clone();
+        } else {
+            iso8601Interval = TimeInterval.fromIso8601(iso8601Interval);
+        }
+
+        if (typeof constrainedInterval !== 'undefined') {
+            iso8601Interval = iso8601Interval.intersect(constrainedInterval);
+        }
+
+        //See if we already have data at that interval.
+        var thisIntervals = this._propertyIntervals;
+        var existingInterval = thisIntervals.findInterval(iso8601Interval.start, iso8601Interval.stop);
+
+        //If not, create it.
+        if (typeof existingInterval === 'undefined') {
+            existingInterval = iso8601Interval;
+            thisIntervals.addInterval(existingInterval);
+        }
+
+        existingInterval.data = new ValueHolder(czmlInterval);
+    };
+
+    return DynamicDirectionsProperty;
+});
+/*global define*/
+define('DynamicScene/DynamicProperty',[
+        '../Core/DeveloperError',
+        '../Core/JulianDate',
+        '../Core/TimeInterval',
+        '../Core/TimeIntervalCollection',
+        '../Core/Iso8601',
+        '../Core/binarySearch',
+        '../Core/HermitePolynomialApproximation',
+        '../Core/LinearApproximation',
+        '../Core/LagrangePolynomialApproximation'
+    ], function(
+        DeveloperError,
+        JulianDate,
+        TimeInterval,
+        TimeIntervalCollection,
+        Iso8601,
+        binarySearch,
+        HermitePolynomialApproximation,
+        LinearApproximation,
+        LagrangePolynomialApproximation) {
+    
+
+    //CZML_TODO This is more of an idea than a to-do, but currently DynamicProperty requires
+    //you know the type of data being loaded up-front by passing valueType.  We could take
+    //a similar approach to DynamicMaterialProperty and have a list of potential valueTypes
+    //that we check for when we encounter data.  This would make it possible to support
+    //properties that are defined in a CZML document but not part of the official spec.  This
+    //would be helpful in cases where a CZML document has $ or # links to other properties,
+    //but that property itself is not part of another to-spec CZML object.  We could still
+    //allow the user to pass a default valueType if they want to make sure the data
+    //being processed is only the data of the expected type.
+
+    //Map CZML interval types to their implementation.
+    var interpolators = {
+            HERMITE : HermitePolynomialApproximation,
+            LAGRANGE : LagrangePolynomialApproximation,
+            LINEAR : LinearApproximation
+        };
+
+    //The data associated with each DynamicProperty interval.
+    function IntervalData() {
+        this.interpolationAlgorithm = LinearApproximation;
+        this.numberOfPoints = LinearApproximation.getRequiredDataPoints(1);
+        this.interpolationDegree = 1;
+        this.times = undefined;
+        this.values = undefined;
+        this.isSampled = false;
+        this.xTable = undefined;
+        this.yTable = undefined;
+    }
+
+    //Converts a CZML defined data into a JulianDate, regardless of whether it was
+    //specified in epoch seconds or as an ISO8601 string.
+    function czmlDateToJulianDate(date, epoch) {
+        if (typeof date === 'string') {
+            return JulianDate.fromIso8601(date);
+        }
+        return epoch.addSeconds(date);
+    }
+
+    /**
+     * <p>
+     * DynamicProperty represents a single value that changes over time.
+     * Rather than creating instances of this object directly, it's typically
+     * created and managed via loading CZML data into a DynamicObjectCollection.
+     * Instances of this type are exposed via DynamicObject and it's sub-objects
+     * and are responsible for interpreting and interpolating the data for visualization.
+     * </p>
+     * <p>
+     * The type of value exposed by this property must be provided during construction
+     * by passing in an object which performs all the necessary operations needed to
+     * properly store, retrieve, and interpolate the data.  For more specialized needs
+     * other types of dynamic properties exist, such as DynamicMaterialProperty,
+     * which as the name implies, handles materials.
+     * </p>
+     *
+     * @alias DynamicProperty
+     * @constructor
+     *
+     * @param {Object} valueType A CZML type object which contains the methods needed to interpret and interpolate CZML data of the same type.
+     *
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     * @see DynamicObject
+     * @see ReferenceProperty
+     * @see DynamicMaterialProperty
+     * @see DynamicPositionProperty
+     * @see DynamicDirectionsProperty
+     * @see DynamicVertexPositionsProperty
+     */
+    var DynamicProperty = function(valueType) {
+        if (typeof valueType === 'undefined') {
+            throw new DeveloperError('valueType is required.');
+        }
+        this.valueType = valueType;
+        this._intervals = new TimeIntervalCollection();
+        this._cachedDate = undefined;
+        this._cachedInterval = undefined;
+    };
+
+    /**
+     * Processes the provided CZML interval or intervals into this property.
+     *
+     * @memberof DynamicProperty
+     *
+     * @param {Object} czmlIntervals The CZML data to process.
+     * @param {TimeInterval} [constrainedInterval] Constrains the processing so that any times outside of this interval are ignored.
+     */
+    DynamicProperty.prototype.processCzmlIntervals = function(czmlIntervals, constrainedInterval) {
+        if (Array.isArray(czmlIntervals)) {
+            for ( var i = 0, len = czmlIntervals.length; i < len; i++) {
+                this._addCzmlInterval(czmlIntervals[i], constrainedInterval);
+            }
+        } else {
+            this._addCzmlInterval(czmlIntervals, constrainedInterval);
+        }
+    };
+
+    /**
+     * Returns the value of the property at the specified time.
+     * @memberof DynamicProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @param {Object} [result] The object to store the value into, if omitted, a new instance is created and returned.
+     * @returns The modified result parameter or a new instance if the result parameter was not supplied.
+     */
+    DynamicProperty.prototype.getValue = function(time, result) {
+        var interval = this._cachedInterval;
+        var thisValueType = this.valueType;
+        var doublesPerValue = thisValueType.doublesPerValue;
+
+        if (this._cachedDate !== time) {
+            this._cachedDate = time;
+            if (typeof interval === 'undefined' || !interval.contains(time)) {
+                interval = this._intervals.findIntervalContainingDate(time);
+                this._cachedInterval = interval;
+            }
+        }
+
+        if (typeof interval === 'undefined') {
+            return undefined;
+        }
+
+        var intervalData = interval.data;
+        var times = intervalData.times;
+        var values = intervalData.values;
+        if (intervalData.isSampled && times.length >= 0 && values.length > 0) {
+            var index = binarySearch(times, time, JulianDate.compare);
+
+            if (index < 0) {
+                index = ~index;
+
+                if (index >= times.length) {
+                    index = times.length - 1;
+                }
+
+                var firstIndex = 0;
+                var lastIndex = times.length - 1;
+
+                var degree = intervalData.numberOfPoints - 1;
+                var pointsInCollection = lastIndex - firstIndex + 1;
+
+                if (pointsInCollection < degree + 1) {
+                    // Use the entire range.
+                } else {
+                    var computedFirstIndex = index - ((degree / 2) | 0) - 1;
+                    if (computedFirstIndex < firstIndex) {
+                        computedFirstIndex = firstIndex;
+                    }
+                    var computedLastIndex = computedFirstIndex + degree;
+                    if (computedLastIndex > lastIndex) {
+                        computedLastIndex = lastIndex;
+                        computedFirstIndex = computedLastIndex - degree;
+                        if (computedFirstIndex < firstIndex) {
+                            computedFirstIndex = firstIndex;
+                        }
+                    }
+
+                    firstIndex = computedFirstIndex;
+                    lastIndex = computedLastIndex;
+                }
+
+                var length = lastIndex - firstIndex + 1;
+
+                var doublesPerInterpolationValue = thisValueType.doublesPerInterpolationValue;
+                var xTable = intervalData.xTable;
+                var yTable = intervalData.yTable;
+
+                if (typeof xTable === 'undefined') {
+                    xTable = intervalData.xTable = new Array(intervalData.numberOfPoints);
+                    yTable = intervalData.yTable = new Array(intervalData.numberOfPoints * doublesPerInterpolationValue);
+                }
+
+                // Build the tables
+                for ( var i = 0; i < length; ++i) {
+                    xTable[i] = times[lastIndex].getSecondsDifference(times[firstIndex + i]);
+                }
+                var specializedPackFunction = thisValueType.packValuesForInterpolation;
+                if (typeof specializedPackFunction === 'undefined') {
+                    var destinationIndex = 0;
+                    var sourceIndex = firstIndex * doublesPerValue;
+                    var stop = (lastIndex + 1) * doublesPerValue;
+
+                    while (sourceIndex < stop) {
+                        yTable[destinationIndex] = values[sourceIndex];
+                        sourceIndex++;
+                        destinationIndex++;
+                    }
+                } else {
+                    specializedPackFunction(values, yTable, firstIndex, lastIndex);
+                }
+
+                // Interpolate!
+                var x = times[lastIndex].getSecondsDifference(time);
+                var interpolationResult = intervalData.interpolationAlgorithm.interpolateOrderZero(x, xTable, yTable, doublesPerInterpolationValue);
+
+                var specializedGetFunction = thisValueType.getValueFromInterpolationResult;
+                if (typeof specializedGetFunction === 'undefined') {
+                    return thisValueType.getValueFromArray(interpolationResult, 0, result);
+                }
+                return specializedGetFunction(interpolationResult, result, values, firstIndex, lastIndex);
+            }
+            return thisValueType.getValueFromArray(intervalData.values, index * doublesPerValue, result);
+        }
+        return thisValueType.getValue(intervalData.values, result);
+    };
+
+    DynamicProperty._mergeNewSamples = function(epoch, times, values, newData, doublesPerValue, valueType) {
+        var newDataIndex = 0, i, prevItem, timesInsertionPoint, valuesInsertionPoint, timesSpliceArgs, valuesSpliceArgs, currentTime, nextTime;
+        while (newDataIndex < newData.length) {
+            currentTime = czmlDateToJulianDate(newData[newDataIndex], epoch);
+            timesInsertionPoint = binarySearch(times, currentTime, JulianDate.compare);
+
+            if (timesInsertionPoint < 0) {
+                //Doesn't exist, insert as many additional values as we can.
+                timesInsertionPoint = ~timesInsertionPoint;
+                timesSpliceArgs = [timesInsertionPoint, 0];
+
+                valuesInsertionPoint = timesInsertionPoint * doublesPerValue;
+                valuesSpliceArgs = [valuesInsertionPoint, 0];
+                prevItem = undefined;
+                nextTime = times[timesInsertionPoint + 1];
+                while (newDataIndex < newData.length) {
+                    currentTime = czmlDateToJulianDate(newData[newDataIndex], epoch);
+                    if ((typeof prevItem !== 'undefined' && JulianDate.compare(prevItem, currentTime) >= 0) ||
+                        (typeof nextTime !== 'undefined' && JulianDate.compare(currentTime, nextTime) >= 0)) {
+                        break;
+                    }
+                    timesSpliceArgs.push(currentTime);
+                    newDataIndex = newDataIndex + 1;
+                    for (i = 0; i < doublesPerValue; i++) {
+                        valuesSpliceArgs.push(newData[newDataIndex]);
+                        newDataIndex = newDataIndex + 1;
+                    }
+                    prevItem = currentTime;
+                }
+
+                Array.prototype.splice.apply(values, valuesSpliceArgs);
+                Array.prototype.splice.apply(times, timesSpliceArgs);
+            } else {
+                //Found an exact match
+                for (i = 0; i < doublesPerValue; i++) {
+                    newDataIndex++;
+                    values[(timesInsertionPoint * doublesPerValue) + i] = newData[newDataIndex];
+                }
+                newDataIndex++;
+            }
+        }
+    };
+
+    DynamicProperty.prototype._addCzmlInterval = function(czmlInterval, constrainedInterval) {
+        var iso8601Interval = czmlInterval.interval;
+        if (typeof iso8601Interval === 'undefined') {
+            iso8601Interval = Iso8601.MAXIMUM_INTERVAL;
+        } else {
+            iso8601Interval = TimeInterval.fromIso8601(iso8601Interval);
+        }
+
+        if (typeof constrainedInterval !== 'undefined') {
+            iso8601Interval = iso8601Interval.intersect(constrainedInterval);
+        }
+
+        var unwrappedInterval = this.valueType.unwrapInterval(czmlInterval);
+        if (typeof unwrappedInterval !== 'undefined') {
+            this._addCzmlIntervalUnwrapped(iso8601Interval.start, iso8601Interval.stop, unwrappedInterval, czmlInterval.epoch, czmlInterval.interpolationAlgorithm, czmlInterval.interpolationDegree);
+        }
+    };
+
+    DynamicProperty.prototype._addCzmlIntervalUnwrapped = function(start, stop, unwrappedInterval, epoch, interpolationAlgorithmType, interpolationDegree) {
+        var thisIntervals = this._intervals;
+        var existingInterval = thisIntervals.findInterval(start, stop);
+        this._cachedDate = undefined;
+        this._cachedInterval = undefined;
+
+        var intervalData;
+        if (typeof existingInterval === 'undefined') {
+            intervalData = new IntervalData();
+            existingInterval = new TimeInterval(start, stop, true, true, intervalData);
+            thisIntervals.addInterval(existingInterval);
+        } else {
+            intervalData = existingInterval.data;
+        }
+
+        var thisValueType = this.valueType;
+        if (thisValueType.isSampled(unwrappedInterval)) {
+            var interpolationAlgorithm;
+            if (typeof interpolationAlgorithmType !== 'undefined') {
+                interpolationAlgorithm = interpolators[interpolationAlgorithmType];
+                intervalData.interpolationAlgorithm = interpolationAlgorithm;
+            }
+            if (typeof interpolationAlgorithm !== 'undefined '&& typeof interpolationDegree !== 'undefined') {
+                intervalData.interpolationDegree = interpolationDegree;
+                intervalData.xTable = undefined;
+                intervalData.yTable = undefined;
+            }
+
+            if (!intervalData.isSampled) {
+                intervalData.times = [];
+                intervalData.values = [];
+                intervalData.isSampled = true;
+            }
+            if (typeof epoch !== 'undefined') {
+                epoch = JulianDate.fromIso8601(epoch);
+            }
+            DynamicProperty._mergeNewSamples(epoch, intervalData.times, intervalData.values, unwrappedInterval, thisValueType.doublesPerValue, thisValueType);
+            intervalData.numberOfPoints = Math.min(intervalData.interpolationAlgorithm.getRequiredDataPoints(intervalData.interpolationDegree), intervalData.times.length);
+        } else {
+            //Packet itself is a constant value
+            intervalData.times = undefined;
+            intervalData.values = unwrappedInterval;
+            intervalData.isSampled = false;
+        }
+    };
+
+    return DynamicProperty;
+});
+/*global define*/
+define('DynamicScene/DynamicPoint',[
+        '../Core/TimeInterval',
+        './CzmlBoolean',
+        './CzmlNumber',
+        './CzmlColor',
+        './DynamicProperty'
+    ], function(
+         TimeInterval,
+         CzmlBoolean,
+         CzmlNumber,
+         CzmlColor,
+         DynamicProperty) {
+    
+
+    /**
+     * Represents a time-dynamic point, typically used in conjunction with DynamicPointVisualizer and
+     * DynamicObjectCollection to visualize CZML.
+     *
+     * @alias DynamicPoint
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see DynamicPointVisualizer
+     * @see VisualizerCollection
+     * @see Billboard
+     * @see BillboardCollection
+     * @see CzmlDefaults
+     */
+    var DynamicPoint = function() {
+        /**
+         * A DynamicProperty of type CzmlColor which determines the point's color.
+         */
+        this.color = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the point's pixel size.
+         */
+        this.pixelSize = undefined;
+        /**
+         * A DynamicProperty of type CzmlColor which determines the point's outline color.
+         */
+        this.outlineColor = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the point's outline width.
+         */
+        this.outlineWidth = undefined;
+        /**
+         * A DynamicProperty of type CzmlBoolean which determines the point's visibility.
+         */
+        this.show = undefined;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's point.
+     * If the DynamicObject does not have a point, one is created.  This method is not
+     * normally called directly, but is part of the array of CZML processing functions that is
+     * passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the point data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if any new properties were created while processing the packet, false otherwise.
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicPoint.processCzmlPacket = function(dynamicObject, packet) {
+        var pointData = packet.point;
+        if (typeof pointData === 'undefined') {
+            return false;
+        }
+
+        var pointUpdated = false;
+        var point = dynamicObject.point;
+        pointUpdated = typeof point === 'undefined';
+        if (pointUpdated) {
+            dynamicObject.point = point = new DynamicPoint();
+        }
+
+        var interval = pointData.interval;
+        if (typeof interval !== 'undefined') {
+            interval = TimeInterval.fromIso8601(interval);
+        }
+
+        if (typeof pointData.color !== 'undefined') {
+            var color = point.color;
+            if (typeof color === 'undefined') {
+                point.color = color = new DynamicProperty(CzmlColor);
+                pointUpdated = true;
+            }
+            color.processCzmlIntervals(pointData.color, interval);
+        }
+
+        if (typeof pointData.pixelSize !== 'undefined') {
+            var pixelSize = point.pixelSize;
+            if (typeof pixelSize === 'undefined') {
+                point.pixelSize = pixelSize = new DynamicProperty(CzmlNumber);
+                pointUpdated = true;
+            }
+            pixelSize.processCzmlIntervals(pointData.pixelSize, interval);
+        }
+
+        if (typeof pointData.outlineColor !== 'undefined') {
+            var outlineColor = point.outlineColor;
+            if (typeof outlineColor === 'undefined') {
+                point.outlineColor = outlineColor = new DynamicProperty(CzmlColor);
+                pointUpdated = true;
+            }
+            outlineColor.processCzmlIntervals(pointData.outlineColor, interval);
+        }
+
+        if (typeof pointData.outlineWidth !== 'undefined') {
+            var outlineWidth = point.outlineWidth;
+            if (typeof outlineWidth === 'undefined') {
+                point.outlineWidth = outlineWidth = new DynamicProperty(CzmlNumber);
+                pointUpdated = true;
+            }
+            outlineWidth.processCzmlIntervals(pointData.outlineWidth, interval);
+        }
+
+        if (typeof pointData.show !== 'undefined') {
+            var show = point.show;
+            if (typeof show === 'undefined') {
+                point.show = show = new DynamicProperty(CzmlBoolean);
+                pointUpdated = true;
+            }
+            show.processCzmlIntervals(pointData.show, interval);
+        }
+        return pointUpdated;
+    };
+
+    /**
+     * Given two DynamicObjects, takes the point properties from the second
+     * and assigns them to the first, assuming such a property did not already exist.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPoint.mergeProperties = function(targetObject, objectToMerge) {
+        var pointToMerge = objectToMerge.point;
+        if (typeof pointToMerge !== 'undefined') {
+
+            var targetPoint = targetObject.point;
+            if (typeof targetPoint === 'undefined') {
+                targetObject.point = targetPoint = new DynamicPoint();
+            }
+
+            targetPoint.color = targetPoint.color || pointToMerge.color;
+            targetPoint.pixelSize = targetPoint.pixelSize || pointToMerge.pixelSize;
+            targetPoint.outlineColor = targetPoint.outlineColor || pointToMerge.outlineColor;
+            targetPoint.outlineWidth = targetPoint.outlineWidth || pointToMerge.outlineWidth;
+            targetPoint.show = targetPoint.show || pointToMerge.show;
+        }
+    };
+
+    /**
+     * Given a DynamicObject, undefines the point associated with it.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the point from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPoint.undefineProperties = function(dynamicObject) {
+        dynamicObject.point = undefined;
+    };
+
+    return DynamicPoint;
+});
+/*global define*/
+define('DynamicScene/DynamicPolyline',[
+        '../Core/TimeInterval',
+        './CzmlBoolean',
+        './CzmlNumber',
+        './CzmlColor',
+        './DynamicProperty'],
+function(
+        TimeInterval,
+        CzmlBoolean,
+        CzmlNumber,
+        CzmlColor,
+        DynamicProperty) {
+    
+
+    /**
+     * Represents a time-dynamic polyline, typically used in conjunction with DynamicPolylineVisualizer and
+     * DynamicObjectCollection to visualize CZML.
+     *
+     * @alias DynamicPolyline
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see DynamicPolylineVisualizer
+     * @see VisualizerCollection
+     * @see Polyline
+     * @see CzmlDefaults
+     */
+    var DynamicPolyline = function() {
+        /**
+         * A DynamicProperty of type CzmlColor which determines the line's color.
+         */
+        this.color = undefined;
+        /**
+         * A DynamicProperty of type CzmlColor which determines the line's outline color.
+         */
+        this.outlineColor = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the line's outline width.
+         */
+        this.outlineWidth = undefined;
+        /**
+         * A DynamicProperty of type CzmlBoolean which determines the lines's visibility.
+         */
+        this.show = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the line's width.
+         */
+        this.width = undefined;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's polyline.
+     * If the DynamicObject does not have a polyline, one is created.  This method is not
+     * normally called directly, but is part of the array of CZML processing functions that is
+     * passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the polyline data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if any new properties were created while processing the packet, false otherwise.
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicPolyline.processCzmlPacket = function(dynamicObject, packet) {
+        var polylineData = packet.polyline;
+        if (typeof polylineData === 'undefined') {
+            return false;
+        }
+
+        var polylineUpdated = false;
+        var polyline = dynamicObject.polyline;
+        polylineUpdated = typeof polyline === 'undefined';
+        if (polylineUpdated) {
+            dynamicObject.polyline = polyline = new DynamicPolyline();
+        }
+
+        var interval = polylineData.interval;
+        if (typeof interval !== 'undefined') {
+            interval = TimeInterval.fromIso8601(interval);
+        }
+
+        if (typeof polylineData.color !== 'undefined') {
+            var color = polyline.color;
+            if (typeof color === 'undefined') {
+                polyline.color = color = new DynamicProperty(CzmlColor);
+                polylineUpdated = true;
+            }
+            color.processCzmlIntervals(polylineData.color, interval);
+        }
+
+        if (typeof polylineData.width !== 'undefined') {
+            var width = polyline.width;
+            if (typeof width === 'undefined') {
+                polyline.width = width = new DynamicProperty(CzmlNumber);
+                polylineUpdated = true;
+            }
+            width.processCzmlIntervals(polylineData.width, interval);
+        }
+
+        if (typeof polylineData.outlineColor !== 'undefined') {
+            var outlineColor = polyline.outlineColor;
+            if (typeof outlineColor === 'undefined') {
+                polyline.outlineColor = outlineColor = new DynamicProperty(CzmlColor);
+                polylineUpdated = true;
+            }
+            outlineColor.processCzmlIntervals(polylineData.outlineColor, interval);
+        }
+
+        if (typeof polylineData.outlineWidth !== 'undefined') {
+            var outlineWidth = polyline.outlineWidth;
+            if (typeof outlineWidth === 'undefined') {
+                polyline.outlineWidth = outlineWidth = new DynamicProperty(CzmlNumber);
+                polylineUpdated = true;
+            }
+            outlineWidth.processCzmlIntervals(polylineData.outlineWidth, interval);
+        }
+
+        if (typeof polylineData.show !== 'undefined') {
+            var show = polyline.show;
+            if (typeof show === 'undefined') {
+                polyline.show = show = new DynamicProperty(CzmlBoolean);
+                polylineUpdated = true;
+            }
+            show.processCzmlIntervals(polylineData.show, interval);
+        }
+        return polylineUpdated;
+    };
+
+    /**
+     * Given two DynamicObjects, takes the polyline properties from the second
+     * and assigns them to the first, assuming such a property did not already exist.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPolyline.mergeProperties = function(targetObject, objectToMerge) {
+        var polylineToMerge = objectToMerge.polyline;
+        if (typeof polylineToMerge !== 'undefined') {
+
+            var targetPolyline = targetObject.polyline;
+            if (typeof targetPolyline === 'undefined') {
+                targetObject.polyline = targetPolyline = new DynamicPolyline();
+            }
+
+            targetPolyline.color = targetPolyline.color || polylineToMerge.color;
+            targetPolyline.width = targetPolyline.width || polylineToMerge.width;
+            targetPolyline.outlineColor = targetPolyline.outlineColor || polylineToMerge.outlineColor;
+            targetPolyline.outlineWidth = targetPolyline.outlineWidth || polylineToMerge.outlineWidth;
+            targetPolyline.show = targetPolyline.show || polylineToMerge.show;
+        }
+    };
+
+    /**
+     * Given a DynamicObject, undefines the polyline associated with it.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the polyline from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPolyline.undefineProperties = function(dynamicObject) {
+        dynamicObject.polyline = undefined;
+    };
+
+    return DynamicPolyline;
+});
+/*global define*/
+define('DynamicScene/DynamicPositionProperty',[
+        '../Core/DeveloperError',
+        '../Core/Ellipsoid',
+        '../Core/JulianDate',
+        '../Core/TimeInterval',
+        '../Core/TimeIntervalCollection',
+        '../Core/Iso8601',
+        '../Core/Cartesian3',
+        '../Core/Cartographic3',
+        './CzmlCartesian3',
+        './CzmlCartographic3',
+        './DynamicProperty'
+    ], function(
+        DeveloperError,
+        Ellipsoid,
+        JulianDate,
+        TimeInterval,
+        TimeIntervalCollection,
+        Iso8601,
+        Cartesian3,
+        Cartographic3,
+        CzmlCartesian3,
+        CzmlCartographic3,
+        DynamicProperty) {
+    
+
+    var wgs84 = Ellipsoid.WGS84;
+    var potentialTypes = [CzmlCartesian3, CzmlCartographic3];
+
+    /**
+     * A dynamic property which stores both Cartesian and Cartographic data
+     * and can convert and return the desired type of data for a desired time.
+     * Rather than creating instances of this object directly, it's typically
+     * created and managed via loading CZML data into a DynamicObjectCollection.
+     * Instances of this type are exposed via DynamicObject and it's sub-objects
+     * and are responsible for interpreting and interpolating the data for visualization.
+     *
+     * @alias DynamicPositionProperty
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see ReferenceProperty
+     * @see DynamicMaterialProperty
+     * @see DynamicDirectionsProperty
+     * @see DynamicVertexPositionsProperty
+     */
+    var DynamicPositionProperty = function() {
+        this._dynamicProperties = [];
+        this._propertyIntervals = new TimeIntervalCollection();
+        this._cachedTime = undefined;
+        this._cachedInterval = undefined;
+    };
+
+    /**
+     * Processes the provided CZML interval or intervals into this property.
+     *
+     * @memberof DynamicPositionProperty
+     *
+     * @param {Object} czmlIntervals The CZML data to process.
+     * @param {TimeInterval} [constrainedInterval] Constrains the processing so that any times outside of this interval are ignored.
+     */
+    DynamicPositionProperty.prototype.processCzmlIntervals = function(czmlIntervals, constrainedInterval) {
+        if (Array.isArray(czmlIntervals)) {
+            for ( var i = 0, len = czmlIntervals.length; i < len; i++) {
+                this._addCzmlInterval(czmlIntervals[i], constrainedInterval);
+            }
+        } else {
+            this._addCzmlInterval(czmlIntervals, constrainedInterval);
+        }
+    };
+
+    /**
+     * Retrieves the value of the object at the supplied time as a Cartographic3.
+     * @memberof DynamicPositionProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @param {Cartographic3} [result] The object to store the result onto, if undefined a new instance will be created.
+     * @returns The modified result property, or a new instance if result was undefined.
+     */
+    DynamicPositionProperty.prototype.getValueCartographic = function(time, result) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is required.');
+        }
+
+        var interval = this._cachedInterval;
+        if (this._cachedTime !== time) {
+            this._cachedTime = time;
+            if (typeof interval === 'undefined' || !interval.contains(time)) {
+                interval = this._propertyIntervals.findIntervalContainingDate(time);
+                this._cachedInterval = interval;
+            }
+        }
+
+        if (typeof interval === 'undefined') {
+            return undefined;
+        }
+        var property = interval.data;
+        var valueType = property.valueType;
+        if (valueType === CzmlCartographic3) {
+            return property.getValue(time, result);
+        }
+        result = interval.cachedValue = property.getValue(time, interval.cachedValue);
+        if (typeof result !== 'undefined') {
+            result = wgs84.toCartographic3(result);
+        }
+        return result;
+    };
+
+    /**
+     * Retrieves the value of the object at the supplied time as a Cartesian3.
+     * @memberof DynamicPositionProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @param {Cartesian3} [result] The object to store the result onto, if undefined a new instance will be created.
+     * @returns The modified result property, or a new instance if result was undefined.
+     */
+    DynamicPositionProperty.prototype.getValueCartesian = function(time, result) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is required.');
+        }
+
+        var interval = this._cachedInterval;
+        if (this._cachedTime !== time) {
+            this._cachedTime = time;
+            if (typeof interval === 'undefined' || !interval.contains(time)) {
+                interval = this._propertyIntervals.findIntervalContainingDate(time);
+                this._cachedInterval = interval;
+            }
+        }
+
+        if (typeof interval === 'undefined') {
+            return undefined;
+        }
+        var property = interval.data;
+        var valueType = property.valueType;
+        if (valueType === CzmlCartesian3) {
+            return property.getValue(time, result);
+        }
+        result = interval.cachedValue = property.getValue(time, interval.cachedValue);
+        if (typeof result !== 'undefined') {
+            result = wgs84.toCartesian(result);
+        }
+        return result;
+    };
+
+    DynamicPositionProperty.prototype._addCzmlInterval = function(czmlInterval, constrainedInterval) {
+        this._cachedTime = undefined;
+        this._cachedInterval = undefined;
+
+        var iso8601Interval = czmlInterval.interval, property, valueType, unwrappedInterval;
+        if (typeof iso8601Interval === 'undefined') {
+            iso8601Interval = Iso8601.MAXIMUM_INTERVAL.clone();
+        } else {
+            iso8601Interval = TimeInterval.fromIso8601(iso8601Interval);
+        }
+
+        if (typeof constrainedInterval !== 'undefined') {
+            iso8601Interval = iso8601Interval.intersect(constrainedInterval);
+        }
+
+        //See if we already have data at that interval.
+        var thisIntervals = this._propertyIntervals;
+        var existingInterval = thisIntervals.findInterval(iso8601Interval.start, iso8601Interval.stop);
+
+        if (typeof existingInterval !== 'undefined') {
+            //If so, see if the new data is the same type.
+            property = existingInterval.data;
+            if (typeof property !== 'undefined') {
+                valueType = property.valueType;
+                unwrappedInterval = valueType.unwrapInterval(czmlInterval);
+            }
+        } else {
+            //If not, create it.
+            existingInterval = iso8601Interval;
+            thisIntervals.addInterval(existingInterval);
+        }
+
+        //If the new data was a different type, unwrapping fails, look for a valueType for this type.
+        if (typeof unwrappedInterval === 'undefined') {
+            for ( var i = 0, len = potentialTypes.length; i < len; i++) {
+                valueType = potentialTypes[i];
+                unwrappedInterval = valueType.unwrapInterval(czmlInterval);
+                if (typeof unwrappedInterval !== 'undefined') {
+                    property = undefined;
+                    //Found a valid valueType, but lets check to see if we already have a property with that valueType
+                    for ( var q = 0, lenQ = this._dynamicProperties.length; q < lenQ; q++) {
+                        if (this._dynamicProperties[q].valueType === valueType) {
+                            property = this._dynamicProperties[q];
+                            break;
+                        }
+                    }
+                    //If we don't have the property, create it.
+                    if (typeof property === 'undefined') {
+                        property = new DynamicProperty(valueType);
+                        this._dynamicProperties.push(property);
+                        //Save the property in our interval.
+                        existingInterval.data = property;
+                    }
+                    break;
+                }
+            }
+        }
+
+        //We could handle the data, add it to the property.
+        if (typeof unwrappedInterval !== 'undefined') {
+            property._addCzmlIntervalUnwrapped(iso8601Interval.start, iso8601Interval.stop, unwrappedInterval, czmlInterval.epoch, czmlInterval.interpolationAlgorithm,
+                    czmlInterval.interpolationDegree);
+        }
+    };
+
+    return DynamicPositionProperty;
+});
+/*global define*/
+define('DynamicScene/ReferenceProperty',[
+        '../Core/DeveloperError'
+       ], function(
+         DeveloperError) {
+    
+
+    function resolve(referenceProperty) {
+        var targetProperty = referenceProperty._targetProperty;
+        if (typeof targetProperty === 'undefined') {
+            var resolveBuffer = referenceProperty._dynamicObjectCollection.compositeCollection || referenceProperty._dynamicObjectCollection;
+            var targetObject = resolveBuffer.getObject(referenceProperty._targetObjectId);
+            if (typeof targetObject !== 'undefined') {
+                targetProperty = targetObject[referenceProperty._targetPropertyName];
+                referenceProperty._targetProperty = targetProperty;
+            }
+        }
+        return targetProperty;
+    }
+
+    /**
+     * A dynamic property which transparently links to another property, which may
+     * or may not exist yet.  It is up to the caller to know which kind of property
+     * is being linked to.
+     *
+     * @alias ReferenceProperty
+     * @constructor
+     *
+     * @param {DynamicObjectCollection} dynamicObjectCollection The object collection which will be used to resolve the reference.
+     * @param {String} targetObjectId The id of the object which is being referenced.
+     * @param {String} targetPropertyName The name of the property on the target object which we will use.
+     *
+     * @exception {DeveloperError} dynamicObjectCollection is required.
+     * @exception {DeveloperError} targetObjectId is required.
+     * @exception {DeveloperError} targetPropertyName is required.
+     *
+     * @see ReferenceProperty#fromString
+     * @see DynamicProperty
+     * @see DynamicPositionProperty
+     * @see DynamicDirectionsProperty
+     * @see DynamicVertexPositionsProperty
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     */
+    var ReferenceProperty = function(dynamicObjectCollection, targetObjectId, targetPropertyName) {
+        if (typeof dynamicObjectCollection === 'undefined') {
+            throw new DeveloperError('dynamicObjectCollection is required.');
+        }
+        if (typeof targetObjectId === 'undefined') {
+            throw new DeveloperError('targetObjectId is required.');
+        }
+        if (typeof targetPropertyName === 'undefined') {
+            throw new DeveloperError('targetPropertyName is required.');
+        }
+
+        this._targetProperty = undefined;
+        this._dynamicObjectCollection = dynamicObjectCollection;
+        this._targetObjectId = targetObjectId;
+        this._targetPropertyName = targetPropertyName;
+    };
+
+    /**
+     * Creates a new reference property given the dynamic object collection that will
+     * be used to resolve it and a string indicating the target object id and property,
+     * delineated by a period.
+     *
+     * @param {DynamicObject} dynamicObjectCollection
+     * @param referenceString
+     *
+     * @exception {DeveloperError} dynamicObjectCollection is required.
+     * @exception {DeveloperError} referenceString is required.
+     * @exception {DeveloperError} referenceString must contain a single . delineating the target object ID and property name.
+     *
+     * @see ReferenceProperty#fromString
+     * @see DynamicProperty
+     * @see DynamicPositionProperty
+     * @see DynamicDirectionsProperty
+     * @see DynamicVertexPositionsProperty
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     *
+     * @returns A new instance of ReferenceProperty.
+     */
+    ReferenceProperty.fromString = function(dynamicObjectCollection, referenceString) {
+        if (typeof dynamicObjectCollection === 'undefined') {
+            throw new DeveloperError('dynamicObjectCollection is required.');
+        }
+
+        if (typeof referenceString === 'undefined') {
+            throw new DeveloperError('referenceString is required.');
+        }
+
+        var parts = referenceString.split('.');
+        if (parts.length !== 2) {
+            throw new DeveloperError('referenceString must contain a single . delineating the target object ID and property name.');
+        }
+
+        return new ReferenceProperty(dynamicObjectCollection, parts[0], parts[1]);
+    };
+
+    /**
+     * Retrieves the value of the property at the specified time.
+     *
+     * @param time The time to evaluate the property.
+     * @param [result] The object to store the result in, if undefined a new instance will be created.
+     * @returns The result parameter or a new instance if the parameter was omitted.
+     */
+    ReferenceProperty.prototype.getValue = function(time, result) {
+        var targetProperty = resolve(this);
+        return typeof targetProperty !== 'undefined' ? targetProperty.getValue(time, result) : undefined;
+    };
+
+    /**
+     * Retrieves the Cartographic value or values of the property at the specified time if the linked property
+     * is a DynamicPositionProperty or DynamicVertexPositionsProperty.
+     *
+     * @param time The time to evaluate the property.
+     * @param [result] The object to store the result in, if undefined a new instance will be created.
+     * @returns The result parameter or a new instance if the parameter was omitted.
+     */
+    ReferenceProperty.prototype.getValueCartographic = function(time, result) {
+        var targetProperty = resolve(this);
+        return typeof targetProperty !== 'undefined' ? targetProperty.getValueCartographic(time, result) : undefined;
+    };
+
+    /**
+     * Retrieves the Cartesian value or values of the property at the specified time if the linked property
+     * is a DynamicPositionProperty, DynamicVertexPositionsProperty, or DynamicDirectionsProperty.
+     *
+     * @param time The time to evaluate the property.
+     * @param [result] The object to store the result in, if undefined a new instance will be created.
+     * @returns The result parameter or a new instance if the parameter was omitted.
+     */
+    ReferenceProperty.prototype.getValueCartesian = function(time, result) {
+        var targetProperty = resolve(this);
+        return typeof targetProperty !== 'undefined' ? targetProperty.getValueCartesian(time, result) : undefined;
+    };
+
+    /**
+     * Retrieves the Spherical value or values of the property at the specified time if the linked property
+     * is a DynamicDirectionsProperty.
+     *
+     * @param time The time to evaluate the property.
+     * @param [result] The object to store the result in, if undefined a new instance will be created.
+     * @returns The result parameter or a new instance if the parameter was omitted.
+     */
+    ReferenceProperty.prototype.getValueSpherical = function(time, result) {
+        var targetProperty = resolve(this);
+        return typeof targetProperty !== 'undefined' ? targetProperty.getValueSpherical(time, result) : undefined;
+    };
+
+    return ReferenceProperty;
+});
+/*global define*/
+define('DynamicScene/DynamicVertexPositionsProperty',[
+        '../Core/JulianDate',
+        '../Core/TimeInterval',
+        '../Core/TimeIntervalCollection',
+        '../Core/Cartesian3',
+        '../Core/Cartographic3',
+        '../Core/Math',
+        '../Core/Iso8601',
+        '../Core/Ellipsoid',
+        './ReferenceProperty',
+        './DynamicPositionProperty'
+    ], function(
+        JulianDate,
+        TimeInterval,
+        TimeIntervalCollection,
+        Cartesian3,
+        Cartographic3,
+        CesiumMath,
+        Iso8601,
+        Ellipsoid,
+        ReferenceProperty,
+        DynamicPositionProperty) {
+    
+
+    var wgs84 = Ellipsoid.WGS84;
+
+    function ValueHolder(czmlInterval) {
+        var i, len, values = [], tmp;
+
+        tmp = czmlInterval.cartesian;
+        if (typeof tmp !== 'undefined') {
+            for (i = 0, len = tmp.length; i < len; i += 3) {
+                values.push(new Cartesian3(tmp[i], tmp[i + 1], tmp[i + 2]));
+            }
+            this.cartesian = values;
+        } else {
+            tmp = czmlInterval.cartographicRadians;
+            if (typeof tmp !== 'undefined') {
+                for (i = 0, len = tmp.length; i < len; i += 3) {
+                    values.push(new Cartographic3(tmp[i], tmp[i + 1], tmp[i + 2]));
+                }
+                this.cartographic = values;
+            } else {
+                tmp = czmlInterval.cartographicDegrees;
+                if (typeof tmp !== 'undefined') {
+                    for (i = 0, len = tmp.length; i < len; i += 3) {
+                        values.push(new Cartographic3(CesiumMath.toRadians(tmp[i]), CesiumMath.toRadians(tmp[i + 1]), tmp[i + 2]));
+                    }
+                    this.cartographic = values;
+                }
+            }
+        }
+    }
+
+    ValueHolder.prototype.getValueCartographic = function() {
+        if (typeof this.cartographic === 'undefined') {
+            this.cartographic = wgs84.toCartographic3s(this.cartesian);
+        }
+        return this.cartographic;
+    };
+
+    ValueHolder.prototype.getValueCartesian = function() {
+        if (typeof this.cartesian === 'undefined') {
+            this.cartesian = wgs84.toCartesians(this.cartographic);
+        }
+        return this.cartesian;
+    };
+
+    /**
+     * A dynamic property which maintains an array of positions that can change over time.
+     * The positions can be represented as both Cartesian and Cartographic coordinates.
+     * Rather than creating instances of this object directly, it's typically
+     * created and managed via loading CZML data into a DynamicObjectCollection.
+     * Instances of this type are exposed via DynamicObject and it's sub-objects
+     * and are responsible for interpreting and interpolating the data for visualization.
+     *
+     * @alias DynamicVertexPositionsProperty
+     * @internalconstructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see ReferenceProperty
+     * @see DynamicMaterialProperty
+     * @see DynamicPositionProperty
+     * @see DynamicDirectionsProperty
+     */
+    var DynamicVertexPositionsProperty = function() {
+        this._propertyIntervals = new TimeIntervalCollection();
+    };
+
+    /**
+     * Processes the provided CZML interval or intervals into this property.
+     *
+     * @memberof DynamicVertexPositionsProperty
+     *
+     * @param {Object} czmlIntervals The CZML data to process.
+     * @param {TimeInterval} [constrainedInterval] Constrains the processing so that any times outside of this interval are ignored.
+     * @param {DynamicObjectCollection} dynamicObjectCollection The DynamicObjectCollection to be used as a target for resolving links within this property.
+     */
+    DynamicVertexPositionsProperty.prototype.processCzmlIntervals = function(czmlIntervals, constrainedInterval, dynamicObjectCollection) {
+        if (Array.isArray(czmlIntervals)) {
+            for ( var i = 0, len = czmlIntervals.length; i < len; i++) {
+                this._addCzmlInterval(czmlIntervals[i], constrainedInterval, dynamicObjectCollection);
+            }
+        } else {
+            this._addCzmlInterval(czmlIntervals, constrainedInterval, dynamicObjectCollection);
+        }
+    };
+
+    /**
+     * Retrieves the values at the supplied time as Cartographic coordinates.
+     * @memberof DynamicVertexPositionsProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @returns An array of Cartographic coordinates for the provided time.
+     */
+    DynamicVertexPositionsProperty.prototype.getValueCartographic = function(time) {
+        var interval = this._propertyIntervals.findIntervalContainingDate(time);
+        if (typeof interval === 'undefined') {
+            return undefined;
+        }
+        var interval_data = interval.data;
+        if (Array.isArray(interval_data)) {
+            var result = [];
+            for ( var i = 0, len = interval_data.length; i < len; i++) {
+                var value = interval_data[i].getValueCartographic(time);
+                if (typeof value !== 'undefined') {
+                    result.push(value);
+                }
+            }
+            return result;
+        }
+
+        return interval_data.getValueCartographic();
+
+    };
+
+    /**
+     * Retrieves the values at the supplied time as Cartesian coordinates.
+     * @memberof DynamicVertexPositionsProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @returns An array of Cartesian coordinates for the provided time.
+     */
+    DynamicVertexPositionsProperty.prototype.getValueCartesian = function(time) {
+        var interval = this._propertyIntervals.findIntervalContainingDate(time);
+        if (typeof interval === 'undefined') {
+            return undefined;
+        }
+        var interval_data = interval.data;
+        if (Array.isArray(interval_data)) {
+            var result = [];
+            for ( var i = 0, len = interval_data.length; i < len; i++) {
+                var value = interval_data[i].getValueCartesian(time);
+                if (typeof value !== 'undefined') {
+                    result.push(value);
+                }
+            }
+            return result;
+        }
+
+        return interval_data.getValueCartesian();
+    };
+
+    DynamicVertexPositionsProperty.prototype._addCzmlInterval = function(czmlInterval, constrainedInterval, dynamicObjectCollection) {
+        var iso8601Interval = czmlInterval.interval;
+        if (typeof iso8601Interval === 'undefined') {
+            iso8601Interval = Iso8601.MAXIMUM_INTERVAL.clone();
+        } else {
+            iso8601Interval = TimeInterval.fromIso8601(iso8601Interval);
+        }
+
+        if (typeof constrainedInterval !== 'undefined') {
+            iso8601Interval = iso8601Interval.intersect(constrainedInterval);
+        }
+
+        //See if we already have data at that interval.
+        var thisIntervals = this._propertyIntervals;
+        var existingInterval = thisIntervals.findInterval(iso8601Interval.start, iso8601Interval.stop);
+
+        //If not, create it.
+        if (typeof existingInterval === 'undefined') {
+            existingInterval = iso8601Interval;
+            thisIntervals.addInterval(existingInterval);
+        }
+
+        var references = czmlInterval.references;
+        if (typeof references === 'undefined') {
+            existingInterval.data = new ValueHolder(czmlInterval);
+        } else {
+            var properties = [];
+            for ( var i = 0, len = references.length; i < len; i++) {
+                properties.push(ReferenceProperty.fromString(dynamicObjectCollection, references[i]));
+            }
+            existingInterval.data = properties;
+        }
+    };
+
+    return DynamicVertexPositionsProperty;
+});
+/*global define*/
+define('DynamicScene/DynamicObject',[
+        '../Core/createGuid',
+        '../Core/DeveloperError',
+        '../Core/TimeInterval',
+        './DynamicProperty',
+        './DynamicPositionProperty',
+        './DynamicVertexPositionsProperty',
+        './CzmlUnitQuaternion'
+    ], function(
+        createGuid,
+        DeveloperError,
+        TimeInterval,
+        DynamicProperty,
+        DynamicPositionProperty,
+        DynamicVertexPositionsProperty,
+        CzmlUnitQuaternion) {
+    
+
+    /**
+     * DynamicObject instances are the primary data store for processed CZML data.
+     * They are used primarily by the visualizers to create and maintain graphic
+     * primitives that represent the DynamicObject's properties at a specific time.
+     * @alias DynamicObject
+     * @constructor
+     *
+     * @param {Object} [id] A unique identifier for this object.  If no id is provided, a GUID is generated.
+     *
+     * @see DynamicProperty
+     * @see DynamicPositionProperty
+     * @see DynamicVertexiPositionsProperty
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see DynamicBillboard
+     * @see DynamicCone
+     * @see DynamicLabel
+     * @see DynamicPoint
+     * @see DynamicPolygon
+     * @see DynamicPolyline
+     * @see DynamicPyramid
+     */
+    var DynamicObject = function(id) {
+        this._cachedAvailabilityDate = undefined;
+        this._cachedAvailabilityValue = undefined;
+
+        /**
+         * A unique id associated with this object.
+         */
+        this.id = id || createGuid();
+
+        //Add standard CZML properties.  Even though they won't all be used
+        //for each object, having the superset explicitly listed here will allow the
+        //compiler to optimize this class.  It also allows us to document them.
+        //Any changes to this list should coincide with changes to CzmlDefaults.updaters
+
+        /**
+         * The availability TimeInterval, if any, associated with this object.
+         * If availability is undefined, it is assumed that this object's
+         * other properties will return valid data for any provided time.
+         * If availability exists, the objects other properties will only
+         * provide valid data if queried within the given interval.
+         */
+        this.availability = undefined;
+
+        /**
+         * The DynamicPositionProperty, if any, associated with this object.
+         */
+        this.position = undefined;
+
+        /**
+         * The DynamicProperty with value type CzmlUnitQuaternion, if any, associated with this object.
+         */
+        this.orientation = undefined;
+
+        /**
+         * The DynamicBillboard, if any, associated with this object.
+         */
+        this.billboard = undefined;
+
+        /**
+         * The DynamicCone, if any, associated with this object.
+         */
+        this.cone = undefined;
+
+        /**
+         * The DynamicLabel, if any, associated with this object.
+         */
+        this.label = undefined;
+
+        /**
+         * The DynamicPoint, if any, associated with this object.
+         */
+        this.point = undefined;
+
+        /**
+         * The DynamicPolygon, if any, associated with this object.
+         */
+        this.polygon = undefined;
+
+        /**
+         * The DynamicPolyline, if any, associated with this object.
+         */
+        this.polyline = undefined;
+
+        /**
+         * The DynamicPyramid, if any, associated with this object.
+         */
+        this.pyramid = undefined;
+
+        /**
+         * The DynamicVertexPositionsProperty, if any, associated with this object.
+         */
+        this.vertexPositions = undefined;
+    };
+
+    /**
+     * Given a time, returns true if this object should have data during that time.
+     * @param {JulianDate} time The time to check availability for.
+     * @exception {DeveloperError} time is required.
+     * @returns true if the object should have data during the provided time, false otherwise.
+     */
+    DynamicObject.prototype.isAvailable = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is required.');
+        }
+        if (typeof this.availability === 'undefined') {
+            return true;
+        }
+        if (this._cachedAvailabilityDate === time) {
+            return this._cachedAvailabilityValue;
+        }
+        this._cachedAvailabilityDate = time;
+        return this._cachedAvailabilityValue = this.availability.contains(time);
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's position
+     * property. This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the position data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if the property was newly created while processing the packet, false otherwise.
+     *
+     * @see DynamicPositionProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicObject.processCzmlPacketPosition = function(dynamicObject, packet) {
+        var positionData = packet.position;
+        if (typeof positionData === 'undefined') {
+            return false;
+        }
+
+        var position = dynamicObject.position;
+        var propertyCreated = typeof position === 'undefined';
+        if (propertyCreated) {
+            dynamicObject.position = position = new DynamicPositionProperty();
+        }
+        position.processCzmlIntervals(positionData);
+        return propertyCreated;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's orientation
+     * property. This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the orientation data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if the property was newly created while processing the packet, false otherwise.
+     *
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicObject.processCzmlPacketOrientation = function(dynamicObject, packet) {
+        var orientationData = packet.orientation;
+        if (typeof orientationData === 'undefined') {
+            return false;
+        }
+
+        var orientation = dynamicObject.orientation;
+        var propertyCreated = typeof orientation === 'undefined';
+        if (propertyCreated) {
+            dynamicObject.orientation = orientation = new DynamicProperty(CzmlUnitQuaternion);
+        }
+        orientation.processCzmlIntervals(orientationData);
+        return propertyCreated;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's vertexPositions
+     * property. This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the vertexPositions data.
+     * @param {Object} packet The CZML packet to process.
+     * @param {DynamicObjectCollection} dynamicObjectCollection The collection to use to resolve any CZML properly links.
+     * @returns {Boolean} true if the property was newly created while processing the packet, false otherwise.
+     *
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicObject.processCzmlPacketVertexPositions = function(dynamicObject, packet, dynamicObjectCollection) {
+        var vertexPositionsData = packet.vertexPositions;
+        if (typeof vertexPositionsData === 'undefined') {
+            return false;
+        }
+
+        var vertexPositions = dynamicObject.vertexPositions;
+        var propertyCreated = typeof dynamicObject.vertexPositions === 'undefined';
+        if (propertyCreated) {
+            dynamicObject.vertexPositions = vertexPositions = new DynamicVertexPositionsProperty();
+        }
+        vertexPositions.processCzmlIntervals(vertexPositionsData, undefined, dynamicObjectCollection);
+        return propertyCreated;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's availability
+     * property. This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the availability data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if the property was newly created while processing the packet, false otherwise.
+     *
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicObject.processCzmlPacketAvailability = function(dynamicObject, packet) {
+        var availability = packet.availability;
+        if (typeof availability === 'undefined') {
+            return false;
+        }
+
+        var propertyCreated = false;
+        var interval = TimeInterval.fromIso8601(availability);
+        if (typeof interval !== 'undefined') {
+            propertyCreated = typeof dynamicObject.availability === 'undefined';
+            dynamicObject._setAvailability(interval);
+        }
+        return propertyCreated;
+    };
+
+
+    /**
+     * Given two DynamicObjects, takes the position, orientation, vertexPositions and availability
+     * properties from the second and assigns them to the first, assuming such properties did not
+     * already exist. This method is not normally called directly, but is part of the array of CZML
+     * processing functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicObject.mergeProperties = function(targetObject, objectToMerge) {
+        targetObject.position = targetObject.position || objectToMerge.position;
+        targetObject.orientation = targetObject.orientation || objectToMerge.orientation;
+        targetObject.vertexPositions = targetObject.vertexPositions || objectToMerge.vertexPositions;
+        targetObject._setAvailability(targetObject.availability || objectToMerge.availability);
+    };
+
+    /**
+     * Given a DynamicObject, undefines the position, orientation, vertexPositions and availability
+     * associated with it. This method is not normally called directly, but is part of the array of
+     * CZML processing functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the billboard from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicObject.undefineProperties = function(dynamicObject) {
+        dynamicObject.position = undefined;
+        dynamicObject.orientation = undefined;
+        dynamicObject.vertexPositions = undefined;
+        dynamicObject._setAvailability(undefined);
+    };
+
+    DynamicObject.prototype._setAvailability = function(availability) {
+        this.availability = availability;
+        this._cachedAvailabilityDate = undefined;
+        this._cachedAvailabilityValue = undefined;
+    };
+
+    return DynamicObject;
+});
+/*global define*/
+define('DynamicScene/DynamicObjectCollection',[
+        '../Core/Event',
+        '../Core/TimeInterval',
+        '../Core/Iso8601',
+        '../Core/DeveloperError',
+        './DynamicObject'
+       ], function(
+        Event,
+        TimeInterval,
+        Iso8601,
+        DeveloperError,
+        DynamicObject) {
+    
+
+    /**
+     * A collection of DynamicObject instances.
+     * @alias DynamicObjectCollection
+     * @constructor
+     */
+    var DynamicObjectCollection = function() {
+        this._hash = {};
+        this._array = [];
+
+        /**
+         * The CompositeDynamicObjectCollection, if any, that this collection is in.
+         */
+        this.compositeCollection = undefined;
+
+        /**
+         * An {@link Event} that is fired whenever DynamicObjects in the collection have properties added.
+         */
+        this.objectPropertiesChanged = new Event();
+
+        /**
+         * An {@link Event} that is fired whenever DynamicObjects are removed from the collection.
+         */
+        this.objectsRemoved = new Event();
+    };
+
+    /**
+     * Computes the maximum availability of the DynamicObjects in the collection.
+     * If the collection contains a mix of infinitely available data and non-infinite data,
+     * It will return the interval pertaining to the non-infinite data only.  If all
+     * data is infinite, an infinite interval will be returned.
+     *
+     * @returns {TimeInterval} The availability of DynamicObjects in the collection.
+     */
+    DynamicObjectCollection.prototype.computeAvailability = function() {
+        var startTime = Iso8601.MAXIMUM_VALUE;
+        var stopTime = Iso8601.MINIMUM_VALUE;
+        var i;
+        var len;
+        var object;
+        var dynamicObjects = this._array;
+        for (i = 0, len = dynamicObjects.length; i < len; i++) {
+            object = dynamicObjects[i];
+            if (typeof object.availability !== 'undefined') {
+                if (object.availability.start.lessThan(startTime)) {
+                    startTime = object.availability.start;
+                }
+                if (object.availability.stop.greaterThan(stopTime)) {
+                    stopTime = object.availability.stop;
+                }
+            }
+        }
+        if (startTime !== Iso8601.MAXIMUM_VALUE && stopTime !== Iso8601.MINIMUM_VALUE) {
+            return new TimeInterval(startTime, stopTime, true, true);
+        }
+        return new TimeInterval(Iso8601.MINIMUM_VALUE, Iso8601.MAXIMUM_VALUE, true, true);
+    };
+
+    /**
+     * Gets an object with the specified id.
+     * @param {Object} id The id of the object to retrieve.
+     *
+     * @exception {DeveloperError} id is required.
+     *
+     * @returns The DynamicObject with the provided id, or undefined if no such object exists.
+     */
+    DynamicObjectCollection.prototype.getObject = function(id) {
+        if (typeof id === 'undefined') {
+            throw new DeveloperError('id is required.');
+        }
+        return this._hash[id];
+    };
+
+    /**
+     * Gets the array of DynamicObject instances in this composite collection.
+     * @returns {Array} the array of DynamicObject instances in this composite collection.
+     */
+    DynamicObjectCollection.prototype.getObjects = function() {
+        return this._array;
+    };
+
+    /**
+     * Gets an object with the specified id or creates it and adds it to the collection if it does not exist.
+     * @param {Object} id The id of the object to retrieve.
+     *
+     * @exception {DeveloperError} id is required.
+     *
+     * @returns The DynamicObject with the provided id.
+     */
+    DynamicObjectCollection.prototype.getOrCreateObject = function(id) {
+        if (typeof id === 'undefined') {
+            throw new DeveloperError('id is required.');
+        }
+        var obj = this._hash[id];
+        if (!obj) {
+            obj = new DynamicObject(id);
+            this._hash[id] = obj;
+            this._array.push(obj);
+        }
+        return obj;
+    };
+
+    /**
+     * Removes all objects from the collection.
+     */
+    DynamicObjectCollection.prototype.clear = function() {
+        var removedObjects = this._array;
+        this._hash = {};
+        this._array = [];
+        if (removedObjects.length > 0) {
+            this.objectsRemoved.raiseEvent(this, removedObjects);
+        }
+    };
+
+    return DynamicObjectCollection;
+});
 /*global define*/
 define('Renderer/BlendEquation',['../Core/Enumeration'], function(Enumeration) {
     
@@ -15720,20 +19804,20 @@ define('Renderer/Buffer',[
     /**
      * DOC_TBA
      *
-     * @name Buffer
+     * @alias Buffer
      * @internalConstructor
      *
      * @see Context#createVertexBuffer
      * @see Context#createIndexBuffer
      */
-    function Buffer(gl, bufferTarget, sizeInBytes, usage, buffer) {
+    var Buffer = function(gl, bufferTarget, sizeInBytes, usage, buffer) {
         this._gl = gl;
         this._bufferTarget = bufferTarget;
         this._sizeInBytes = sizeInBytes;
         this._usage = usage;
         this._buffer = buffer;
         this._vertexArrayDestroyable = true;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -16054,13 +20138,13 @@ define('Renderer/Framebuffer',[
     /**
      * DOC_TBA
      *
-     * @name Framebuffer
+     * @alias Framebuffer
      *
      * @see Context#createFramebuffer
      *
      * @internalConstructor
      */
-    function Framebuffer(_gl, description) {
+    var Framebuffer = function(_gl, description) {
         var _framebuffer;
         var _colorTexture;
         var _colorRenderbuffer;
@@ -16070,7 +20154,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.setColorTexture = function(texture) {
@@ -16088,7 +20171,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.getColorTexture = function() {
@@ -16097,7 +20179,6 @@ define('Renderer/Framebuffer',[
 
         /**
          * DOC_TBA.
-         * @memberof Framebuffer
          * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
          */
         this.setColorRenderbuffer = function(renderbuffer) {
@@ -16114,7 +20195,6 @@ define('Renderer/Framebuffer',[
 
         /**
          * DOC_TBA.
-         * @memberof Framebuffer
          * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
          */
         this.getColorRenderbuffer = function() {
@@ -16123,7 +20203,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.setDepthRenderbuffer = function(renderbuffer) {
@@ -16140,7 +20219,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.getDepthRenderbuffer = function() {
@@ -16149,7 +20227,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.setStencilRenderbuffer = function(renderbuffer) {
@@ -16166,7 +20243,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.getStencilRenderbuffer = function() {
@@ -16175,7 +20251,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.setDepthStencilRenderbuffer = function(renderbuffer) {
@@ -16192,7 +20267,6 @@ define('Renderer/Framebuffer',[
 
         /**
         * DOC_TBA.
-        * @memberof Framebuffer
         * @exception {DeveloperError} This framebuffer was destroyed, i.e., destroy() was called.
         */
         this.getDepthStencilRenderbuffer = function() {
@@ -16212,8 +20286,6 @@ define('Renderer/Framebuffer',[
          * <br /><br />
          * If this object was destroyed, it should not be used; calling any function other than
          * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-         *
-         * @memberof Framebuffer
          *
          * @return {Boolean} True if this object was destroyed; otherwise, false.
          *
@@ -16235,8 +20307,6 @@ define('Renderer/Framebuffer',[
          * assign the return value (<code>undefined</code>) to the object as done in the example.
          * <br /><br />
          * This will fail if the color attachment is a face in a cube map texture.
-         *
-         * @memberof Framebuffer
          *
          * @return {undefined}
          *
@@ -16290,7 +20360,7 @@ define('Renderer/Framebuffer',[
                 this.setDepthStencilRenderbuffer(description.depthStencilRenderbuffer);
             }
         }
-    }
+    };
 
     return Framebuffer;
 });
@@ -16487,7 +20557,7 @@ define('Renderer/Renderbuffer',[
     /**
      * DOC_TBA
      *
-     * @name Renderbuffer
+     * @alias Renderbuffer
      * @internalConstructor
      *
      * @see Context#createRenderbuffer
@@ -16666,18 +20736,18 @@ define('Renderer/PickFramebuffer',[
     /**
      * DOC_TBA
      *
-     * @name PickFramebuffer
+     * @alias PickFramebuffer
      * @internalConstructor
      *
      * @see Context#createPickFramebuffer
      * @see Context#pick
      */
-    function PickFramebuffer(context) {
+    var PickFramebuffer = function(context) {
         this._context = context;
         this._fb = null;
         this._width = 0;
         this._height = 0;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -16796,17 +20866,17 @@ define('Renderer/ShaderCache',[
     /**
      * DOC_TBA
      *
-     * @name ShaderCache
+     * @alias ShaderCache
      *
      * @internalConstructor
      *
      * @see Context#getShaderCache
      */
-    function ShaderCache(context) {
+    var ShaderCache = function(context) {
         this._context = context;
         this._shaders = {};
         this._shadersToRelease = {};
-    }
+    };
 
     /**
      * DOC_TBA
@@ -17102,197 +21172,425 @@ define('Renderer/TextureAtlas',[
         '../Core/DeveloperError',
         '../Core/destroyObject',
         '../Core/Cartesian2',
+        '../Core/Rectangle',
+        '../Core/createGuid',
         './PixelFormat'
     ], function(
         DeveloperError,
         destroyObject,
         Cartesian2,
+        Rectangle,
+        createGuid,
         PixelFormat) {
     
 
+    // The atlas is made up of regions of space called nodes that contain images or child nodes.
+    function TextureAtlasNode(bottomLeft, topRight, childNode1, childNode2, imageIndex) {
+        this.bottomLeft = (typeof bottomLeft !== 'undefined') ? bottomLeft : new Cartesian2();
+        this.topRight = (typeof topRight !== 'undefined') ? topRight : new Cartesian2();
+        this.childNode1 = childNode1;
+        this.childNode2 = childNode2;
+        this.imageIndex = imageIndex;
+    }
+
     /**
-     * DOC_TBA
+     * A TextureAtlas stores multiple images in one square texture and keeps
+     * track of the texture coordinates for each image. TextureAtlas is dynamic,
+     * meaning new images can be added at any point in time.
+     * Calling addImages is more space-efficient than calling addImage multiple times.
+     * Texture coordinates are subject to change if the texture atlas resizes, so it is
+     * important to check {@link TextureAtlas#getGUID} before using old values.
      *
-     * @name TextureAtlas
+     * @alias TextureAtlas
      *
-     * @param {Context} context The context that the created texture will be used by.
-     * @param {Array} images DOC_TBA
-     * @param {PixelFormat}[pixelFormat = PixelFormat.RGBA] DOC_TBA
-     * @param {Number}[borderWidthInPixels = 1]  DOC_TBA
+     * @param {Context} description.context The context in which the texture gets created.
+     * @param {PixelFormat} [description.pixelFormat = PixelFormat.RGBA] The pixel format of the texture.
+     * @param {Number} [description.borderWidthInPixels = 1] The amount of spacing between adjacent images in pixels.
+     * @param {Cartesian2} [description.initialSize = new Cartesian2(16.0, 16.0)] The initial side lengths of the texture.
+     * @param {Array} description.images Optional array of {@link Image} to be added to the atlas. Same as calling addImages(images).
+     * @param {Image} description.image Optional single image to be added to the atlas. Same as calling addImage(image).
      *
      * @internalConstructor
      *
      * @exception {DeveloperError} context is required.
-     * @exception {DeveloperError} images is required and must have length greater than zero.
      * @exception {DeveloperError} borderWidthInPixels must be greater than or equal to zero.
+     * @exception {DeveloperError} initialSize must be greater than zero.
+     *
      */
-    function TextureAtlas(context, images, pixelFormat, borderWidthInPixels) {
-        if (!context) {
+    var TextureAtlas = function(description) {
+        description = (typeof description !== 'undefined') ? description : {};
+        var context = description.context;
+        var pixelFormat = description.pixelFormat;
+        var borderWidthInPixels = description.borderWidthInPixels;
+        var initialSize = description.initialSize;
+        var images = description.images;
+        var image = description.image;
+
+        // Context
+        if (typeof context === 'undefined') {
             throw new DeveloperError('context is required.');
         }
 
-        if (!images || (images.length < 1)) {
-            throw new DeveloperError('images is required and must have length greater than zero.');
-        }
+        // Pixel Format
+        pixelFormat = (typeof pixelFormat !== 'undefined') ? pixelFormat : PixelFormat.RGBA;
 
-        pixelFormat = (typeof pixelFormat === 'undefined') ? PixelFormat.RGBA : pixelFormat;
-        borderWidthInPixels = (typeof borderWidthInPixels === 'undefined') ? 1 : borderWidthInPixels;
-
+        // Border
+        borderWidthInPixels = (typeof borderWidthInPixels !== 'undefined') ? borderWidthInPixels : 1.0;
         if (borderWidthInPixels < 0) {
             throw new DeveloperError('borderWidthInPixels must be greater than or equal to zero.');
         }
 
-        var annotatedImages = [];
-        var numberOfImages = images.length;
-        var i;
-        var image;
-
-        for (i = 0; i < numberOfImages; ++i) {
-            annotatedImages.push({
-                image : images[i],
-                index : i
-            });
-        }
-
-        // Sort images by maximum to minimum height
-        annotatedImages.sort(function(left, right) {
-            return right.image.height - left.image.height;
-        });
-
-        // Heuristically compute atlas width to keep texture relatively square
-        var atlasWidth = (function(images, numberOfImages) {
-            var maxWidth = 0;
-            var area = 0;
-            for ( var i = 0; i < numberOfImages; ++i) {
-                var image = images[i];
-                area += (image.width + borderWidthInPixels) * (image.height + borderWidthInPixels);
-                maxWidth = Math.max(maxWidth, image.width);
-            }
-
-            return Math.max(Math.floor(Math.sqrt(area)), maxWidth + borderWidthInPixels);
-        }(images, numberOfImages));
-
-        var xOffset = 0;
-        var yOffset = 0;
-        var rowHeight = 0;
-        var offsets = [];
-
-        // PERFORMANCE_IDEA:  Pack more tightly using algorithm in:
-        //     http://www-ui.is.s.u-tokyo.ac.jp/~takeo/papers/i3dg2001.pdf
-
-        // Compute subrectangle positions and, finally, the atlas' height
-        for (i = 0; i < numberOfImages; ++i) {
-            image = annotatedImages[i].image;
-            var widthIncrement = image.width + borderWidthInPixels;
-
-            if (xOffset + widthIncrement > atlasWidth) {
-                xOffset = 0;
-                yOffset += rowHeight + borderWidthInPixels;
-            }
-
-            if (xOffset === 0) {
-                // The first bitmap of the row determines the row height.
-                // This is worst case since bitmaps are sorted by height.
-                rowHeight = image.height;
-            }
-
-            offsets.push(new Cartesian2(xOffset, yOffset));
-            xOffset += widthIncrement;
-        }
-        var atlasHeight = yOffset + rowHeight;
-
-        // Write images into a texture, saving the texture coordinates rectangle for each
-        var textureCoordinates = [];
-        var texture = context.createTexture2D({
-            width : atlasWidth,
-            height : atlasHeight,
-            pixelFormat : pixelFormat
-        });
-
-        for (i = 0; i < numberOfImages; ++i) {
-            var lowerLeft = offsets[i];
-            image = annotatedImages[i];
-
-            textureCoordinates[image.index] = {
-                // Lower Left
-                x0 : lowerLeft.x / atlasWidth,
-                y0 : lowerLeft.y / atlasHeight,
-
-                // Upper Right
-                x1 : (lowerLeft.x + image.image.width) / atlasWidth,
-                y1 : (lowerLeft.y + image.image.height) / atlasHeight
-            };
-
-            texture.copyFrom(image.image, lowerLeft.x, lowerLeft.y);
+        // Initial size
+        initialSize = (typeof initialSize !== 'undefined') ? initialSize : new Cartesian2(16.0, 16.0);
+        if (initialSize.x < 1 || initialSize.y < 1) {
+            throw new DeveloperError('initialSize must be greater than zero.');
         }
 
         this._context = context;
+        this._pixelFormat = pixelFormat;
         this._borderWidthInPixels = borderWidthInPixels;
-        this._texture = texture;
-        this._textureCoordinates = textureCoordinates;
-    }
+        this._textureCoordinates = [];
+        this._guid = createGuid();
 
-    /**
-     * Add a set of sub-regions of one atlas image as additional image indices.
-     *
-     * @memberof TextureAtlas
-     *
-     * @param {Number} index The index of the source image that will be broken into sub-regions.
-     * @param {Array} subRegions A list of {@link Rectangle} sub-regions measured in pixels from the upper-left.
-     *
-     * @return {Number} The index of the first newly-added region.
-     *
-     * @exception {DeveloperError} invalid image index.
-     */
-    TextureAtlas.prototype.addSubRegions = function(index, subRegions) {
-        var atlasWidth = this._texture.getWidth();
-        var atlasHeight = this._texture.getHeight();
-        var numTextureCoordinates = this._textureCoordinates.length;
-        var numSubRegions = subRegions.length;
+        // Create initial texture and root.
+        this._texture = this._context.createTexture2D({
+            width : initialSize.x,
+            height : initialSize.y,
+            pixelFormat : this._pixelFormat
+        });
+        this._root = new TextureAtlasNode(new Cartesian2(0.0, 0.0), new Cartesian2(initialSize.x, initialSize.y));
 
-        if ((index < 0) || (index >= numTextureCoordinates)) {
-            throw new DeveloperError('invalid image index.');
+        // Add initial images if there are any.
+        if (typeof images !== 'undefined' && (images.length > 0)) {
+            this.addImages(images);
         }
-        var baseRegion = this._textureCoordinates[index];
+        if (typeof image !== 'undefined') {
+            this.addImage(image);
+        }
+    };
 
-        for (var i = 0; i < numSubRegions; ++i) {
-            var thisRegion = subRegions[i];
-            this._textureCoordinates.push({
-                // Lower Left
-                x0 : baseRegion.x0 + (thisRegion.x / atlasWidth),
-                y0 : baseRegion.y1 - ((thisRegion.y + thisRegion.height) / atlasHeight),
+    // Builds a larger texture and copies the old texture into the new one.
+    TextureAtlas.prototype._resizeAtlas = function (image) {
+        var numImages = this.getNumberOfImages();
+        var scalingFactor = 2.0;
+        if(numImages > 0) {
+            var oldAtlasWidth = this._texture.getWidth();
+            var oldAtlasHeight = this._texture.getHeight();
+            var atlasWidth = scalingFactor * (oldAtlasWidth + image.width + this._borderWidthInPixels);
+            var atlasHeight = scalingFactor * (oldAtlasHeight + image.height + this._borderWidthInPixels);
+            var widthRatio = oldAtlasWidth / atlasWidth;
+            var heightRatio = oldAtlasHeight / atlasHeight;
 
-                // Upper Right
-                x1 : baseRegion.x0 + ((thisRegion.x + thisRegion.width) / atlasWidth),
-                y1 : baseRegion.y1 - (thisRegion.y / atlasHeight)
-            });
+            // Create new node structure, putting the old root node in the bottom left.
+            var nodeBottomRight = new TextureAtlasNode(new Cartesian2(oldAtlasWidth + this._borderWidthInPixels, 0.0), new Cartesian2(atlasWidth, oldAtlasHeight));
+            var nodeBottomHalf = new TextureAtlasNode(new Cartesian2(0.0, 0.0), new Cartesian2(atlasWidth, oldAtlasHeight), this._root, nodeBottomRight);
+            var nodeTopHalf = new TextureAtlasNode(new Cartesian2(0.0, oldAtlasHeight + this._borderWidthInPixels), new Cartesian2(atlasWidth, atlasHeight));
+            var nodeMain = new TextureAtlasNode(new Cartesian2(0.0, 0.0), new Cartesian2(atlasWidth, atlasHeight), nodeBottomHalf, nodeTopHalf);
+            this._root = nodeMain;
+
+            // Resize texture coordinates.
+            for (var i = 0; i < this._textureCoordinates.length; i++) {
+                var texCoord = this._textureCoordinates[i];
+                if (typeof texCoord !== 'undefined') {
+                    texCoord.x *= widthRatio;
+                    texCoord.y *= heightRatio;
+                    texCoord.width *= widthRatio;
+                    texCoord.height *= heightRatio;
+                }
         }
 
-        return numTextureCoordinates;
+            // Copy larger texture.
+            var newTexture = this._context.createTexture2D({
+                width : atlasWidth,
+                height : atlasHeight,
+                pixelFormat : this._pixelFormat
+        });
+
+            // Copy old texture into new using an fbo.
+            var framebuffer = this._context.createFramebuffer({colorTexture:this._texture});
+            framebuffer._bind();
+            newTexture.copyFromFramebuffer(0, 0, 0, 0, oldAtlasWidth, oldAtlasHeight);
+            framebuffer._unBind();
+            framebuffer.destroy();
+            this._texture = newTexture;
+            }
+        // First image exceeds initialSize
+        else {
+            var initialWidth = scalingFactor * (image.width + this._borderWidthInPixels);
+            var initialHeight = scalingFactor * (image.height + this._borderWidthInPixels);
+            this._texture = this._texture && this._texture.destroy();
+            this._texture = this._context.createTexture2D({width : initialWidth, height : initialHeight, pixelFormat : this._pixelFormat});
+            this._root = new TextureAtlasNode(new Cartesian2(0.0, 0.0), new Cartesian2(initialWidth, initialHeight));
+        }
+    };
+
+    // A recursive function that finds the best place to insert
+    // a new image based on existing image 'nodes'.
+    // Inspired by: http://blackpawn.com/texts/lightmaps/default.html
+    TextureAtlas.prototype._findNode = function (node, image) {
+        if (typeof node === 'undefined') {
+            return undefined;
+        }
+
+        // If a leaf node
+        if (typeof node.childNode1 === 'undefined' &&
+            typeof node.childNode2 === 'undefined') {
+
+            // Node already contains an image, don't add to it.
+            if (typeof node.imageIndex !== 'undefined') {
+                return undefined;
+            }
+
+            var nodeWidth = node.topRight.x - node.bottomLeft.x;
+            var nodeHeight = node.topRight.y - node.bottomLeft.y;
+            var widthDifference = nodeWidth - image.width;
+            var heightDifference = nodeHeight - image.height;
+
+            // Node is smaller than the image.
+            if (widthDifference < 0 || heightDifference < 0) {
+                return undefined;
+            }
+
+            // If the node is the same size as the image, return the node
+            if (widthDifference === 0 && heightDifference === 0) {
+                return node;
+            }
+
+            // Vertical split (childNode1 = left half, childNode2 = right half).
+            if (widthDifference > heightDifference) {
+                node.childNode1 = new TextureAtlasNode(new Cartesian2(node.bottomLeft.x, node.bottomLeft.y), new Cartesian2(node.bottomLeft.x + image.width, node.topRight.y));
+                // Only make a second child if the border gives enough space.
+                var childNode2BottomLeftX = node.bottomLeft.x + image.width + this._borderWidthInPixels;
+                if (childNode2BottomLeftX < node.topRight.x) {
+                    node.childNode2 = new TextureAtlasNode(new Cartesian2(childNode2BottomLeftX, node.bottomLeft.y), new Cartesian2(node.topRight.x, node.topRight.y));
+                }
+            }
+            // Horizontal split (childNode1 = bottom half, childNode2 = top half).
+            else {
+                node.childNode1 = new TextureAtlasNode(new Cartesian2(node.bottomLeft.x, node.bottomLeft.y), new Cartesian2(node.topRight.x, node.bottomLeft.y + image.height));
+                // Only make a second child if the border gives enough space.
+                var childNode2BottomLeftY = node.bottomLeft.y + image.height + this._borderWidthInPixels;
+                if (childNode2BottomLeftY < node.topRight.y) {
+                    node.childNode2 = new TextureAtlasNode(new Cartesian2(node.bottomLeft.x, childNode2BottomLeftY), new Cartesian2(node.topRight.x, node.topRight.y));
+                }
+            }
+            return this._findNode(node.childNode1, image);
+        }
+
+        // If not a leaf node
+        return this._findNode(node.childNode1, image) ||
+               this._findNode(node.childNode2, image);
+    };
+
+    // Adds image of given index to the texture atlas. Called from addImage and addImages.
+    TextureAtlas.prototype._addImage = function(image, index) {
+        if (typeof image === 'undefined') {
+            throw new DeveloperError('image is required.');
+        }
+
+        var node = this._findNode(this._root, image);
+
+        // Found a node that can hold the image.
+        if (typeof node !== 'undefined'){
+            node.imageIndex = index;
+
+            // Add texture coordinate and write to texture
+            var atlasWidth = this._texture.getWidth();
+            var atlasHeight = this._texture.getHeight();
+            var nodeWidth = node.topRight.x - node.bottomLeft.x;
+            var nodeHeight = node.topRight.y - node.bottomLeft.y;
+            this._textureCoordinates[index] = new Rectangle(
+                node.bottomLeft.x / atlasWidth, node.bottomLeft.y / atlasHeight,
+                nodeWidth / atlasWidth, nodeHeight / atlasHeight
+            );
+            this._texture.copyFrom(image, node.bottomLeft.x, node.bottomLeft.y);
+        }
+        // No node found, must resize the texture atlas.
+        else {
+            this._resizeAtlas(image);
+            this._addImage(image, index);
+        }
     };
 
     /**
-     * DOC_TBA
+     * Adds an image to the texture atlas.
+     * Calling addImages is more space-efficient than calling addImage multiple times.
+     * Texture coordinates are subject to change if the texture atlas resizes, so it is
+     * important to check {@link TextureAtlas#getGUID} before using old values.
+     *
      * @memberof TextureAtlas
+     *
+     * @param {Image} image An image to be added to the texture atlas.
+     *
+     * @returns {Number} The index of the newly added image.
+     *
+     * @exception {DeveloperError} image is required.
+     *
+     * @see TextureAtlas#addImages
+     *
+     */
+    TextureAtlas.prototype.addImage = function(image) {
+        var index = this.getNumberOfImages();
+        this._addImage(image, index);
+
+        this._guid = createGuid();
+
+        return index;
+            };
+
+    /**
+     * Adds an array of images to the texture atlas.
+     * Calling addImages is more space-efficient than calling addImage multiple times.
+     * Texture coordinates are subject to change if the texture atlas resizes, so it is
+     * important to check {@link TextureAtlas#getGUID} before using old values.
+     *
+     * @memberof TextureAtlas
+     *
+     * @param {Array} images An array of {@link Image} to be added to the texture atlas.
+     *
+     * @returns {Number} The first index of the newly added images.
+     *
+     * @exception {DeveloperError} images is required and must have length greater than zero.
+     *
+     * @see TextureAtlas#addImage
+     *
+     */
+    TextureAtlas.prototype.addImages = function(images) {
+        // Check if image array is valid.
+        if (typeof images === 'undefined' || (images.length < 1)) {
+            throw new DeveloperError('images is required and must have length greater than zero.');
+        }
+
+        // Store images in containers that have an index.
+        var i;
+        var annotatedImages = [];
+        var numberOfImages = images.length;
+        var oldNumberOfImages = this.getNumberOfImages();
+        for (i = 0; i < numberOfImages; ++i) {
+            annotatedImages.push({
+                image : images[i],
+                index : i + oldNumberOfImages
+            });
+        }
+
+        // Sort images by maximum to minimum side length.
+        annotatedImages.sort(function(left, right) {
+            return Math.max(right.image.height, right.image.width) -
+                   Math.max(left.image.height, left.image.width);
+        });
+
+        // Add images to the texture atlas.
+        for (i = 0; i < numberOfImages; ++i) {
+            var annotatedImage = annotatedImages[i];
+            this._addImage(annotatedImage.image, annotatedImage.index);
+    }
+
+        this._guid = createGuid();
+
+        // Return index of the first added image.
+        return oldNumberOfImages;
+    };
+
+
+    /**
+     * Add a set of sub-regions to one atlas image as additional image indices.
+     *
+     * @memberof TextureAtlas
+     *
+     * @param {Image} image An image to be added to the texture atlas.
+     * @param {Array} subRegions An array of {@link Rectangle} sub-regions measured in pixels from the bottom-left.
+     *
+     * @returns {Number} The index of the first newly-added region.
+     *
+     * @exception {DeveloperError} image is required.
+     */
+    TextureAtlas.prototype.addSubRegions = function(image, subRegions) {
+        var index = this.addImage(image);
+
+        var atlasWidth = this._texture.getWidth();
+        var atlasHeight = this._texture.getHeight();
+        var numImages = this.getNumberOfImages();
+        var numSubRegions = subRegions.length;
+
+        var baseRegion = this._textureCoordinates[index];
+        for (var i = 0; i < numSubRegions; ++i) {
+            var thisRegion = subRegions[i];
+            this._textureCoordinates.push(new Rectangle(
+                baseRegion.x + (thisRegion.x / atlasWidth),
+                baseRegion.y + (thisRegion.y / atlasHeight),
+                thisRegion.width / atlasWidth,
+                thisRegion.height / atlasHeight
+            ));
+        }
+
+        this._guid = createGuid();
+
+        return numImages;
+    };
+
+    /**
+     * Returns the amount of spacing between adjacent images in pixels.
+     *
+     * @memberof TextureAtlas
+     *
+     * @returns {Number} The border width in pixels.
      */
     TextureAtlas.prototype.getBorderWidthInPixels = function() {
         return this._borderWidthInPixels;
     };
 
     /**
-     * DOC_TBA
+     * Returns an array of {@link Rectangle} texture coordinate regions for all the images in the texture atlas.
+     * The x and y values of the rectangle correspond to the bottom-left corner of the texture coordinate.
+     * The coordinates are in the order that the corresponding images were added to the atlas.
+     *
      * @memberof TextureAtlas
+     *
+     * @returns {Array} The texture coordinates.
+     *
+     * @see Rectangle
      */
     TextureAtlas.prototype.getTextureCoordinates = function() {
         return this._textureCoordinates;
     };
 
     /**
-     * DOC_TBA
+     * Returns the texture that all of the images are being written to.
+     *
      * @memberof TextureAtlas
+     *
+     * @returns {@link Texture} The texture used by the texture atlas.
      */
     TextureAtlas.prototype.getTexture = function() {
         return this._texture;
+    };
+
+    /**
+     * Returns the number of images in the texture atlas. This value increases
+     * every time addImage or addImages is called.
+     * Texture coordinates are subject to change if the texture atlas resizes, so it is
+     * important to check {@link TextureAtlas#getGUID} before using old values.
+     *
+     * @memberof TextureAtlas
+     *
+     * @returns {Number} The number of images in the texture atlas.
+     */
+    TextureAtlas.prototype.getNumberOfImages = function() {
+        return this._textureCoordinates.length;
+    };
+
+    /**
+     * Returns the atlas' globally unique identifier (GUID).
+     * The GUID changes whenever the texture atlas is modified.
+     * Classes that use a texture atlas should check if the GUID
+     * has changed before processing the atlas data.
+     *
+     * @memberof TextureAtlas
+     *
+     * @returns {String} The globally unique identifier (GUID).
+     */
+    TextureAtlas.prototype.getGUID = function() {
+        return this._guid;
     };
 
     /**
@@ -17303,7 +21601,7 @@ define('Renderer/TextureAtlas',[
      *
      * @memberof TextureAtlas
      *
-     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     * @returns {Boolean} True if this object was destroyed; otherwise, false.
      *
      * @see TextureAtlas#destroy
      */
@@ -17321,7 +21619,7 @@ define('Renderer/TextureAtlas',[
      *
      * @memberof TextureAtlas
      *
-     * @return {undefined}
+     * @returns {undefined}
      *
      * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
      *
@@ -17336,6 +21634,137 @@ define('Renderer/TextureAtlas',[
     };
 
     return TextureAtlas;
+});
+/*global define*/
+define('Renderer/TextureAtlasBuilder',[
+        '../Core/Event',
+        '../Core/DeveloperError',
+        '../Core/getImageFromUrl'
+       ], function(
+         Event,
+         DeveloperError,
+         getImageFromUrl) {
+    
+
+    function SourceHolder() {
+        this.imageLoaded = new Event();
+        this.index = -1;
+        this.loaded = false;
+    }
+
+    /**
+     * A utility class which dynamically builds a TextureAtlas by associating
+     * a unique identifier with each texture as it is added.  If a texture with
+     * the same id is needed later, the existing index is returned, rather than
+     * adding multiple copies of the same texture.
+     *
+     * @alias TextureAtlasBuilder
+     * @constructor
+     *
+     * @see TextureAtlas
+     */
+    var TextureAtlasBuilder  = function(textureAtlas) {
+        if (typeof textureAtlas === 'undefined') {
+            throw new DeveloperError('textureAtlas is required.');
+        }
+        this.textureAtlas = textureAtlas;
+        this._idHash = {};
+    };
+
+    /**
+     * Retrieves the image from the specified url and adds it to the atlas.
+     * The supplied callback is triggered with the index of the texture.
+     * If the url is already in the atlas, the atlas is unchanged and the callback
+     * is triggered immediately with the existing index.
+     *
+     * @memberof TextureAtlasBuilder
+     *
+     * @param {String} url The url of the image to add to the atlas.
+     * @param {Function} textureAvailableCallback A function taking the image index as it's only parameter.
+     *
+     * @exception {DeveloperError} url is required.
+     * @exception {DeveloperError} textureAvailableCallback is required.
+     */
+    TextureAtlasBuilder.prototype.addTextureFromUrl = function(url, textureAvailableCallback) {
+        if (typeof url === 'undefined') {
+            throw new DeveloperError('url is required.');
+        }
+
+        if (typeof textureAvailableCallback === 'undefined') {
+            throw new DeveloperError('textureAvailableCallback is required.');
+        }
+
+        this.addTextureFromFunction(url, getImageFromUrl, textureAvailableCallback);
+    };
+
+    /**
+     * <p>
+     * Checks the atlas for a texture with the supplied id, if the id does not
+     * exist, the supplied callback is triggered to create it.  In either case,
+     * once the image is in the atlas, the second supplied callback is triggered
+     * with its index.
+     * </p>
+     *
+     * <p>
+     * This function is useful for dynamically generated textures that are shared
+     * across many billboards.  Only the first billboard will actually create the texture
+     * while subsequent billboards will re-use the existing one.
+     * </p>
+     *
+     * @memberof TextureAtlasBuilder
+     *
+     * @param {String} id The id of the image to add to the atlas.
+     * @param {Function} getImageCallback A function which takes two parameters; first the id of the image to
+     * retrieve and second, a function to call when the image is ready.  The function takes the image as its
+     * only parameter.
+     * @param {Function} textureAvailableCallback A function taking the image index as it's only parameter.
+     *
+     * @exception {DeveloperError} id is required.
+     * @exception {DeveloperError} getImageCallback is required.
+     * @exception {DeveloperError} textureAvailableCallback is required.
+     */
+    TextureAtlasBuilder.prototype.addTextureFromFunction = function(id, getImageCallback, textureAvailableCallback) {
+        if (typeof id === 'undefined') {
+            throw new DeveloperError('id is required.');
+        }
+
+        if (typeof getImageCallback === 'undefined') {
+            throw new DeveloperError('getImageCallback is required.');
+        }
+
+        if (typeof textureAvailableCallback === 'undefined') {
+            throw new DeveloperError('textureAvailableCallback is required.');
+        }
+
+        var sourceHolder = this._idHash[id];
+        if (typeof sourceHolder !== 'undefined') {
+            //we're already aware of this source
+            if (sourceHolder.loaded) {
+                //and it's already loaded, tell the callback what index to use
+                textureAvailableCallback(sourceHolder.index);
+            } else {
+                //add the callback to be notified once it loads
+                sourceHolder.imageLoaded.addEventListener(textureAvailableCallback);
+            }
+            return;
+        }
+
+        //not in atlas, create the source, which may be async
+        this._idHash[id] = sourceHolder = new SourceHolder();
+        sourceHolder.imageLoaded.addEventListener(textureAvailableCallback);
+
+        var that = this;
+        getImageCallback(id, function(newImage) {
+            if (!that.textureAtlas.isDestroyed()) {
+                var index = sourceHolder.index = that.textureAtlas.addImage(newImage);
+                sourceHolder.loaded = true;
+                sourceHolder.imageLoaded.raiseEvent(index, id);
+                sourceHolder.imageLoaded = undefined;
+            }
+        });
+    };
+
+    return TextureAtlasBuilder;
 });
 /*global define*/
 define('Renderer/TextureMagnificationFilter',['../Core/Enumeration'], function(Enumeration) {
@@ -17525,12 +21954,12 @@ define('Renderer/CubeMap',[
     /**
      * DOC_TBA
      *
-     * @name CubeMap
+     * @alias CubeMap
      * @internalConstructor
      *
      * @see Context#createCubeMap
      */
-    function CubeMap(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, size, preMultiplyAlpha) {
+    var CubeMap = function(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, size, preMultiplyAlpha) {
         this._gl = gl;
         this._textureFilterAnisotropic = textureFilterAnisotropic;
         this._textureTarget = textureTarget;
@@ -17542,12 +21971,10 @@ define('Renderer/CubeMap',[
         this._sampler = undefined;
 
         this.setSampler();
-    }
+    };
 
     /**
      * DOC_TBA
-     *
-     * @memberof CubeMap
      *
      * @param {Object} source The source {ImageData}, {HTMLImageElement}, {HTMLCanvasElement}, or {HTMLVideoElement}.
      * @param {Number} xOffset optional
@@ -17608,8 +22035,6 @@ define('Renderer/CubeMap',[
 
     /**
      * DOC_TBA
-     *
-     * @memberof CubeMap
      *
      * @param {Number} xOffset optional
      * @param {Number} yOffset optional
@@ -18029,13 +22454,13 @@ define('Renderer/Texture',[
     /**
      * DOC_TBA
      *
-     * @name Texture
+     * @alias Texture
      * @internalConstructor
      *
      * @see Context#createTexture2D
      * @see Context#createTexture2DFromFramebuffer
      */
-    function Texture(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, width, height, preMultiplyAlpha) {
+    var Texture = function(gl, textureFilterAnisotropic, textureTarget, texture, pixelFormat, pixelDatatype, width, height, preMultiplyAlpha) {
         this._gl = gl;
         this._textureFilterAnisotropic = textureFilterAnisotropic;
         this._textureTarget = textureTarget;
@@ -18049,7 +22474,7 @@ define('Renderer/Texture',[
         this._sampler = undefined;
 
         this.setSampler();
-    }
+    };
 
     /**
      * DOC_TBA
@@ -18770,7 +23195,7 @@ define('Renderer/ShaderProgram',[
      * automatic uniforms; they are implicitly declared and automatically assigned to in
      * <code>Context.draw</code> based on the {@link UniformState}.
      *
-     * @name Uniform
+     * @alias Uniform
      * @internalConstructor
      *
      * @see Uniform#value
@@ -18815,14 +23240,14 @@ define('Renderer/ShaderProgram',[
      * sp.getAllUniforms()['u_struct.f'].value = 1.0;
      * sp.getAllUniforms()['u_struct.v'].value = new Cartesian4(1.0, 2.0, 3.0, 4.0);
      */
-    function Uniform(_gl, activeUniform, _uniformName, _location, uniformValue) {
+    var Uniform = function(_gl, activeUniform, _uniformName, _location, uniformValue) {
         /**
          * The value of the uniform.  The datatype depends on the datatype used in the
          * GLSL declaration as explained in the {@link Uniform} help and shown
          * in the examples below.
          *
          * @field
-         * @name Uniform#value
+         * @alias Uniform#value
          *
          * @see Context#createTexture2D
          *
@@ -18859,7 +23284,7 @@ define('Renderer/ShaderProgram',[
          *
          * @returns {String} The name of the uniform.
          * @function
-         * @name Uniform#getName
+         * @alias Uniform#getName
          *
          * @example
          * // GLSL: uniform mat4 u_mvp;
@@ -18875,7 +23300,7 @@ define('Renderer/ShaderProgram',[
          *
          * @returns {UniformDatatype} The datatype of the uniform.
          * @function
-         * @name Uniform#getDatatype
+         * @alias Uniform#getDatatype
          *
          * @see UniformDatatype
          *
@@ -18977,15 +23402,18 @@ define('Renderer/ShaderProgram',[
                 return textureUnitIndex + 1;
             };
         }
-    }
+    };
 
-    /*
+    /**
      * Uniform and UniformArray have the same documentation.  It is just an implementation
      * detail that they are two different types.
      *
-     * @name UniformArray
+     * @alias UniformArray
+     * @constructor
+     *
+     * @see Uniform
      */
-    function UniformArray(_gl, activeUniform, _uniformName, locations, value) {
+    var UniformArray = function(_gl, activeUniform, _uniformName, locations, value) {
         this.value = value;
 
         var _locations = locations;
@@ -19118,18 +23546,18 @@ define('Renderer/ShaderProgram',[
                 return textureUnitIndex + _locations.length;
             };
         }
-    }
+    };
 
     /**
      * DOC_TBA
      *
-     * @name ShaderProgram
+     * @alias ShaderProgram
      * @internalConstructor
      *
      * @see Context#createShaderProgram
      * @see Context#getShaderCache
      */
-    function ShaderProgram(gl, logShaderCompilation, builtInGlslFunctions, vertexShaderSource, fragmentShaderSource, attributeLocations) {
+    var ShaderProgram = function(gl, logShaderCompilation, builtInGlslFunctions, vertexShaderSource, fragmentShaderSource, attributeLocations) {
         var getAllAutomaticUniforms = function() {
             var uniforms = {
                 /**
@@ -19141,7 +23569,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_viewport
+                 * @alias agi_viewport
                  * @glslUniform
                  *
                  * @see Context#getViewport
@@ -19203,7 +23631,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_viewportOrthographic
+                 * @alias agi_viewportOrthographic
                  * @glslUniform
                  *
                  * @see UniformState#getViewportOrthographic
@@ -19264,7 +23692,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_viewportTransformation
+                 * @alias agi_viewportTransformation
                  * @glslUniform
                  *
                  * @see UniformState#getViewportTransformation
@@ -19318,7 +23746,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_model
+                 * @alias agi_model
                  * @glslUniform
                  *
                  * @see UniformState#getModel
@@ -19367,7 +23795,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_inverseView
+                 * @alias agi_inverseView
                  * @glslUniform
                  *
                  * @see UniformState#getInverseView
@@ -19407,7 +23835,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_view
+                 * @alias agi_view
                  * @glslUniform
                  *
                  * @see UniformState#getView
@@ -19450,7 +23878,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_projection
+                 * @alias agi_projection
                  * @glslUniform
                  *
                  * @see UniformState#getProjection
@@ -19492,7 +23920,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_inverseProjection
+                 * @alias agi_inverseProjection
                  * @glslUniform
                  *
                  * @see UniformState#getInverseProjection
@@ -19534,7 +23962,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_infiniteProjection
+                 * @alias agi_infiniteProjection
                  * @glslUniform
                  *
                  * @see UniformState#getInfiniteProjection
@@ -19577,7 +24005,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_modelView
+                 * @alias agi_modelView
                  * @glslUniform
                  *
                  * @see UniformState#getModelView
@@ -19622,7 +24050,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_inverseModelView
+                 * @alias agi_inverseModelView
                  * @glslUniform
                  *
                  * @see UniformState#getInverseModelView
@@ -19662,7 +24090,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_viewProjection
+                 * @alias agi_viewProjection
                  * @glslUniform
                  *
                  * @see UniformState#getViewProjection
@@ -19707,7 +24135,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_modelViewProjection
+                 * @alias agi_modelViewProjection
                  * @glslUniform
                  *
                  * @see UniformState#getModelViewProjection
@@ -19757,7 +24185,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_modelViewInfiniteProjection
+                 * @alias agi_modelViewInfiniteProjection
                  * @glslUniform
                  *
                  * @see UniformState#getModelViewInfiniteProjection
@@ -19805,7 +24233,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_normal
+                 * @alias agi_normal
                  * @glslUniform
                  *
                  * @see UniformState#getNormal
@@ -19846,7 +24274,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_inverseNormal
+                 * @alias agi_inverseNormal
                  * @glslUniform
                  *
                  * @see UniformState#getInverseNormal
@@ -19887,7 +24315,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_sunDirectionEC
+                 * @alias agi_sunDirectionEC
                  * @glslUniform
                  *
                  * @see UniformState#getSunDirectionEC
@@ -19926,7 +24354,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_sunDirectionWC
+                 * @alias agi_sunDirectionWC
                  * @glslUniform
                  *
                  * @see UniformState#getSunDirectionWC
@@ -19961,7 +24389,7 @@ define('Renderer/ShaderProgram',[
                  * However, it can be explicitly declared when a shader is also used by other applications such
                  * as a third-party authoring tool.
                  *
-                 * @name agi_viewerPositionWC
+                 * @alias agi_viewerPositionWC
                  * @glslUniform
                  *
                  * @example
@@ -20082,7 +24510,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>Math.PI</code>.
                  *
-                 * @name agi_pi
+                 * @alias agi_pi
                  * @glslConstant
                  *
                  * @see CesiumMath.PI
@@ -20099,7 +24527,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>1/pi</code>.
                  *
-                 * @name agi_oneOverPi
+                 * @alias agi_oneOverPi
                  * @glslConstant
                  *
                  * @see CesiumMath.ONE_OVER_PI
@@ -20116,7 +24544,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>pi/2</code>.
                  *
-                 * @name agi_piOverTwo
+                 * @alias agi_piOverTwo
                  * @glslConstant
                  *
                  * @see CesiumMath.PI_OVER_TWO
@@ -20133,7 +24561,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>pi/3</code>.
                  *
-                 * @name agi_piOverThree
+                 * @alias agi_piOverThree
                  * @glslConstant
                  *
                  * @see CesiumMath.PI_OVER_THREE
@@ -20150,7 +24578,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>pi/4</code>.
                  *
-                 * @name agi_piOverFour
+                 * @alias agi_piOverFour
                  * @glslConstant
                  *
                  * @see CesiumMath.PI_OVER_FOUR
@@ -20167,7 +24595,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>pi/6</code>.
                  *
-                 * @name agi_piOverSix
+                 * @alias agi_piOverSix
                  * @glslConstant
                  *
                  * @see CesiumMath.PI_OVER_SIX
@@ -20184,7 +24612,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>3pi/2</code>.
                  *
-                 * @name agi_threePiOver2
+                 * @alias agi_threePiOver2
                  * @glslConstant
                  *
                  * @see CesiumMath.THREE_PI_OVER_TWO
@@ -20201,7 +24629,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>2pi</code>.
                  *
-                 * @name agi_twoPi
+                 * @alias agi_twoPi
                  * @glslConstant
                  *
                  * @see CesiumMath.TWO_PI
@@ -20218,7 +24646,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for <code>1/2pi</code>.
                  *
-                 * @name agi_oneOverTwoPi
+                 * @alias agi_oneOverTwoPi
                  * @glslConstant
                  *
                  * @see CesiumMath.ONE_OVER_TWO_PI
@@ -20235,7 +24663,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for converting degrees to radians.
                  *
-                 * @name agi_radiansPerDegree
+                 * @alias agi_radiansPerDegree
                  * @glslConstant
                  *
                  * @see CesiumMath.RADIANS_PER_DEGREE
@@ -20252,7 +24680,7 @@ define('Renderer/ShaderProgram',[
                 /**
                  * A built-in GLSL floating-point constant for converting radians to degrees.
                  *
-                 * @name agi_degreesPerRadian
+                 * @alias agi_degreesPerRadian
                  * @glslConstant
                  *
                  * @see CesiumMath.DEGREES_PER_RADIAN
@@ -20641,7 +25069,7 @@ define('Renderer/ShaderProgram',[
         };
 
         return null;
-    }
+    };
 
     return ShaderProgram;
 });
@@ -20664,11 +25092,11 @@ define('Renderer/UniformState',[
     /**
      * DOC_TBA
      *
-     * @name UniformState
+     * @alias UniformState
      *
      * @internalConstructor
      */
-    function UniformState(context) {
+    var UniformState = function(context) {
         this._context = context;
         this._viewport = {
             x : 0,
@@ -20700,7 +25128,7 @@ define('Renderer/UniformState',[
         this._inverseNormalDirty = true;
         this._sunDirectionECDirty = true;
         this._sunDirectionWCDirty = true;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -21202,14 +25630,14 @@ define('Renderer/VertexArray',[
     /**
      * DOC_TBA
      *
-     * @name VertexArray
+     * @alias VertexArray
      *
      * @internalConstructor
      *
      * @see {@link Context#createVertexArray}
      * @see {@link Context#createVertexArrayFromMesh}
      */
-    function VertexArray(gl, attributes, indexBuffer) {
+    var VertexArray = function(gl, attributes, indexBuffer) {
         this._gl = gl;
         this._attributes = [];
         this._indexBuffer = indexBuffer;
@@ -21234,7 +25662,7 @@ define('Renderer/VertexArray',[
 
             uniqueIndices[index] = true;
         }
-    }
+    };
 
     VertexArray.prototype._addAttribute = function(attribute, index) {
         if (!attribute.vertexBuffer && !attribute.value) {
@@ -21275,7 +25703,7 @@ define('Renderer/VertexArray',[
             index : (typeof attribute.index === 'undefined') ? index : attribute.index,
             enabled : (typeof attribute.enabled === 'undefined') ? true : attribute.enabled,
             vertexBuffer : attribute.vertexBuffer,
-            value : attribute.value ? attribute.value.slice() : undefined,
+            value : attribute.value ? attribute.value.slice(0) : undefined,
             componentsPerAttribute : componentsPerAttribute,
             componentDatatype : attribute.componentDatatype || ComponentDatatype.FLOAT,
             normalize : attribute.normalize || false,
@@ -21569,7 +25997,7 @@ define('Renderer/VertexArrayFacade',[
     /**
      * DOC_TBA
      *
-     * @name VertexArrayFacade
+     * @alias VertexArrayFacade
      *
      * @constructor
      *
@@ -21580,7 +26008,7 @@ define('Renderer/VertexArrayFacade',[
      * @exception {DeveloperError} Attribute must have a valid usage or not specify it.
      * @exception {DeveloperError} Index n is used by more than one attribute.
      */
-    function VertexArrayFacade(context, attributes, sizeInVertices) {
+    var VertexArrayFacade = function(context, attributes, sizeInVertices) {
         if (!context) {
             throw new DeveloperError('context is required.');
         }
@@ -21683,7 +26111,7 @@ define('Renderer/VertexArrayFacade',[
         this.va = undefined;
 
         this.resize(sizeInVertices);
-    }
+    };
 
     VertexArrayFacade._verifyAttributes = function(attributes) {
         var attrs = [];
@@ -22191,7 +26619,6 @@ define('Scene/CameraEventHandler',[
         '../Core/EventHandler',
         '../Core/MouseEventType',
         '../Core/Cartesian2',
-        '../Core/JulianDate',
         './CameraEventType'
     ], function(
         DeveloperError,
@@ -22200,14 +26627,13 @@ define('Scene/CameraEventHandler',[
         EventHandler,
         MouseEventType,
         Cartesian2,
-        JulianDate,
         CameraEventType) {
     
 
     /**
      * DOC_TBA
      *
-     * @name CameraEventHandler
+     * @alias CameraEventHandler
      *
      * @param {HTMLCanvasElement} canvas DOC_TBA
      * @param {CameraEventType} moveType DOC_TBA
@@ -22220,47 +26646,38 @@ define('Scene/CameraEventHandler',[
      *
      * @see EventHandler
      */
-    function CameraEventHandler(canvas, moveType, moveModifier) {
-        if (!canvas) {
+    var CameraEventHandler = function(canvas, moveType, moveModifier) {
+        if (typeof canvas === 'undefined') {
             throw new DeveloperError('description.canvas is required.');
         }
 
-        if (!moveType) {
+        if (typeof moveType === 'undefined') {
             throw new DeveloperError('moveType is required.');
         }
 
         this._eventHandler = new EventHandler(canvas);
 
-        this._eventDownFunc = null;
-        this._eventPressTimeFunc = null;
-        this._eventReleaseTimeFunc = null;
-
         this._update = true;
-        this._movement = null;
-        this._lastMovement = null;
+        this._movement = undefined;
+        this._lastMovement = undefined;
+        this._isDown = false;
+        this._pressTime = undefined;
+        this._releaseTime = undefined;
 
         var that = this;
 
         if (moveType !== CameraEventType.WHEEL) {
             var down;
+            var up;
             if (moveType === CameraEventType.LEFT_DRAG) {
                 down = MouseEventType.LEFT_DOWN;
-
-                this._eventDownFunc = this._eventHandler.isLeftMouseButtonDown;
-                this._eventPressTimeFunc = this._eventHandler.getLeftPressTime;
-                this._eventReleaseTimeFunc = this._eventHandler.getLeftReleaseTime;
+                up = MouseEventType.LEFT_UP;
             } else if (moveType === CameraEventType.RIGHT_DRAG) {
                 down = MouseEventType.RIGHT_DOWN;
-
-                this._eventDownFunc = this._eventHandler.isRightMouseButtonDown;
-                this._eventPressTimeFunc = this._eventHandler.getRightPressTime;
-                this._eventReleaseTimeFunc = this._eventHandler.getRightReleaseTime;
+                up = MouseEventType.RIGHT_UP;
             } else if (moveType === CameraEventType.MIDDLE_DRAG) {
                 down = MouseEventType.MIDDLE_DOWN;
-
-                this._eventDownFunc = this._eventHandler.isMiddleMouseButtonDown;
-                this._eventPressTimeFunc = this._eventHandler.getMiddlePressTime;
-                this._eventReleaseTimeFunc = this._eventHandler.getRightReleaseTime;
+                up = MouseEventType.MIDDLE_UP;
             } else {
                 this._eventHandler = this._eventHandler && this._eventHandler.destroy();
                 throw new DeveloperError('moveType must be of type CameraEventType.');
@@ -22268,10 +26685,17 @@ define('Scene/CameraEventHandler',[
 
             this._eventHandler.setMouseAction(function(movement) {
                 that._lastMovement = null;
+                that._isDown = true;
+                that._pressTime = new Date();
             }, down, moveModifier);
 
             this._eventHandler.setMouseAction(function(movement) {
-                if (that._eventDownFunc.call(that._eventHandler)) {
+                that._isDown = false;
+                that._releaseTime = new Date();
+            }, up, moveModifier);
+
+            this._eventHandler.setMouseAction(function(movement) {
+                if (that._isDown) {
                     if (!that._update) {
                         that._movement.endPosition = movement.endPosition.clone();
                     } else {
@@ -22282,9 +26706,6 @@ define('Scene/CameraEventHandler',[
                 }
             }, MouseEventType.MOVE, moveModifier);
         } else {
-            this._wheelStart = null;
-            this._wheelEnd = null;
-
             this._eventHandler.setMouseAction(function(delta) {
                 // TODO: magic numbers
                 var arcLength = 2 * CesiumMath.toRadians(delta);
@@ -22299,18 +26720,18 @@ define('Scene/CameraEventHandler',[
                     that._lastMovement = that._movement; // This looks unusual, but its needed for wheel inertia.
                     that._update = false;
                 }
-                that._wheelStart = new JulianDate();
-                that._wheelEnd = that._wheelStart.addSeconds(Math.abs(arcLength) * 0.005);
+                that._pressTime = new Date();
+                that._releaseTime = new Date(that._pressTime.getTime() + Math.abs(arcLength) * 5.0);
             }, MouseEventType.WHEEL, moveModifier);
         }
-    }
+    };
 
     /**
      * DOC_TBA
      *
      * @memberof CameraEventHandler
      *
-     * @return {Object} DOC_TBA
+     * @return {Boolean} DOC_TBA
      */
     CameraEventHandler.prototype.isMoving = function() {
         return !this._update;
@@ -22345,14 +26766,11 @@ define('Scene/CameraEventHandler',[
      *
      * @memberof CameraEventHandler
      *
-     * @return {Object} DOC_TBA
+     * @return {Boolean} DOC_TBA
      *
      */
     CameraEventHandler.prototype.isButtonDown = function() {
-        if (this._eventDownFunc) {
-            return this._eventDownFunc.call(this._eventHandler);
-        }
-        return false;
+        return this._isDown;
     };
 
     /**
@@ -22360,16 +26778,11 @@ define('Scene/CameraEventHandler',[
      *
      * @memberof CameraEventHandler
      *
-     * @return {Object} DOC_TBA
+     * @return {Date} DOC_TBA
      *
      */
     CameraEventHandler.prototype.getButtonPressTime = function() {
-        if (this._eventPressTimeFunc) {
-            return this._eventPressTimeFunc.call(this._eventHandler);
-        } else if (this._wheelStart) {
-            return this._wheelStart;
-        }
-        return null;
+        return this._pressTime;
     };
 
     /**
@@ -22377,16 +26790,11 @@ define('Scene/CameraEventHandler',[
      *
      * @memberof CameraEventHandler
      *
-     * @return {Object} DOC_TBA
+     * @return {Date} DOC_TBA
      *
      */
     CameraEventHandler.prototype.getButtonReleaseTime = function() {
-        if (this._eventReleaseTimeFunc) {
-            return this._eventReleaseTimeFunc.call(this._eventHandler);
-        } else if (this._wheelEnd) {
-            return this._wheelEnd;
-        }
-        return null;
+        return this._releaseTime;
     };
 
     /**
@@ -22406,7 +26814,7 @@ define('Scene/CameraEventHandler',[
     };
 
     /**
-     * Removes mouse and keyboard listeners held by this object.
+     * Removes mouse listeners held by this object.
      * <br /><br />
      * Once an object is destroyed, it should not be used; calling any function other than
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
@@ -22437,23 +26845,21 @@ define('Scene/CameraFlightController',[
         '../Core/MouseEventType',
         '../Core/Quaternion',
         '../Core/Cartesian3',
-        '../Core/HermiteSpline',
-        '../Core/JulianDate'
+        '../Core/HermiteSpline'
     ], function(
         destroyObject,
         EventHandler,
         MouseEventType,
         Quaternion,
         Cartesian3,
-        HermiteSpline,
-        JulianDate) {
+        HermiteSpline) {
     
 
     /**
      * A type that defines camera behavior: the camera will follow a path from the
      * current position of the camera to an end point around an ellipsoid.
      *
-     * @name CameraFlightController
+     * @alias CameraFlightController
      * @internalConstructor
      *
      * @param {HTMLCanvasElement} canvas An HTML canvas element used to listen for user events.
@@ -22464,7 +26870,7 @@ define('Scene/CameraFlightController',[
      *
      * @see CameraControllerCollection#addFlight
      */
-    function CameraFlightController(canvas, camera, ellipsoid, destination, duration, complete) {
+    var CameraFlightController = function(canvas, camera, ellipsoid, destination, duration, complete) {
         // get minimum altitude from which the whole ellipsoid is visible
         var radius = ellipsoid.getRadii().getMaximumComponent();
 
@@ -22479,8 +26885,8 @@ define('Scene/CameraFlightController',[
         var altitude = dm - radius;
 
         this._camera = camera;
-        this._start = new JulianDate();
-        this._end = this._start.addSeconds(duration);
+        this._start = new Date();
+        this._end = new Date(this._start.getTime() + duration * 1000);
         this._path = this._createPath(ellipsoid, altitude, destination, duration);
         this._canceled = false;
         this._complete = complete;
@@ -22494,7 +26900,7 @@ define('Scene/CameraFlightController',[
         this._handler.setMouseAction(cancelFlight, MouseEventType.LEFT_DOWN);
         this._handler.setMouseAction(cancelFlight, MouseEventType.RIGHT_DOWN);
         this._handler.setMouseAction(cancelFlight, MouseEventType.MIDDLE_DOWN);
-    }
+    };
 
     CameraFlightController.prototype._createPath = function(ellipsoid, altitude, endPoint, duration) {
         var start = this._camera.position;
@@ -22567,16 +26973,16 @@ define('Scene/CameraFlightController',[
      * @private
      */
     CameraFlightController.prototype.update = function() {
-        var time = new JulianDate(),
+        var time = new Date(),
             diff,
             position,
             normal,
             tangent,
             target;
 
-        var now = time.greaterThan(this._end) ? this._end : time;
+        var now = (time.getTime() > this._end.getTime()) ? this._end : time;
 
-        diff = this._start.getSecondsDifference(now);
+        diff = ( now.getTime() - this._start.getTime()) / 1000.0;
         position = this._path.evaluate(diff);
         normal = Cartesian3.UNIT_Z.cross(position).normalize();
         tangent = position.cross(normal).normalize();
@@ -22607,7 +27013,7 @@ define('Scene/CameraFlightController',[
     };
 
     /**
-     * Removes keyboard listeners held by this object.
+     * Removes mouse listeners held by this object.
      * <br /><br />
      * Once an object is destroyed, it should not be used; calling any function other than
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
@@ -22634,12 +27040,10 @@ define('Scene/CameraFlightController',[
 /*global define*/
 define('Scene/CameraHelpers',[
         '../Core/Math',
-        '../Core/Cartesian2',
-        '../Core/JulianDate'
+        '../Core/Cartesian2'
     ], function(
         CesiumMath,
-        Cartesian2,
-        JulianDate) {
+        Cartesian2) {
     
 
     function move(camera, direction, rate) {
@@ -22671,14 +27075,10 @@ define('Scene/CameraHelpers',[
     function maintainInertia(handler, decayCoef, action, object, lastMovementName) {
         var ts = handler.getButtonPressTime();
         var tr = handler.getButtonReleaseTime();
-        var threshold = ts && tr && ts.getSecondsDifference(tr);
-        if (ts && tr && threshold < inertiaMaxClickTimeThreshold) {
-            var now = new JulianDate();
-            var fromNow = tr.getSecondsDifference(now);
-            if (fromNow > inertiaMaxTimeThreshold) {
-                return;
-            }
-
+        var threshold = ts && tr && ((tr.getTime() - ts.getTime()) / 1000.0);
+        var now = new Date();
+        var fromNow = tr && ((now.getTime() - tr.getTime()) / 1000.0);
+        if (ts && tr && threshold < inertiaMaxClickTimeThreshold && fromNow <= inertiaMaxTimeThreshold) {
             var d = decay(fromNow, decayCoef);
 
             if (!object[lastMovementName]) {
@@ -22714,6 +27114,8 @@ define('Scene/CameraHelpers',[
             if (!handler.isButtonDown()) {
                 action.apply(object, [object[lastMovementName]]);
             }
+        } else {
+            object[lastMovementName] = undefined;
         }
     }
 
@@ -22758,394 +27160,6 @@ define('Scene/CameraHelpers',[
     };
 });
 /*global define*/
-define('Scene/Camera2DController',[
-        '../Core/DeveloperError',
-        '../Core/destroyObject',
-        '../Core/FAR',
-        '../Core/Math',
-        '../Core/Quaternion',
-        '../Core/Ellipsoid',
-        '../Core/Cartesian2',
-        './CameraEventHandler',
-        './CameraEventType',
-        './CameraHelpers'
-    ], function(
-        DeveloperError,
-        destroyObject,
-        FAR,
-        CesiumMath,
-        Quaternion,
-        Ellipsoid,
-        Cartesian2,
-        CameraEventHandler,
-        CameraEventType,
-        CameraHelpers) {
-    
-
-    var move = CameraHelpers.move;
-    var maintainInertia = CameraHelpers.maintainInertia;
-    var handleZoom = CameraHelpers.handleZoom;
-
-    /**
-     * A type that defines camera behavior: movement of the position in the direction
-     * of the camera's axes and manipulating a camera's orthographic frustum for a zooming effect.
-     *
-     * @name Camera2DController
-     *
-     * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
-     * and for listening on user events.
-     * @param {Camera} camera The camera to use.
-     * @param {Ellipsoid} [ellipsoid=WGS84 Ellipsoid] DOC_TBA.
-     *
-     * @internalConstructor
-     */
-    function Camera2DController(canvas, camera, ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.WGS84;
-
-        this._canvas = canvas;
-        this._camera = camera;
-        this._ellipsoid = ellipsoid;
-        this._zoomRate = 100000.0;
-        this._moveRate = 100000.0;
-
-        /**
-         * A parameter in the range <code>[0, 1)</code> used to determine how long
-         * the camera will continue to translate because of inertia.
-         * With value of zero, the camera will have no inertia.
-         *
-         * @type Number
-         */
-        this.inertiaTranslate = 0.9;
-
-        /**
-         * A parameter in the range <code>[0, 1)</code> used to determine how long
-         * the camera will continue to zoom because of inertia.
-         * With value of zero, the camera will have no inertia.
-         *
-         * @type Number
-         */
-        this.inertiaZoom = 0.8;
-
-        this._zoomFactor = 5.0;
-        this._translateFactor = 1.0;
-        this._minimumZoomRate = 20.0;
-        this._maximumZoomRate = FAR;
-
-        this._translateHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
-        this._zoomHandler = new CameraEventHandler(canvas, CameraEventType.RIGHT_DRAG);
-        this._zoomWheel = new CameraEventHandler(canvas, CameraEventType.WHEEL);
-        this._twistHandler = new CameraEventHandler(canvas, CameraEventType.MIDDLE_DRAG);
-
-        this._lastInertiaTranslateMovement = undefined;
-        this._lastInertiaZoomMovement = undefined;
-        this._lastInertiaWheelZoomMovement = undefined;
-    }
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Matrix4} transform DOC_TBA
-     * @param {Ellipsoid} ellipsoid DOC_TBA
-     *
-     * @example
-     * // Example 1.
-     * // Change the reference frame to one centered at a point on the ellipsoid's surface.
-     * // Set the 2D controller's ellipsoid to a unit sphere for easy rotation around that point.
-     * var center = ellipsoid.cartographicDegreesToCartesian(new Cartographic2(-75.59777, 40.03883));
-     * var transform = Transforms.eastNorthUpToFixedFrame(center);
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(transform, Ellipsoid.UNIT_SPHERE);
-     *
-     * // Example 2.
-     * // Reset to the defaults.
-     * scene.getCamera().getControllers().get(0).setReferenceFrame(Matrix4.IDENTITY);
-     *
-     */
-    Camera2DController.prototype.setReferenceFrame = function (transform, ellipsoid) {
-        this._camera.transform = transform;
-        this.setEllipsoid(ellipsoid);
-    };
-
-    /**
-     * Returns the ellipsoid that the camera is moving around.
-     *
-     * @memberof Camera2DController
-     *
-     * @returns {Ellipsoid} The ellipsoid that the camera is moving around.
-     *
-     * @see Camera2DController#setEllipsoid
-     */
-    Camera2DController.prototype.getEllipsoid = function() {
-        return this._ellipsoid;
-    };
-
-    /**
-     * Sets the ellipsoid that the camera is moving around.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Ellipsoid} [ellipsoid] The ellipsoid that the camera is moving around.
-     *
-     * @see Camera2DController#getEllipsoid
-     */
-    Camera2DController.prototype.setEllipsoid = function(ellipsoid) {
-        ellipsoid = ellipsoid || Ellipsoid.WGS84;
-
-        var radius = ellipsoid.getRadii().getMaximumComponent();
-        this._ellipsoid = ellipsoid;
-        this._rateAdjustment = radius;
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's up vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveDown
-     */
-    Camera2DController.prototype.moveUp = function(rate) {
-        move(this._camera, this._camera.up, rate || this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction
-     * of the camera's up vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveUp
-     */
-    Camera2DController.prototype.moveDown = function(rate) {
-        move(this._camera, this._camera.up, -rate || -this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the camera's right vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveLeft
-     */
-    Camera2DController.prototype.moveRight = function(rate) {
-        move(this._camera, this._camera.right, rate || this._moveRate);
-    };
-
-    /**
-     * Translates the camera's position by <code>rate</code> along the opposite direction
-     * of the camera's right vector.
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#moveRight
-     */
-    Camera2DController.prototype.moveLeft = function(rate) {
-        move(this._camera, this._camera.right, -rate || -this._moveRate);
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#zoomOut
-     */
-    Camera2DController.prototype.zoomIn = function(rate) {
-        var moveRate = rate || this._zoomRate;
-        var frustum = this._camera.frustum;
-
-        if (frustum.left === null || frustum.right === null ||
-            frustum.top === null || frustum.bottom === null) {
-                throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
-        }
-
-        var newRight = frustum.right - moveRate;
-        var newLeft = frustum.left + moveRate;
-        if (newRight > newLeft) {
-            var ratio = frustum.top / frustum.right;
-            frustum.right = newRight;
-            frustum.left = newLeft;
-            frustum.top = frustum.right * ratio;
-            frustum.bottom = -frustum.top;
-        }
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof Camera2DController
-     *
-     * @param {Number} rate The rate to move.
-     *
-     * @see Camera2DController#zoomIn
-     */
-    Camera2DController.prototype.zoomOut = function(rate) {
-        this.zoomIn(-rate || -this._zoomRate);
-    };
-
-    /**
-     * @private
-     */
-    Camera2DController.prototype.update = function() {
-        var translate = this._translateHandler;
-        var rightZoom = this._zoomHandler;
-        var wheelZoom = this._zoomWheel;
-        var translating = translate.isMoving() && translate.getMovement();
-        var rightZooming = rightZoom.isMoving();
-        var wheelZooming = wheelZoom.isMoving();
-
-        if (translating) {
-            this._translate(translate.getMovement());
-        }
-
-        if (!translating && this.inertiaTranslate < 1.0) {
-            maintainInertia(translate, this.inertiaTranslate, this._translate, this, '_lastInertiaTranslateMovement');
-        }
-
-        if (rightZooming) {
-            this._zoom(rightZoom.getMovement());
-        } else if (wheelZooming) {
-            this._zoom(wheelZoom.getMovement());
-        }
-
-        if (!rightZooming && this.inertiaZoom < 1.0) {
-            maintainInertia(rightZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaZoomMovement');
-        }
-
-        if (!wheelZooming && this.inertiaZoom < 1.0) {
-            maintainInertia(wheelZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaWheelZoomMovement');
-        }
-
-        if (this._twistHandler.isMoving()) {
-            this._twist(this._twistHandler.getMovement());
-        }
-
-        return true;
-    };
-
-    Camera2DController.prototype._translate = function(movement) {
-       var frustum = this._camera.frustum;
-
-       if (frustum.left === null || frustum.right === null ||
-           frustum.top === null || frustum.bottom === null) {
-               throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
-       }
-
-       var width = this._canvas.clientWidth;
-       var height = this._canvas.clientHeight;
-
-       var start = new Cartesian2();
-       start.x = (2.0 / width) * movement.startPosition.x - 1.0;
-       start.x = (start.x * (frustum.right - frustum.left) + frustum.right + frustum.left) * 0.5;
-       start.y = (2.0 / height) * (height - movement.startPosition.y) - 1.0;
-       start.y = (start.y * (frustum.top - frustum.bottom) + frustum.top + frustum.bottom) * 0.5;
-
-       var end = new Cartesian2();
-       end.x = (2.0 / width) * movement.endPosition.x - 1.0;
-       end.x = (end.x * (frustum.right - frustum.left) + frustum.right + frustum.left) * 0.5;
-       end.y = (2.0 / height) * (height - movement.endPosition.y) - 1.0;
-       end.y = (end.y * (frustum.top - frustum.bottom) + frustum.top + frustum.bottom) * 0.5;
-
-       var distance = start.subtract(end);
-       if (distance.x !== 0) {
-           this.moveRight(distance.x);
-       }
-       if (distance.y !== 0) {
-           this.moveUp(distance.y);
-       }
-   };
-
-   Camera2DController.prototype._zoom = function(movement) {
-       var camera = this._camera;
-       var mag = Math.max(camera.frustum.right - camera.frustum.left, camera.frustum.top - camera.frustum.bottom);
-       handleZoom(this, movement, mag);
-   };
-
-   Camera2DController.prototype._twist = function(movement) {
-       var width = this._canvas.clientWidth;
-       var height = this._canvas.clientHeight;
-
-       var start = new Cartesian2();
-       start.x = (2.0 / width) * movement.startPosition.x - 1.0;
-       start.y = (2.0 / height) * (height - movement.startPosition.y) - 1.0;
-       start = start.normalize();
-
-       var end = new Cartesian2();
-       end.x = (2.0 / width) * movement.endPosition.x - 1.0;
-       end.y = (2.0 / height) * (height - movement.endPosition.y) - 1.0;
-       end = end.normalize();
-
-       var startTheta = Math.acos(start.x);
-       if (start.y < 0) {
-           startTheta = CesiumMath.TWO_PI - startTheta;
-       }
-       var endTheta = Math.acos(end.x);
-       if (end.y < 0) {
-           endTheta = CesiumMath.TWO_PI - endTheta;
-       }
-       var theta = endTheta - startTheta;
-
-       var camera = this._camera;
-       var rotation = Quaternion.fromAxisAngle(camera.direction, theta).toRotationMatrix();
-       camera.up = rotation.multiplyWithVector(camera.up);
-       camera.right = camera.direction.cross(camera.up);
-   };
-
-   /**
-     * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-     *
-     * @memberof Camera2DController
-     *
-     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-     *
-     * @see Camera2DController#destroy
-     */
-    Camera2DController.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes mouse and keyboard listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof Camera2DController
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see Camera2DController#isDestroyed
-     *
-     * @example
-     * controller = controller && controller.destroy();
-     */
-    Camera2DController.prototype.destroy = function() {
-        this._translateHandler = this._translateHandler && this._translateHandler.destroy();
-        this._zoomHandler = this._zoomHandler && this._zoomHandler.destroy();
-        this._zoomWheel = this._zoomWheel && this._zoomWheel.destroy();
-        this._twistHandler = this._twistHandler && this._twistHandler.destroy();
-        return destroyObject(this);
-    };
-
-    return Camera2DController;
-});
-/*global define*/
 define('Scene/CameraFreeLookController',[
         '../Core/destroyObject',
         '../Core/Math',
@@ -23174,7 +27188,7 @@ define('Scene/CameraFreeLookController',[
      * A type that defines camera behavior: movement of the position in the direction
      * of the camera's axes and rotation of the axes keeping the position stationary.
      *
-     * @name CameraFreeLookController
+     * @alias CameraFreeLookController
      *
      * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
      * and for listening on user events.
@@ -23182,7 +27196,7 @@ define('Scene/CameraFreeLookController',[
      *
      * @internalConstructor
      */
-    function CameraFreeLookController(canvas, camera) {
+    var CameraFreeLookController = function(canvas, camera) {
         this._canvas = canvas;
         this._camera = camera;
         this._handler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG, EventModifier.SHIFT);
@@ -23199,7 +27213,7 @@ define('Scene/CameraFreeLookController',[
          * DOC_TBD
          */
         this.horizontalRotationAxis = undefined;
-    }
+    };
 
     /**
      * Translates the camera's position by <code>rate</code> along the camera's view vector.
@@ -23409,7 +27423,7 @@ define('Scene/CameraFreeLookController',[
 
         var dot = startX.dot(endX);
         var angle = 0.0;
-        var axis = (this.horizontalRotationAxis) ? this.horizontalRotationAxis : camera.position;
+        var axis = (typeof this.horizontalRotationAxis !== 'undefined') ? this.horizontalRotationAxis : camera.up;
         axis = (movement.startPosition.x > movement.endPosition.x) ? axis : axis.negate();
         axis = axis.normalize();
         if (dot < 1.0) { // dot is in [0, 1]
@@ -23468,7 +27482,7 @@ define('Scene/CameraFreeLookController',[
     };
 
     /**
-     * Removes mouse and keyboard listeners held by this object.
+     * Removes mouse listeners held by this object.
      * <br /><br />
      * Once an object is destroyed, it should not be used; calling any function other than
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
@@ -23567,7 +27581,7 @@ define('Scene/CameraSpindleController',[
      * A type that defines camera behavior: the camera's position and axes will be rotated around the center
      * of the camera's reference frame.
      *
-     * @name CameraSpindleController
+     * @alias CameraSpindleController
      *
      * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
      * and for listening on user events.
@@ -23576,7 +27590,7 @@ define('Scene/CameraSpindleController',[
      *
      * @internalConstructor
      */
-    function CameraSpindleController(canvas, camera, ellipsoid) {
+    var CameraSpindleController = function(canvas, camera, ellipsoid) {
         ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         this._canvas = canvas;
@@ -23605,15 +27619,15 @@ define('Scene/CameraSpindleController',[
         this.inertiaZoom = 0.8;
 
         /**
-         * If set to true, the camera will not be able to rotate past the poles.
-         * If this is set to true while in pan mode, the position clicked on the ellipsoid
-         * while not always map directly to the cursor.
+         * If set, the camera will not be able to rotate past this axis in either direction.
+         * If this is set while in pan mode, the position clicked on the ellipsoid
+         * will not always map directly to the cursor.
          *
-         * @type Boolean
+         * @type Cartesian3
          *
          * @see CameraSpindleController#mode
          */
-        this.mouseConstrainedZAxis = false;
+        this.constrainedAxis = undefined;
 
         /**
          * Determines the rotation behavior on mouse events.
@@ -23621,8 +27635,6 @@ define('Scene/CameraSpindleController',[
          * @type CameraSpindleControllerMode
          */
         this.mode = CameraSpindleControllerMode.AUTO;
-
-        this._zAxis = Cartesian3.UNIT_Z;
 
         var radius = this._ellipsoid.getRadii().getMaximumComponent();
         this._zoomFactor = 5.0;
@@ -23640,7 +27652,7 @@ define('Scene/CameraSpindleController',[
         this._lastInertiaSpinMovement = undefined;
         this._lastInertiaZoomMovement = undefined;
         this._lastInertiaWheelZoomMovement = undefined;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -23738,7 +27750,7 @@ define('Scene/CameraSpindleController',[
      */
     CameraSpindleController.prototype.moveDown = function(angle) {
         angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
-        this._moveVertical(angle, false);
+        this._moveVertical(angle);
     };
 
     /**
@@ -23753,52 +27765,20 @@ define('Scene/CameraSpindleController',[
      */
     CameraSpindleController.prototype.moveUp = function(angle) {
         angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
-        this._moveVertical(angle, false);
+        this._moveVertical(angle);
     };
 
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle downwards
-     * and keeps the camera's up vector pointing towards the z-axis.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveUp
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveDownWithConstrainedZ = function(angle) {
-        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
-        this._moveVertical(angle, true);
-    };
-
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle upwards
-     * and keeps the camera's up vector pointing towards the z-axis.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveDown
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveUpWithConstrainedZ = function(angle) {
-        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
-        this._moveVertical(angle, true);
-    };
-
-    CameraSpindleController.prototype._moveVertical = function(angle, constrainedZ) {
-        if (constrainedZ) {
+    CameraSpindleController.prototype._moveVertical = function(angle) {
+        if (typeof this.constrainedAxis !== 'undefined') {
             var p = this._camera.position.normalize();
-            var dot = p.dot(this._zAxis);
+            var dot = p.dot(this.constrainedAxis.normalize());
             if (CesiumMath.equalsEpsilon(1.0, Math.abs(dot), CesiumMath.EPSILON3) && dot * angle < 0.0) {
                 return;
             }
 
-            var angleToZ = Math.acos(dot);
-            if (Math.abs(angle) > Math.abs(angleToZ)) {
-                angle = angleToZ;
+            var angleToAxis = Math.acos(dot);
+            if (Math.abs(angle) > Math.abs(angleToAxis)) {
+                angle = angleToAxis;
             }
         }
         this.rotate(this._camera.right, angle);
@@ -23816,7 +27796,7 @@ define('Scene/CameraSpindleController',[
      */
     CameraSpindleController.prototype.moveRight = function(angle) {
         angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
-        this._moveHorizontal(angle, false);
+        this._moveHorizontal(angle);
     };
 
     /**
@@ -23831,44 +27811,12 @@ define('Scene/CameraSpindleController',[
      */
     CameraSpindleController.prototype.moveLeft = function(angle) {
         angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
-        this._moveHorizontal(angle, false);
+        this._moveHorizontal(angle);
     };
 
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle to the right
-     * and keeps the camera's up vector pointing towards the z-axis.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveLeft
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveRightWithConstrainedZ = function(angle) {
-        angle = (typeof angle !== 'undefined') ? angle : this._moveRate;
-        this._moveHorizontal(angle, true);
-    };
-
-    /**
-     * Rotates the camera around the center of the camera's reference frame by angle to the left
-     * and keeps the camera's up vector pointing towards the z-axis.
-     *
-     * @memberof CameraSpindleController
-     *
-     * @param {Number} angle The angle to rotate in radians.
-     *
-     * @see CameraSpindleController#moveRight
-     * @see CameraSpindleController#rotate
-     */
-    CameraSpindleController.prototype.moveLeftWithConstrainedZ = function(angle) {
-        angle = (typeof angle !== 'undefined') ? -angle : -this._moveRate;
-        this._moveHorizontal(angle, true);
-    };
-
-    CameraSpindleController.prototype._moveHorizontal = function(angle, constrainedZ) {
-        if (constrainedZ) {
-            this.rotate(this._zAxis, angle);
+    CameraSpindleController.prototype._moveHorizontal = function(angle) {
+        if (typeof this.constrainedAxis !== 'undefined') {
+            this.rotate(this.constrainedAxis.normalize(), angle);
         } else {
             this.rotate(this._camera.up, angle);
         }
@@ -23939,8 +27887,8 @@ define('Scene/CameraSpindleController',[
 
     CameraSpindleController.prototype._spin = function(movement) {
         if (this.mode === CameraSpindleControllerMode.AUTO) {
-            var point = this._camera.pickEllipsoid(this._ellipsoid, movement.startPosition);
-            if (point) {
+            var point = this._camera.pickEllipsoid(movement.startPosition, this._ellipsoid);
+            if (typeof point !== 'undefined') {
                 this._pan(movement);
             } else {
                 this._rotate(movement);
@@ -23971,25 +27919,20 @@ define('Scene/CameraSpindleController',[
         var deltaPhi = -rotateRate * phiWindowRatio * Math.PI * 2.0;
         var deltaTheta = -rotateRate * thetaWindowRatio * Math.PI;
 
-        var theta = Math.acos(position.z / rho) + deltaTheta;
-        if (this.mouseConstrainedZAxis && (theta < 0 || theta > Math.PI)) {
-            deltaTheta = 0;
-        }
-
-        this._moveHorizontal(deltaPhi, this.mouseConstrainedZAxis);
-        this._moveVertical(deltaTheta, this.mouseConstrainedZAxis);
+        this._moveHorizontal(deltaPhi);
+        this._moveVertical(deltaTheta);
     };
 
     CameraSpindleController.prototype._pan = function(movement) {
         var camera = this._camera;
-        var p0 = camera.pickEllipsoid(this._ellipsoid, movement.startPosition);
-        var p1 = camera.pickEllipsoid(this._ellipsoid, movement.endPosition);
+        var p0 = camera.pickEllipsoid(movement.startPosition, this._ellipsoid);
+        var p1 = camera.pickEllipsoid(movement.endPosition, this._ellipsoid);
 
-        if (!p0 || !p1) {
+        if (typeof p0 === 'undefined' || typeof p1 === 'undefined') {
             return;
         }
 
-        if (!this.mouseConstrainedZAxis) {
+        if (typeof this.constrainedAxis === 'undefined') {
             p0 = p0.normalize();
             p1 = p1.normalize();
             var dot = p0.dot(p1);
@@ -24016,8 +27959,8 @@ define('Scene/CameraSpindleController',[
                 deltaTheta = 0;
             }
 
-            this._moveHorizontal(deltaPhi, this.mouseConstrainedZAxis);
-            this._moveVertical(deltaTheta, this.mouseConstrainedZAxis);
+            this._moveHorizontal(deltaPhi);
+            this._moveVertical(deltaTheta);
         }
     };
 
@@ -24069,85 +28012,66 @@ define('Scene/CameraSpindleController',[
     return CameraSpindleController;
 });
 /*global define*/
-define('Scene/CameraColumbusViewController',[
+define('Scene/CameraCentralBodyController',[
         '../Core/destroyObject',
-        '../Core/FAR',
         '../Core/Ellipsoid',
         '../Core/Cartesian3',
         '../Core/Cartesian4',
         '../Core/Matrix4',
+        '../Core/Transforms',
         './CameraEventHandler',
         './CameraEventType',
         './CameraSpindleController',
-        './CameraFreeLookController',
-        './CameraHelpers'
+        './CameraFreeLookController'
     ], function(
         destroyObject,
-        FAR,
         Ellipsoid,
         Cartesian3,
         Cartesian4,
         Matrix4,
+        Transforms,
         CameraEventHandler,
         CameraEventType,
         CameraSpindleController,
-        CameraFreeLookController,
-        CameraHelpers) {
+        CameraFreeLookController) {
     
-
-    var maintainInertia = CameraHelpers.maintainInertia;
 
     /**
      * DOC_TBD
-     * @name CameraColumbusViewController
+     * @name CameraCentralBodyController
      * @constructor
      */
-    function CameraColumbusViewController(canvas, camera) {
+    function CameraCentralBodyController(canvas, camera, ellipsoid) {
         this._canvas = canvas;
         this._camera = camera;
 
-        /**
-         * A parameter in the range <code>[0, 1]</code> used to determine how long
-         * the camera will continue to translate because of inertia.
-         * With a value of zero, the camera will have no inertia.
-         *
-         * @type Number
-         */
-        this.inertiaTranslate = 0.9;
-
-        this._translateFactor = 1.0;
-        this._minimumZoomRate = 20.0;
-        this._maximumZoomRate = FAR;
-
-        this._translateHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
-
-        this._spindleController = new CameraSpindleController(canvas, camera, Ellipsoid.UNIT_SPHERE);
-
-        // TODO: Shouldn't change private variables like this, need to be able to change event modifiers
-        //       on controllers.
-        this._spindleController._spinHandler = this._spindleController._spinHandler && this._spindleController._spinHandler.destroy();
-
+        this._spindleController = new CameraSpindleController(canvas, camera, ellipsoid);
         this._freeLookController = new CameraFreeLookController(canvas, camera);
-        this._freeLookController.horizontalRotationAxis = Cartesian3.UNIT_Z;
 
-        this._transform = this._camera.transform.clone();
+        this._rotateHandler = new CameraEventHandler(canvas, CameraEventType.MIDDLE_DRAG);
 
-        this._lastInertiaTranslateMovement = undefined;
+        this._transform = Matrix4.IDENTITY;
     }
 
     /**
      * @private
      */
-    CameraColumbusViewController.prototype.update = function() {
-        var translate = this._translateHandler;
-        var translating = translate.isMoving() && translate.getMovement();
+    CameraCentralBodyController.prototype.update = function() {
+        var rotate = this._rotateHandler;
+        var rotating = rotate.isMoving() && rotate.getMovement();
 
-        if (translating) {
-            this._translate(translate.getMovement());
+        var rotateMovement = rotate.getMovement();
+        if (rotate.isButtonDown() && typeof this._transform === 'undefined' && rotateMovement) {
+            var center = this._camera.pickEllipsoid(rotateMovement.startPosition, this._spindleController.getEllipsoid());
+            if (typeof center !== 'undefined') {
+                this._transform = Transforms.eastNorthUpToFixedFrame(center);
+            }
+        } else if (!rotate.isButtonDown()) {
+            this._transform = undefined;
         }
 
-        if (!translating && this.inertiaTranslate < 1.0) {
-            maintainInertia(translate, this.inertiaTranslate, this._translate, this, '_lastInertiaTranslateMovement');
+        if (rotating && typeof this._transform !== 'undefined') {
+                this._rotate(rotateMovement);
         }
 
         this._spindleController.update();
@@ -24156,39 +28080,41 @@ define('Scene/CameraColumbusViewController',[
         return true;
     };
 
-    CameraColumbusViewController.prototype._translate = function(movement) {
+    CameraCentralBodyController.prototype._rotate = function(movement) {
+        var transform = this._transform;
         var camera = this._camera;
-
-        var startRay = camera.getPickRay(movement.startPosition);
-        var endRay = camera.getPickRay(movement.endPosition);
-
-        var scalar = -startRay.position.z / startRay.direction.z;
-        var startPlanePos = startRay.position.add(startRay.direction.multiplyWithScalar(scalar));
-        scalar = -endRay.position.z / endRay.direction.z;
-        var endPlanePos = endRay.position.add(endRay.direction.multiplyWithScalar(scalar));
-
-        var diff = startPlanePos.subtract(endPlanePos);
-        camera.position = camera.position.add(diff);
-
-        this._updateReferenceFrame();
-    };
-
-    CameraColumbusViewController.prototype._updateReferenceFrame = function() {
-        var camera = this._camera;
-
         var position = camera.position;
+        var up = camera.up;
+        var right = camera.right;
         var direction = camera.direction;
 
-        var scalar = -position.z / direction.z;
-        var center = position.add(direction.multiplyWithScalar(scalar));
-        center = new Cartesian4(center.x, center.y, center.z, 1.0);
-        var centerWC = camera.transform.multiplyWithVector(center);
-        this._transform.setColumn3(centerWC);
+        var oldTransform = camera.transform;
+        var oldEllipsoid = this._spindleController.getEllipsoid();
+        var oldConstrainedZ = this._spindleController.constrainedAxis;
 
-        var cameraPosition = new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0);
-        var positionWC = camera.transform.multiplyWithVector(cameraPosition);
-        camera.transform = this._transform.clone();
-        camera.position = camera.getInverseTransform().multiplyWithVector(positionWC).getXYZ();
+        this._spindleController.setReferenceFrame(transform, Ellipsoid.UNIT_SPHERE);
+        this._spindleController.constrainedAxis = Cartesian3.UNIT_Z;
+
+        var invTransform = camera.getInverseTransform();
+        camera.position = invTransform.multiplyWithVector(new Cartesian4(position.x, position.y, position.z, 1.0)).getXYZ();
+        camera.up = invTransform.multiplyWithVector(new Cartesian4(up.x, up.y, up.z, 0.0)).getXYZ();
+        camera.right = invTransform.multiplyWithVector(new Cartesian4(right.x, right.y, right.z, 0.0)).getXYZ();
+        camera.direction = invTransform.multiplyWithVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)).getXYZ();
+
+        this._spindleController._rotate(movement);
+
+        position = camera.position;
+        up = camera.up;
+        right = camera.right;
+        direction = camera.direction;
+
+        this._spindleController.setReferenceFrame(oldTransform, oldEllipsoid);
+        this._spindleController.constrainedAxis = oldConstrainedZ;
+
+        camera.position = transform.multiplyWithVector(new Cartesian4(position.x, position.y, position.z, 1.0)).getXYZ();
+        camera.up = transform.multiplyWithVector(new Cartesian4(up.x, up.y, up.z, 0.0)).getXYZ();
+        camera.right = transform.multiplyWithVector(new Cartesian4(right.x, right.y, right.z, 0.0)).getXYZ();
+        camera.direction = transform.multiplyWithVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)).getXYZ();
     };
 
     /**
@@ -24197,13 +28123,13 @@ define('Scene/CameraColumbusViewController',[
       * If this object was destroyed, it should not be used; calling any function other than
       * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
       *
-      * @memberof CameraColumbusViewController
+      * @memberof CameraCentralBodyController
       *
       * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
       *
-      * @see CameraSpindleController#destroy
+      * @see CameraCentralBodyController#destroy
       */
-    CameraColumbusViewController.prototype.isDestroyed = function() {
+    CameraCentralBodyController.prototype.isDestroyed = function() {
         return false;
     };
 
@@ -24214,269 +28140,26 @@ define('Scene/CameraColumbusViewController',[
      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
      * assign the return value (<code>undefined</code>) to the object as done in the example.
      *
-     * @memberof CameraColumbusViewController
+     * @memberof CameraCentralBodyController
      *
      * @return {undefined}
      *
      * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
      *
-     * @see CameraColumbusViewController#isDestroyed
+     * @see CameraCentralBodyController#isDestroyed
      *
      * @example
      * controller = controller && controller.destroy();
      */
-    CameraColumbusViewController.prototype.destroy = function() {
-        this._translateHandler = this._translateHandler && this._translateHandler.destroy();
+    CameraCentralBodyController.prototype.destroy = function() {
+        this._rotateHandler = this._rotateHandler && this._rotateHandler.destroy();
         this._spindleController = this._spindleController && this._spindleController.destroy();
         this._freeLookController = this._freeLookController && this._freeLookController.destroy();
         return destroyObject(this);
     };
 
-    return CameraColumbusViewController;
+    return CameraCentralBodyController;
 });
-/*global define*/
-define('Scene/CameraControllerCollection',[
-        '../Core/DeveloperError',
-        '../Core/destroyObject',
-        '../Core/Ellipsoid',
-        '../Core/Cartographic3',
-        './Camera2DController',
-        './CameraFlightController',
-        './CameraSpindleController',
-        './CameraFreeLookController',
-        './CameraColumbusViewController'
-    ], function(
-        DeveloperError,
-        destroyObject,
-        Ellipsoid,
-        Cartographic3,
-        Camera2DController,
-        CameraFlightController,
-        CameraSpindleController,
-        CameraFreeLookController,
-        CameraColumbusViewController) {
-    
-
-    /**
-     * DOC_TBA
-     *
-     * @name CameraControllerCollection
-     * @internalConstructor
-     *
-     * @see Camera#getControllers
-     */
-    function CameraControllerCollection(camera, canvas) {
-        this._controllers = [];
-        this._canvas = canvas;
-        this._camera = camera;
-    }
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addFreeLook
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.add2D = function(ellipsoid) {
-        var twoD = new Camera2DController(this._canvas, this._camera, ellipsoid);
-        this._controllers.push(twoD);
-        return twoD;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addFreeLook
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.addSpindle = function(ellipsoid) {
-        var spindle = new CameraSpindleController(this._canvas, this._camera, ellipsoid);
-        this._controllers.push(spindle);
-        return spindle;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.addFreeLook = function(ellipsoid) {
-        var freeLook = new CameraFreeLookController(this._canvas, this._camera);
-        this._controllers.push(freeLook);
-        return freeLook;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addFlight
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addFreeLook
-     */
-    CameraControllerCollection.prototype.addColumbusView = function() {
-        var cv = new CameraColumbusViewController(this._canvas, this._camera);
-        this._controllers.push(cv);
-        return cv;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#addSpindle
-     * @see CameraControllerCollection#addFreeLook
-     * @see CameraControllerCollection#add2D
-     * @see CameraControllerCollection#addColumbusView
-     */
-    CameraControllerCollection.prototype.addFlight = function(template) {
-        var t = template || {};
-        var ellipsoid = t.ellipsoid || Ellipsoid.WGS84;
-        var destination = t.destination || Ellipsoid.WGS84.cartographicDegreesToCartesian(new Cartographic3(0.0, 0.0, 0.0));
-        var duration = t.duration || 4.0;
-        var complete = template.complete;
-		var flightController = new CameraFlightController(this._canvas, this._camera, ellipsoid, destination, duration, complete);
-		this._controllers.push(flightController);
-		return flightController;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#removeAll
-     */
-    CameraControllerCollection.prototype.remove = function(controller) {
-        if (controller) {
-            var controllers = this._controllers;
-            var i = controllers.indexOf(controller);
-            if (i !== -1) {
-                controllers[i].destroy();
-                controllers.splice(i, 1);
-                return true;
-            }
-        }
-
-        return false;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#remove
-     */
-    CameraControllerCollection.prototype.removeAll = function() {
-        var controllers = this._controllers;
-        var length = controllers.length;
-        for ( var i = 0; i < length; ++i) {
-            controllers[i].destroy();
-        }
-
-        this._controllers = [];
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     */
-    CameraControllerCollection.prototype.contains = function(controller) {
-        if (controller) {
-            return (this._controllers.indexOf(controller) !== -1);
-        }
-
-        return false;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#getLength
-     */
-    CameraControllerCollection.prototype.get = function(index) {
-        if (typeof index === 'undefined') {
-            throw new DeveloperError('index is required.');
-        }
-
-        return this._controllers[index];
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     *
-     * @see CameraControllerCollection#get
-     */
-    CameraControllerCollection.prototype.getLength = function() {
-        return this._controllers.length;
-    };
-
-    /**
-     * @private
-     */
-    CameraControllerCollection.prototype.update = function() {
-        var toRemove = [];
-
-        var controllers = this._controllers;
-        var length = controllers.length;
-        for ( var i = 0; i < length; ++i) {
-            if (!controllers[i].update()) {
-                toRemove.push(i);
-            }
-        }
-
-        // Automatically remove expired controllers
-        for ( var j = 0; j < toRemove.length; ++j) {
-            var index = toRemove[j];
-            controllers[index].destroy();
-            controllers.splice(index, 1);
-        }
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     */
-    CameraControllerCollection.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof CameraControllerCollection
-     */
-    CameraControllerCollection.prototype.destroy = function() {
-        this.removeAll();
-        return destroyObject(this);
-    };
-
-    return CameraControllerCollection;
-});
-
 /*global define*/
 define('Scene/CompositePrimitive',[
         '../Core/DeveloperError',
@@ -24493,7 +28176,7 @@ define('Scene/CompositePrimitive',[
     /**
      * DOC_TBA
      *
-     * @name CompositePrimitive
+     * @alias CompositePrimitive
      * @constructor
      *
      * @example
@@ -24513,7 +28196,7 @@ define('Scene/CompositePrimitive',[
      * parent.add(children);    // Add composite
      * parent.add(labels);      // Add regular primitive
      */
-    function CompositePrimitive() {
+    var CompositePrimitive = function() {
         this._centralBody = null;
         this._primitives = [];
         this._guid = createGuid();
@@ -24553,7 +28236,7 @@ define('Scene/CompositePrimitive',[
          * @type Boolean
          */
         this.show = true;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -25004,7 +28687,7 @@ define('Scene/CompositeTileProvider',[
     /**
      * A container for tile providers that will change based of the altitude of the camera.
      *
-     * @name CompositeTileProvider
+     * @alias CompositeTileProvider
      * @constructor
      *
      * @param {Array} list An array of objects with provider and height attributes. The height attribute determines
@@ -25037,7 +28720,7 @@ define('Scene/CompositeTileProvider',[
      *  ], scene.getCamera(), ellipsoid);
      *
      */
-    function CompositeTileProvider(list, camera, ellipsoid) {
+    var CompositeTileProvider = function(list, camera, ellipsoid) {
         if (!list) {
             throw new DeveloperError('A non-empty list is required.');
         }
@@ -25109,7 +28792,7 @@ define('Scene/CompositeTileProvider',[
         if (this.tileHeight === Number.MAX_VALUE) {
             this.tileHeight = null;
         }
-    }
+    };
 
     CompositeTileProvider._compare = function(a, b) {
         // if height isn't provided, default to 0.0
@@ -25243,14 +28926,14 @@ define('Scene/GravityForce',['../Core/Ellipsoid'], function(Ellipsoid) {
     /**
      * DOC_TBA
      *
-     * @name GravityForce
+     * @alias GravityForce
      * @constructor
      */
-    function GravityForce(template) {
+    var GravityForce = function(template) {
         template = template || {};
         this.ellipsoid = template.ellipsoid || Ellipsoid.WGS84;
         this.gravitationalConstant = template.gravitationalConstant || 1.0;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -25317,6 +29000,65 @@ define('Scene/HorizontalOrigin',['../Core/Enumeration'], function(Enumeration) {
     return HorizontalOrigin;
 });
 /*global define*/
+define('DynamicScene/CzmlHorizontalOrigin',[
+        '../Scene/HorizontalOrigin'
+       ], function(
+         HorizontalOrigin) {
+    
+
+    /**
+     * Provides methods for working with a horizontal origin defined in CZML.
+     *
+     * @exports CzmlHorizontalOrigin
+     *
+     * @see HorizontalOrigin
+     * @see DynamicProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlHorizontalOrigin = {
+        /**
+         * Returns the packed enum representation contained within the provided CZML interval
+         * or undefined if the interval does not contain enum data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            var result = czmlInterval.horizontalOrigin;
+            return typeof result === 'undefined' ? czmlInterval : result;
+        },
+
+        /**
+         * Since enums can not be sampled, this method always returns false.
+         */
+        isSampled : function() {
+            return false;
+        },
+
+        /**
+         * Returns the HorizontalOrigin contained within the unwrappedInterval.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlHorizontalOrigin.unwrapInterval.
+         * @returns The HorizontalOrigin value.
+         */
+        getValue : function(unwrappedInterval) {
+            return HorizontalOrigin[unwrappedInterval];
+        }
+    };
+
+    return CzmlHorizontalOrigin;
+});
+/*global define*/
 define('Scene/LabelStyle',['../Core/Enumeration'], function(Enumeration) {
     
 
@@ -25354,6 +29096,65 @@ define('Scene/LabelStyle',['../Core/Enumeration'], function(Enumeration) {
     return LabelStyle;
 });
 /*global define*/
+define('DynamicScene/CzmlLabelStyle',[
+        '../Scene/LabelStyle'
+       ], function(
+         LabelStyle) {
+    
+
+    /**
+     * Provides methods for working with a label style defined in CZML.
+     *
+     * @exports CzmlLabelStyle
+     *
+     * @see LabelStyle
+     * @see DynamicProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     * @see CzmlVerticalOrigin
+     */
+    var CzmlLabelStyle = {
+        /**
+         * Returns the packed enum representation contained within the provided CZML interval
+         * or undefined if the interval does not contain enum data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            var result = czmlInterval.labelStyle;
+            return typeof result === 'undefined' ? czmlInterval : result;
+        },
+
+        /**
+         * Since enums can not be sampled, this method always returns false.
+         */
+        isSampled : function() {
+            return false;
+        },
+
+        /**
+         * Returns the LabelStyle contained within the unwrappedInterval.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlLabelStyle.unwrapInterval.
+         * @returns The LabelStyle value.
+         */
+        getValue : function(unwrappedInterval) {
+            return LabelStyle[unwrappedInterval];
+        }
+    };
+
+    return CzmlLabelStyle;
+});
+/*global define*/
 define('Scene/OrthographicFrustum',[
         '../Core/DeveloperError',
         '../Core/destroyObject',
@@ -25374,7 +29175,7 @@ define('Scene/OrthographicFrustum',[
      * define the unit vector normal to the plane, and the w component is the distance of the
      * plane from the origin/camera position.
      *
-     * @name OrthographicFrustum
+     * @alias OrthographicFrustum
      * @constructor
      *
      * @example
@@ -25388,7 +29189,7 @@ define('Scene/OrthographicFrustum',[
      * frustum.near = 0.01 * maxRadii;
      * frustum.far = 50.0 * maxRadii;
      */
-    function OrthographicFrustum() {
+    var OrthographicFrustum = function() {
         /**
          * DOC_TBA
          *
@@ -25438,7 +29239,7 @@ define('Scene/OrthographicFrustum',[
         this._far = null;
 
         this._orthographicMatrix = null;
-    }
+    };
 
     /**
      * Returns the orthographic projection matrix computed from the view frustum.
@@ -25583,44 +29384,6 @@ define('Scene/OrthographicFrustum',[
                 this.far === other.far);
     };
 
-    /**
-     * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-     *
-     * @memberof OrthographicFrustum
-     *
-     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-     *
-     * @see OrthographicFrustum#destroy
-     */
-    OrthographicFrustum.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes keyboard listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof OrthographicFrustum
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see OrthographicFrustum#isDestroyed
-     *
-     * @example
-     * frustum = frustum && frustum.destroy();
-     */
-    OrthographicFrustum.prototype.destroy = function() {
-        return destroyObject(this);
-    };
-
     return OrthographicFrustum;
 });
 /*global define*/
@@ -25634,10 +29397,10 @@ define('Scene/Particle',[
 
     /**
      * DOC_TBA
-     * @name Particle
+     * @alias Particle
      * @constructor
      */
-    function Particle(template) {
+    var Particle = function(template) {
         template = template || {};
         template.position = template.position || Cartesian3.ZERO;
         template.velocity = template.velocity || Cartesian3.ZERO; // initial velocity
@@ -25651,7 +29414,7 @@ define('Scene/Particle',[
         this.velocity = new Cartesian3(template.velocity.x, template.velocity.y, template.velocity.z);
         this.mass = template.mass;
         this.force = Cartesian3.ZERO; // force accumulator
-    }
+    };
 
     return Particle;
 });
@@ -25672,14 +29435,14 @@ define('Scene/ParticleSystem',[
     /**
      * DOC_TBA
      *
-     * @name ParticleSystem
+     * @alias ParticleSystem
      * @constructor
      */
-    function ParticleSystem() {
+    var ParticleSystem = function() {
         this.particles = [];
         this.forces = [];
         this.time = 0.0;
-    }
+    };
 
     ParticleSystem.prototype._clearForces = function() {
         var particles = this.particles;
@@ -25809,7 +29572,7 @@ define('Scene/PerspectiveFrustum',[
      * define the unit vector normal to the plane, and the w component is the distance of the
      * plane from the origin/camera position.
      *
-     * @name PerspectiveFrustum
+     * @alias PerspectiveFrustum
      * @constructor
      *
      * @example
@@ -25819,7 +29582,7 @@ define('Scene/PerspectiveFrustum',[
      * frustum.near = 1.0;
      * frustum.far = 2.0;
      */
-    function PerspectiveFrustum() {
+    var PerspectiveFrustum = function() {
         /**
          * The angle of the field of view, in radians.
          *
@@ -25854,7 +29617,7 @@ define('Scene/PerspectiveFrustum',[
 
         this._perspectiveMatrix = null;
         this._infinitePerspective = null;
-    }
+    };
 
     /**
      * Returns the perspective projection matrix computed from the view frustum.
@@ -26025,581 +29788,8 @@ define('Scene/PerspectiveFrustum',[
         return (this.fovy === other.fovy && this.aspectRatio === other.aspectRatio && this.near === other.near && this.far === other.far);
     };
 
-    /**
-     * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-     *
-     * @memberof PerspectiveFrustum
-     *
-     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-     *
-     * @see PerspectiveFrustum#destroy
-     */
-    PerspectiveFrustum.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes keyboard listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof PerspectiveFrustum
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see PerspectiveFrustum#isDestroyed
-     *
-     * @example
-     * frustum = frustum && frustum.destroy();
-     */
-    PerspectiveFrustum.prototype.destroy = function() {
-        return destroyObject(this);
-    };
-
     return PerspectiveFrustum;
 });
-/*global define*/
-define('Scene/Camera',[
-        '../Core/DeveloperError',
-        '../Core/destroyObject',
-        '../Core/Math',
-        '../Core/Intersect',
-        '../Core/Ellipsoid',
-        '../Core/IntersectionTests',
-        '../Core/Cartesian3',
-        '../Core/Cartesian4',
-        '../Core/Cartographic3',
-        '../Core/Matrix4',
-        './CameraControllerCollection',
-        './PerspectiveFrustum'
-    ], function(
-        DeveloperError,
-        destroyObject,
-        CesiumMath,
-        Intersect,
-        Ellipsoid,
-        IntersectionTests,
-        Cartesian3,
-        Cartesian4,
-        Cartographic3,
-        Matrix4,
-        CameraControllerCollection,
-        PerspectiveFrustum) {
-    
-
-    /**
-     * The camera is defined by a position, orientation, and view frustum.
-     * <br /><br />
-     * The orientation forms an orthonormal basis with a view, up and right = view x up unit vectors.
-     * <br /><br />
-     * The viewing frustum is defined by 6 planes.
-     * Each plane is represented by a {Cartesian4} object, where the x, y, and z components
-     * define the unit vector normal to the plane, and the w component is the distance of the
-     * plane from the origin/camera position.
-     *
-     * @name Camera
-     *
-     * @exception {DeveloperError} canvas is required.
-     *
-     * @constructor
-     *
-     * @example
-     * // Create a camera looking down the negative z-axis, positioned at the origin,
-     * // with a field of view of 60 degrees, and 1:1 aspect ratio.
-     * var camera = new Camera(canvas);
-     * camera.position = new Cartesian3();
-     * camera.direction = Cartesian3.UNIT_Z.negate();
-     * camera.up = Cartesian3.UNIT_Y;
-     * camera.fovy = CesiumMath.PI_OVER_THREE;
-     * camera.near = 1.0;
-     * camera.far = 2.0;
-     */
-    function Camera(canvas) {
-        if (!canvas) {
-            throw new DeveloperError('canvas is required.');
-        }
-
-        /**
-         * DOC_TBA
-         *
-         * @type {Matrix4}
-         */
-        this.transform = Matrix4.IDENTITY;
-        this._transform = this.transform.clone();
-        this._invTransform = Matrix4.IDENTITY;
-
-        var maxRadii = Ellipsoid.WGS84.getRadii().getMaximumComponent();
-        var position = new Cartesian3(0.0, -2.0, 1.0).normalize().multiplyWithScalar(2.0 * maxRadii);
-
-        /**
-         * The position of the camera.
-         *
-         * @type {Cartesian3}
-         */
-        this.position = position.clone();
-        this._position = position;
-        this._positionWC = position;
-
-        var direction = Cartesian3.ZERO.subtract(position).normalize();
-
-        /**
-         * The view direction of the camera.
-         *
-         * @type {Cartesian3}
-         */
-        this.direction = direction.clone();
-        this._direction = direction;
-        this._directionWC = direction;
-
-        var right = direction.cross(Cartesian3.UNIT_Z).normalize();
-
-        /**
-         * The right direction of the camera.
-         *
-         * @type {Cartesian3}
-         */
-        this.right = right.clone();
-        this._right = right;
-        this.rightWC = right;
-
-        var up = right.cross(direction);
-
-        /**
-         * The up direction of the camera.
-         *
-         * @type {Cartesian3}
-         */
-        this.up = up.clone();
-        this._up = up;
-        this._upWC = up;
-
-        /**
-         * DOC_TBA
-         *
-         * @type {Frustum}
-         */
-        this.frustum = new PerspectiveFrustum();
-        this.frustum.fovy = CesiumMath.toRadians(60.0);
-        this.frustum.aspectRatio = canvas.clientWidth / canvas.clientHeight;
-        this.frustum.near = 0.01 * maxRadii;
-        this.frustum.far = 20.0 * maxRadii;
-
-        this._viewMatrix = undefined;
-        this._invViewMatrix = undefined;
-        this._updateViewMatrix();
-
-        this._planes = this.frustum.getPlanes(this._positionWC, this._directionWC, this._upWC);
-
-        this._canvas = canvas;
-        this._controllers = new CameraControllerCollection(this, canvas);
-    }
-
-    /**
-     * DOC_TBA
-     * @memberof Camera
-     */
-    Camera.prototype.getControllers = function() {
-        return this._controllers;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof Camera
-     */
-    Camera.prototype.update = function() {
-        this._controllers.update();
-    };
-
-    /**
-     * Sets the camera position and orientation with an eye position, target, and up vector.
-     *
-     * @memberof Camera
-     *
-     * @param {Array} arguments If one parameter is passed to this function, it must have three
-     * properties with the names eye, target, and up; otherwise three arguments are expected which
-     * the same as the properties of one object and given in the order given above.
-     *
-     */
-    Camera.prototype.lookAt = function() {
-        var eye, target, up;
-        if (arguments.length === 1) {
-            var param = arguments[0];
-            if (param.eye && param.target && param.up) {
-                eye = param.eye;
-                target = param.target;
-                up = param.up;
-            } else {
-                return;
-            }
-        } else if (arguments.length === 3) {
-            eye = arguments[0];
-            target = arguments[1];
-            up = arguments[2];
-        } else {
-            return;
-        }
-
-        this.position = eye;
-        this.direction = target.subtract(eye).normalize();
-        this.up = up.normalize();
-        this.right = this.direction.cross(this.up);
-    };
-
-    /**
-     * Zooms to a cartographic extent on the centralBody. The camera will be looking straight down at the extent, with the up vector pointing toward local north.
-     *
-     * @memberof Camera
-     * @param {Ellipsoid} ellipsoid The ellipsoid to view.
-     * @param {double} west The west longitude of the extent.
-     * @param {double} south The south latitude of the extent.
-     * @param {double} east The east longitude of the extent.
-     * @param {double} north The north latitude of the extent.
-     *
-     */
-    Camera.prototype.viewExtent = function(ellipsoid, west, south, east, north) {
-        //
-        // Ensure we go from -180 to 180
-        //
-        west = CesiumMath.negativePiToPi(west);
-        east = CesiumMath.negativePiToPi(east);
-
-        // If we go across the International Date Line
-        if (west > east) {
-            east += CesiumMath.TWO_PI;
-        }
-
-        var lla = new Cartographic3(0.5 * (west + east), 0.5 * (north + south), 0.0);
-        var northVector = ellipsoid.toCartesian(new Cartographic3(lla.longitude, north, 0.0));
-        var eastVector = ellipsoid.toCartesian(new Cartographic3(east, lla.latitude, 0.0));
-        var centerVector = ellipsoid.toCartesian(lla);
-        var invTanHalfPerspectiveAngle = 1.0 / Math.tan(0.5 * this.frustum.fovy);
-        var screenViewDistanceX;
-        var screenViewDistanceY;
-        var tempVec;
-        if (this._canvas.clientWidth >= this._canvas.clientHeight) {
-            tempVec = eastVector.subtract(centerVector);
-            screenViewDistanceX = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle);
-            tempVec = northVector.subtract(centerVector);
-            screenViewDistanceY = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle * this._canvas.clientWidth / this._canvas.clientHeight);
-        } else {
-            tempVec = eastVector.subtract(centerVector);
-            screenViewDistanceX = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle * this._canvas.clientWidth / this._canvas.clientHeight);
-            tempVec = northVector.subtract(centerVector);
-            screenViewDistanceY = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle);
-        }
-        lla.height += Math.max(screenViewDistanceX, screenViewDistanceY);
-
-        this.position = ellipsoid.toCartesian(lla);
-        this.direction = Cartesian3.ZERO.subtract(centerVector).normalize();
-        this.right = this.direction.cross(Cartesian3.UNIT_Z).normalize();
-        this.up = this.right.cross(this.direction);
-    };
-
-    Camera.prototype._updateViewMatrix = function() {
-        var r = this._right;
-        var u = this._up;
-        var d = this._direction;
-        var e = this._position;
-
-        var viewMatrix = new Matrix4( r.x,  r.y,  r.z, -r.dot(e),
-                                      u.x,  u.y,  u.z, -u.dot(e),
-                                     -d.x, -d.y, -d.z,  d.dot(e),
-                                      0.0,  0.0,  0.0,      1.0);
-        this._viewMatrix = viewMatrix.multiplyWithMatrix(this._invTransform);
-
-        this._invViewMatrix = this._viewMatrix.inverseTransformation();
-    };
-
-    Camera.prototype._update = function() {
-        var position = this._position;
-        var positionChanged = !position.equals(this.position);
-        if (positionChanged) {
-            position = this._position = this.position.clone();
-        }
-
-        var direction = this._direction;
-        var directionChanged = !direction.equals(this.direction);
-        if (directionChanged) {
-            direction = this._direction = this.direction.clone();
-        }
-
-        var up = this._up;
-        var upChanged = !up.equals(this.up);
-        if (upChanged) {
-            up = this._up = this.up.clone();
-        }
-
-        var right = this._right;
-        var rightChanged = !right.equals(this.right);
-        if (rightChanged) {
-            right = this._right = this.right.clone();
-        }
-
-        var transform = this._transform;
-        var transformChanged = !transform.equals(this.transform);
-        if (transformChanged) {
-            transform = this._transform = this.transform.clone();
-
-            this._invTransform = this._transform.inverseTransformation();
-        }
-
-        if (positionChanged || transformChanged) {
-            this._positionWC = transform.multiplyWithVector(new Cartesian4(position.x, position.y, position.z, 1.0)).getXYZ();
-        }
-
-        if (directionChanged || transformChanged) {
-            this._directionWC = transform.multiplyWithVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)).getXYZ();
-        }
-
-        if (upChanged || transformChanged) {
-            this._upWC = transform.multiplyWithVector(new Cartesian4(up.x, up.y, up.z, 0.0)).getXYZ();
-        }
-
-        if (rightChanged || transformChanged) {
-            this._rightWC = transform.multiplyWithVector(new Cartesian4(right.x, right.y, right.z, 0.0)).getXYZ();
-        }
-
-        if (positionChanged || directionChanged || upChanged || transformChanged) {
-            this._planes = this.frustum.getPlanes(this._positionWC, this._directionWC, this._upWC);
-        }
-
-        if (directionChanged || upChanged || rightChanged) {
-            var det = direction.dot(up.cross(right));
-            if (Math.abs(1.0 - det) > CesiumMath.EPSILON2) {
-                //orthonormalize axes
-                direction = this._direction = direction.normalize();
-                this.direction = direction.clone();
-
-                var invUpMag = 1.0 / up.magnitudeSquared();
-                var scalar = up.dot(direction) * invUpMag;
-                var w0 = direction.multiplyWithScalar(scalar);
-                up = this._up = up.subtract(w0).normalize();
-                this.up = up.clone();
-
-                right = this._right = direction.cross(up);
-                this.right = right.clone();
-            }
-        }
-
-        if (positionChanged || directionChanged || upChanged || rightChanged || transformChanged) {
-            this._updateViewMatrix();
-        }
-    };
-
-    /**
-     * DOC_TBA
-     *
-     * @memberof Camera
-     *
-     * @return {Matrix4} DOC_TBA
-     */
-    Camera.prototype.getInverseTransform = function() {
-        this._update();
-        return this._invTransform;
-    };
-
-    /**
-     * Returns the view matrix.
-     *
-     * @memberof Camera
-     *
-     * @return {Matrix4} The view matrix.
-     *
-     * @see UniformState#getView
-     * @see UniformState#setView
-     * @see agi_view
-     */
-    Camera.prototype.getViewMatrix = function() {
-        this._update();
-        return this._viewMatrix;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof Camera
-     */
-    Camera.prototype.getInverseViewMatrix = function() {
-        this._update();
-        return this._invViewMatrix;
-    };
-
-    /**
-     * The position of the camera in world coordinates.
-     *
-     * @type {Cartesian3}
-     */
-    Camera.prototype.getPositionWC = function() {
-        this._update();
-        return this._positionWC;
-    };
-
-    /**
-     * The view direction of the camera in world coordinates.
-     *
-     * @type {Cartesian3}
-     */
-    Camera.prototype.getDirectionWC = function() {
-        this._update();
-        return this._directionWC;
-    };
-
-    /**
-     * The up direction of the camera in world coordinates.
-     *
-     * @type {Cartesian3}
-     */
-    Camera.prototype.getUpWC = function() {
-        this._update();
-        return this._upWC;
-    };
-
-    /**
-     * The right direction of the camera in world coordinates.
-     *
-     * @type {Cartesian3}
-     */
-    Camera.prototype.getRightWC = function() {
-        this._update();
-        return this._rightWC;
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof Camera
-     */
-    Camera.prototype.getPickRay = function(windowPosition) {
-        var width = this._canvas.clientWidth;
-        var height = this._canvas.clientHeight;
-
-        var tanPhi = Math.tan(this.frustum.fovy * 0.5);
-        var tanTheta = this.frustum.aspectRatio * tanPhi;
-        var near = this.frustum.near;
-
-        var x = (2.0 / width) * windowPosition.x - 1.0;
-        var y = (2.0 / height) * (height - windowPosition.y) - 1.0;
-
-        var nearCenter = this.position.add(this.direction.multiplyWithScalar(near));
-        var xDir = this.right.multiplyWithScalar(x * near * tanTheta);
-        var yDir = this.up.multiplyWithScalar(y * near * tanPhi);
-        var direction = nearCenter.add(xDir).add(yDir).subtract(this.position).normalize();
-
-        return {
-            position : this.position.clone(),
-            direction : direction
-        };
-    };
-
-    /**
-     * DOC_TBA
-     * @memberof Camera
-     */
-    Camera.prototype.pickEllipsoid = function(ellipsoid, windowPosition) {
-        var ray = this.getPickRay(windowPosition);
-        var intersection = IntersectionTests.rayEllipsoid(ray.position, ray.direction, ellipsoid);
-        if (!intersection) {
-            return null;
-        }
-
-        var iPt = ray.position.add(ray.direction.multiplyWithScalar(intersection.start));
-        return iPt;
-    };
-
-    /**
-     * Determines whether a bounding volume intersects with the frustum or not.
-     *
-     * @memberof Camera
-     *
-     * @param {Object} object The bounding volume whose intersection with the frustum is to be tested.
-     * @param {Function} planeIntersectTest The function that tests for intersections between a plane
-     * and the bounding volume type of object
-     *
-     * @return {Enumeration}  Intersect.OUTSIDE,
-     *                                 Intersect.INTERSECTING, or
-     *                                 Intersect.INSIDE.
-     */
-    Camera.prototype.getVisibility = function(object, planeIntersectTest) {
-        this._update();
-        var planes = this._planes;
-        var intersecting = false;
-        for ( var k = 0; k < planes.length; k++) {
-            var result = planeIntersectTest(object, planes[k]);
-            if (result === Intersect.OUTSIDE) {
-                return Intersect.OUTSIDE;
-            } else if (result === Intersect.INTERSECTING) {
-                intersecting = true;
-            }
-        }
-
-        return intersecting ? Intersect.INTERSECTING : Intersect.INSIDE;
-    };
-
-    /**
-     * Returns a duplicate of a Camera instance.
-     *
-     * @memberof Camera
-     *
-     * @return {Camera} A new copy of the Camera instance.
-     */
-    Camera.prototype.clone = function() {
-        var camera = new Camera(this._canvas);
-        camera.position = this.position.clone();
-        camera.direction = this.direction.clone();
-        camera.up = this.up.clone();
-        camera.right = this.right.clone();
-        camera.transform = this.transform.clone();
-        camera.frustum = this.frustum.clone();
-        return camera;
-    };
-
-    /**
-     * Returns true if this object was destroyed; otherwise, false.
-     * <br /><br />
-     * If this object was destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
-     *
-     * @memberof Camera
-     *
-     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
-     *
-     * @see Camera#destroy
-     */
-    Camera.prototype.isDestroyed = function() {
-        return false;
-    };
-
-    /**
-     * Removes keyboard listeners held by this object.
-     * <br /><br />
-     * Once an object is destroyed, it should not be used; calling any function other than
-     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
-     * assign the return value (<code>undefined</code>) to the object as done in the example.
-     *
-     * @memberof Camera
-     *
-     * @return {undefined}
-     *
-     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
-     *
-     * @see Camera#isDestroyed
-     *
-     * @example
-     * camera = camera && camera.destroy();
-     */
-    Camera.prototype.destroy = function() {
-        this._controllers.destroy();
-        return destroyObject(this);
-    };
-
-    return Camera;
-});
-
 /*global define*/
 define('Scene/Projections',[
         '../Core/DeveloperError',
@@ -26711,7 +29901,7 @@ define('Scene/ArcGISTileProvider',[
     /**
      * Provides tile images hosted by an ArcGIS Server.
      *
-     * @name ArcGISTileProvider
+     * @alias ArcGISTileProvider
      * @constructor
      *
      * @param {String} description.host The ArcGIS Server host name.
@@ -26738,7 +29928,7 @@ define('Scene/ArcGISTileProvider',[
      *     service : 'World_Street_Map'
      * });
      */
-    function ArcGISTileProvider(description) {
+    var ArcGISTileProvider = function(description) {
         var desc = description || {};
         var instance = desc.instance || 'arcgis/rest';
 
@@ -26860,7 +30050,7 @@ define('Scene/ArcGISTileProvider',[
             },
             proxy : this._proxy
         });
-    }
+    };
 
     /**
      * Loads the image for <code>tile</code>.
@@ -26994,7 +30184,7 @@ define('Scene/BingMapsTileProvider',[
     /**
      * Uses the Bing Map imagery API to load images for tiles.
      *
-     * @name BingMapsTileProvider
+     * @alias BingMapsTileProvider
      * @constructor
      *
      * @param {String} description.server The name of the Bing Maps server hosting the imagery.
@@ -27019,7 +30209,7 @@ define('Scene/BingMapsTileProvider',[
      *     mapStyle : BingMapsStyle.AERIAL
      * });
      */
-    function BingMapsTileProvider(description) {
+    var BingMapsTileProvider = function(description) {
         var desc = description || {};
         var key = desc.key || 'AquXz3981-1ND5jGs8qQn7R7YUP8qkWi77yZSVM7o3nIvzb-Mg0W2Ta57xuUyywX';
         var mapStyle = desc.mapStyle || BingMapsStyle.AERIAL;
@@ -27106,7 +30296,7 @@ define('Scene/BingMapsTileProvider',[
         this._url = undefined;
         this._deferredQueue = [];
         this._requestTemplate();
-    }
+    };
 
     //for a given tile, if we have an element with the same tile in the queue, return the element.
     function findInDeferredQueue(deferredQueue, tile) {
@@ -27397,7 +30587,7 @@ define('Scene/OpenStreetMapTileProvider',[
     /**
      * Provides tile images hosted by OpenStreetMap.
      *
-     * @name OpenStreetMapTileProvider
+     * @alias OpenStreetMapTileProvider
      * @constructor
      *
      * @param {String} description.url The OpenStreetMap url.
@@ -27419,7 +30609,7 @@ define('Scene/OpenStreetMapTileProvider',[
      *     url : 'http://tile.openstreetmap.org/'
      * });
      */
-    function OpenStreetMapTileProvider(description) {
+    var OpenStreetMapTileProvider = function(description) {
         var desc = description || {};
 
         this._url = desc.url || 'http://tile.openstreetmap.org/';
@@ -27485,7 +30675,7 @@ define('Scene/OpenStreetMapTileProvider',[
         this.projection = Projections.MERCATOR;
 
         this._logo = undefined;
-    }
+    };
 
     /**
      * Loads the image for <code>tile</code>.
@@ -27602,10 +30792,10 @@ define('Scene/SceneState',[], function() {
      * State information about the current scene.  An instance of this class
      * is provided to update functions.
      *
-     * @name SceneState
+     * @alias SceneState
      * @constructor
      */
-    function SceneState() {
+    var SceneState = function() {
         /**
          * The current mode of the scene.
          *
@@ -27624,7 +30814,7 @@ define('Scene/SceneState',[], function() {
          * The current camera.
          */
         this.camera = undefined;
-    }
+    };
 
     return SceneState;
 });
@@ -27644,7 +30834,7 @@ define('Scene/SingleTileProvider',[
     /**
      * Provides a single, top-level tile.
      *
-     * @name SingleTileProvider
+     * @alias SingleTileProvider
      * @constructor
      *
      * @param {String} url The url for the tile.
@@ -27657,7 +30847,7 @@ define('Scene/SingleTileProvider',[
      * @see OpenStreetMapTileProvider
      * @see CompositeTileProvider
      */
-    function SingleTileProvider(url, proxy) {
+    var SingleTileProvider = function(url, proxy) {
         if (typeof url === 'undefined') {
             throw new DeveloperError('url is required.');
         }
@@ -27702,7 +30892,7 @@ define('Scene/SingleTileProvider',[
          * @see Projections
          */
         this.projection = Projections.WGS84;
-    }
+    };
 
     /**
      * Loads the top-level tile.
@@ -27754,7 +30944,7 @@ define('Scene/SolidColorTileProvider',[
      * Provides tile images with a different solid color for each zoom level.
      * Useful for debugging or testing different {@link CentralBody} options.
      *
-     * @name SolidColorTileProvider
+     * @alias SolidColorTileProvider
      * @constructor
      *
      * @param {Number} [maxZoom=23] The maximum zoom level to generate tiles.
@@ -27764,7 +30954,7 @@ define('Scene/SolidColorTileProvider',[
      * @see OpenStreetMapTileProvider
      * @see CompositeTileProvider
      */
-    function SolidColorTileProvider(maxZoom) {
+    var SolidColorTileProvider = function(maxZoom) {
         var width = 256;
         var height = 256;
         maxZoom = maxZoom || 23;
@@ -27841,7 +31031,7 @@ define('Scene/SolidColorTileProvider',[
          * @see Projections
          */
         this.projection = Projections.WGS84;
-    }
+    };
 
     SolidColorTileProvider.prototype._createImage = function(color, width, height) {
         var canvas = document.createElement('canvas');
@@ -27891,7 +31081,7 @@ define('Scene/SphericalRepulsionForce',[
 
     /**
      * DOC_TBA
-     * @name SphericalRepulsionForce
+     * @alias SphericalRepulsionForce
      * @constructor
      */
     function SphericalRepulsionForce(template) {
@@ -27938,10 +31128,14 @@ define('Scene/SpringForce',['../Core/DeveloperError'], function(DeveloperError) 
 
     /**
      * DOC_TBA
-     * @name SpringForce
+     * @alias SpringForce
      * @constructor
+     *
+     * @param {Object} template
+     *
+     * @exception {DeveloperError} template.particleOne and template.particleTwo are required.
      */
-    function SpringForce(template) {
+    var SpringForce = function(template) {
         template = template || {};
 
         if (!template.particleOne || !template.particleTwo) {
@@ -27956,7 +31150,7 @@ define('Scene/SpringForce',['../Core/DeveloperError'], function(DeveloperError) 
         this.restLength = (typeof template.restLength === 'undefined') ? 1.0 : template.restLength;
         this.springConstant = (typeof template.springConstant === 'undefined') ? 1.0 : template.springConstant;
         this.dampingConstant = (typeof template.dampingConstant === 'undefined') ? 1.0 : template.dampingConstant;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -28031,21 +31225,21 @@ define('Scene/Texture2DPool',[
      * <br/><br/>
      * Texture pools are useful when textures are being created and destroyed repeatedly.
      *
-     * @name Texture2DPool
+     * @alias Texture2DPool
      * @constructor
      *
      * @param {Context} context The context to use to create textures when needed.
      *
      * @see Texture
      */
-    function Texture2DPool(context) {
+    var Texture2DPool = function(context) {
         if (typeof context === 'undefined') {
             throw new DeveloperError('context is required.');
         }
 
         this._context = context;
         this._free = {};
-    }
+    };
 
     /**
      * Create a texture.  This function takes the same arguments as {@link Context#createTexture2D},
@@ -28148,7 +31342,7 @@ define('Scene/Tile',[
     /**
      * A single piece of a uniformly subdivided image mapped to the surface of an ellipsoid.
      *
-     * @name Tile
+     * @alias Tile
      * @constructor
      *
      * @param {Extent} description.extent The cartographic extent of the tile, with north, south, east and
@@ -28168,7 +31362,7 @@ define('Scene/Tile',[
      * @see OpenStreetMapTileProvider
      * @see BingMapsTileProvider
      */
-    function Tile(description) {
+    var Tile = function(description) {
         if (!description) {
             throw new DeveloperError('description is required.');
         }
@@ -28255,7 +31449,7 @@ define('Scene/Tile',[
         this._projection = undefined;
         this._boundingSphere2D = undefined;
         this._boundingRectangle = undefined;
-    }
+    };
 
     /**
      * Converts an extent and zoom level into tile x, y coordinates.
@@ -28468,10 +31662,10 @@ define('Scene/VectorForce',[
 
     /**
      * DOC_TBA
-     * @name VectorForce
+     * @alias VectorForce
      * @constructor
      */
-    function VectorForce(template) {
+    var VectorForce = function(template) {
         template = template || {};
         template.vector = template.vector || Cartesian3.UNIT_Z.negate();
 
@@ -28481,7 +31675,7 @@ define('Scene/VectorForce',[
 
         this.vector = new Cartesian3(template.vector.x, template.vector.y, template.vector.z);
         this.particle = template.particle;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -28534,6 +31728,571 @@ define('Scene/VerticalOrigin',['../Core/Enumeration'], function(Enumeration) {
     return VerticalOrigin;
 });
 /*global define*/
+define('DynamicScene/CzmlVerticalOrigin',[
+        '../Scene/VerticalOrigin'
+       ], function(
+         VerticalOrigin) {
+    
+
+    /**
+     * Provides methods for working with a vertical origin defined in CZML.
+     *
+     * @exports CzmlVerticalOrigin
+     *
+     * @see VerticalOrigin
+     * @see DynamicProperty
+     * @see CzmlBoolean
+     * @see CzmlCartesian2
+     * @see CzmlCartesian3
+     * @see CzmlCartographic3
+     * @see CzmlColor
+     * @see CzmlHorizontalOrigin
+     * @see CzmlLabelStyle
+     * @see CzmlNumber
+     * @see CzmlString
+     * @see CzmlUnitCartesian3
+     * @see CzmlUnitQuaternion
+     * @see CzmlUnitSpherical
+     */
+    var CzmlVerticalOrigin = {
+        /**
+         * Returns the packed enum representation contained within the provided CZML interval
+         * or undefined if the interval does not contain enum data.
+         *
+         * @param {Object} czmlInterval The CZML interval to unwrap.
+         */
+        unwrapInterval : function(czmlInterval) {
+            var result = czmlInterval.verticalOrigin;
+            return typeof result === 'undefined' ? czmlInterval : result;
+        },
+
+        /**
+         * Since enums can not be sampled, this method always returns false.
+         */
+        isSampled : function() {
+            return false;
+        },
+
+        /**
+         * Returns the VerticalOrigin contained within the unwrappedInterval.
+         *
+         * @param {Object} unwrappedInterval The result of CzmlVerticalOrigin.unwrapInterval.
+         * @returns The VerticalOrigin value.
+         */
+        getValue : function(unwrappedInterval) {
+            return VerticalOrigin[unwrappedInterval];
+        }
+    };
+
+    return CzmlVerticalOrigin;
+});
+/*global define*/
+define('DynamicScene/DynamicBillboard',[
+        '../Core/TimeInterval',
+        './CzmlBoolean',
+        './CzmlCartesian2',
+        './CzmlCartesian3',
+        './CzmlNumber',
+        './CzmlString',
+        './CzmlHorizontalOrigin',
+        './CzmlVerticalOrigin',
+        './CzmlColor',
+        './DynamicProperty'
+    ], function(
+        TimeInterval,
+        CzmlBoolean,
+        CzmlCartesian2,
+        CzmlCartesian3,
+        CzmlNumber,
+        CzmlString,
+        CzmlHorizontalOrigin,
+        CzmlVerticalOrigin,
+        CzmlColor,
+        DynamicProperty) {
+    
+
+    /**
+     * Represents a time-dynamic billboard, typically used in conjunction with DynamicBillboardVisualizer and
+     * DynamicObjectCollection to visualize CZML.
+     *
+     * @alias DynamicBillboard
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see DynamicBillboardVisualizer
+     * @see VisualizerCollection
+     * @see Billboard
+     * @see BillboardCollection
+     * @see CzmlDefaults
+     */
+    var DynamicBillboard = function() {
+        /**
+         * A DynamicProperty of type CzmlString which determines the billboard's texture.
+         */
+        this.image = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the billboard's scale.
+         */
+        this.scale = undefined;
+        /**
+         * A DynamicProperty of type CzmlHorizontalOrigin which determines the billboard's horizontal origin.
+         */
+        this.horizontalOrigin = undefined;
+        /**
+         * A DynamicProperty of type CzmlVerticalHorigin which determines the billboard's vertical origin.
+         */
+        this.verticalOrigin = undefined;
+        /**
+         * A DynamicProperty of type CzmlColor which determines the billboard's color.
+         */
+        this.color = undefined;
+        /**
+         * A DynamicProperty of type CzmlCartesian3 which determines the billboard's eye offset.
+         */
+        this.eyeOffset = undefined;
+        /**
+         * A DynamicProperty of type CzmlCartesian2 which determines the billboard's pixel offset.
+         */
+        this.pixelOffset = undefined;
+        /**
+         * A DynamicProperty of type CzmlBoolean which determines the billboard's visibility.
+         */
+        this.show = undefined;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's billboard.
+     * If the DynamicObject does not have a billboard, one is created.  This method is not
+     * normally called directly, but is part of the array of CZML processing functions that is
+     * passed into the DynamicObjectCollection constructor.
+     * @memberof DynamicBillboard
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the billboard data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if any new properties were created while processing the packet, false otherwise.
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicBillboard.processCzmlPacket = function(dynamicObject, packet) {
+        var billboardData = packet.billboard;
+        if (typeof billboardData === 'undefined') {
+            return false;
+        }
+
+        var billboardUpdated = false;
+        var billboard = dynamicObject.billboard;
+        billboardUpdated = typeof billboard === 'undefined';
+        if (billboardUpdated) {
+            dynamicObject.billboard = billboard = new DynamicBillboard();
+        }
+
+        var interval = billboardData.interval;
+        if (typeof interval !== 'undefined') {
+            interval = TimeInterval.fromIso8601(interval);
+        }
+
+        if (typeof billboardData.color !== 'undefined') {
+            var color = billboard.color;
+            if (typeof color === 'undefined') {
+                billboard.color = color = new DynamicProperty(CzmlColor);
+                billboardUpdated = true;
+            }
+            color.processCzmlIntervals(billboardData.color, interval);
+        }
+
+        if (typeof billboardData.eyeOffset !== 'undefined') {
+            var eyeOffset = billboard.eyeOffset;
+            if (typeof eyeOffset === 'undefined') {
+                billboard.eyeOffset = eyeOffset = new DynamicProperty(CzmlCartesian3);
+                billboardUpdated = true;
+            }
+            eyeOffset.processCzmlIntervals(billboardData.eyeOffset, interval);
+        }
+
+        if (typeof billboardData.horizontalOrigin !== 'undefined') {
+            var horizontalOrigin = billboard.horizontalOrigin;
+            if (typeof horizontalOrigin === 'undefined') {
+                billboard.horizontalOrigin = horizontalOrigin = new DynamicProperty(CzmlHorizontalOrigin);
+                billboardUpdated = true;
+            }
+            horizontalOrigin.processCzmlIntervals(billboardData.horizontalOrigin, interval);
+        }
+
+        if (typeof billboardData.image !== 'undefined') {
+            var image = billboard.image;
+            if (typeof image === 'undefined') {
+                billboard.image = image = new DynamicProperty(CzmlString);
+                billboardUpdated = true;
+            }
+            image.processCzmlIntervals(billboardData.image, interval);
+        }
+
+        if (typeof billboardData.pixelOffset !== 'undefined') {
+            var pixelOffset = billboard.pixelOffset;
+            if (typeof pixelOffset === 'undefined') {
+                billboard.pixelOffset = pixelOffset = new DynamicProperty(CzmlCartesian2);
+                billboardUpdated = true;
+            }
+            pixelOffset.processCzmlIntervals(billboardData.pixelOffset, interval);
+        }
+
+        if (typeof billboardData.scale !== 'undefined') {
+            var scale = billboard.scale;
+            if (typeof scale === 'undefined') {
+                billboard.scale = scale = new DynamicProperty(CzmlNumber);
+                billboardUpdated = true;
+            }
+            scale.processCzmlIntervals(billboardData.scale, interval);
+        }
+
+        if (typeof billboardData.show !== 'undefined') {
+            var show = billboard.show;
+            if (typeof show === 'undefined') {
+                billboard.show = show = new DynamicProperty(CzmlBoolean);
+                billboardUpdated = true;
+            }
+            show.processCzmlIntervals(billboardData.show, interval);
+        }
+
+        if (typeof billboardData.verticalOrigin !== 'undefined') {
+            var verticalOrigin = billboard.verticalOrigin;
+            if (typeof verticalOrigin === 'undefined') {
+                billboard.verticalOrigin = verticalOrigin = new DynamicProperty(CzmlVerticalOrigin);
+                billboardUpdated = true;
+            }
+            verticalOrigin.processCzmlIntervals(billboardData.verticalOrigin, interval);
+        }
+
+        return billboardUpdated;
+    };
+
+    /**
+     * Given two DynamicObjects, takes the billboard properties from the second
+     * and assigns them to the first, assuming such a property did not already exist.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     * @memberof DynamicBillboard
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicBillboard.mergeProperties = function(targetObject, objectToMerge) {
+        var billboardToMerge = objectToMerge.billboard;
+        if (typeof billboardToMerge !== 'undefined') {
+
+            var targetBillboard = targetObject.billboard;
+            if (typeof targetBillboard === 'undefined') {
+                targetObject.billboard = targetBillboard = new DynamicBillboard();
+            }
+
+            targetBillboard.color = targetBillboard.color || billboardToMerge.color;
+            targetBillboard.eyeOffset = targetBillboard.eyeOffset || billboardToMerge.eyeOffset;
+            targetBillboard.horizontalOrigin = targetBillboard.horizontalOrigin || billboardToMerge.horizontalOrigin;
+            targetBillboard.image = targetBillboard.image || billboardToMerge.image;
+            targetBillboard.pixelOffset = targetBillboard.pixelOffset || billboardToMerge.pixelOffset;
+            targetBillboard.scale = targetBillboard.scale || billboardToMerge.scale;
+            targetBillboard.show = targetBillboard.show || billboardToMerge.show;
+            targetBillboard.verticalOrigin = targetBillboard.verticalOrigin || billboardToMerge.verticalOrigin;
+        }
+    };
+
+    /**
+     * Given a DynamicObject, undefines the billboard associated with it.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     * @memberof DynamicBillboard
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the billboard from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicBillboard.undefineProperties = function(dynamicObject) {
+        dynamicObject.billboard = undefined;
+    };
+
+    return DynamicBillboard;
+});
+/*global define*/
+define('DynamicScene/DynamicLabel',[
+        '../Core/TimeInterval',
+        './CzmlBoolean',
+        './CzmlCartesian2',
+        './CzmlCartesian3',
+        './CzmlNumber',
+        './CzmlString',
+        './CzmlHorizontalOrigin',
+        './CzmlVerticalOrigin',
+        './CzmlLabelStyle',
+        './CzmlColor',
+        './DynamicProperty'
+       ], function(
+        TimeInterval,
+        CzmlBoolean,
+        CzmlCartesian2,
+        CzmlCartesian3,
+        CzmlNumber,
+        CzmlString,
+        CzmlHorizontalOrigin,
+        CzmlVerticalOrigin,
+        CzmlLabelStyle,
+        CzmlColor,
+        DynamicProperty) {
+    
+
+    /**
+     * Represents a time-dynamic label, typically used in conjunction with DynamicLabelVisualizer and
+     * DynamicObjectCollection to visualize CZML.
+     *
+     * @alias DynamicLabel
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see DynamicLabelVisualizer
+     * @see VisualizerCollection
+     * @see Label
+     * @see LabelCollection
+     * @see CzmlDefaults
+     */
+    var DynamicLabel = function() {
+        /**
+         * A DynamicProperty of type CzmlString which determines the label's text.
+         */
+        this.text = undefined;
+        /**
+         * A DynamicProperty of type CzmlString which determines the label's font.
+         */
+        this.font = undefined;
+        /**
+         * A DynamicProperty of type CzmlLabelStyle which determines the label's style.
+         */
+        this.style = undefined;
+        /**
+         * A DynamicProperty of type CzmlColor which determines the label's fill color.
+         */
+        this.fillColor = undefined;
+        /**
+         * A DynamicProperty of type CzmlColor which determines the label's outline color.
+         */
+        this.outlineColor = undefined;
+        /**
+         * A DynamicProperty of type CzmlHorizontalOrigin which determines the label's horizontal origin.
+         */
+        this.horizontalOrigin = undefined;
+        /**
+         * A DynamicProperty of type CzmlVerticalOrigin which determines the label's vertical origin.
+         */
+        this.verticalOrigin = undefined;
+        /**
+         * A DynamicProperty of type CzmlCartesian3 which determines the label's eye offset.
+         */
+        this.eyeOffset = undefined;
+        /**
+         * A DynamicProperty of type CzmlCartesian2 which determines the label's pixel offset.
+         */
+        this.pixelOffset = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the label's scale.
+         */
+        this.scale = undefined;
+        /**
+         * A DynamicProperty of type CzmlBoolean which determines the label's visibility.
+         */
+        this.show = undefined;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's label.
+     * If the DynamicObject does not have a label, one is created.  This method is not
+     * normally called directly, but is part of the array of CZML processing functions that is
+     * passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the label data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if any new properties were created while processing the packet, false otherwise.
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicLabel.processCzmlPacket = function(dynamicObject, packet) {
+        var labelData = packet.label;
+        if (typeof labelData === 'undefined') {
+            return false;
+        }
+
+        var labelUpdated = false;
+        var label = dynamicObject.label;
+        labelUpdated = typeof label === 'undefined';
+        if (labelUpdated) {
+            dynamicObject.label = label = new DynamicLabel();
+        }
+
+        var interval = labelData.interval;
+        if (typeof interval !== 'undefined') {
+            interval = TimeInterval.fromIso8601(interval);
+        }
+
+        if (typeof labelData.fillColor !== 'undefined') {
+            var fillColor = label.fillColor;
+            if (typeof fillColor === 'undefined') {
+                label.fillColor = fillColor = new DynamicProperty(CzmlColor);
+                labelUpdated = true;
+            }
+            fillColor.processCzmlIntervals(labelData.fillColor, interval);
+        }
+
+        if (typeof labelData.outlineColor !== 'undefined') {
+            var outlineColor = label.outlineColor;
+            if (typeof outlineColor === 'undefined') {
+                label.outlineColor = outlineColor = new DynamicProperty(CzmlColor);
+                labelUpdated = true;
+            }
+            outlineColor.processCzmlIntervals(labelData.outlineColor, interval);
+        }
+
+        if (typeof labelData.eyeOffset !== 'undefined') {
+            var eyeOffset = label.eyeOffset;
+            if (typeof eyeOffset === 'undefined') {
+                label.eyeOffset = eyeOffset = new DynamicProperty(CzmlCartesian3);
+                labelUpdated = true;
+            }
+            eyeOffset.processCzmlIntervals(labelData.eyeOffset, interval);
+        }
+
+        if (typeof labelData.horizontalOrigin !== 'undefined') {
+            var horizontalOrigin = label.horizontalOrigin;
+            if (typeof horizontalOrigin === 'undefined') {
+                label.horizontalOrigin = horizontalOrigin = new DynamicProperty(CzmlHorizontalOrigin);
+                labelUpdated = true;
+            }
+            horizontalOrigin.processCzmlIntervals(labelData.horizontalOrigin, interval);
+        }
+
+        if (typeof labelData.text !== 'undefined') {
+            var text = label.text;
+            if (typeof text === 'undefined') {
+                label.text = text = new DynamicProperty(CzmlString);
+                labelUpdated = true;
+            }
+            text.processCzmlIntervals(labelData.text, interval);
+        }
+
+        if (typeof labelData.pixelOffset !== 'undefined') {
+            var pixelOffset = label.pixelOffset;
+            if (typeof pixelOffset === 'undefined') {
+                label.pixelOffset = pixelOffset = new DynamicProperty(CzmlCartesian2);
+                labelUpdated = true;
+            }
+            pixelOffset.processCzmlIntervals(labelData.pixelOffset, interval);
+        }
+
+        if (typeof labelData.scale !== 'undefined') {
+            var scale = label.scale;
+            if (typeof scale === 'undefined') {
+                label.scale = scale = new DynamicProperty(CzmlNumber);
+                labelUpdated = true;
+            }
+            scale.processCzmlIntervals(labelData.scale, interval);
+        }
+
+        if (typeof labelData.show !== 'undefined') {
+            var show = label.show;
+            if (typeof show === 'undefined') {
+                label.show = show = new DynamicProperty(CzmlBoolean);
+                labelUpdated = true;
+            }
+            show.processCzmlIntervals(labelData.show, interval);
+        }
+
+        if (typeof labelData.verticalOrigin !== 'undefined') {
+            var verticalOrigin = label.verticalOrigin;
+            if (typeof verticalOrigin === 'undefined') {
+                label.verticalOrigin = verticalOrigin = new DynamicProperty(CzmlVerticalOrigin);
+                labelUpdated = true;
+            }
+            verticalOrigin.processCzmlIntervals(labelData.verticalOrigin, interval);
+        }
+
+        if (typeof labelData.font !== 'undefined') {
+            var font = label.font;
+            if (typeof font === 'undefined') {
+                label.font = font = new DynamicProperty(CzmlString);
+                labelUpdated = true;
+            }
+            font.processCzmlIntervals(labelData.font, interval);
+        }
+
+        if (typeof labelData.style !== 'undefined') {
+            var style = label.style;
+            if (typeof style === 'undefined') {
+                label.style = style = new DynamicProperty(CzmlLabelStyle);
+                labelUpdated = true;
+            }
+            style.processCzmlIntervals(labelData.style, interval);
+        }
+        return labelUpdated;
+    };
+
+    /**
+     * Given two DynamicObjects, takes the label properties from the second
+     * and assigns them to the first, assuming such a property did not already exist.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicLabel.mergeProperties = function(targetObject, objectToMerge) {
+        var labelToMerge = objectToMerge.label;
+        if (typeof labelToMerge !== 'undefined') {
+
+            var targetLabel = targetObject.label;
+            if (typeof targetLabel === 'undefined') {
+                targetObject.label = targetLabel = new DynamicLabel();
+            }
+
+            targetLabel.text = targetLabel.text || labelToMerge.text;
+            targetLabel.font = targetLabel.font || labelToMerge.font;
+            targetLabel.show = targetLabel.show || labelToMerge.show;
+            targetLabel.style = targetLabel.style || labelToMerge.style;
+            targetLabel.fillColor = targetLabel.fillColor || labelToMerge.fillColor;
+            targetLabel.outlineColor = targetLabel.outlineColor || labelToMerge.outlineColor;
+            targetLabel.scale = targetLabel.scale || labelToMerge.scale;
+            targetLabel.horizontalOrigin = targetLabel.horizontalOrigin || labelToMerge.horizontalOrigin;
+            targetLabel.verticalOrigin = targetLabel.verticalOrigin || labelToMerge.verticalOrigin;
+            targetLabel.eyeOffset = targetLabel.eyeOffset || labelToMerge.eyeOffset;
+            targetLabel.pixelOffset = targetLabel.pixelOffset || labelToMerge.pixelOffset;
+        }
+    };
+
+    /**
+     * Given a DynamicObject, undefines the label associated with it.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the label from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicLabel.undefineProperties = function(dynamicObject) {
+        dynamicObject.label = undefined;
+    };
+
+    return DynamicLabel;
+});
+/*global define*/
 define('Scene/Billboard',[
         '../Core/DeveloperError',
         '../Core/shallowEquals',
@@ -28564,7 +32323,7 @@ define('Scene/Billboard',[
      * Example billboards
      * </div>
      *
-     * @name Billboard
+     * @alias Billboard
      *
      * @performance Calling any <code>get</code> function, e.g., {@link Billboard#getShow}, is constant time.
      * Calling a <code>set</code> function, e.g., {@link Billboard#setShow}, is constant time but results in
@@ -28579,7 +32338,7 @@ define('Scene/Billboard',[
      *
      * @internalConstructor
      */
-    function Billboard(billboardTemplate, collection) {
+    var Billboard = function(billboardTemplate, collection) {
         var b = billboardTemplate || {};
         var color = b.color || {
             red : 1.0,
@@ -28610,7 +32369,7 @@ define('Scene/Billboard',[
 
         this._collection = collection;
         this._dirty = false;
-    }
+    };
 
     var SHOW_INDEX = Billboard.SHOW_INDEX = 0;
     var POSITION_INDEX = Billboard.POSITION_INDEX = 1;
@@ -29163,11 +32922,25 @@ define('Scene/Billboard',[
 define('Scene/ViscousDrag',[],function() {
     
 
-    function ViscousDrag(coefficientOfDrag) {
+    /**
+     * DOC_TBA
+     *
+     * @alias ViscousDrag
+     * @constructor
+     *
+     * @param {Number} coefficientOfDrag
+     */
+    var ViscousDrag = function(coefficientOfDrag) {
         // TODO:  throw if coefficient is negative?  Zero (no drag) is OK, I guess.
         this.coefficientOfDrag = coefficientOfDrag || 1.0;
-    }
+    };
 
+    /**
+     * DOC_TBA
+     * @memberof ViscousDrag
+     *
+     * @param particles
+     */
     ViscousDrag.prototype.apply = function(particles) {
         if (particles) {
             var negativeCoefficientOfDrag = -this.coefficientOfDrag;
@@ -29188,8 +32961,9 @@ define('Scene/combineMaterials',[],function() {
 
     /**
      * DOC_TBA
+     * @exports combineMaterials
      */
-    function combineMaterials() {
+    var combineMaterials = function() {
         var unforms = {};
         var concatenatedSource = '';
         var duplicateUniforms = {};
@@ -29235,7 +33009,7 @@ define('Scene/combineMaterials',[],function() {
                 return concatenatedSource;
             }
         };
-    }
+    };
 
     return combineMaterials;
 });
@@ -29378,7 +33152,7 @@ define('Scene/BillboardCollection',[
      * and {@link BillboardCollection#remove}.  All billboards in a collection reference images
      * from the same texture atlas, which is assigned using {@link BillboardCollection#setTextureAtlas}.
      *
-     * @name BillboardCollection
+     * @alias BillboardCollection
      * @constructor
      *
      * @performance For best performance, prefer a few collections, each with many billboards, to
@@ -29396,8 +33170,8 @@ define('Scene/BillboardCollection',[
      *
      * @example
      * // Create a billboard collection with two billboards
-     * var atlas = scene.getContext().createTextureAtlas(images);
      * var billboards = new BillboardCollection();
+     * var atlas = context.createTextureAtlas({images : images});
      * billboards.setTextureAtlas(atlas);
      * billboards.add({
      *   position : { x : 1.0, y : 2.0, z : 3.0 }
@@ -29406,8 +33180,9 @@ define('Scene/BillboardCollection',[
      *   position : { x : 4.0, y : 5.0, z : 6.0 }
      * });
      */
-    function BillboardCollection() {
+    var BillboardCollection = function() {
         this._textureAtlas = undefined;
+        this._textureAtlasGUID = undefined;
         this._destroyTextureAtlas = true;
         this._sp = undefined;
         this._rs = undefined;
@@ -29491,7 +33266,7 @@ define('Scene/BillboardCollection',[
             }
         });
         this._uniforms = undefined;
-    }
+    };
 
     /**
      * Creates and adds a billboard with the specified initial properties to the collection.
@@ -29750,8 +33525,9 @@ define('Scene/BillboardCollection',[
      * // Two billboards, each referring to one of the images, are then
      * // added to the collection.
      * var billboards = new BillboardCollection();
-     * billboards.setTextureAtlas(
-     *   scene.getContext().createTextureAtlas([image0, image1]));
+     * var images = [image0, image1];
+     * var atlas = context.createTextureAtlas({images : images});
+     * billboards.setTextureAtlas(atlas);
      * billboards.add({
      *   // ...
      *   imageIndex : 0
@@ -29803,7 +33579,8 @@ define('Scene/BillboardCollection',[
      *
      * @example
      * // Destroy a billboard collection but not its texture atlas.
-     * var atlas = scene.getContext().createTextureAtlas(...);
+     *
+     * var atlas = context.createTextureAtlas({images : images});
      * billboards.setTextureAtlas(atlas);
      * billboards.setDestroyTextureAtlas(false);
      * billboards = billboards.destroy();
@@ -30094,15 +33871,14 @@ define('Scene/BillboardCollection',[
     BillboardCollection.prototype._writeTextureCoordinatesAndImageSize = function(context, textureAtlasCoordinates, vafWriters, billboard) {
         var i = (billboard._index * 4);
         var imageRectangle = textureAtlasCoordinates[billboard.getImageIndex()];
-        var imageSize = {
-            x : imageRectangle.x1 - imageRectangle.x0,
-            y : imageRectangle.y1 - imageRectangle.y0
-        };
-
-        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 0, imageRectangle.x0 * 65535, imageRectangle.y0 * 65535, imageSize.x * 65535, imageSize.y * 65535); // Lower Left
-        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 1, imageRectangle.x1 * 65535, imageRectangle.y0 * 65535, imageSize.x * 65535, imageSize.y * 65535); // Lower Right
-        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 2, imageRectangle.x1 * 65535, imageRectangle.y1 * 65535, imageSize.x * 65535, imageSize.y * 65535); // Upper Right
-        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 3, imageRectangle.x0 * 65535, imageRectangle.y1 * 65535, imageSize.x * 65535, imageSize.y * 65535); // Upper Left
+        var bottomLeftX = imageRectangle.x;
+        var bottomLeftY = imageRectangle.y;
+        var topRightX = imageRectangle.x + imageRectangle.width;
+        var topRightY = imageRectangle.y + imageRectangle.height;
+        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 0, bottomLeftX * 65535, bottomLeftY * 65535, imageRectangle.width * 65535, imageRectangle.height * 65535); // Lower Left
+        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 1, topRightX * 65535, bottomLeftY * 65535, imageRectangle.width * 65535, imageRectangle.height * 65535); // Lower Right
+        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 2, topRightX * 65535, topRightY * 65535, imageRectangle.width * 65535, imageRectangle.height * 65535); // Upper Right
+        vafWriters[attributeIndices.textureCoordinatesAndImageSize](i + 3, bottomLeftX * 65535, topRightY * 65535, imageRectangle.width * 65535, imageRectangle.height * 65535); // Upper Left
     };
 
     BillboardCollection.prototype._writeBillboard = function(context, textureAtlasCoordinates, vafWriters, billboard) {
@@ -30205,7 +33981,15 @@ define('Scene/BillboardCollection',[
     };
 
     BillboardCollection.prototype._update = function(context, sceneState) {
-        if (!this._textureAtlas) {
+        var textureAtlas = this._textureAtlas;
+        if (typeof textureAtlas === 'undefined') {
+            // Can't write billboard vertices until we have texture coordinates
+            // provided by a texture atlas
+            return;
+        }
+
+        var textureAtlasCoordinates = textureAtlas.getTextureCoordinates();
+        if (textureAtlasCoordinates.length === 0) {
             // Can't write billboard vertices until we have texture coordinates
             // provided by a texture atlas
             return;
@@ -30219,12 +34003,14 @@ define('Scene/BillboardCollection',[
         var length = billboards.length;
         var properties = this._propertiesChanged;
 
-        var textureAtlasCoordinates = this._textureAtlas.getTextureCoordinates();
+        var textureAtlasGUID = textureAtlas.getGUID();
+        var createVertexArray = this._createVertexArray || this._textureAtlasGUID !== textureAtlasGUID;
+        this._textureAtlasGUID = textureAtlasGUID;
+
         var vafWriters;
 
         // PERFORMANCE_IDEA: Round robin multiple buffers.
-
-        if (this._createVertexArray || this.computeNewBuffersUsage()) {
+        if (createVertexArray || this.computeNewBuffersUsage()) {
             this._createVertexArray = false;
 
             this._vaf = this._vaf && this._vaf.destroy();
@@ -30395,6 +34181,672 @@ define('Scene/BillboardCollection',[
     };
 
     return BillboardCollection;
+});
+/*global define*/
+define('DynamicScene/DynamicBillboardVisualizer',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Color',
+        '../Core/Cartesian2',
+        '../Core/Cartesian3',
+        '../Scene/BillboardCollection',
+        '../Scene/HorizontalOrigin',
+        '../Scene/VerticalOrigin',
+        '../Renderer/TextureAtlasBuilder'
+    ], function(
+        DeveloperError,
+        destroyObject,
+        Color,
+        Cartesian2,
+        Cartesian3,
+        BillboardCollection,
+        HorizontalOrigin,
+        VerticalOrigin,
+        TextureAtlasBuilder) {
+    
+
+    //Callback to create a callback so that we close over all of the proper values.
+    function textureReady(dynamicObject, billboardCollection, textureValue) {
+        return function(imageIndex) {
+            //By the time the texture was loaded, the billboard might already be
+            //gone or have been assigned a different texture.  Look it up again
+            //and check.
+            var currentIndex = dynamicObject._billboardVisualizerIndex;
+            if (typeof currentIndex !== 'undefined') {
+                var cbBillboard = billboardCollection.get(currentIndex);
+                if (cbBillboard._visualizerUrl === textureValue) {
+                    cbBillboard._visualizerTextureAvailable = true;
+                    cbBillboard.setImageIndex(imageIndex);
+                }
+            }
+        };
+    }
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicBillboard instance
+     * in DynamicObject.billboard to a Billboard primitive.
+     * @alias DynamicBillboardVisualizer
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicBillboard
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicConeVisualizer
+     * @see DynamicConeVisualizerUsingCustomSensor
+     * @see DynamicLabelVisualizer
+     * @see DynamicPointVisualizer
+     * @see DynamicPolygonVisualizer
+     * @see DynamicPolylineVisualizer
+     * @see DynamicPyramidVisualizer
+     *
+     */
+    var DynamicBillboardVisualizer = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._dynamicObjectCollection = undefined;
+
+        var billboardCollection = this._billboardCollection = new BillboardCollection();
+        var atlas = this._textureAtlas = scene.getContext().createTextureAtlas();
+        this._textureAtlasBuilder = new TextureAtlasBuilder(atlas);
+        billboardCollection.setTextureAtlas(atlas);
+        scene.getPrimitives().add(billboardCollection);
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicBillboardVisualizer.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicBillboardVisualizer.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicBillboardVisualizer.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicBillboardVisualizer.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicBillboardVisualizer.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicBillboardVisualizer.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicBillboardVisualizer.prototype.removeAllPrimitives = function() {
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            this._unusedIndexes = [];
+            this._billboardCollection.removeAll();
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._billboardVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicBillboardVisualizer
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicBillboardVisualizer#destroy
+     */
+    DynamicBillboardVisualizer.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicBillboardVisualizer
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicBillboardVisualizer#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicBillboardVisualizer.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        this._scene.getPrimitives().remove(this._billboardCollection);
+        return destroyObject(this);
+    };
+
+    var position;
+    var color;
+    var eyeOffset;
+    var pixelOffset;
+    DynamicBillboardVisualizer.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicBillboard = dynamicObject.billboard;
+        if (typeof dynamicBillboard === 'undefined') {
+            return;
+        }
+
+        var positionProperty = dynamicObject.position;
+        if (typeof positionProperty === 'undefined') {
+            return;
+        }
+
+        var textureProperty = dynamicBillboard.image;
+        if (typeof textureProperty === 'undefined') {
+            return;
+        }
+
+        var billboard;
+        var showProperty = dynamicBillboard.show;
+        var billboardVisualizerIndex = dynamicObject._billboardVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+        if (!show) {
+            //don't bother creating or updating anything else
+            if (typeof billboardVisualizerIndex !== 'undefined') {
+                billboard = this._billboardCollection.get(billboardVisualizerIndex);
+                billboard.setShow(false);
+                billboard._visualizerUrl = undefined;
+                billboard._visualizerTextureAvailable = false;
+                dynamicObject._billboardVisualizerIndex = undefined;
+                this._unusedIndexes.push(billboardVisualizerIndex);
+            }
+            return;
+        }
+
+        if (typeof billboardVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                billboardVisualizerIndex = unusedIndexes.pop();
+                billboard = this._billboardCollection.get(billboardVisualizerIndex);
+            } else {
+                billboardVisualizerIndex = this._billboardCollection.getLength();
+                billboard = this._billboardCollection.add();
+            }
+            dynamicObject._billboardVisualizerIndex = billboardVisualizerIndex;
+            billboard.dynamicObject = dynamicObject;
+            billboard._visualizerUrl = undefined;
+            billboard._visualizerTextureAvailable = false;
+
+            // CZML_TODO Determine official defaults
+            billboard.setColor(Color.WHITE);
+            billboard.setEyeOffset(Cartesian3.ZERO);
+            billboard.setPixelOffset(Cartesian2.ZERO);
+            billboard.setScale(1.0);
+            billboard.setHorizontalOrigin(HorizontalOrigin.CENTER);
+            billboard.setVerticalOrigin(VerticalOrigin.CENTER);
+        } else {
+            billboard = this._billboardCollection.get(billboardVisualizerIndex);
+        }
+
+        var textureValue = textureProperty.getValue(time);
+        if (textureValue !== billboard._visualizerUrl) {
+            billboard._visualizerUrl = textureValue;
+            billboard._visualizerTextureAvailable = false;
+            this._textureAtlasBuilder.addTextureFromUrl(textureValue, textureReady(dynamicObject, this._billboardCollection, textureValue));
+        }
+
+        billboard.setShow(billboard._visualizerTextureAvailable);
+        if (!billboard._visualizerTextureAvailable) {
+            return;
+        }
+
+        position = positionProperty.getValueCartesian(time, position);
+        if (position !== 'undefined') {
+            billboard.setPosition(position);
+        }
+
+        var property = dynamicBillboard.color;
+
+        if (typeof property !== 'undefined') {
+            color = property.getValue(time, color);
+            if (typeof color !== 'undefined') {
+                billboard.setColor(color);
+            }
+        }
+
+        property = dynamicBillboard.eyeOffset;
+        if (typeof property !== 'undefined') {
+            eyeOffset = property.getValue(time, eyeOffset);
+            if (typeof eyeOffset !== 'undefined') {
+                billboard.setEyeOffset(eyeOffset);
+            }
+        }
+
+        property = dynamicBillboard.pixelOffset;
+        if (typeof property !== 'undefined') {
+            pixelOffset = property.getValue(time, pixelOffset);
+            if (typeof pixelOffset !== 'undefined') {
+                billboard.setPixelOffset(pixelOffset);
+            }
+        }
+
+        property = dynamicBillboard.scale;
+        if (typeof property !== 'undefined') {
+            var scale = property.getValue(time);
+            if (typeof scale !== 'undefined') {
+                billboard.setScale(scale);
+            }
+        }
+
+        property = dynamicBillboard.horizontalOrigin;
+        if (typeof property !== 'undefined') {
+            var horizontalOrigin = property.getValue(time);
+            if (typeof horizontalOrigin !== 'undefined') {
+                billboard.setHorizontalOrigin(horizontalOrigin);
+            }
+        }
+
+        property = dynamicBillboard.verticalOrigin;
+        if (typeof property !== 'undefined') {
+            var verticalOrigin = property.getValue(time);
+            if (typeof verticalOrigin !== 'undefined') {
+                billboard.setVerticalOrigin(verticalOrigin);
+            }
+        }
+    };
+
+    DynamicBillboardVisualizer.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisBillboardCollection = this._billboardCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var billboardVisualizerIndex = dynamicObject._billboardVisualizerIndex;
+            if (typeof billboardVisualizerIndex !== 'undefined') {
+                var billboard = thisBillboardCollection.get(billboardVisualizerIndex);
+                billboard.setShow(false);
+                billboard._visualizerUrl = undefined;
+                billboard._visualizerTextureAvailable = false;
+                dynamicObject._billboardVisualizerIndex = undefined;
+                thisUnusedIndexes.push(billboardVisualizerIndex);
+            }
+        }
+    };
+
+    return DynamicBillboardVisualizer;
+});
+/*global define*/
+define('DynamicScene/DynamicPointVisualizer',[
+        '../Core/Event',
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Color',
+        '../Scene/BillboardCollection',
+        '../Renderer/TextureAtlasBuilder'
+       ], function(
+         Event,
+         DeveloperError,
+         destroyObject,
+         Color,
+         BillboardCollection,
+         TextureAtlasBuilder) {
+    
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicPoint instance
+     * in DynamicObject.point to a Billboard primitive with a point texture.
+     * @alias DynamicPointVisualizer
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicPoint
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicBillboardVisualizer
+     * @see DynamicConeVisualizer
+     * @see DynamicConeVisualizerUsingCustomSensorr
+     * @see DynamicLabelVisualizer
+     * @see DynamicPolygonVisualizer
+     * @see DynamicPolylineVisualizer
+     * @see DynamicPyramidVisualizer
+     *
+     */
+    var DynamicPointVisualizer = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._dynamicObjectCollection = undefined;
+        var billboardCollection = this._billboardCollection = new BillboardCollection();
+        var atlas = this._textureAtlas = scene.getContext().createTextureAtlas();
+        this._textureAtlasBuilder = new TextureAtlasBuilder(atlas);
+        billboardCollection.setTextureAtlas(atlas);
+        scene.getPrimitives().add(billboardCollection);
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicPointVisualizer.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicPointVisualizer.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicPointVisualizer.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicPointVisualizer.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicPointVisualizer.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicPointVisualizer.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicPointVisualizer.prototype.removeAllPrimitives = function() {
+        this._unusedIndexes = [];
+        this._billboardCollection.removeAll();
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._pointVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicPointVisualizer
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicPointVisualizer#destroy
+     */
+    DynamicPointVisualizer.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicPointVisualizer
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicPointVisualizer#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicPointVisualizer.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        this._scene.getPrimitives().remove(this._billboardCollection);
+        return destroyObject(this);
+    };
+
+    var color;
+    var position;
+    var outlineColor;
+    DynamicPointVisualizer.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicPoint = dynamicObject.point;
+        if (typeof dynamicPoint === 'undefined') {
+            return;
+        }
+
+        var positionProperty = dynamicObject.position;
+        if (typeof positionProperty === 'undefined') {
+            return;
+        }
+
+        var billboard;
+        var showProperty = dynamicPoint.show;
+        var pointVisualizerIndex = dynamicObject._pointVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+        if (!show) {
+            //don't bother creating or updating anything else
+            if (typeof pointVisualizerIndex !== 'undefined') {
+                billboard = this._billboardCollection.get(pointVisualizerIndex);
+                billboard.setShow(false);
+                dynamicObject._pointVisualizerIndex = undefined;
+                this._unusedIndexes.push(pointVisualizerIndex);
+            }
+            return;
+        }
+
+        var needRedraw = false;
+        if (typeof pointVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                pointVisualizerIndex = unusedIndexes.pop();
+                billboard = this._billboardCollection.get(pointVisualizerIndex);
+            } else {
+                pointVisualizerIndex = this._billboardCollection.getLength();
+                billboard = this._billboardCollection.add();
+            }
+            dynamicObject._pointVisualizerIndex = pointVisualizerIndex;
+            billboard.dynamicObject = dynamicObject;
+
+            // CZML_TODO Determine official defaults
+            billboard._visualizerColor = Color.WHITE.clone(billboard._visualizerColor);
+            billboard._visualizerOutlineColor = Color.BLACK.clone(billboard._visualizerOutlineColor);
+            billboard._visualizerOutlineWidth = 2;
+            billboard._visualizerPixelSize = 3;
+            needRedraw = true;
+        } else {
+            billboard = this._billboardCollection.get(pointVisualizerIndex);
+        }
+
+        billboard.setShow(true);
+
+        position = positionProperty.getValueCartesian(time, position);
+        if (position !== 'undefined') {
+            billboard.setPosition(position);
+        }
+
+        var property = dynamicPoint.color;
+        if (typeof property !== 'undefined') {
+            color = property.getValue(time, color);
+            if (billboard._visualizerColor !== color) {
+                billboard._visualizerColor = color;
+                needRedraw = true;
+            }
+        }
+
+        property = dynamicPoint.outlineColor;
+        if (typeof property !== 'undefined') {
+            outlineColor = property.getValue(time, outlineColor);
+            if (billboard._visualizerOutlineColor !== outlineColor) {
+                billboard._visualizerOutlineColor = outlineColor;
+                needRedraw = true;
+            }
+        }
+
+        property = dynamicPoint.outlineWidth;
+        if (typeof property !== 'undefined') {
+            var outlineWidth = property.getValue(time);
+            if (billboard._visualizerOutlineWidth !== outlineWidth) {
+                billboard._visualizerOutlineWidth = outlineWidth;
+                needRedraw = true;
+            }
+        }
+
+        property = dynamicPoint.pixelSize;
+        if (typeof property !== 'undefined') {
+            var pixelSize = property.getValue(time);
+            if (billboard._visualizerPixelSize !== pixelSize) {
+                billboard._visualizerPixelSize = pixelSize;
+                needRedraw = true;
+            }
+        }
+
+        if (needRedraw) {
+            var cssColor = typeof billboard._visualizerColor !== 'undefined' ? billboard._visualizerColor.toCSSColor() : '#FFFFFF';
+            var cssOutlineColor = typeof billboard._visualizerOutlineColor !== 'undefined' ? billboard._visualizerOutlineColor.toCSSColor() : '#000000';
+            var cssPixelSize = typeof billboard._visualizerPixelSize !== 'undefined' ? billboard._visualizerPixelSize : 3;
+            var cssOutlineWidth = typeof billboard._visualizerOutlineWidth !== 'undefined' ? billboard._visualizerOutlineWidth : 2;
+            var textureId = JSON.stringify([cssColor, cssPixelSize, cssOutlineColor, cssOutlineWidth]);
+
+            this._textureAtlasBuilder.addTextureFromFunction(textureId, function(id, loadedCallback) {
+                var canvas = document.createElement('canvas');
+
+                var length = cssPixelSize + (2 * cssOutlineWidth);
+                canvas.height = canvas.width = length;
+
+                var context2D = canvas.getContext('2d');
+                context2D.clearRect(0, 0, length, length);
+
+                if (cssOutlineWidth !== 0) {
+                    context2D.beginPath();
+                    context2D.arc(length / 2, length / 2, length / 2, 0, 2 * Math.PI, true);
+                    context2D.closePath();
+                    context2D.fillStyle = cssOutlineColor;
+                    context2D.fill();
+                }
+
+                context2D.beginPath();
+                context2D.arc(length / 2, length / 2, cssPixelSize / 2, 0, 2 * Math.PI, true);
+                context2D.closePath();
+                context2D.fillStyle = cssColor;
+                context2D.fill();
+
+                loadedCallback(canvas);
+            }, function(imageIndex) {
+                billboard.setImageIndex(imageIndex);
+            });
+        }
+    };
+
+    DynamicPointVisualizer.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisBillboardCollection = this._billboardCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var pointVisualizerIndex = dynamicObject._pointVisualizerIndex;
+            if (typeof pointVisualizerIndex !== 'undefined') {
+                var billboard = thisBillboardCollection.get(pointVisualizerIndex);
+                billboard.setShow(false);
+                dynamicObject._pointVisualizerIndex = undefined;
+                thisUnusedIndexes.push(pointVisualizerIndex);
+            }
+        }
+    };
+
+    return DynamicPointVisualizer;
 });
 
 /*global define*/
@@ -30843,14 +35295,14 @@ define('Renderer/Context',[
     /**
      * DOC_TBA
      *
-     * @name Context
+     * @alias Context
      * @constructor
      *
      * @exception {RuntimeError} The browser does not support WebGL.  Visit http://get.webgl.org.
      * @exception {RuntimeError} The browser supports WebGL, but initialization failed.
      * @exception {DeveloperError} canvas is required.
      */
-    function Context(canvas, options) {
+    var Context = function(canvas, options) {
         if (!window.WebGLRenderingContext) {
             throw new RuntimeError('The browser does not support WebGL.  Visit http://get.webgl.org.');
         }
@@ -30942,7 +35394,7 @@ define('Renderer/Context',[
         this._us = new UniformState(this);
         this._currentFramebuffer = undefined;
         this._currentSp = undefined;
-    }
+    };
 
     Context.prototype._enableOrDisable = function(glEnum, enable) {
         if (enable) {
@@ -32186,10 +36638,25 @@ define('Renderer/Context',[
     };
 
     /**
-     * DOC_TBA
+     * Creates a new texture atlas with this context.
+     *
+     * @memberof Context
+     *
+     * @param {Context} description.context The context in which the texture gets created.
+     * @param {PixelFormat} [description.pixelFormat = PixelFormat.RGBA] The pixel format of the texture.
+     * @param {Number} [description.borderWidthInPixels = 1] The amount of spacing between adjacent images in pixels.
+     * @param {Cartesian2} [description.initialSize = new Cartesian2(16.0, 16.0)] The initial side lengths of the texture.
+     * @param {Array} description.images Optional array of {@link Image} to be added to the atlas. Same as calling addImages(images).
+     * @param {Image} description.image Optional single image to be added to the atlas. Same as calling addImage(image).
+     *
+     * @returns {TextureAtlas} The new texture atlas.
+     *
+     * @see TextureAtlas
      */
-    Context.prototype.createTextureAtlas = function(images, pixelFormat, borderWidthInPixels) {
-        return new TextureAtlas(this, images, pixelFormat, borderWidthInPixels);
+    Context.prototype.createTextureAtlas = function(description) {
+        description = description || {};
+        description.context = this;
+        return new TextureAtlas(description);
     };
 
     /**
@@ -33868,10 +38335,10 @@ define('Scene/CheckerboardMaterial',['../Shaders/CheckerboardMaterial'], functio
     /**
      * DOC_TBA
      *
-     * @name CheckerboardMaterial
+     * @alias CheckerboardMaterial
      * @constructor
      */
-    function CheckerboardMaterial(template) {
+    var CheckerboardMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -33923,7 +38390,7 @@ define('Scene/CheckerboardMaterial',['../Shaders/CheckerboardMaterial'], functio
                 };
             }
         };
-    }
+    };
 
     CheckerboardMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' + ShadersCheckerboardMaterial;
@@ -33943,27 +38410,27 @@ define('Shaders/ColorMaterial',[],function() {
 "";
 });
 /*global define*/
-define('Scene/ColorMaterial',['../Shaders/ColorMaterial'], function(ShadersColorMaterial) {
+define('Scene/ColorMaterial',[
+        '../Core/Color',
+        '../Shaders/ColorMaterial'
+       ], function(
+         Color,
+         ShadersColorMaterial) {
     
 
     /**
      * DOC_TBA
      *
-     * @name ColorMaterial
+     * @alias ColorMaterial
      * @constructor
      */
-    function ColorMaterial(template) {
-        var t = template || {};
+    var ColorMaterial = function(template) {
+        var color = typeof template === 'undefined' ? undefined : template.color;
 
         /**
          * DOC_TBA
          */
-        this.color = t.color || {
-            red : 1.0,
-            green : 0.0,
-            blue : 0.0,
-            alpha : 0.5
-        };
+        this.color = typeof color !== 'undefined' ? new Color(color.red, color.green, color.blue, color.alpha) : new Color(1.0, 0.0, 0.0, 0.5);
 
         var that = this;
         this._uniforms = {
@@ -33971,13 +38438,81 @@ define('Scene/ColorMaterial',['../Shaders/ColorMaterial'], function(ShadersColor
                 return that.color;
             }
         };
-    }
+    };
 
     ColorMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' + ShadersColorMaterial;
     };
 
     return ColorMaterial;
+});
+
+/*global define*/
+define('DynamicScene/DynamicColorMaterial',[
+        './DynamicProperty',
+        './CzmlColor',
+        '../Scene/ColorMaterial'
+    ], function(
+         DynamicProperty,
+         CzmlColor,
+         ColorMaterial) {
+    
+
+    /**
+     * A utility class for processing CZML color materials.
+     * @alias DynamicColorMaterial
+     * @constructor
+     */
+    var DynamicColorMaterial = function() {
+        this.color = undefined;
+    };
+
+    /**
+     * Returns true if the provided CZML interval contains color material data.
+     * @param czmlInterval The CZML interval to check.
+     * @returns {Boolean} true if the interval contains CZML color material data, false otherwise.
+     */
+    DynamicColorMaterial.isMaterial = function(czmlInterval) {
+        return typeof czmlInterval !== 'undefined' && typeof czmlInterval.solidColor !== 'undefined';
+    };
+
+    /**
+     * Provided a CZML interval containing color material data, processes the
+     * interval into a new or existing instance of this class.
+     *
+     * @param {Object} czmlInterval The interval to process.
+     * @param {DynamicColorMaterial} [existingMaterial] The DynamicColorMaterial to modify.
+     */
+    DynamicColorMaterial.prototype.processCzmlIntervals = function(czmlInterval) {
+        var materialData = czmlInterval.solidColor;
+        if (typeof materialData !== 'undefined') {
+            if (typeof materialData.color !== 'undefined') {
+                var color = this.color;
+                if (typeof color === 'undefined') {
+                    this.color = color = new DynamicProperty(CzmlColor);
+                }
+                color.processCzmlIntervals(materialData.color);
+            }
+        }
+    };
+
+    /**
+     * Get's a ColorMaterial that represents this dynamic material at the provided time.
+     *
+     * @param {JulianDate} time The desired time.
+     * @param {Context} context The context in which this material exists.
+     * @param {ColorMaterial} [existingMaterial] An existing material to be modified.  If the material is undefined or not a ColorMaterial, a new instance is created.
+     * @returns The modified existingMaterial parameter or a new ColorMaterial instance if existingMaterial was undefined or not a ColorMaterial.
+     */
+    DynamicColorMaterial.prototype.getValue = function(time, context, existingMaterial) {
+        if (typeof existingMaterial === 'undefined' || !(existingMaterial instanceof ColorMaterial)) {
+            existingMaterial = new ColorMaterial();
+        }
+        existingMaterial.color = this.color.getValue(time, existingMaterial.color);
+        return existingMaterial;
+    };
+
+    return DynamicColorMaterial;
 });
 
 /*global define*/
@@ -35102,10 +39637,10 @@ define('Scene/DiffuseMapMaterial',['../Shaders/DiffuseMapMaterial'], function(Sh
      *
      * DOC_TBA
      *
-     * @name DiffuseMapMaterial
+     * @alias DiffuseMapMaterial
      * @constructor
      */
-    function DiffuseMapMaterial(template) {
+    var DiffuseMapMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -35135,7 +39670,7 @@ define('Scene/DiffuseMapMaterial',['../Shaders/DiffuseMapMaterial'], function(Sh
                 };
             }
         };
-    }
+    };
 
     DiffuseMapMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' + ShadersDiffuseMapMaterial;
@@ -35144,6 +39679,874 @@ define('Scene/DiffuseMapMaterial',['../Shaders/DiffuseMapMaterial'], function(Sh
     return DiffuseMapMaterial;
 });
 
+
+/*global define*/
+define('DynamicScene/DynamicImageMaterial',[
+        './DynamicProperty',
+        './CzmlString',
+        './CzmlNumber',
+        '../Scene/DiffuseMapMaterial',
+        '../Renderer/PixelFormat'
+    ], function(
+         DynamicProperty,
+         CzmlString,
+         CzmlNumber,
+         DiffuseMapMaterial,
+         PixelFormat) {
+    
+
+    //CZML_TODO Cesium doesn't currently provide any sort of 'default' texture or image
+    //when you default construct something with a texture.  This means that as soon as we create
+    //our image material, we have to assign a texture to it or else we will crash
+    //on the next draw.  Once we change Cesium to have built in texture defaults,
+    //this code can be removed.  If we decide Cesium shouldn't have built in defaults,
+    //this code should be changes so at least all CZML visualization has defaults.
+    function createDefaultTexture() {
+        var canvas = document.createElement('canvas');
+        canvas.height = '64';
+        canvas.width = '64';
+
+        var context = canvas.getContext('2d');
+        context.fillStyle = '#FFFFFF';
+        context.font = '64px sans-serif';
+        context.textBaseline = 'top';
+        context.fillText('?', 16, 0);
+        context.font = '64px sans-serif';
+        context.strokeStyle = '#000000';
+        context.strokeText('?', 16, 0);
+        return canvas.toDataURL('image/png');
+    }
+
+    var defaultTexture = createDefaultTexture();
+
+    /**
+     * A utility class for processing CZML image materials.
+     * @alias DynamicImageMaterial
+     * @constructor
+     */
+    var DynamicImageMaterial = function() {
+        this.image = undefined;
+        this.verticalRepeat = undefined;
+        this.horizontalRepeat = undefined;
+    };
+
+    /**
+     * Returns true if the provided CZML interval contains image material data.
+     * @param czmlInterval The CZML interval to check.
+     * @returns {Boolean} true if the interval contains CZML image material data, false otherwise.
+     */
+    DynamicImageMaterial.isMaterial = function(czmlInterval) {
+        return typeof czmlInterval.image !== 'undefined';
+    };
+
+    /**
+     * Provided a CZML interval containing image material data, processes the
+     * interval into a new or existing instance of this class.
+     *
+     * @param {Object} czmlInterval The interval to process.
+     * @param {DynamicImageMaterial} [existingMaterial] The DynamicImageMaterial to modify.
+     * @returns The modified existingMaterial parameter or a new DynamicImageMaterial instance if existingMaterial was undefined or not a DynamicImageMaterial.
+     */
+    DynamicImageMaterial.prototype.processCzmlIntervals = function(czmlInterval) {
+        var materialData = czmlInterval.image;
+        if (typeof materialData === 'undefined') {
+            return;
+        }
+
+        if (typeof materialData.image !== 'undefined') {
+            var image = this.image;
+            if (typeof image === 'undefined') {
+                this.image = image = new DynamicProperty(CzmlString);
+            }
+            image.processCzmlIntervals(materialData.image);
+        }
+
+        if (typeof materialData.verticalRepeat !== 'undefined') {
+            var verticalRepeat = this.verticalRepeat;
+            if (typeof verticalRepeat === 'undefined') {
+                this.verticalRepeat = verticalRepeat = new DynamicProperty(CzmlNumber);
+            }
+            verticalRepeat.processCzmlIntervals(materialData.verticalRepeat);
+        }
+
+        if (typeof materialData.horizontalRepeat !== 'undefined') {
+            var horizontalRepeat = this.horizontalRepeat;
+            if (typeof horizontalRepeat === 'undefined') {
+                this.horizontalRepeat = horizontalRepeat = new DynamicProperty(CzmlNumber);
+            }
+            horizontalRepeat.processCzmlIntervals(materialData.horizontalRepeat);
+        }
+    };
+
+    /**
+     * Get's a DiffuseMapMaterial that represents this dynamic material at the provided time.
+     *
+     * @param {JulianDate} time The desired time.
+     * @param {Context} context The context in which this material exists.
+     * @param {DiffuseMapMaterial} [existingMaterial] An existing material to be modified.  If the material is undefined or not a DiffuseMapMaterial, a new instance is created.
+     * @returns The modified existingMaterial parameter or a new DiffuseMapMaterial instance if existingMaterial was undefined or not a DiffuseMapMaterial.
+     */
+    DynamicImageMaterial.prototype.getValue = function(time, context, existingMaterial) {
+        if (typeof existingMaterial === 'undefined' || !(existingMaterial instanceof DiffuseMapMaterial)) {
+            existingMaterial = new DiffuseMapMaterial();
+        }
+
+        var tRepeat;
+        var property = this.verticalRepeat;
+        if (typeof property !== 'undefined') {
+            tRepeat = property.getValue(time);
+            if (typeof tRepeat !== 'undefined') {
+                existingMaterial.tRepeat = tRepeat;
+            }
+        }
+
+        var sRepeat;
+        property = this.horizontalRepeat;
+        if (typeof property !== 'undefined') {
+            sRepeat = property.getValue(time);
+            if (typeof value !== 'undefined') {
+                existingMaterial.sRepeat = sRepeat;
+            }
+        }
+
+        property = this.image;
+        if (typeof property !== 'undefined') {
+            var url = this.image.getValue(time);
+            if (typeof url !== 'undefined' && existingMaterial.currentUrl !== url) {
+                existingMaterial.currentUrl = url;
+                var image = new Image();
+                image.onload = function() {
+                    if (existingMaterial.currentUrl === url) {
+                        existingMaterial.texture = context.createTexture2D({
+                            source : image
+                        });
+                    }
+                };
+                image.src = url;
+            }
+        }
+        if (!existingMaterial.texture) {
+            existingMaterial.texture = context.createTexture2D({
+                source : defaultTexture
+            });
+        }
+        return existingMaterial;
+    };
+
+    return DynamicImageMaterial;
+});
+/*global define*/
+define('DynamicScene/DynamicMaterialProperty',[
+        '../Core/JulianDate',
+        '../Core/TimeInterval',
+        '../Core/TimeIntervalCollection',
+        '../Core/Iso8601',
+        './DynamicColorMaterial',
+        './DynamicImageMaterial'
+    ], function(
+        JulianDate,
+        TimeInterval,
+        TimeIntervalCollection,
+        Iso8601,
+        DynamicColorMaterial,
+        DynamicImageMaterial) {
+    
+
+    var potentialMaterials = [DynamicColorMaterial, DynamicImageMaterial];
+
+    /**
+     * A dynamic property which stores data for multiple types of materials
+     * associated with the same property over time. Rather than creating instances
+     * of this object directly, it's typically created and managed via loading CZML
+     * data into a DynamicObjectCollection.
+     *
+     * @alias DynamicMaterialProperty
+     * @internalconstructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see ReferenceProperty
+     * @see DynamicPositionProperty
+     * @see DynamicDirectionsProperty
+     * @see DynamicVertexPositionsProperty
+     */
+    var DynamicMaterialProperty = function() {
+        this._intervals = new TimeIntervalCollection();
+    };
+
+
+    /**
+     * Processes the provided CZML interval or intervals into this property.
+     *
+     * @memberof DynamicMaterialProperty
+     *
+     * @param {Object} czmlIntervals The CZML data to process.
+     * @param {TimeInterval} [constrainedInterval] Constrains the processing so that any times outside of this interval are ignored.
+     */
+    DynamicMaterialProperty.prototype.processCzmlIntervals = function(czmlIntervals, constrainedInterval) {
+        if (Array.isArray(czmlIntervals)) {
+            for ( var i = 0, len = czmlIntervals.length; i < len; i++) {
+                this._addCzmlInterval(czmlIntervals[i], constrainedInterval);
+            }
+        } else {
+            this._addCzmlInterval(czmlIntervals, constrainedInterval);
+        }
+    };
+
+    /**
+     * Returns the value of the property at the specified time.
+     * @memberof DynamicMaterialProperty
+     *
+     * @param {JulianDate} time The time for which to retrieve the value.
+     * @param {Context} [context] The context in which the material exists.
+     * @param {Object} [result] The object to store the value into, if omitted, a new instance is created and returned.
+     * @returns The modified result parameter or a new instance if the result parameter was not supplied.
+     */
+    DynamicMaterialProperty.prototype.getValue = function(time, context, existingMaterial) {
+        var value = this._intervals.findIntervalContainingDate(time);
+        var material = typeof value !== 'undefined' ? value.data : undefined;
+        if (typeof material !== 'undefined') {
+            return material.getValue(time, context, existingMaterial);
+        }
+        return existingMaterial;
+    };
+
+    DynamicMaterialProperty.prototype._addCzmlInterval = function(czmlInterval, constrainedInterval) {
+        var iso8601Interval = czmlInterval.interval;
+        if (typeof iso8601Interval === 'undefined') {
+            iso8601Interval = Iso8601.MAXIMUM_INTERVAL.clone();
+        } else {
+            iso8601Interval = TimeInterval.fromIso8601(iso8601Interval);
+        }
+
+        if (typeof constrainedInterval !== 'undefined') {
+            iso8601Interval = iso8601Interval.intersect(constrainedInterval);
+        }
+
+        //See if we already have data at that interval.
+        var thisIntervals = this._intervals;
+        var existingInterval = thisIntervals.findInterval(iso8601Interval.start, iso8601Interval.stop);
+        var foundMaterial = false;
+        var existingMaterial;
+
+        if (typeof existingInterval !== 'undefined') {
+            //We have an interval, but we need to make sure the
+            //new data is the same type of material as the old data.
+            existingMaterial = existingInterval.data;
+            foundMaterial = existingMaterial.isMaterial(czmlInterval);
+        } else {
+            //If not, create it.
+            existingInterval = iso8601Interval;
+            thisIntervals.addInterval(existingInterval);
+        }
+
+        //If the new data was a different type, look for a handler for this type.
+        if (foundMaterial === false) {
+            for ( var i = 0, len = potentialMaterials.length; i < len; i++) {
+                var Material = potentialMaterials[i];
+                foundMaterial = Material.isMaterial(czmlInterval);
+                if (foundMaterial) {
+                    existingInterval.data = existingMaterial = new Material();
+                    break;
+                }
+            }
+        }
+
+        //We could handle the data, prcess it.
+        if (foundMaterial) {
+            existingMaterial.processCzmlIntervals(czmlInterval);
+        }
+    };
+
+    return DynamicMaterialProperty;
+});
+/*global define*/
+define('DynamicScene/DynamicCone',[
+        '../Core/TimeInterval',
+        './CzmlBoolean',
+        './CzmlNumber',
+        './CzmlColor',
+        './DynamicProperty',
+        './DynamicMaterialProperty'
+       ], function(
+         TimeInterval,
+         CzmlBoolean,
+         CzmlNumber,
+         CzmlColor,
+         DynamicProperty,
+         DynamicMaterialProperty) {
+    
+
+    /**
+     * Represents a time-dynamic cone, typically used in conjunction with DynamicConeVisualizer and
+     * DynamicObjectCollection to visualize CZML.
+     *
+     * @alias DynamicCone
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see DynamicConeVisualizer
+     * @see VisualizerCollection
+     * @see ComplexConicSensor
+     * @see CzmlDefaults
+     */
+    var DynamicCone = function() {
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the cone's minimum clock-angle.
+         */
+        this.minimumClockAngle = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the cone's maximum clock-angle.
+         */
+        this.maximumClockAngle = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the cone's inner half-angle.
+         */
+        this.innerHalfAngle = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the cone's outer half-angle.
+         */
+        this.outerHalfAngle = undefined;
+        /**
+         * A DynamicMaterialProperty which determines the cone's cap material.
+         */
+        this.capMaterial = undefined;
+        /**
+         * A DynamicMaterialProperty which determines the cone's inner material.
+         */
+        this.innerMaterial = undefined;
+        /**
+         * A DynamicMaterialProperty which determines the cone's outer material.
+         */
+        this.outerMaterial = undefined;
+        /**
+         * A DynamicMaterialProperty which determines the cone's silhouette material.
+         */
+        this.silhouetteMaterial = undefined;
+        /**
+         * A DynamicProperty of type CzmlColor which determines the color of the line formed by the intersection of the cone and other central bodies.
+         */
+        this.intersectionColor = undefined;
+        /**
+         * A DynamicProperty of type CzmlBoolean which determines the cone's intersection visibility
+         */
+        this.showIntersection = undefined;
+        /**
+         * A DynamicProperty of type CzmlNumber which determines the cone's radius.
+         */
+        this.radius = undefined;
+        /**
+         * A DynamicProperty of type CzmlBoolean which determines the cone's visibility
+         */
+        this.show = undefined;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's cone.
+     * If the DynamicObject does not have a cone, one is created.  This method is not
+     * normally called directly, but is part of the array of CZML processing functions that is
+     * passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the cone data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if any new properties were created while processing the packet, false otherwise.
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicCone.processCzmlPacket = function(dynamicObject, packet) {
+        var coneData = packet.cone;
+        if (typeof coneData === 'undefined') {
+            return false;
+        }
+
+        var coneUpdated = false;
+        var cone = dynamicObject.cone;
+        coneUpdated = typeof cone === 'undefined';
+        if (coneUpdated) {
+            dynamicObject.cone = cone = new DynamicCone();
+        }
+
+        var interval = coneData.interval;
+        if (typeof interval !== 'undefined') {
+            interval = TimeInterval.fromIso8601(interval);
+        }
+
+        if (typeof coneData.show !== 'undefined') {
+            var show = cone.show;
+            if (typeof show === 'undefined') {
+                cone.show = show = new DynamicProperty(CzmlBoolean);
+                coneUpdated = true;
+            }
+            show.processCzmlIntervals(coneData.show, interval);
+        }
+
+        if (typeof coneData.innerHalfAngle !== 'undefined') {
+            var innerHalfAngle = cone.innerHalfAngle;
+            if (typeof innerHalfAngle === 'undefined') {
+                cone.innerHalfAngle = innerHalfAngle = new DynamicProperty(CzmlNumber);
+                coneUpdated = true;
+            }
+            innerHalfAngle.processCzmlIntervals(coneData.innerHalfAngle, interval);
+        }
+
+        if (typeof coneData.outerHalfAngle !== 'undefined') {
+            var outerHalfAngle = cone.outerHalfAngle;
+            if (typeof outerHalfAngle === 'undefined') {
+                cone.outerHalfAngle = outerHalfAngle = new DynamicProperty(CzmlNumber);
+                coneUpdated = true;
+            }
+            outerHalfAngle.processCzmlIntervals(coneData.outerHalfAngle, interval);
+        }
+
+        if (typeof coneData.minimumClockAngle !== 'undefined') {
+            var minimumClockAngle = cone.minimumClockAngle;
+            if (typeof minimumClockAngle === 'undefined') {
+                cone.minimumClockAngle = minimumClockAngle = new DynamicProperty(CzmlNumber);
+                coneUpdated = true;
+            }
+            minimumClockAngle.processCzmlIntervals(coneData.minimumClockAngle, interval);
+        }
+
+        if (typeof coneData.maximumClockAngle !== 'undefined') {
+            var maximumClockAngle = cone.maximumClockAngle;
+            if (typeof maximumClockAngle === 'undefined') {
+                cone.maximumClockAngle = maximumClockAngle = new DynamicProperty(CzmlNumber);
+                coneUpdated = true;
+            }
+            maximumClockAngle.processCzmlIntervals(coneData.maximumClockAngle, interval);
+        }
+
+        if (typeof coneData.radius !== 'undefined') {
+            var radius = cone.radius;
+            if (typeof radius === 'undefined') {
+                cone.radius = radius = new DynamicProperty(CzmlNumber);
+                coneUpdated = true;
+            }
+            radius.processCzmlIntervals(coneData.radius, interval);
+        }
+
+        if (typeof coneData.showIntersection !== 'undefined') {
+            var showIntersection = cone.showIntersection;
+            if (typeof showIntersection === 'undefined') {
+                cone.showIntersection = showIntersection = new DynamicProperty(CzmlBoolean);
+                coneUpdated = true;
+            }
+            showIntersection.processCzmlIntervals(coneData.showIntersection, interval);
+        }
+
+        if (typeof coneData.intersectionColor !== 'undefined') {
+            var intersectionColor = cone.intersectionColor;
+            if (typeof intersectionColor === 'undefined') {
+                cone.intersectionColor = intersectionColor = new DynamicProperty(CzmlColor);
+                coneUpdated = true;
+            }
+            intersectionColor.processCzmlIntervals(coneData.intersectionColor, interval);
+        }
+
+        if (typeof coneData.capMaterial !== 'undefined') {
+            var capMaterial = cone.capMaterial;
+            if (typeof capMaterial === 'undefined') {
+                cone.capMaterial = capMaterial = new DynamicMaterialProperty();
+                coneUpdated = true;
+            }
+            capMaterial.processCzmlIntervals(coneData.capMaterial, interval);
+        }
+
+        if (typeof coneData.innerMaterial !== 'undefined') {
+            var innerMaterial = cone.innerMaterial;
+            if (typeof innerMaterial === 'undefined') {
+                cone.innerMaterial = innerMaterial = new DynamicMaterialProperty();
+                coneUpdated = true;
+            }
+            innerMaterial.processCzmlIntervals(coneData.innerMaterial, interval);
+        }
+
+        if (typeof coneData.outerMaterial !== 'undefined') {
+            var outerMaterial = cone.outerMaterial;
+            if (typeof outerMaterial === 'undefined') {
+                cone.outerMaterial = outerMaterial = new DynamicMaterialProperty();
+                coneUpdated = true;
+            }
+            outerMaterial.processCzmlIntervals(coneData.outerMaterial, interval);
+        }
+
+        if (typeof coneData.silhouetteMaterial !== 'undefined') {
+            var silhouetteMaterial = cone.silhouetteMaterial;
+            if (typeof silhouetteMaterial === 'undefined') {
+                cone.silhouetteMaterial = silhouetteMaterial = new DynamicMaterialProperty();
+                coneUpdated = true;
+            }
+            silhouetteMaterial.processCzmlIntervals(coneData.silhouetteMaterial, interval);
+        }
+
+        return coneUpdated;
+    };
+
+    /**
+     * Given two DynamicObjects, takes the cone properties from the second
+     * and assigns them to the first, assuming such a property did not already exist.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicCone.mergeProperties = function(targetObject, objectToMerge) {
+        var coneToMerge = objectToMerge.cone;
+        if (typeof coneToMerge !== 'undefined') {
+
+            var targetCone = targetObject.cone;
+            if (typeof targetCone === 'undefined') {
+                targetObject.cone = targetCone = new DynamicCone();
+            }
+
+            targetCone.show = targetCone.show || coneToMerge.show;
+            targetCone.innerHalfAngle = targetCone.innerHalfAngle || coneToMerge.innerHalfAngle;
+            targetCone.outerHalfAngle = targetCone.outerHalfAngle || coneToMerge.outerHalfAngle;
+            targetCone.minimumClockAngle = targetCone.minimumClockAngle || coneToMerge.minimumClockAngle;
+            targetCone.maximumClockAngle = targetCone.maximumClockAngle || coneToMerge.maximumClockAngle;
+            targetCone.radius = targetCone.radius || coneToMerge.radius;
+            targetCone.showIntersection = targetCone.showIntersection || coneToMerge.showIntersection;
+            targetCone.intersectionColor = targetCone.intersectionColor || coneToMerge.intersectionColor;
+            targetCone.capMaterial = targetCone.capMaterial || coneToMerge.capMaterial;
+            targetCone.innerMaterial = targetCone.innerMaterial || coneToMerge.innerMaterial;
+            targetCone.outerMaterial = targetCone.outerMaterial || coneToMerge.outerMaterial;
+            targetCone.silhouetteMaterial = targetCone.silhouetteMaterial || coneToMerge.silhouetteMaterial;
+        }
+    };
+
+    /**
+     * Given a DynamicObject, undefines the cone associated with it.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the cone from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicCone.undefineProperties = function(dynamicObject) {
+        dynamicObject.cone = undefined;
+    };
+
+    return DynamicCone;
+});
+/*global define*/
+define('DynamicScene/DynamicPolygon',[
+        '../Core/TimeInterval',
+        './CzmlBoolean',
+        './DynamicProperty',
+        './DynamicMaterialProperty'
+    ], function(
+         TimeInterval,
+         CzmlBoolean,
+         DynamicProperty,
+         DynamicMaterialProperty) {
+    
+
+    /**
+     * Represents a time-dynamic polygon, typically used in conjunction with DynamicPolygonVisualizer and
+     * DynamicObjectCollection to visualize CZML.
+     *
+     * @alias DynamicPolygon
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see DynamicPolygonVisualizer
+     * @see VisualizerCollection
+     * @see Polygon
+     * @see CzmlDefaults
+     */
+    var DynamicPolygon = function() {
+        /**
+         * A DynamicProperty of type CzmlBoolean which determines the polygon's visibility.
+         */
+        this.show = undefined;
+        /**
+         * A DynamicMaterialProperty which determines the polygon's material.
+         */
+        this.material = undefined;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's polygon.
+     * If the DynamicObject does not have a polygon, one is created.  This method is not
+     * normally called directly, but is part of the array of CZML processing functions that is
+     * passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the polygon data.
+     * @param {Object} packet The CZML packet to process.
+     * @returns {Boolean} true if any new properties were created while processing the packet, false otherwise.
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicPolygon.processCzmlPacket = function(dynamicObject, packet) {
+        var polygonData = packet.polygon;
+        if (typeof polygonData === 'undefined') {
+            return false;
+        }
+
+        var polygonUpdated = false;
+        var polygon = dynamicObject.polygon;
+        polygonUpdated = typeof polygon === 'undefined';
+        if (polygonUpdated) {
+            dynamicObject.polygon = polygon = new DynamicPolygon();
+        }
+
+        var interval = polygonData.interval;
+        if (typeof interval !== 'undefined') {
+            interval = TimeInterval.fromIso8601(interval);
+        }
+
+        if (typeof polygonData.show !== 'undefined') {
+            var show = polygon.show;
+            if (typeof show === 'undefined') {
+                polygon.show = show = new DynamicProperty(CzmlBoolean);
+                polygonUpdated = true;
+            }
+            show.processCzmlIntervals(polygonData.show, interval);
+        }
+
+        if (typeof polygonData.material !== 'undefined') {
+            var material = polygon.material;
+            if (typeof material === 'undefined') {
+                polygon.material = material = new DynamicMaterialProperty();
+                polygonUpdated = true;
+            }
+            material.processCzmlIntervals(polygonData.material, interval);
+        }
+        return polygonUpdated;
+    };
+
+    /**
+     * Given two DynamicObjects, takes the polygon properties from the second
+     * and assigns them to the first, assuming such a property did not already exist.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPolygon.mergeProperties = function(targetObject, objectToMerge) {
+        var polygonToMerge = objectToMerge.polygon;
+        if (typeof polygonToMerge !== 'undefined') {
+
+            var targetPolygon = targetObject.polygon;
+            if (typeof targetPolygon === 'undefined') {
+                targetObject.polygon = targetPolygon = new DynamicPolygon();
+            }
+
+            targetPolygon.show = targetPolygon.show || polygonToMerge.show;
+            targetPolygon.material = targetPolygon.material || polygonToMerge.material;
+        }
+    };
+
+    /**
+     * Given a DynamicObject, undefines the polygon associated with it.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the polygon from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPolygon.undefineProperties = function(dynamicObject) {
+        dynamicObject.polygon = undefined;
+    };
+
+    return DynamicPolygon;
+});
+/*global define*/
+define('DynamicScene/DynamicPyramid',[
+        '../Core/TimeInterval',
+        './CzmlBoolean',
+        './CzmlNumber',
+        './CzmlColor',
+        './DynamicProperty',
+        './DynamicDirectionsProperty',
+        './DynamicMaterialProperty'
+    ], function(
+        TimeInterval,
+        CzmlBoolean,
+        CzmlNumber,
+        CzmlColor,
+        DynamicProperty,
+        DynamicDirectionsProperty,
+        DynamicMaterialProperty) {
+    
+
+    /**
+     * Represents a time-dynamic pyramid, typically used in conjunction with DynamicPyramidVisualizer and
+     * DynamicObjectCollection to visualize CZML.
+     *
+     * @alias DynamicPyramid
+     * @constructor
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see DynamicPyramidVisualizer
+     * @see VisualizerCollection
+     * @see CustomSensor
+     * @see CzmlDefaults
+     */
+    var DynamicPyramid = function() {
+        this.show = undefined;
+        this.directions = undefined;
+        this.radius = undefined;
+        this.showIntersection = undefined;
+        this.intersectionColor = undefined;
+        this.material = undefined;
+    };
+
+    /**
+     * Processes a single CZML packet and merges its data into the provided DynamicObject's pyramid.
+     * If the DynamicObject does not have a pyramid, one is created.  This method is not
+     * normally called directly, but is part of the array of CZML processing functions that is
+     * passed into the DynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject which will contain the pyramid data.
+     * @param {Object} packet The CZML packet to process.
+     * @param {DynamicObject} dynamicObjectCollection The DynamicObjectCollection to which the DynamicObject belongs.
+     *
+     * @returns {Boolean} true if any new properties were created while processing the packet, false otherwise.
+     *
+     * @see DynamicObject
+     * @see DynamicProperty
+     * @see DynamicObjectCollection
+     * @see CzmlDefaults#updaters
+     */
+    DynamicPyramid.processCzmlPacket = function(dynamicObject, packet, dynamicObjectCollection) {
+        var pyramidData = packet.pyramid;
+        if (typeof pyramidData === 'undefined') {
+            return false;
+        }
+
+        var pyramidUpdated = false;
+        var pyramid = dynamicObject.pyramid;
+        pyramidUpdated = typeof pyramid === 'undefined';
+        if (pyramidUpdated) {
+            dynamicObject.pyramid = pyramid = new DynamicPyramid();
+        }
+
+        var interval = pyramidData.interval;
+        if (typeof interval !== 'undefined') {
+            interval = TimeInterval.fromIso8601(interval);
+        }
+
+        if (typeof pyramidData.show !== 'undefined') {
+            var show = pyramid.show;
+            if (typeof show === 'undefined') {
+                pyramid.show = show = new DynamicProperty(CzmlBoolean);
+                pyramidUpdated = true;
+            }
+            show.processCzmlIntervals(pyramidData.show, interval);
+        }
+
+        if (typeof pyramidData.radius !== 'undefined') {
+            var radius = pyramid.radius;
+            if (typeof radius === 'undefined') {
+                pyramid.radius = radius = new DynamicProperty(CzmlNumber);
+                pyramidUpdated = true;
+            }
+            radius.processCzmlIntervals(pyramidData.radius, interval);
+        }
+
+        if (typeof pyramidData.showIntersection !== 'undefined') {
+            var showIntersection = pyramid.showIntersection;
+            if (typeof showIntersection === 'undefined') {
+                pyramid.showIntersection = showIntersection = new DynamicProperty(CzmlBoolean);
+                pyramidUpdated = true;
+            }
+            showIntersection.processCzmlIntervals(pyramidData.showIntersection, interval);
+        }
+
+        if (typeof pyramidData.intersectionColor !== 'undefined') {
+            var intersectionColor = pyramid.intersectionColor;
+            if (typeof intersectionColor === 'undefined') {
+                pyramid.intersectionColor = intersectionColor = new DynamicProperty(CzmlColor);
+                pyramidUpdated = true;
+            }
+            intersectionColor.processCzmlIntervals(pyramidData.intersectionColor, interval);
+        }
+
+        if (typeof pyramidData.material !== 'undefined') {
+            var material = pyramid.material;
+            if (typeof material === 'undefined') {
+                pyramid.material = material = new DynamicMaterialProperty();
+                pyramidUpdated = true;
+            }
+            material.processCzmlIntervals(pyramidData.material, interval);
+        }
+
+        if (typeof pyramidData.directions !== 'undefined') {
+            var directions = pyramid.directions;
+            if (typeof directions === 'undefined') {
+                pyramid.directions = directions = new DynamicDirectionsProperty();
+                pyramidUpdated = true;
+            }
+            directions.processCzmlIntervals(pyramidData.directions, interval);
+        }
+        return pyramidUpdated;
+    };
+
+    /**
+     * Given two DynamicObjects, takes the pyramid properties from the second
+     * and assigns them to the first, assuming such a property did not already exist.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} targetObject The DynamicObject which will have properties merged onto it.
+     * @param {DynamicObject} objectToMerge The DynamicObject containing properties to be merged.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPyramid.mergeProperties = function(targetObject, objectToMerge) {
+        var pyramidToMerge = objectToMerge.pyramid;
+        if (typeof pyramidToMerge !== 'undefined') {
+
+            var targetPyramid = targetObject.pyramid;
+            if (typeof targetPyramid === 'undefined') {
+                targetObject.pyramid = targetPyramid = new DynamicPyramid();
+            }
+
+            targetPyramid.show = targetPyramid.show || pyramidToMerge.show;
+            targetPyramid.directions = targetPyramid.directions || pyramidToMerge.directions;
+            targetPyramid.radius = targetPyramid.radius || pyramidToMerge.radius;
+            targetPyramid.showIntersection = targetPyramid.showIntersection || pyramidToMerge.showIntersection;
+            targetPyramid.intersectionColor = targetPyramid.intersectionColor || pyramidToMerge.intersectionColor;
+            targetPyramid.material = targetPyramid.material || pyramidToMerge.material;
+        }
+    };
+
+    /**
+     * Given a DynamicObject, undefines the pyramid associated with it.
+     * This method is not normally called directly, but is part of the array of CZML processing
+     * functions that is passed into the CompositeDynamicObjectCollection constructor.
+     *
+     * @param {DynamicObject} dynamicObject The DynamicObject to remove the pyramid from.
+     *
+     * @see CzmlDefaults
+     */
+    DynamicPyramid.undefineProperties = function(dynamicObject) {
+        dynamicObject.pyramid = undefined;
+    };
+
+    return DynamicPyramid;
+});
 
 
 /*global define*/
@@ -35173,10 +40576,10 @@ define('Scene/DistanceIntervalMaterial',['../Shaders/DistanceIntervalMaterial'],
     /**
      * DOC_TBA
      *
-     * @name DistanceIntervalMaterial
+     * @alias DistanceIntervalMaterial
      * @constructor
      */
-    function DistanceIntervalMaterial(template) {
+    var DistanceIntervalMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -35201,7 +40604,7 @@ define('Scene/DistanceIntervalMaterial',['../Shaders/DistanceIntervalMaterial'],
                 return colors;
             }
         };
-    }
+    };
 
     DistanceIntervalMaterial.prototype._getShaderSource = function() {
         return '#define NUMBER_OF_DISTANCES ' + this.intervals.length.toString() + '\n' +
@@ -35231,10 +40634,10 @@ define('Scene/DotMaterial',['../Shaders/DotMaterial'], function(ShadersDotMateri
     /**
      * DOC_TBA
      *
-     * @name DotMaterial
+     * @alias DotMaterial
      * @constructor
      */
-    function DotMaterial(template) {
+    var DotMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -35286,7 +40689,7 @@ define('Scene/DotMaterial',['../Shaders/DotMaterial'], function(ShadersDotMateri
                 };
             }
         };
-    }
+    };
 
     DotMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' + ShadersDotMaterial;
@@ -35457,10 +40860,10 @@ define('Scene/HorizontalStripeMaterial',['../Shaders/HorizontalStripeMaterial'],
     /**
      * DOC_TBA
      *
-     * @name HorizontalStripeMaterial
+     * @alias HorizontalStripeMaterial
      * @constructor
      */
-    function HorizontalStripeMaterial(template) {
+    var HorizontalStripeMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -35512,7 +40915,7 @@ define('Scene/HorizontalStripeMaterial',['../Shaders/HorizontalStripeMaterial'],
                 return that.repeat;
             }
         };
-    }
+    };
 
     HorizontalStripeMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' + ShadersHorizontalStripeMaterial;
@@ -35771,10 +41174,10 @@ define('Scene/BlobMaterial',[
     /**
      * DOC_TBA
      *
-     * @name BlobMaterial
+     * @alias BlobMaterial
      * @constructor
      */
-    function BlobMaterial(template) {
+    var BlobMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -35816,7 +41219,7 @@ define('Scene/BlobMaterial',[
                 return that.repeat;
             }
         };
-    }
+    };
 
     BlobMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' +
@@ -35839,10 +41242,10 @@ define('Scene/FacetMaterial',[
     /**
      * DOC_TBA
      *
-     * @name FacetMaterial
+     * @alias FacetMaterial
      * @constructor
      */
-    function FacetMaterial(template) {
+    var FacetMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -35884,7 +41287,7 @@ define('Scene/FacetMaterial',[
                 return that.repeat;
             }
         };
-    }
+    };
 
     FacetMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' +
@@ -36106,7 +41509,7 @@ define('Scene/Polygon',[
     /**
      * DOC_TBA
      *
-     * @name Polygon
+     * @alias Polygon
      * @constructor
      *
      * @example
@@ -36123,7 +41526,7 @@ define('Scene/Polygon',[
      *   ellipsoid.toCartesian(new Cartographic2(...))
      * ]);
      */
-    function Polygon() {
+    var Polygon = function() {
         this._sp = undefined;
         this._rs = undefined;
 
@@ -36257,7 +41660,7 @@ define('Scene/Polygon',[
         };
         this._pickUniforms = undefined;
         this._drawUniforms = undefined;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -36653,6 +42056,255 @@ define('Scene/Polygon',[
     return Polygon;
 });
 
+/*global define*/
+define('DynamicScene/DynamicPolygonVisualizer',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Scene/Polygon',
+        '../Scene/ColorMaterial'
+       ], function(
+         DeveloperError,
+         destroyObject,
+         Polygon,
+         ColorMaterial) {
+    
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicPolygon instance
+     * in DynamicObject.polygon to a Polygon primitive.
+     * @alias DynamicPolygonVisualizer
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicPolygon
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicBillboardVisualizer
+     * @see DynamicConeVisualizer
+     * @see DynamicConeVisualizerUsingCustomSensorr
+     * @see DynamicLabelVisualizer
+     * @see DynamicPointVisualizer
+     * @see DynamicPolylineVisualizer
+     * @see DynamicPyramidVisualizer
+     *
+     */
+    var DynamicPolygonVisualizer = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._primitives = scene.getPrimitives();
+        this._polygonCollection = [];
+        this._dynamicObjectCollection = undefined;
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicPolygonVisualizer.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicPolygonVisualizer.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicPolygonVisualizer.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicPolygonVisualizer.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicPolygonVisualizer.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicPolygonVisualizer.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicPolygonVisualizer.prototype.removeAllPrimitives = function() {
+        var i, len;
+        for (i = 0, len = this._polygonCollection.length; i < len; i++) {
+            this._primitives.remove(this._polygonCollection[i]);
+        }
+
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for (i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._polygonVisualizerIndex = undefined;
+            }
+        }
+
+        this._unusedIndexes = [];
+        this._polygonCollection = [];
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicPolygonVisualizer
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicPolygonVisualizer#destroy
+     */
+    DynamicPolygonVisualizer.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicPolygonVisualizer
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicPolygonVisualizer#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicPolygonVisualizer.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        return destroyObject(this);
+    };
+
+    DynamicPolygonVisualizer.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicPolygon = dynamicObject.polygon;
+        if (typeof dynamicPolygon === 'undefined') {
+            return;
+        }
+
+        var vertexPositionsProperty = dynamicObject.vertexPositions;
+        if (typeof vertexPositionsProperty === 'undefined') {
+            return;
+        }
+
+        var vertexPositions = vertexPositionsProperty.getValueCartesian(time);
+
+        var polygon;
+        var showProperty = dynamicPolygon.show;
+        var polygonVisualizerIndex = dynamicObject._polygonVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+
+        if (!show || typeof vertexPositions === 'undefined' || vertexPositions.length < 3) {
+            //don't bother creating or updating anything else
+            if (typeof polygonVisualizerIndex !== 'undefined') {
+                polygon = this._polygonCollection[polygonVisualizerIndex];
+                polygon.show = false;
+                dynamicObject._polygonVisualizerIndex = undefined;
+                this._unusedIndexes.push(polygonVisualizerIndex);
+            }
+            return;
+        }
+
+        if (typeof polygonVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                polygonVisualizerIndex = unusedIndexes.pop();
+                polygon = this._polygonCollection[polygonVisualizerIndex];
+            } else {
+                polygonVisualizerIndex = this._polygonCollection.length;
+                polygon = new Polygon();
+                this._polygonCollection.push(polygon);
+                this._primitives.add(polygon);
+            }
+            dynamicObject._polygonVisualizerIndex = polygonVisualizerIndex;
+            polygon.dynamicObject = dynamicObject;
+
+            // CZML_TODO Determine official defaults
+            polygon.material = new ColorMaterial();
+        } else {
+            polygon = this._polygonCollection[polygonVisualizerIndex];
+        }
+
+        polygon.show = true;
+
+        if (polygon._visualizerPositions !== vertexPositions) {
+            polygon.setPositions(vertexPositions);
+            polygon._visualizerPositions = vertexPositions;
+        }
+
+        var material = dynamicPolygon.material;
+        if (typeof material !== 'undefined') {
+            polygon.material = material.getValue(time, this._scene.getContext(), polygon.material);
+        }
+    };
+
+    DynamicPolygonVisualizer.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisPolygonCollection = this._polygonCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var polygonVisualizerIndex = dynamicObject._polygonVisualizerIndex;
+            if (typeof polygonVisualizerIndex !== 'undefined') {
+                var polygon = thisPolygonCollection[polygonVisualizerIndex];
+                polygon.show = false;
+                thisUnusedIndexes.push(polygonVisualizerIndex);
+                dynamicObject._polygonVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    return DynamicPolygonVisualizer;
+});
 
 /*global define*/
 define('Shaders/PolylineFS',[],function() {
@@ -36935,7 +42587,7 @@ define('Scene/Polyline',[
     /**
      * DOC_TBA
      *
-     * @name Polyline
+     * @alias Polyline
      * @constructor
      *
      * @example
@@ -36958,7 +42610,7 @@ define('Scene/Polyline',[
      *   ellipsoid.toCartesian(new Cartographic3(...))
      * ]);
      */
-    function Polyline() {
+    var Polyline = function() {
         this._sp = undefined;
         this._spGroundTrack = undefined;
         this._spHeightTrack = undefined;
@@ -37268,7 +42920,7 @@ define('Scene/Polyline',[
 
             _positions : undefined
         };
-    }
+    };
 
     Polyline.prototype._getModelMatrix = function(mode) {
         switch (mode) {
@@ -37693,6 +43345,277 @@ define('Scene/Polyline',[
     };
 
     return Polyline;
+});
+/*global define*/
+define('DynamicScene/DynamicPolylineVisualizer',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Color',
+        '../Scene/Polyline'
+       ], function(
+         DeveloperError,
+         destroyObject,
+         Color,
+         Polyline) {
+    
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicPolyline instance
+     * in DynamicObject.polyline to a Polyline primitive.
+     * @alias DynamicPolylineVisualizer
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicPolyline
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicBillboardVisualizer
+     * @see DynamicConeVisualizer
+     * @see DynamicConeVisualizerUsingCustomSensorr
+     * @see DynamicLabelVisualizer
+     * @see DynamicPointVisualizer
+     * @see DynamicPolygonVisualizer
+     * @see DynamicPyramidVisualizer
+     *
+     */
+    var DynamicPolylineVisualizer = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._primitives = scene.getPrimitives();
+        this._polylineCollection = [];
+        this._dynamicObjectCollection = undefined;
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicPolylineVisualizer.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicPolylineVisualizer.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicPolylineVisualizer.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicPolylineVisualizer.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicPolylineVisualizer.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicPolylineVisualizer.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicPolylineVisualizer.prototype.removeAllPrimitives = function() {
+        var i, len;
+        for (i = 0, len = this._polylineCollection.length; i < len; i++) {
+            this._primitives.remove(this._polylineCollection[i]);
+        }
+
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for (i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._polylineVisualizerIndex = undefined;
+            }
+        }
+
+        this._unusedIndexes = [];
+        this._polylineCollection = [];
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicPolylineVisualizer
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicPolylineVisualizer#destroy
+     */
+    DynamicPolylineVisualizer.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicPolylineVisualizer
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicPolylineVisualizer#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicPolylineVisualizer.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        return destroyObject(this);
+    };
+
+    DynamicPolylineVisualizer.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicPolyline = dynamicObject.polyline;
+        if (typeof dynamicPolyline === 'undefined') {
+            return;
+        }
+
+        var vertexPositionsProperty = dynamicObject.vertexPositions;
+        if (typeof vertexPositionsProperty === 'undefined') {
+            return;
+        }
+
+        var polyline;
+        var showProperty = dynamicPolyline.show;
+        var polylineVisualizerIndex = dynamicObject._polylineVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+        if (!show) {
+            //don't bother creating or updating anything else
+            if (typeof polylineVisualizerIndex !== 'undefined') {
+                polyline = this._polylineCollection[polylineVisualizerIndex];
+                polyline.show = false;
+                dynamicObject._polylineVisualizerIndex = undefined;
+                this._unusedIndexes.push(polylineVisualizerIndex);
+            }
+            return;
+        }
+
+        if (typeof polylineVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                polylineVisualizerIndex = unusedIndexes.pop();
+                polyline = this._polylineCollection[polylineVisualizerIndex];
+            } else {
+                polylineVisualizerIndex = this._polylineCollection.length;
+                polyline = new Polyline();
+                this._polylineCollection.push(polyline);
+                this._primitives.add(polyline);
+            }
+            dynamicObject._polylineVisualizerIndex = polylineVisualizerIndex;
+            polyline.dynamicObject = dynamicObject;
+
+            // CZML_TODO Determine official defaults
+            polyline.color = Color.WHITE.clone(polyline.color);
+            polyline.outlineColor = Color.BLACK.clone(polyline.outlineColor);
+            polyline.outlineWidth = 1;
+            polyline.width = 1;
+        } else {
+            polyline = this._polylineCollection[polylineVisualizerIndex];
+        }
+
+        polyline.show = true;
+
+        var vertexPositions = vertexPositionsProperty.getValueCartesian(time);
+        if (typeof vertexPositions !== 'undefined' && polyline._visualizerPositions !== vertexPositions) {
+            polyline.setPositions(vertexPositions);
+            polyline._visualizerPositions = vertexPositions;
+        }
+
+        var property = dynamicPolyline.color;
+        if (typeof property !== 'undefined') {
+            polyline.color = property.getValue(time, polyline.color);
+        }
+
+        property = dynamicPolyline.outlineColor;
+        if (typeof property !== 'undefined') {
+            polyline.outlineColor = property.getValue(time, polyline.outlineColor);
+        }
+
+        property = dynamicPolyline.outlineWidth;
+        if (typeof property !== 'undefined') {
+            var outlineWidth = property.getValue(time);
+            if (typeof outlineWidth !== 'undefined') {
+                polyline.outlineWidth = outlineWidth;
+            }
+        }
+
+        property = dynamicPolyline.width;
+        if (typeof property !== 'undefined') {
+            var width = property.getValue(time);
+            if (typeof width !== 'undefined') {
+                polyline.width = width;
+            }
+        }
+    };
+
+    DynamicPolylineVisualizer.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisPolylineCollection = this._polylineCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var polylineVisualizerIndex = dynamicObject._polylineVisualizerIndex;
+            if (typeof polylineVisualizerIndex !== 'undefined') {
+                var polyline = thisPolylineCollection[polylineVisualizerIndex];
+                polyline.show = false;
+                thisUnusedIndexes.push(polylineVisualizerIndex);
+                dynamicObject._polylineVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    return DynamicPolylineVisualizer;
 });
 
 /*global define*/
@@ -38156,12 +44079,12 @@ define('Scene/ComplexConicSensorVolume',[
     /**
      * DOC_TBA
      *
-     * @name ComplexConicSensorVolume
+     * @alias ComplexConicSensorVolume
      * @constructor
      *
      * @see SensorVolumeCollection#addComplexConic
      */
-    function ComplexConicSensorVolume(template) {
+    var ComplexConicSensorVolume = function(template) {
         var t = template || {};
 
         this._va = undefined;
@@ -38343,7 +44266,7 @@ define('Scene/ComplexConicSensorVolume',[
         this._drawUniforms = null;
         this._pickUniforms = null;
         this._mode = SceneMode.SCENE3D;
-    }
+    };
 
     ComplexConicSensorVolume.prototype._getBoundingVolume = function() {
         var r = isFinite(this.radius) ? this.radius : FAR;
@@ -38596,6 +44519,350 @@ define('Scene/ComplexConicSensorVolume',[
 });
 
 /*global define*/
+define('DynamicScene/DynamicConeVisualizer',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Color',
+        '../Core/Math',
+        '../Core/Matrix4',
+        '../Scene/ComplexConicSensorVolume',
+        '../Scene/ColorMaterial'
+       ], function(
+         DeveloperError,
+         destroyObject,
+         Color,
+         CesiumMath,
+         Matrix4,
+         ComplexConicSensorVolume,
+         ColorMaterial) {
+    
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicCone instance
+     * in DynamicObject.cone to a ComplexConicSensor primitive.
+     * @alias DynamicConeVisualizer
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicCone
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicBillboardVisualizer
+     * @see DynamicConeVisualizerUsingCustomSensor
+     * @see DynamicLabelVisualizer
+     * @see DynamicPointVisualizer
+     * @see DynamicPolygonVisualizer
+     * @see DynamicPolylineVisualizer
+     * @see DynamicPyramidVisualizer
+     *
+     */
+    var DynamicConeVisualizer = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._primitives = scene.getPrimitives();
+        this._coneCollection = [];
+        this._dynamicObjectCollection = undefined;
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicConeVisualizer.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicConeVisualizer.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicConeVisualizer.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicConeVisualizer.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicConeVisualizer.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicConeVisualizer.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicConeVisualizer.prototype.removeAllPrimitives = function() {
+        var i, len;
+        for (i = 0, len = this._coneCollection.length; i < len; i++) {
+            this._primitives.remove(this._coneCollection[i]);
+        }
+
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for (i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._coneVisualizerIndex = undefined;
+            }
+        }
+        this._unusedIndexes = [];
+        this._coneCollection = [];
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicConeVisualizer
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicConeVisualizer#destroy
+     */
+    DynamicConeVisualizer.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicConeVisualizer
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicConeVisualizer#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicConeVisualizer.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        return destroyObject(this);
+    };
+
+    var position;
+    var orientation;
+    var intersectionColor;
+    DynamicConeVisualizer.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicCone = dynamicObject.cone;
+        if (typeof dynamicCone === 'undefined') {
+            return;
+        }
+
+        var positionProperty = dynamicObject.position;
+        if (typeof positionProperty === 'undefined') {
+            return;
+        }
+
+        var orientationProperty = dynamicObject.orientation;
+        if (typeof orientationProperty === 'undefined') {
+            return;
+        }
+
+        var cone;
+        var showProperty = dynamicCone.show;
+        var coneVisualizerIndex = dynamicObject._coneVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+        if (!show) {
+            //don't bother creating or updating anything else
+            if (typeof coneVisualizerIndex !== 'undefined') {
+                cone = this._coneCollection[coneVisualizerIndex];
+                cone.show = false;
+                dynamicObject._coneVisualizerIndex = undefined;
+                this._unusedIndexes.push(coneVisualizerIndex);
+            }
+            return;
+        }
+
+        if (typeof coneVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                coneVisualizerIndex = unusedIndexes.pop();
+                cone = this._coneCollection[coneVisualizerIndex];
+            } else {
+                coneVisualizerIndex = this._coneCollection.length;
+                cone = new ComplexConicSensorVolume();
+                this._coneCollection.push(cone);
+                this._primitives.add(cone);
+            }
+            dynamicObject._coneVisualizerIndex = coneVisualizerIndex;
+            cone.dynamicObject = dynamicObject;
+
+            // CZML_TODO Determine official defaults
+            cone.capMaterial = new ColorMaterial();
+            cone.innerHalfAngle = 0;
+            cone.outerHalfAngle = Math.PI;
+            cone.innerMaterial = new ColorMaterial();
+            cone.intersectionColor = Color.YELLOW;
+            cone.maximumClockAngle =  CesiumMath.TWO_PI;
+            cone.minimumClockAngle = -CesiumMath.TWO_PI;
+            cone.outerMaterial = new ColorMaterial();
+            cone.radius = Number.POSITIVE_INFINITY;
+            cone.showIntersection = true;
+            cone.silhouetteMaterial = new ColorMaterial();
+        } else {
+            cone = this._coneCollection[coneVisualizerIndex];
+        }
+
+        cone.show = true;
+        var property = dynamicCone.minimumClockAngle;
+        if (typeof property !== 'undefined') {
+            var minimumClockAngle = property.getValue(time);
+            if (typeof minimumClockAngle !== 'undefined') {
+                cone.minimumClockAngle = minimumClockAngle;
+            }
+        }
+
+        property = dynamicCone.maximumClockAngle;
+        if (typeof property !== 'undefined') {
+            var maximumClockAngle = property.getValue(time);
+            if (typeof maximumClockAngle !== 'undefined') {
+                cone.maximumClockAngle = maximumClockAngle;
+            } else {
+                cone.maximumClockAngle = Math.pi;
+            }
+        }
+
+        property = dynamicCone.innerHalfAngle;
+        if (typeof property !== 'undefined') {
+            var innerHalfAngle = property.getValue(time);
+            if (typeof innerHalfAngle !== 'undefined') {
+                cone.innerHalfAngle = innerHalfAngle;
+            }
+        }
+
+        property = dynamicCone.outerHalfAngle;
+        if (typeof property !== 'undefined') {
+            var outerHalfAngle = property.getValue(time);
+            if (typeof outerHalfAngle !== 'undefined') {
+                cone.outerHalfAngle = outerHalfAngle;
+            } else {
+                cone.outerHalfAngle = Math.pi;
+            }
+        }
+
+        property = dynamicCone.radius;
+        if (typeof property !== 'undefined') {
+            var radius = property.getValue(time);
+            if (typeof radius !== 'undefined') {
+                cone.radius = radius;
+            }
+        }
+
+        position = positionProperty.getValueCartesian(time, position) || cone._visualizerPosition;
+        orientation = orientationProperty.getValue(time, orientation) || cone._visualizerOrientation;
+
+        if (typeof position !== 'undefined' &&
+            typeof orientation !== 'undefined' &&
+            (!position.equals(cone._visualizerPosition) ||
+             !orientation.equals(cone._visualizerOrientation))) {
+            cone.modelMatrix = new Matrix4(orientation.conjugate(orientation).toRotationMatrix(), position);
+            position.clone(cone._visualizerPosition);
+            orientation.clone(cone._visualizerOrientation);
+        }
+
+        var context = this._scene.getContext();
+        var material = dynamicCone.capMaterial;
+        if (typeof material !== 'undefined') {
+            cone.capMaterial = material.getValue(time, context, cone.capMaterial);
+        }
+
+        material = dynamicCone.innerMaterial;
+        if (typeof material !== 'undefined') {
+            cone.innerMaterial = material.getValue(time, context, cone.innerMaterial);
+        }
+
+        material = dynamicCone.outerMaterial;
+        if (typeof material !== 'undefined') {
+            cone.outerMaterial = material.getValue(time, context, cone.outerMaterial);
+        }
+
+        material = dynamicCone.silhouetteMaterial;
+        if (typeof material !== 'undefined') {
+            cone.silhouetteMaterial = material.getValue(time, context, cone.silhouetteMaterial);
+        }
+
+        property = dynamicCone.intersectionColor;
+        if (typeof property !== 'undefined') {
+            intersectionColor = property.getValue(time, intersectionColor);
+            if (typeof intersectionColor !== 'undefined') {
+                cone.intersectionColor = intersectionColor;
+            }
+        }
+    };
+
+    DynamicConeVisualizer.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisConeCollection = this._coneCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var coneVisualizerIndex = dynamicObject._coneVisualizerIndex;
+            if (typeof coneVisualizerIndex !== 'undefined') {
+                var cone = thisConeCollection[coneVisualizerIndex];
+                cone.show = false;
+                thisUnusedIndexes.push(coneVisualizerIndex);
+                dynamicObject._coneVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    return DynamicConeVisualizer;
+});
+/*global define*/
 define('Scene/CustomSensorVolume',[
         '../Core/DeveloperError',
         '../Core/combine',
@@ -38644,12 +44911,12 @@ define('Scene/CustomSensorVolume',[
     /**
      * DOC_TBA
      *
-     * @name CustomSensorVolume
+     * @alias CustomSensorVolume
      * @constructor
      *
      * @see SensorVolumeCollection#addCustom
      */
-    function CustomSensorVolume(template) {
+    var CustomSensorVolume = function(template) {
         var t = template || {};
 
         this._va = undefined;
@@ -38779,7 +45046,7 @@ define('Scene/CustomSensorVolume',[
         this._pickUniforms = null;
 
         this._mode = SceneMode.SCENE3D;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -39055,6 +45322,677 @@ define('Scene/CustomSensorVolume',[
 });
 
 /*global define*/
+define('DynamicScene/DynamicConeVisualizerUsingCustomSensor',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Color',
+        '../Core/Math',
+        '../Core/Matrix4',
+        '../Core/Spherical',
+        '../Scene/CustomSensorVolume',
+        '../Scene/ColorMaterial'
+       ], function(
+         DeveloperError,
+         destroyObject,
+         Color,
+         CesiumMath,
+         Matrix4,
+         Spherical,
+         CustomSensorVolume,
+         ColorMaterial) {
+    
+
+    //CZML_TODO DynamicConeVisualizerUsingCustomSensor is a temporary workaround
+    //because ComplexConicSensor has major performance issues.  As soon as
+    //ComplexConicSensor is working, this class can be deleted and
+    //DynamicConeVisualizer is a drop in replacement that already does things
+    //"the right way".
+
+    function computeDirections(minimumClockAngle, maximumClockAngle, innerHalfAngle, outerHalfAngle) {
+        var angle;
+        var directions = [];
+        var angleStep = CesiumMath.toRadians(2.0);
+        if (minimumClockAngle === 0.0 && maximumClockAngle === CesiumMath.TWO_PI) {
+            // No clock angle limits, so this is just a circle.
+            // There might be a hole but we're ignoring it for now.
+            for (angle = 0.0; angle < CesiumMath.TWO_PI; angle += angleStep) {
+                directions.push(new Spherical(angle, outerHalfAngle));
+            }
+        } else {
+            // There are clock angle limits.
+            for (angle = minimumClockAngle; angle < maximumClockAngle; angle += angleStep) {
+                directions.push(new Spherical(angle, outerHalfAngle));
+            }
+            directions.push(new Spherical(maximumClockAngle, outerHalfAngle));
+            if (innerHalfAngle) {
+                directions.push(new Spherical(maximumClockAngle, innerHalfAngle));
+                for (angle = maximumClockAngle; angle > minimumClockAngle; angle -= angleStep) {
+                    directions.push(new Spherical(angle, innerHalfAngle));
+                }
+                directions.push(new Spherical(minimumClockAngle, innerHalfAngle));
+            } else {
+                directions.push(new Spherical(maximumClockAngle, 0.0));
+            }
+        }
+        return directions;
+    }
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicCone instance
+     * in DynamicObject.cone to a CustomSensor primitive.
+     * @alias DynamicConeVisualizerUsingCustomSensor
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicCone
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicBillboardVisualizer
+     * @see DynamicConeVisualizer
+     * @see DynamicLabelVisualizer
+     * @see DynamicPointVisualizer
+     * @see DynamicPolygonVisualizer
+     * @see DynamicPolylineVisualizer
+     * @see DynamicPyramidVisualizer
+     *
+     */
+    var DynamicConeVisualizerUsingCustomSensor = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._primitives = scene.getPrimitives();
+        this._coneCollection = [];
+        this._dynamicObjectCollection = undefined;
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicConeVisualizerUsingCustomSensor.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicConeVisualizerUsingCustomSensor.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicConeVisualizerUsingCustomSensor.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicConeVisualizerUsingCustomSensor.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicConeVisualizerUsingCustomSensor.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicConeVisualizerUsingCustomSensor.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicConeVisualizerUsingCustomSensor.prototype.removeAllPrimitives = function() {
+        var i, len;
+        for (i = 0, len = this._coneCollection.length; i < len; i++) {
+            this._primitives.remove(this._coneCollection[i]);
+        }
+
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for (i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._coneVisualizerIndex = undefined;
+            }
+        }
+
+        this._unusedIndexes = [];
+        this._coneCollection = [];
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicConeVisualizerUsingCustomSensor
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicConeVisualizerUsingCustomSensor#destroy
+     */
+    DynamicConeVisualizerUsingCustomSensor.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicConeVisualizerUsingCustomSensor
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicConeVisualizerUsingCustomSensor#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicConeVisualizerUsingCustomSensor.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        return destroyObject(this);
+    };
+
+    var position;
+    var orientation;
+    var intersectionColor;
+    DynamicConeVisualizerUsingCustomSensor.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicCone = dynamicObject.cone;
+        if (typeof dynamicCone === 'undefined') {
+            return;
+        }
+
+        var maximumClockAngleProperty = dynamicCone.maximumClockAngle;
+        if (typeof maximumClockAngleProperty === 'undefined') {
+            return;
+        }
+
+        var outerHalfAngleProperty = dynamicCone.outerHalfAngle;
+        if (typeof outerHalfAngleProperty === 'undefined') {
+            return;
+        }
+
+        var positionProperty = dynamicObject.position;
+        if (typeof positionProperty === 'undefined') {
+            return;
+        }
+
+        var orientationProperty = dynamicObject.orientation;
+        if (typeof orientationProperty === 'undefined') {
+            return;
+        }
+
+        var cone;
+        var showProperty = dynamicCone.show;
+        var coneVisualizerIndex = dynamicObject._coneVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+        if (!show) {
+            //don't bother creating or updating anything else
+            if (typeof coneVisualizerIndex !== 'undefined') {
+                cone = this._coneCollection[coneVisualizerIndex];
+                cone.show = false;
+                dynamicObject._coneVisualizerIndex = undefined;
+                this._unusedIndexes.push(coneVisualizerIndex);
+            }
+            return;
+        }
+
+        if (typeof coneVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                coneVisualizerIndex = unusedIndexes.pop();
+                cone = this._coneCollection[coneVisualizerIndex];
+            } else {
+                coneVisualizerIndex = this._coneCollection.length;
+                //cone = new ComplexConicSensorVolume();
+                cone = new CustomSensorVolume();
+                cone.innerHalfAngle = 0;
+                cone.minimumClockAngle = 0;
+                this._coneCollection.push(cone);
+                this._primitives.add(cone);
+            }
+            dynamicObject._coneVisualizerIndex = coneVisualizerIndex;
+            cone.dynamicObject = dynamicObject;
+
+            // CZML_TODO Determine official defaults
+            cone.innerHalfAngle = 0;
+            cone.outerHalfAngle = Math.PI;
+            cone.material = new ColorMaterial();
+            cone.intersectionColor = Color.YELLOW;
+            cone.minimumClockAngle = -CesiumMath.TWO_PI;
+            cone.maximumClockAngle =  CesiumMath.TWO_PI;
+            cone.radius = Number.POSITIVE_INFINITY;
+            cone.showIntersection = true;
+        } else {
+            cone = this._coneCollection[coneVisualizerIndex];
+        }
+
+        cone.show = true;
+
+        var innerHalfAngle = 0;
+        var outerHalfAngle = Math.PI;
+        var maximumClockAngle =  CesiumMath.TWO_PI;
+        var minimumClockAngle = -CesiumMath.TWO_PI;
+
+        var property = dynamicCone.minimumClockAngle;
+        if (typeof property !== 'undefined') {
+            var tmpClock = property.getValue(time);
+            if (typeof tmpClock !== 'undefined') {
+                minimumClockAngle = tmpClock;
+            }
+        }
+
+        maximumClockAngle = maximumClockAngleProperty.getValue(time) || Math.pi;
+
+        property = dynamicCone.innerHalfAngle;
+        if (typeof property !== 'undefined') {
+            var tmpAngle = property.getValue(time);
+            if (typeof tmpAngle !== 'undefined') {
+                innerHalfAngle = tmpAngle;
+            }
+        }
+
+        outerHalfAngle = outerHalfAngleProperty.getValue(time) || Math.pi;
+
+        if (minimumClockAngle !== cone.minimumClockAngle ||
+            maximumClockAngle !== cone.maximumClockAngle ||
+            innerHalfAngle !== cone.innerHalfAngle ||
+            outerHalfAngle !== cone.outerHalfAngle) {
+            cone.setDirections(computeDirections(minimumClockAngle, maximumClockAngle, innerHalfAngle, outerHalfAngle));
+            cone.innerHalfAngle = innerHalfAngle;
+            cone.maximumClockAngle = maximumClockAngle;
+            cone.outerHalfAngle = outerHalfAngle;
+            cone.minimumClockAngle = minimumClockAngle;
+        }
+
+        property = dynamicCone.radius;
+        if (typeof property !== 'undefined') {
+            var radius = property.getValue(time);
+            if (typeof radius !== 'undefined') {
+                cone.radius = radius;
+            }
+        }
+
+        position = positionProperty.getValueCartesian(time, position) || cone._visualizerPosition;
+        orientation = orientationProperty.getValue(time, orientation) || cone._visualizerOrientation;
+
+        if (typeof position !== 'undefined' &&
+            typeof orientation !== 'undefined' &&
+            (!position.equals(cone._visualizerPosition) ||
+             !orientation.equals(cone._visualizerOrientation))) {
+            cone.modelMatrix = new Matrix4(orientation.conjugate(orientation).toRotationMatrix(), position);
+            position.clone(cone._visualizerPosition);
+            orientation.clone(cone._visualizerOrientation);
+        }
+
+        var context = this._scene.getContext();
+        var material = dynamicCone.outerMaterial;
+        if (typeof material !== 'undefined') {
+            cone.material = material.getValue(time, context, cone.material);
+        }
+
+        property = dynamicCone.intersectionColor;
+        if (typeof property !== 'undefined') {
+            intersectionColor = property.getValue(time, intersectionColor);
+            if (typeof intersectionColor !== 'undefined') {
+                cone.intersectionColor = intersectionColor;
+            }
+        }
+    };
+
+    DynamicConeVisualizerUsingCustomSensor.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisConeCollection = this._coneCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var coneVisualizerIndex = dynamicObject._coneVisualizerIndex;
+            if (typeof coneVisualizerIndex !== 'undefined') {
+                var cone = thisConeCollection[coneVisualizerIndex];
+                cone.show = false;
+                thisUnusedIndexes.push(coneVisualizerIndex);
+                dynamicObject._coneVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    return DynamicConeVisualizerUsingCustomSensor;
+});
+/*global define*/
+define('DynamicScene/DynamicPyramidVisualizer',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Color',
+        '../Core/Matrix4',
+        '../Scene/CustomSensorVolume',
+        '../Scene/ColorMaterial'
+       ], function(
+         DeveloperError,
+         destroyObject,
+         Color,
+         Matrix4,
+         CustomSensorVolume,
+         ColorMaterial) {
+    
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicPyramid instance
+     * in DynamicObject.pyramid to a Pyramid primitive.
+     * @alias DynamicPyramidVisualizer
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicPyramid
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicBillboardVisualizer
+     * @see DynamicConeVisualizer
+     * @see DynamicConeVisualizerUsingCustomSensorr
+     * @see DynamicLabelVisualizer
+     * @see DynamicPointVisualizer
+     * @see DynamicPolygonVisualizer
+     * @see DynamicPolylineVisualizer
+     *
+     */
+    var DynamicPyramidVisualizer = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._primitives = scene.getPrimitives();
+        this._pyramidCollection = [];
+        this._dynamicObjectCollection = undefined;
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicPyramidVisualizer.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicPyramidVisualizer.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicPyramidVisualizer.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicPyramidVisualizer.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicPyramidVisualizer.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicPyramidVisualizer.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicPyramidVisualizer.prototype.removeAllPrimitives = function() {
+        var i, len;
+        for (i = 0, len = this._pyramidCollection.length; i < len; i++) {
+            this._primitives.remove(this._pyramidCollection[i]);
+        }
+
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for (i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._pyramidVisualizerIndex = undefined;
+            }
+        }
+
+        this._unusedIndexes = [];
+        this._pyramidCollection = [];
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicPyramidVisualizer
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicPyramidVisualizer#destroy
+     */
+    DynamicPyramidVisualizer.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicPyramidVisualizer
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicPyramidVisualizer#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicPyramidVisualizer.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        return destroyObject(this);
+    };
+
+    var position;
+    var orientation;
+    DynamicPyramidVisualizer.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicPyramid = dynamicObject.pyramid;
+        if (typeof dynamicPyramid === 'undefined') {
+            return;
+        }
+
+        var directionsProperty = dynamicPyramid.directions;
+        if (typeof directionsProperty === 'undefined') {
+            return;
+        }
+
+        var positionProperty = dynamicObject.position;
+        if (typeof positionProperty === 'undefined') {
+            return;
+        }
+
+        var orientationProperty = dynamicObject.orientation;
+        if (typeof orientationProperty === 'undefined') {
+            return;
+        }
+
+        var pyramid;
+        var showProperty = dynamicPyramid.show;
+        var pyramidVisualizerIndex = dynamicObject._pyramidVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+        if (!show) {
+            //don't bother creating or updating anything else
+            if (typeof pyramidVisualizerIndex !== 'undefined') {
+                pyramid = this._pyramidCollection[pyramidVisualizerIndex];
+                pyramid.show = false;
+                dynamicObject._pyramidVisualizerIndex = undefined;
+                this._unusedIndexes.push(pyramidVisualizerIndex);
+            }
+            return;
+        }
+
+        if (typeof pyramidVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                pyramidVisualizerIndex = unusedIndexes.pop();
+                pyramid = this._pyramidCollection[pyramidVisualizerIndex];
+            } else {
+                pyramidVisualizerIndex = this._pyramidCollection.length;
+                pyramid = new CustomSensorVolume();
+                this._pyramidCollection.push(pyramid);
+                this._primitives.add(pyramid);
+            }
+            dynamicObject._pyramidVisualizerIndex = pyramidVisualizerIndex;
+            pyramid.dynamicObject = dynamicObject;
+
+            // CZML_TODO Determine official defaults
+            pyramid.radius = Number.POSITIVE_INFINITY;
+            pyramid.showIntersection = true;
+            pyramid.intersectionColor = Color.YELLOW;
+            pyramid.material = new ColorMaterial();
+        } else {
+            pyramid = this._pyramidCollection[pyramidVisualizerIndex];
+        }
+
+        pyramid.show = true;
+
+        var directions = directionsProperty.getValueSpherical(time);
+        if (typeof directions !== 'undefined' && pyramid._visualizerDirections !== directions) {
+            pyramid.setDirections(directions);
+            pyramid._visualizerDirections = directions;
+        }
+
+        position = positionProperty.getValueCartesian(time, position) || pyramid._visualizerPosition;
+        orientation = orientationProperty.getValue(time, orientation) || pyramid._visualizerOrientation;
+
+        if (typeof position !== 'undefined' &&
+            typeof orientation !== 'undefined' &&
+            (!position.equals(pyramid._visualizerPosition) ||
+             !orientation.equals(pyramid._visualizerOrientation))) {
+            pyramid.modelMatrix = new Matrix4(orientation.conjugate(orientation).toRotationMatrix(), position);
+            position.clone(pyramid._visualizerPosition);
+            orientation.clone(pyramid._visualizerOrientation);
+        }
+
+        var material = dynamicPyramid.material;
+        if (typeof material !== 'undefined') {
+            pyramid.material = material.getValue(time, this._scene.getContext(), pyramid.material);
+        }
+
+        var property = dynamicPyramid.intersectionColor;
+        if (typeof property !== 'undefined') {
+            var intersectionColor = property.getValue(time, intersectionColor);
+            if (typeof intersectionColor !== 'undefined') {
+                pyramid.intersectionColor = intersectionColor;
+            }
+        }
+
+        property = dynamicPyramid.radius;
+        if (typeof property !== 'undefined') {
+            var radius = property.getValue(time, radius);
+            if (typeof radius !== 'undefined') {
+                pyramid.radius = radius;
+            }
+        }
+    };
+
+    DynamicPyramidVisualizer.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisPyramidCollection = this._pyramidCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var pyramidVisualizerIndex = dynamicObject._pyramidVisualizerIndex;
+            if (typeof pyramidVisualizerIndex !== 'undefined') {
+                var pyramid = thisPyramidCollection[pyramidVisualizerIndex];
+                pyramid.show = false;
+                thisUnusedIndexes.push(pyramidVisualizerIndex);
+                dynamicObject._pyramidVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    return DynamicPyramidVisualizer;
+});
+/*global define*/
 define('Scene/RectangularPyramidSensorVolume',[
         '../Core/DeveloperError',
         '../Core/destroyObject',
@@ -39076,12 +46014,12 @@ define('Scene/RectangularPyramidSensorVolume',[
     /**
      * DOC_TBA
      *
-     * @name RectangularPyramidSensorVolume
+     * @alias RectangularPyramidSensorVolume
      * @constructor
      *
      * @see SensorVolumeCollection#addRectangularPyramid
      */
-    function RectangularPyramidSensorVolume(template) {
+    var RectangularPyramidSensorVolume = function(template) {
         var t = template || {};
 
         /**
@@ -39193,7 +46131,7 @@ define('Scene/RectangularPyramidSensorVolume',[
 
         t._pickIdThis = t._pickIdThis || this;
         this._customSensor = new CustomSensorVolume(t);
-    }
+    };
 
     /**
      * DOC_TBA
@@ -39310,12 +46248,12 @@ define('Scene/SensorVolumeCollection',[
     /**
      * DOC_TBA
      *
-     * @name SensorVolumeCollection
+     * @alias SensorVolumeCollection
      * @constructor
      */
-    function SensorVolumeCollection() {
+    var SensorVolumeCollection = function() {
         this._sensors = [];
-    }
+    };
 
     /**
      * DOC_TBA
@@ -39688,10 +46626,10 @@ define('Scene/TieDyeMaterial',[
     /**
      * DOC_TBA
      *
-     * @name TieDyeMaterial
+     * @alias TieDyeMaterial
      * @constructor
      */
-    function TieDyeMaterial(template) {
+    var TieDyeMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -39733,7 +46671,7 @@ define('Scene/TieDyeMaterial',[
                 return that.frequency;
             }
         };
-    }
+    };
 
     TieDyeMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' +
@@ -39771,10 +46709,10 @@ define('Scene/VerticalStripeMaterial',['../Shaders/VerticalStripeMaterial'], fun
     /**
      * DOC_TBA
      *
-     * @name VerticalStripeMaterial
+     * @alias VerticalStripeMaterial
      * @constructor
      */
-    function VerticalStripeMaterial(template) {
+    var VerticalStripeMaterial = function(template) {
         var t = template || {};
 
         /**
@@ -39826,7 +46764,7 @@ define('Scene/VerticalStripeMaterial',['../Shaders/VerticalStripeMaterial'], fun
                 return that.repeat;
             }
         };
-    }
+    };
 
     VerticalStripeMaterial.prototype._getShaderSource = function() {
         return '#line 0\n' + ShadersVerticalStripeMaterial;
@@ -39889,10 +46827,10 @@ define('Scene/ViewportQuad',[
     /**
      * DOC_TBA
      *
-     * @name ViewportQuad
+     * @alias ViewportQuad
      * @constructor
      */
-    function ViewportQuad(rectangle) {
+    var ViewportQuad = function(rectangle) {
         this.renderState = null;
         this._sp = null;
         this._va = null;
@@ -39917,7 +46855,7 @@ define('Scene/ViewportQuad',[
                 return that._texture;
             }
         };
-    }
+    };
 
     /**
      * DOC_TBA
@@ -40303,14 +47241,13 @@ define('Scene/CentralBody',[
     /**
      * DOC_TBA
      *
-     * @param {Ellipsoid} [ellipsoid=WGS84 Ellipsoid] Determines the size and shape of the central body.
-     *
-     * @name CentralBody
+     * @alias CentralBody
      * @constructor
      *
-     * @exception {DeveloperError} camera is required.
+     * @param {Ellipsoid} [ellipsoid=WGS84 Ellipsoid] Determines the size and shape of the central body.
+     *
      */
-    function CentralBody(ellipsoid) {
+    var CentralBody = function(ellipsoid) {
         ellipsoid = ellipsoid || Ellipsoid.WGS84;
 
         this._ellipsoid = ellipsoid;
@@ -40346,23 +47283,28 @@ define('Scene/CentralBody',[
         this._lastFailedTime = undefined;
 
         /**
-         * DOC_TBA
+         * The maximum number of tiles that can fail consecutively before the
+         * central body will stop loading tiles.
          *
          * @type {Number}
+         * @default 3
          */
         this.perTileMaxFailCount = 3;
 
         /**
-         * DOC_TBA
+         * The maximum number of failures allowed for each tile before the
+         * central body will stop loading a failing tile.
          *
          * @type {Number}
+         * @default 30
          */
         this.maxTileFailCount = 30;
 
         /**
-         * DOC_TBA
+         * The number of seconds between attempts to retry a failing tile.
          *
          * @type {Number}
+         * @default 30.0
          */
         this.failedTileRetryTime = 30.0;
 
@@ -40399,21 +47341,25 @@ define('Scene/CentralBody',[
         this._drawSouthPole = false;
 
         /**
-         * DOC_TBA
+         * Determines the color of the north pole. If the day tile provider imagery does not
+         * extend over the north pole, it will be filled with this color before applying lighting.
          *
          * @type {Cartesian3}
          */
         this.northPoleColor = new Cartesian3(2.0 / 255.0, 6.0 / 255.0, 18.0 / 255.0);
 
         /**
-         * DOC_TBA
+         * Determines the color of the south pole. If the day tile provider imagery does not
+         * extend over the south pole, it will be filled with this color before applying lighting.
          *
          * @type {Cartesian3}
          */
         this.southPoleColor = new Cartesian3(1.0, 1.0, 1.0);
 
         /**
-         * DOC_TBA
+         * Determines the position of the day tile provider logo. The day tile provider logo
+         * is displayed in the bottom left corner of the viewport. This is used to offset the
+         * position of the logo.
          *
          * @type {Cartesian2}
          */
@@ -40428,6 +47374,7 @@ define('Scene/CentralBody',[
          * DOC_TBA
          *
          * @type {Number}
+         * @default 5.0
          */
         this.pixelError3D = 5.0;
 
@@ -40435,6 +47382,7 @@ define('Scene/CentralBody',[
          * DOC_TBA
          *
          * @type {Number}
+         * @default 2.0
          */
         this.pixelError2D = 2.0;
 
@@ -40442,20 +47390,23 @@ define('Scene/CentralBody',[
          * Determines if the central body will be shown.
          *
          * @type {Boolean}
+         * @default true
          */
         this.show = true;
 
         /**
-         * DOC_TBA
+         * Determines if the ground atmosphere will be shown.
          *
          * @type {Boolean}
+         * @default false
          */
         this.showGroundAtmosphere = false;
 
         /**
-         * DOC_TBA
+         * Determines if the sky atmosphere will be shown.
          *
          * @type {Boolean}
+         * @default false
          */
         this.showSkyAtmosphere = false;
 
@@ -40469,6 +47420,8 @@ define('Scene/CentralBody',[
          * <p>
          * The default is <code>true</code>.
          * </p>
+         *
+         * @default true
          */
         this.affectedByLighting = true;
         this._affectedByLighting = true;
@@ -40572,6 +47525,8 @@ define('Scene/CentralBody',[
          *
          * @see CentralBody#dayTileProvider
          * @see CentralBody#showNight
+         *
+         * @default true
          */
         this.showDay = true;
         this._showDay = false;
@@ -40589,6 +47544,8 @@ define('Scene/CentralBody',[
          * @see CentralBody#nightImageSource
          * @see CentralBody#showDay
          * @see CentralBody#dayNightBlendDelta
+         *
+         * @default true
          *
          * @example
          * cb.showNight = true;
@@ -40609,6 +47566,8 @@ define('Scene/CentralBody',[
          * @see CentralBody#cloudsMapSource
          * @see CentralBody#showCloudShadows
          * @see CentralBody#showNight
+         *
+         * @default true
          *
          * @example
          * cb.showClouds = true;
@@ -40633,6 +47592,8 @@ define('Scene/CentralBody',[
          * @see CentralBody#cloudsMapSource
          * @see CentralBody#showClouds
          *
+         * @default true
+         *
          * @example
          * cb.showClouds = true;
          * cb.showCloudShadows = true;
@@ -40653,6 +47614,8 @@ define('Scene/CentralBody',[
          * @type {Boolean}
          *
          * @see CentralBody#specularMapSource
+         *
+         * @default true
          *
          * @example
          * cb.showSpecular = true;
@@ -40677,6 +47640,8 @@ define('Scene/CentralBody',[
          * @see CentralBody#bumpMapSource
          * @see CentralBody#bumpMapNormalZ
          *
+         * @default true
+         *
          * @example
          * cb.showBumps = true;
          * cb.bumpMapSource = 'bump.jpg';
@@ -40694,6 +47659,8 @@ define('Scene/CentralBody',[
          *
          * @see CentralBody#showNight
          * @see CentralBody#dayNightBlendDelta
+         *
+         * @default false
          */
         this.showTerminator = false;
         this._showTerminator = false;
@@ -40712,6 +47679,8 @@ define('Scene/CentralBody',[
          * @type {Number}
          *
          * @see CentralBody#showBumps
+         *
+         * @default 0.5
          *
          * @example
          * cb.showBumps = true;
@@ -40738,9 +47707,11 @@ define('Scene/CentralBody',[
          * @see CentralBody#showNight
          * @see CentralBody#showTerminator
          *
+         * @default 0.05
+         *
          * @example
          * cb.showDay = true;
-         * cb.dayImageSource = 'day.jpg';
+         * cb.dayTileProvider = new Cesium.SingleTileProvider('day.jpg');
          * cb.showNight = true;
          * cb.nightImageSource = 'night.jpg';
          * cb.dayNightBlendDelta = 0.0;  // Sharp transition
@@ -40748,9 +47719,13 @@ define('Scene/CentralBody',[
         this.dayNightBlendDelta = 0.05;
 
         /**
-         * DOC_TBA
+         * Changes the intensity of the night texture. A value of 1.0 is the same intensity as night texture.
+         * A value less than 1.0 makes the night texture darker. A value greater than 1.0 makes the night texture
+         * brighter. The default value is 2.0.
          *
          * @type {Number}
+         *
+         * @default 2.0
          */
         this.nightIntensity = 2.0;
 
@@ -40759,6 +47734,8 @@ define('Scene/CentralBody',[
          * with 0.0 being 2D or Columbus View and 1.0 being 3D.
          *
          * @type Number
+         *
+         * @default 1.0
          */
         this.morphTime = 1.0;
 
@@ -40882,7 +47859,7 @@ define('Scene/CentralBody',[
         // PERFORMANCE_IDEA:  Only combine these if showing the atmosphere.  Maybe this is too much of a micro-optimization.
         // http://jsperf.com/object-property-access-propcount
         this._drawUniforms = combine(uniforms, atmosphereUniforms);
-    }
+    };
 
     /**
      * DOC_TBA
@@ -40980,10 +47957,23 @@ define('Scene/CentralBody',[
 
             var frustum = sceneState.camera.frustum;
             var position = sceneState.camera.position;
-            var x = position.x + frustum.left;
-            var y = position.y + frustum.bottom;
-            var w = position.x + frustum.right - x;
-            var h = position.y + frustum.top - y;
+            var up = sceneState.camera.up;
+            var right = sceneState.camera.right;
+
+            var width = frustum.right - frustum.left;
+            var height = frustum.top - frustum.bottom;
+
+            var lowerLeft = position.add(right.multiplyWithScalar(frustum.left));
+            lowerLeft = lowerLeft.add(up.multiplyWithScalar(frustum.bottom));
+            var upperLeft = lowerLeft.add(up.multiplyWithScalar(height));
+            var upperRight = upperLeft.add(right.multiplyWithScalar(width));
+            var lowerRight = upperRight.add(up.multiplyWithScalar(-height));
+
+            var x = Math.min(lowerLeft.x, lowerRight.x, upperLeft.x, upperRight.x);
+            var y = Math.min(lowerLeft.y, lowerRight.y, upperLeft.y, upperRight.y);
+            var w = Math.max(lowerLeft.x, lowerRight.x, upperLeft.x, upperRight.x) - x;
+            var h = Math.max(lowerLeft.y, lowerRight.y, upperLeft.y, upperRight.y) - y;
+
             var fRect = new Rectangle(x, y, w, h);
 
             return !Rectangle.rectangleRectangleIntersect(bRect, fRect);
@@ -42352,7 +49342,7 @@ define('Scene/PerformanceDisplay',[
      * Draws a display in the top left corner of the scene displaying FPS (frames per second),
      * averaged over 1 second intervals, as well as unaveraged frame time.
      *
-     * @name PerformanceDisplay
+     * @alias PerformanceDisplay
      * @constructor
      *
      * @param {Color} [description.fpsColor] The color of the FPS graph.
@@ -42364,7 +49354,7 @@ define('Scene/PerformanceDisplay',[
      * @example
      * scene.getPrimitives().add(new PerformanceDisplay());
      */
-    function PerformanceDisplay(description) {
+    var PerformanceDisplay = function(description) {
         if (typeof description === 'undefined') {
             description = {};
         }
@@ -42402,7 +49392,7 @@ define('Scene/PerformanceDisplay',[
         this._time = undefined;
         this._texture = undefined;
         this._viewportHeight = 0;
-    }
+    };
 
     /**
      * Update the display.  This function should only be called once per frame, because
@@ -42525,6 +49515,9 @@ define('Scene/PerformanceDisplay',[
 
     return PerformanceDisplay;
 });
+;
+define("Shaders/glslComments", function(){});
+
 /*! Copyright (c) 2010 Chris O'Hara <cohara87@gmail.com>. MIT Licensed *//*global define*/define('ThirdParty/Chain',[],function() {    var Chain = {};(function(exports) {    exports = exports || {};    var handlers = {}, createChain, add;    createChain = function (context, stack, lastMethod) {        var inHandler = context.halt = false;        //The default error handler        context.error = function (e) {            throw e;        };        //Run the next method in the chain        context.next = function (exit) {            if (exit) {                inHandler = false;            }            if (!context.halt && stack && stack.length) {                var args = stack.shift(), method = args.shift();                inHandler = true;                try {                    handlers[method].apply(context, [args, args.length, method]);                } catch (e) {                    context.error(e);                }            }            return context;        };        //Bind each method to the context        for (var alias in handlers) {            if (typeof context[alias] === 'function') {                continue;            }            (function (alias) {                context[alias] = function () {                    var args = Array.prototype.slice.call(arguments);                    if (alias === 'onError') {                        if (stack) {                            handlers.onError.apply(context, [args, args.length]);                            return context;                        }                        var new_context = {};                        handlers.onError.apply(new_context, [args, args.length]);                        return createChain(new_context, null, 'onError');                    }                    args.unshift(alias);                    if (!stack) {                        return createChain({}, [args], alias);                    }                    context.then = context[alias];                    stack.push(args);                    return inHandler ? context : context.next();                };            }(alias));        }        //'then' is an alias for the last method that was called        if (lastMethod) {            context.then = context[lastMethod];        }        //Used to call run(), chain() or another existing method when defining a new method        //See load.js (https://github.com/chriso/load.js/blob/master/load.js) for an example        context.call = function (method, args) {            args.unshift(method);            stack.unshift(args);            context.next(true);        };        return context.next();    };    //Add a custom method/handler (see below)    add = exports.addMethod = function (method /*, alias1, alias2, ..., callback */) {        var args = Array.prototype.slice.call(arguments),            handler = args.pop();        for (var i = 0, len = args.length; i < len; i++) {            if (typeof args[i] === 'string') {                handlers[args[i]] = handler;            }        }        //When no aliases have been defined, automatically add 'then<Method>'        //e.g. adding 'run' also adds 'thenRun' as a method        if (!--len) {            handlers['then' + method.substr(0,1).toUpperCase() + method.substr(1)] = handler;        }        createChain(exports);    };    //chain() - Run each function sequentially    add('chain', function (args) {        var self = this, next = function () {            if (self.halt) {                return;            } else if (!args.length) {                return self.next(true);            }            try {                if (null != args.shift().call(self, next, self.error)) {                    next();                }            } catch (e) {                self.error(e);            }        };        next();    });    //run() - Run each function in parallel and progress once all functions are complete    add('run', function (args, arg_len) {        var self = this, chain = function () {            if (self.halt) {                return;            } else if (!--arg_len) {                self.next(true);            }        };        var error = function (e) {            self.error(e);        };        for (var i = 0, len = arg_len; !self.halt && i < len; i++) {            if (null != args[i].call(self, chain, error)) {                chain();            }        }    });    //defer() - Defer execution of the next method    add('defer', function (args) {        var self = this;        setTimeout(function () {            self.next(true);        }, args.shift());    });    //onError() - Attach an error handler    add('onError', function (args, arg_len) {        var self = this;        this.error = function (err) {            self.halt = true;            for (var i = 0; i < arg_len; i++) {                args[i].call(self, err);            }        };    });}(Chain));    return Chain;});
 /**
  * @author sole / http://soledadpenades.com
@@ -43091,11 +50084,11 @@ define('Scene/AnimationCollection',[
     /**
      * DOC_TBA
      *
-     * @name AnimationCollection
+     * @alias AnimationCollection
      * @constructor
      */
-    function AnimationCollection() {
-    }
+    var AnimationCollection = function() {
+    };
 
     /**
      * DOC_TBA
@@ -43277,7 +50270,7 @@ define('Scene/AnimationCollection',[
      * @memberof AnimationCollection
      */
     AnimationCollection.prototype.remove = function(animation) {
-        if (animation) {
+        if (typeof animation !== 'undefined') {
             var count = Tween.getAll().length;
             Tween.remove(animation._tween);
 
@@ -43297,6 +50290,17 @@ define('Scene/AnimationCollection',[
 
     /**
      * DOC_TBA
+     * @memberof Animationcollection
+     */
+    AnimationCollection.prototype.contains = function(animation) {
+        if (typeof animation !== 'undefined') {
+            return Tween.getAll().indexOf(animation) !== -1;
+        }
+        return false;
+    };
+
+    /**
+     * DOC_TBA
      * @memberof AnimationCollection
      */
     AnimationCollection.prototype.update = function() {
@@ -43306,10 +50310,1703 @@ define('Scene/AnimationCollection',[
     return AnimationCollection;
 });
 /*global define*/
+define('Scene/Camera2DController',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/FAR',
+        '../Core/Math',
+        '../Core/Quaternion',
+        '../Core/Cartesian2',
+        '../Core/Cartographic3',
+        './CameraEventHandler',
+        './CameraEventType',
+        './CameraHelpers',
+        './AnimationCollection',
+        '../ThirdParty/Tween'
+    ], function(
+        DeveloperError,
+        destroyObject,
+        FAR,
+        CesiumMath,
+        Quaternion,
+        Cartesian2,
+        Cartographic3,
+        CameraEventHandler,
+        CameraEventType,
+        CameraHelpers,
+        AnimationCollection,
+        Tween) {
+    
+
+    var move = CameraHelpers.move;
+    var maintainInertia = CameraHelpers.maintainInertia;
+    var handleZoom = CameraHelpers.handleZoom;
+
+    /**
+     * A type that defines camera behavior: movement of the position in the direction
+     * of the camera's axes and manipulating a camera's orthographic frustum for a zooming effect.
+     *
+     * @alias Camera2DController
+     *
+     * @param {HTMLCanvasElement} canvas An HTML canvas element used for its dimensions
+     * and for listening on user events.
+     * @param {Camera} camera The camera to use.
+     * @param {DOC_TBA} projection The projection of the map the camera is moving around..
+     *
+     * @exception {DeveloperError} canvas is required.
+     * @exception {DeveloperError} camera is required.
+     * @exception {DeveloperError} projection is required.
+     *
+     * @internalConstructor
+     */
+    var Camera2DController = function(canvas, camera, projection) {
+        if (typeof canvas === 'undefined') {
+            throw new DeveloperError('canvas is required.');
+        }
+
+        if (typeof camera === 'undefined') {
+            throw new DeveloperError('camera is required.');
+        }
+
+        if (typeof projection === 'undefined') {
+            throw new DeveloperError('projection is required.');
+        }
+
+        this._canvas = canvas;
+        this._camera = camera;
+        this._projection = projection;
+        this._zoomRate = 100000.0;
+        this._moveRate = 100000.0;
+
+        /**
+         * A parameter in the range <code>[0, 1)</code> used to determine how long
+         * the camera will continue to translate because of inertia.
+         * With value of zero, the camera will have no inertia.
+         *
+         * @type Number
+         */
+        this.inertiaTranslate = 0.9;
+
+        /**
+         * A parameter in the range <code>[0, 1)</code> used to determine how long
+         * the camera will continue to zoom because of inertia.
+         * With value of zero, the camera will have no inertia.
+         *
+         * @type Number
+         */
+        this.inertiaZoom = 0.8;
+
+        this._zoomFactor = 1.5;
+        this._translateFactor = 1.0;
+        this._minimumZoomRate = 20.0;
+        this._maximumZoomRate = FAR;
+
+        this._translateHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
+        this._zoomHandler = new CameraEventHandler(canvas, CameraEventType.RIGHT_DRAG);
+        this._zoomWheel = new CameraEventHandler(canvas, CameraEventType.WHEEL);
+        this._twistHandler = new CameraEventHandler(canvas, CameraEventType.MIDDLE_DRAG);
+
+        this._lastInertiaZoomMovement = undefined;
+        this._lastInertiaTranslateMovement = undefined;
+        this._lastInertiaWheelZoomMovement = undefined;
+
+        this._frustum = this._camera.frustum.clone();
+        this._animationCollection = new AnimationCollection();
+        this._zoomAnimation = undefined;
+        this._translateAnimation = undefined;
+
+        var maxZoomOut = 2.0;
+        this._frustum.right *= maxZoomOut;
+        this._frustum.left *= maxZoomOut;
+        this._frustum.top *= maxZoomOut;
+        this._frustum.bottom *= maxZoomOut;
+
+        this._maxCoord = projection.project(new Cartographic3(Math.PI, CesiumMath.PI_OVER_TWO, 0.0));
+
+        this._maxZoomFactor = 2.5;
+        this._maxTranslateFactor = 1.5;
+    };
+
+    /**
+     * Returns the projection of the map that the camera is moving around.
+     *
+     * @memberof Camera2DController
+     *
+     * @returns {DOC_TBA} The projection of the map that the camera is moving around.
+     *
+     * @see Camera2DController#setProjection
+     */
+    Camera2DController.prototype.getProjection = function() {
+        return this._projection;
+    };
+
+    /**
+     * Sets the projection of the map that the camera is moving around.
+     *
+     * @memberof Camera2DController
+     *
+     * @param {DOC_TBA} projection The projection of the map that the camera is moving around.
+     *
+     * @exception {DeveloperError} projection is required.
+     *
+     * @see Camera2DController#getProjection
+     */
+    Camera2DController.prototype.setProjection = function(projection) {
+        if (typeof projection === 'undefined') {
+            throw new DeveloperError('projection is required.');
+        }
+
+        this._projection = projection;
+        this._maxCoord = projection.project(new Cartographic3(Math.PI, CesiumMath.toRadians(85.05112878)));
+    };
+
+    /**
+     * Translates the camera's position by <code>rate</code> along the camera's up vector.
+     *
+     * @memberof Camera2DController
+     *
+     * @param {Number} rate The rate to move.
+     *
+     * @see Camera2DController#moveDown
+     */
+    Camera2DController.prototype.moveUp = function(rate) {
+        move(this._camera, this._camera.up, rate || this._moveRate);
+    };
+
+    /**
+     * Translates the camera's position by <code>rate</code> along the opposite direction
+     * of the camera's up vector.
+     *
+     * @memberof Camera2DController
+     *
+     * @param {Number} rate The rate to move.
+     *
+     * @see Camera2DController#moveUp
+     */
+    Camera2DController.prototype.moveDown = function(rate) {
+        move(this._camera, this._camera.up, -rate || -this._moveRate);
+    };
+
+    /**
+     * Translates the camera's position by <code>rate</code> along the camera's right vector.
+     *
+     * @memberof Camera2DController
+     *
+     * @param {Number} rate The rate to move.
+     *
+     * @see Camera2DController#moveLeft
+     */
+    Camera2DController.prototype.moveRight = function(rate) {
+        move(this._camera, this._camera.right, rate || this._moveRate);
+    };
+
+    /**
+     * Translates the camera's position by <code>rate</code> along the opposite direction
+     * of the camera's right vector.
+     *
+     * @memberof Camera2DController
+     *
+     * @param {Number} rate The rate to move.
+     *
+     * @see Camera2DController#moveRight
+     */
+    Camera2DController.prototype.moveLeft = function(rate) {
+        move(this._camera, this._camera.right, -rate || -this._moveRate);
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof Camera2DController
+     *
+     * @param {Number} rate The rate to move.
+     *
+     * @see Camera2DController#zoomOut
+     */
+    Camera2DController.prototype.zoomIn = function(rate) {
+        var moveRate = rate || this._zoomRate;
+        var frustum = this._camera.frustum;
+
+        if (frustum.left === null || frustum.right === null ||
+            frustum.top === null || frustum.bottom === null) {
+                throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
+        }
+
+        var newRight = frustum.right - moveRate;
+        var newLeft = frustum.left + moveRate;
+
+        var maxRight = this._maxCoord.x * this._maxZoomFactor;
+        if (newRight > maxRight) {
+            newRight = maxRight;
+            newLeft = -newRight;
+        }
+
+        if (newRight > newLeft) {
+            var ratio = frustum.top / frustum.right;
+            frustum.right = newRight;
+            frustum.left = newLeft;
+            frustum.top = frustum.right * ratio;
+            frustum.bottom = -frustum.top;
+        }
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof Camera2DController
+     *
+     * @param {Number} rate The rate to move.
+     *
+     * @see Camera2DController#zoomIn
+     */
+    Camera2DController.prototype.zoomOut = function(rate) {
+        this.zoomIn(-rate || -this._zoomRate);
+    };
+
+    Camera2DController.prototype._addCorrectZoomAnimation = function() {
+        var camera = this._camera;
+        var frustum = camera.frustum;
+        var top = frustum.top;
+        var bottom = frustum.bottom;
+        var right = frustum.right;
+        var left = frustum.left;
+
+        var startFrustum = this._frustum;
+
+        var update2D = function(value) {
+            camera.frustum.top = CesiumMath.lerp(top, startFrustum.top, value.time);
+            camera.frustum.bottom = CesiumMath.lerp(bottom, startFrustum.bottom, value.time);
+            camera.frustum.right = CesiumMath.lerp(right, startFrustum.right, value.time);
+            camera.frustum.left = CesiumMath.lerp(left, startFrustum.left, value.time);
+        };
+
+        this._zoomAnimation = this._animationCollection.add({
+            easingFunction : Tween.Easing.Exponential.EaseOut,
+            startValue : {
+                time : 0.0
+            },
+            stopValue : {
+                time : 1.0
+            },
+            onUpdate : update2D
+        });
+    };
+
+    Camera2DController.prototype._addCorrectTranslateAnimation = function() {
+        var camera = this._camera;
+        var currentPosition = camera.position;
+        var translatedPosition = currentPosition.clone();
+
+        if (translatedPosition.x > this._maxCoord.x) {
+            translatedPosition.x = this._maxCoord.x;
+        } else if (translatedPosition.x < -this._maxCoord.x) {
+            translatedPosition.x = -this._maxCoord.x;
+        }
+
+        if (translatedPosition.y > this._maxCoord.y) {
+            translatedPosition.y = this._maxCoord.y;
+        } else if (translatedPosition.y < -this._maxCoord.y) {
+            translatedPosition.y = -this._maxCoord.y;
+        }
+
+        var update2D = function(value) {
+            camera.position = currentPosition.lerp(translatedPosition, value.time);
+        };
+
+        this._translateAnimation = this._animationCollection.add({
+            easingFunction : Tween.Easing.Exponential.EaseOut,
+            startValue : {
+                time : 0.0
+            },
+            stopValue : {
+                time : 1.0
+            },
+            onUpdate : update2D
+        });
+    };
+
+    /**
+     * @private
+     */
+    Camera2DController.prototype.update = function() {
+        var translate = this._translateHandler;
+        var rightZoom = this._zoomHandler;
+        var wheelZoom = this._zoomWheel;
+        var translating = translate.isMoving() && translate.getMovement();
+        var rightZooming = rightZoom.isMoving();
+        var wheelZooming = wheelZoom.isMoving();
+
+        if (translate.isButtonDown() || rightZoom.isButtonDown() || wheelZooming) {
+            this._animationCollection.removeAll();
+        }
+
+        if (translating) {
+            this._translate(translate.getMovement());
+        }
+
+        if (!translating && this.inertiaTranslate < 1.0) {
+            maintainInertia(translate, this.inertiaTranslate, this._translate, this, '_lastInertiaTranslateMovement');
+        }
+
+        if (rightZooming) {
+            this._zoom(rightZoom.getMovement());
+        } else if (wheelZooming) {
+            this._zoom(wheelZoom.getMovement());
+        }
+
+        if (!rightZooming && this.inertiaZoom < 1.0) {
+            maintainInertia(rightZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaZoomMovement');
+        }
+
+        if (!wheelZooming && this.inertiaZoom < 1.0) {
+            maintainInertia(wheelZoom, this.inertiaZoom, this._zoom, this, '_lastInertiaWheelZoomMovement');
+        }
+
+        if (this._twistHandler.isMoving()) {
+            this._twist(this._twistHandler.getMovement());
+        }
+
+        if (!translate.isButtonDown() && !rightZoom.isButtonDown()) {
+            if (this._camera.frustum.right > this._frustum.right &&
+                !this._lastInertiaZoomMovement && !this._animationCollection.contains(this._zoomAnimation)) {
+                this._addCorrectZoomAnimation();
+            }
+
+            var position = this._camera.position;
+            var translateX = position.x < -this._maxCoord.x || position.x > this._maxCoord.x;
+            var translateY = position.y < -this._maxCoord.y || position.y > this._maxCoord.y;
+            if ((translateX || translateY) && !this._lastInertiaTranslateMovement &&
+                    !this._animationCollection.contains(this._translateAnimation)) {
+                this._addCorrectTranslateAnimation();
+            }
+        }
+
+        this._animationCollection.update();
+
+        return true;
+    };
+
+    Camera2DController.prototype._translate = function(movement) {
+       var frustum = this._camera.frustum;
+
+       if (frustum.left === null || frustum.right === null ||
+           frustum.top === null || frustum.bottom === null) {
+               throw new DeveloperError('The camera frustum is expected to be orthographic for 2D camera control.');
+       }
+
+       var width = this._canvas.clientWidth;
+       var height = this._canvas.clientHeight;
+
+       var start = new Cartesian2();
+       start.x = (movement.startPosition.x / width) * (frustum.right - frustum.left) + frustum.left;
+       start.y = ((height - movement.startPosition.y) / height) * (frustum.top - frustum.bottom) + frustum.bottom;
+
+       var end = new Cartesian2();
+       end.x = (movement.endPosition.x / width) * (frustum.right - frustum.left) + frustum.left;
+       end.y = ((height - movement.endPosition.y) / height) * (frustum.top - frustum.bottom) + frustum.bottom;
+
+       var camera = this._camera;
+       var right = camera.right;
+       var up = camera.up;
+       var position;
+       var newPosition;
+
+       var distance = start.subtract(end);
+       if (distance.x !== 0) {
+           position = camera.position;
+           newPosition = position.add(right.multiplyWithScalar(distance.x));
+
+           var maxX = this._maxCoord.x * this._maxTranslateFactor;
+           if (newPosition.x > maxX) {
+               newPosition.x = maxX;
+           }
+           if (newPosition.x < -maxX) {
+               newPosition.x = -maxX;
+           }
+
+           camera.position = newPosition;
+       }
+       if (distance.y !== 0) {
+           position = camera.position;
+           newPosition = position.add(up.multiplyWithScalar(distance.y));
+
+           var maxY = this._maxCoord.y * this._maxTranslateFactor;
+           if (newPosition.y > maxY) {
+               newPosition.y = maxY;
+           }
+           if (newPosition.y < -maxY) {
+               newPosition.y = -maxY;
+           }
+
+           camera.position = newPosition;
+       }
+   };
+
+   Camera2DController.prototype._zoom = function(movement) {
+       var camera = this._camera;
+       var mag = Math.max(camera.frustum.right - camera.frustum.left, camera.frustum.top - camera.frustum.bottom);
+       handleZoom(this, movement, mag);
+   };
+
+   Camera2DController.prototype._twist = function(movement) {
+       var width = this._canvas.clientWidth;
+       var height = this._canvas.clientHeight;
+
+       var start = new Cartesian2();
+       start.x = (2.0 / width) * movement.startPosition.x - 1.0;
+       start.y = (2.0 / height) * (height - movement.startPosition.y) - 1.0;
+       start = start.normalize();
+
+       var end = new Cartesian2();
+       end.x = (2.0 / width) * movement.endPosition.x - 1.0;
+       end.y = (2.0 / height) * (height - movement.endPosition.y) - 1.0;
+       end = end.normalize();
+
+       var startTheta = Math.acos(start.x);
+       if (start.y < 0) {
+           startTheta = CesiumMath.TWO_PI - startTheta;
+       }
+       var endTheta = Math.acos(end.x);
+       if (end.y < 0) {
+           endTheta = CesiumMath.TWO_PI - endTheta;
+       }
+       var theta = endTheta - startTheta;
+
+       var camera = this._camera;
+       var rotation = Quaternion.fromAxisAngle(camera.direction, theta).toRotationMatrix();
+       camera.up = rotation.multiplyWithVector(camera.up);
+       camera.right = camera.direction.cross(camera.up);
+   };
+
+   /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof Camera2DController
+     *
+     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
+     *
+     * @see Camera2DController#destroy
+     */
+    Camera2DController.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Removes mouse listeners held by this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof Camera2DController
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see Camera2DController#isDestroyed
+     *
+     * @example
+     * controller = controller && controller.destroy();
+     */
+    Camera2DController.prototype.destroy = function() {
+        this._translateHandler = this._translateHandler && this._translateHandler.destroy();
+        this._zoomHandler = this._zoomHandler && this._zoomHandler.destroy();
+        this._zoomWheel = this._zoomWheel && this._zoomWheel.destroy();
+        this._twistHandler = this._twistHandler && this._twistHandler.destroy();
+        return destroyObject(this);
+    };
+
+    return Camera2DController;
+});
+/*global define*/
+define('Scene/CameraColumbusViewController',[
+        '../Core/destroyObject',
+        '../Core/Ellipsoid',
+        '../Core/Cartesian3',
+        '../Core/Cartesian4',
+        '../Core/Math',
+        '../Core/Matrix4',
+        './CameraEventHandler',
+        './CameraEventType',
+        './CameraSpindleController',
+        './CameraFreeLookController',
+        './CameraHelpers',
+        './AnimationCollection',
+        '../ThirdParty/Tween'
+    ], function(
+        destroyObject,
+        Ellipsoid,
+        Cartesian3,
+        Cartesian4,
+        CesiumMath,
+        Matrix4,
+        CameraEventHandler,
+        CameraEventType,
+        CameraSpindleController,
+        CameraFreeLookController,
+        CameraHelpers,
+        AnimationCollection,
+        Tween) {
+    
+
+    var maintainInertia = CameraHelpers.maintainInertia;
+
+    /**
+     * DOC_TBD
+     * @alias CameraColumbusViewController
+     * @constructor
+     */
+    var CameraColumbusViewController = function(canvas, camera, ellipsoid) {
+        this._canvas = canvas;
+        this._camera = camera;
+        this._ellipsoid = ellipsoid || Ellipsoid.WGS84;
+
+        /**
+         * A parameter in the range <code>[0, 1]</code> used to determine how long
+         * the camera will continue to translate because of inertia.
+         * With a value of zero, the camera will have no inertia.
+         *
+         * @type Number
+         */
+        this.inertiaTranslate = 0.9;
+
+        this._translateHandler = new CameraEventHandler(canvas, CameraEventType.LEFT_DRAG);
+
+        this._spindleController = new CameraSpindleController(canvas, camera, Ellipsoid.UNIT_SPHERE);
+
+        // TODO: Shouldn't change private variables like this, need to be able to change event modifiers
+        //       on controllers.
+        this._spindleController._spinHandler = this._spindleController._spinHandler && this._spindleController._spinHandler.destroy();
+        this._spindleController._spinHandler = new CameraEventHandler(canvas, CameraEventType.MIDDLE_DRAG);
+        this._spindleController.constrainedAxis = Cartesian3.UNIT_Z;
+
+        this._freeLookController = new CameraFreeLookController(canvas, camera);
+        this._freeLookController.horizontalRotationAxis = Cartesian3.UNIT_Z;
+
+        this._transform = this._camera.transform.clone();
+        this._lastInertiaTranslateMovement = undefined;
+
+        this._animationCollection = new AnimationCollection();
+        this._translateAnimation = undefined;
+
+        this._mapWidth = this._ellipsoid.getRadii().x * Math.PI;
+        this._mapHeight = this._ellipsoid.getRadii().y * CesiumMath.PI_OVER_TWO;
+    };
+
+    /**
+     * @private
+     */
+    CameraColumbusViewController.prototype.update = function() {
+        var translate = this._translateHandler;
+        var translating = translate.isMoving() && translate.getMovement();
+
+        if (translate.isButtonDown() || this._spindleController._zoomHandler.isButtonDown() ||
+                this._spindleController._spinHandler.isButtonDown() || this._freeLookController._handler.isButtonDown()) {
+            this._animationCollection.removeAll();
+        }
+
+        if (translating) {
+            this._translate(translate.getMovement());
+        }
+
+        if (!translating && this.inertiaTranslate < 1.0) {
+            maintainInertia(translate, this.inertiaTranslate, this._translate, this, '_lastInertiaTranslateMovement');
+        }
+
+        this._spindleController.update();
+        this._freeLookController.update();
+
+        this._correctPosition();
+        this._animationCollection.update();
+
+        return true;
+    };
+
+    CameraColumbusViewController.prototype._addCorrectTranslateAnimation = function(position, center, maxX, maxY) {
+        var newPosition = position.clone();
+
+        if (center.y > maxX) {
+            newPosition.y -= center.y - maxX;
+        } else if (center.y < -maxX) {
+            newPosition.y += -maxX - center.y;
+        }
+
+        if (center.z > maxY) {
+            newPosition.z -= center.z - maxY;
+        } else if (center.z < -maxY) {
+            newPosition.z += -maxY - center.z;
+        }
+
+        var camera = this._camera;
+        var updateCV = function(value) {
+            var interp = position.lerp(newPosition, value.time);
+            var pos = new Cartesian4(interp.x, interp.y, interp.z, 1.0);
+            camera.position = camera.getInverseTransform().multiplyWithVector(pos).getXYZ();
+        };
+
+        this._translateAnimation = this._animationCollection.add({
+            easingFunction : Tween.Easing.Exponential.EaseOut,
+            startValue : {
+                time : 0.0
+            },
+            stopValue : {
+                time : 1.0
+            },
+            onUpdate : updateCV
+        });
+    };
+
+    CameraColumbusViewController.prototype._translate = function(movement) {
+        var camera = this._camera;
+        var sign = (camera.direction.dot(Cartesian3.UNIT_Z) >= 0) ? 1.0 : -1.0;
+
+        var startRay = camera.getPickRay(movement.startPosition);
+        var endRay = camera.getPickRay(movement.endPosition);
+
+        var position = new Cartesian4(startRay.origin.x, startRay.origin.y, startRay.origin.z, 1.0);
+        position = camera.getInverseTransform().multiplyWithVector(position).getXYZ();
+        var direction = new Cartesian4(startRay.direction.x, startRay.direction.y, startRay.direction.z, 0.0);
+        direction = camera.getInverseTransform().multiplyWithVector(direction).getXYZ();
+        var scalar = sign * position.z / direction.z;
+        var startPlanePos = position.add(direction.multiplyWithScalar(scalar));
+
+        position = new Cartesian4(endRay.origin.x, endRay.origin.y, endRay.origin.z, 1.0);
+        position = camera.getInverseTransform().multiplyWithVector(position).getXYZ();
+        direction = new Cartesian4(endRay.direction.x, endRay.direction.y, endRay.direction.z, 0.0);
+        direction = camera.getInverseTransform().multiplyWithVector(direction).getXYZ();
+        scalar = sign * position.z / direction.z;
+        var endPlanePos = position.add(direction.multiplyWithScalar(scalar));
+
+        var diff = startPlanePos.subtract(endPlanePos);
+        camera.position = camera.position.add(diff);
+    };
+
+    CameraColumbusViewController.prototype._correctPosition = function()
+    {
+        var camera = this._camera;
+        var position = camera.position;
+        var direction = camera.direction;
+
+        var centerWC;
+        var positionWC;
+
+        if (direction.dot(Cartesian3.UNIT_Z) >= 0) {
+            centerWC = Cartesian4.UNIT_W;
+            this._transform.setColumn3(centerWC);
+
+            var cameraPosition = new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0);
+            positionWC = camera.transform.multiplyWithVector(cameraPosition);
+
+            camera.transform = this._transform.clone();
+        } else {
+            var scalar = -position.z / direction.z;
+            var center = position.add(direction.multiplyWithScalar(scalar));
+            center = new Cartesian4(center.x, center.y, center.z, 1.0);
+            centerWC = camera.transform.multiplyWithVector(center);
+            this._transform.setColumn3(centerWC);
+
+            var cameraPosition = new Cartesian4(camera.position.x, camera.position.y, camera.position.z, 1.0);
+            positionWC = camera.transform.multiplyWithVector(cameraPosition);
+            camera.transform = this._transform.clone();
+        }
+
+        var tanPhi = Math.tan(this._camera.frustum.fovy * 0.5);
+        var tanTheta = this._camera.frustum.aspectRatio * tanPhi;
+        var distToC = positionWC.subtract(centerWC).magnitude();
+        var dWidth = tanTheta * distToC;
+        var dHeight = tanPhi * distToC;
+
+        var maxX = Math.max(dWidth - this._mapWidth, this._mapWidth);
+        var maxY = Math.max(dHeight - this._mapHeight, this._mapHeight);
+
+        if (positionWC.x < -maxX || positionWC.x > maxX || positionWC.y < -maxY || positionWC.y > maxY) {
+            if (!this._translateHandler.isButtonDown()) {
+                var translateX = centerWC.y < -maxX || centerWC.y > maxX;
+                var translateY = centerWC.z < -maxY || centerWC.z > maxY;
+                if ((translateX || translateY) && !this._lastInertiaTranslateMovement &&
+                        !this._animationCollection.contains(this._translateAnimation)) {
+                    this._addCorrectTranslateAnimation(positionWC.getXYZ(), centerWC.getXYZ(), maxX, maxY);
+                }
+            }
+
+            maxX = maxX + this._mapWidth * 0.5;
+            if (centerWC.y > maxX) {
+                positionWC.y -= centerWC.y - maxX;
+            } else if (centerWC.y < -maxX) {
+                positionWC.y += -maxX - centerWC.y;
+            }
+
+            maxY = maxY + this._mapHeight * 0.5;
+            if (centerWC.z > maxY) {
+                positionWC.z -= centerWC.z - maxY;
+            } else if (centerWC.z < -maxY) {
+                positionWC.z += -maxY - centerWC.z;
+            }
+        }
+
+        camera.position = camera.getInverseTransform().multiplyWithVector(positionWC).getXYZ();
+    };
+
+    /**
+      * Returns true if this object was destroyed; otherwise, false.
+      * <br /><br />
+      * If this object was destroyed, it should not be used; calling any function other than
+      * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+      *
+      * @memberof CameraColumbusViewController
+      *
+      * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
+      *
+      * @see CameraSpindleController#destroy
+      */
+    CameraColumbusViewController.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Removes mouse listeners held by this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof CameraColumbusViewController
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see CameraColumbusViewController#isDestroyed
+     *
+     * @example
+     * controller = controller && controller.destroy();
+     */
+    CameraColumbusViewController.prototype.destroy = function() {
+        this._translateHandler = this._translateHandler && this._translateHandler.destroy();
+        this._spindleController = this._spindleController && this._spindleController.destroy();
+        this._freeLookController = this._freeLookController && this._freeLookController.destroy();
+        return destroyObject(this);
+    };
+
+    return CameraColumbusViewController;
+});
+/*global define*/
+define('Scene/CameraControllerCollection',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Ellipsoid',
+        '../Core/Cartographic3',
+        './Camera2DController',
+        './CameraFlightController',
+        './CameraSpindleController',
+        './CameraFreeLookController',
+        './CameraColumbusViewController',
+        './CameraCentralBodyController'
+    ], function(
+        DeveloperError,
+        destroyObject,
+        Ellipsoid,
+        Cartographic3,
+        Camera2DController,
+        CameraFlightController,
+        CameraSpindleController,
+        CameraFreeLookController,
+        CameraColumbusViewController,
+        CameraCentralBodyController) {
+    
+
+    /**
+     * DOC_TBA
+     *
+     * @alias CameraControllerCollection
+     * @internalConstructor
+     *
+     * @see Camera#getControllers
+     */
+    function CameraControllerCollection(camera, canvas) {
+        this._controllers = [];
+        this._canvas = canvas;
+        this._camera = camera;
+    }
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#addFreeLook
+     * @see CameraControllerCollection#addFlight
+     * @see CameraControllerCollection#addSpindle
+     * @see CameraControllerCollection#addColumbusView
+     */
+    CameraControllerCollection.prototype.add2D = function(projection) {
+        var twoD = new Camera2DController(this._canvas, this._camera, projection);
+        this._controllers.push(twoD);
+        return twoD;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#addFreeLook
+     * @see CameraControllerCollection#addFlight
+     * @see CameraControllerCollection#add2D
+     * @see CameraControllerCollection#addColumbusView
+     */
+    CameraControllerCollection.prototype.addSpindle = function(ellipsoid) {
+        var spindle = new CameraSpindleController(this._canvas, this._camera, ellipsoid);
+        this._controllers.push(spindle);
+        return spindle;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#addSpindle
+     * @see CameraControllerCollection#addFlight
+     * @see CameraControllerCollection#add2D
+     * @see CameraControllerCollection#addColumbusView
+     */
+    CameraControllerCollection.prototype.addFreeLook = function(ellipsoid) {
+        var freeLook = new CameraFreeLookController(this._canvas, this._camera);
+        this._controllers.push(freeLook);
+        return freeLook;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#addSpindle
+     * @see CameraControllerCollection#addFlight
+     * @see CameraControllerCollection#add2D
+     * @see CameraControllerCollection#addFreeLook
+     */
+    CameraControllerCollection.prototype.addColumbusView = function() {
+        var cv = new CameraColumbusViewController(this._canvas, this._camera);
+        this._controllers.push(cv);
+        return cv;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#addSpindle
+     * @see CameraControllerCollection#addFreeLook
+     * @see CameraControllerCollection#add2D
+     * @see CameraControllerCollection#addColumbusView
+     */
+    CameraControllerCollection.prototype.addFlight = function(template) {
+        var t = template || {};
+        var ellipsoid = t.ellipsoid || Ellipsoid.WGS84;
+        var destination = t.destination || Ellipsoid.WGS84.cartographicDegreesToCartesian(new Cartographic3(0.0, 0.0, 0.0));
+        var duration = t.duration || 4.0;
+        var complete = template.complete;
+		var flightController = new CameraFlightController(this._canvas, this._camera, ellipsoid, destination, duration, complete);
+		this._controllers.push(flightController);
+		return flightController;
+    };
+
+    CameraControllerCollection.prototype.addCentralBody = function() {
+        var cb = new CameraCentralBodyController(this._canvas, this._camera);
+        this._controllers.push(cb);
+        return cb;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#removeAll
+     */
+    CameraControllerCollection.prototype.remove = function(controller) {
+        if (controller) {
+            var controllers = this._controllers;
+            var i = controllers.indexOf(controller);
+            if (i !== -1) {
+                controllers[i].destroy();
+                controllers.splice(i, 1);
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#remove
+     */
+    CameraControllerCollection.prototype.removeAll = function() {
+        var controllers = this._controllers;
+        var length = controllers.length;
+        for ( var i = 0; i < length; ++i) {
+            controllers[i].destroy();
+        }
+
+        this._controllers = [];
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     */
+    CameraControllerCollection.prototype.contains = function(controller) {
+        if (controller) {
+            return (this._controllers.indexOf(controller) !== -1);
+        }
+
+        return false;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#getLength
+     */
+    CameraControllerCollection.prototype.get = function(index) {
+        if (typeof index === 'undefined') {
+            throw new DeveloperError('index is required.');
+        }
+
+        return this._controllers[index];
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     *
+     * @see CameraControllerCollection#get
+     */
+    CameraControllerCollection.prototype.getLength = function() {
+        return this._controllers.length;
+    };
+
+    /**
+     * @private
+     */
+    CameraControllerCollection.prototype.update = function() {
+        var toRemove = [];
+
+        var controllers = this._controllers;
+        var length = controllers.length;
+        for ( var i = 0; i < length; ++i) {
+            if (!controllers[i].update()) {
+                toRemove.push(i);
+            }
+        }
+
+        // Automatically remove expired controllers
+        for ( var j = 0; j < toRemove.length; ++j) {
+            var index = toRemove[j];
+            controllers[index].destroy();
+            controllers.splice(index, 1);
+        }
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     */
+    CameraControllerCollection.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof CameraControllerCollection
+     */
+    CameraControllerCollection.prototype.destroy = function() {
+        this.removeAll();
+        return destroyObject(this);
+    };
+
+    return CameraControllerCollection;
+});
+
+/*global define*/
+define('Scene/Camera',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Math',
+        '../Core/Intersect',
+        '../Core/Ellipsoid',
+        '../Core/IntersectionTests',
+        '../Core/Cartesian3',
+        '../Core/Cartesian4',
+        '../Core/Cartographic3',
+        '../Core/Matrix4',
+        '../Core/Ray',
+        './CameraControllerCollection',
+        './PerspectiveFrustum'
+    ], function(
+        DeveloperError,
+        destroyObject,
+        CesiumMath,
+        Intersect,
+        Ellipsoid,
+        IntersectionTests,
+        Cartesian3,
+        Cartesian4,
+        Cartographic3,
+        Matrix4,
+        Ray,
+        CameraControllerCollection,
+        PerspectiveFrustum) {
+    
+
+    /**
+     * The camera is defined by a position, orientation, and view frustum.
+     * <br /><br />
+     * The orientation forms an orthonormal basis with a view, up and right = view x up unit vectors.
+     * <br /><br />
+     * The viewing frustum is defined by 6 planes.
+     * Each plane is represented by a {Cartesian4} object, where the x, y, and z components
+     * define the unit vector normal to the plane, and the w component is the distance of the
+     * plane from the origin/camera position.
+     *
+     * @alias Camera
+     *
+     * @exception {DeveloperError} canvas is required.
+     *
+     * @constructor
+     *
+     * @example
+     * // Create a camera looking down the negative z-axis, positioned at the origin,
+     * // with a field of view of 60 degrees, and 1:1 aspect ratio.
+     * var camera = new Camera(canvas);
+     * camera.position = new Cartesian3();
+     * camera.direction = Cartesian3.UNIT_Z.negate();
+     * camera.up = Cartesian3.UNIT_Y;
+     * camera.fovy = CesiumMath.PI_OVER_THREE;
+     * camera.near = 1.0;
+     * camera.far = 2.0;
+     */
+    var Camera = function(canvas) {
+        if (!canvas) {
+            throw new DeveloperError('canvas is required.');
+        }
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Matrix4}
+         */
+        this.transform = Matrix4.IDENTITY;
+        this._transform = this.transform.clone();
+        this._invTransform = Matrix4.IDENTITY;
+
+        var maxRadii = Ellipsoid.WGS84.getRadii().getMaximumComponent();
+        var position = new Cartesian3(0.0, -2.0, 1.0).normalize().multiplyWithScalar(2.0 * maxRadii);
+
+        /**
+         * The position of the camera.
+         *
+         * @type {Cartesian3}
+         */
+        this.position = position.clone();
+        this._position = position;
+        this._positionWC = position;
+
+        var direction = Cartesian3.ZERO.subtract(position).normalize();
+
+        /**
+         * The view direction of the camera.
+         *
+         * @type {Cartesian3}
+         */
+        this.direction = direction.clone();
+        this._direction = direction;
+        this._directionWC = direction;
+
+        var right = direction.cross(Cartesian3.UNIT_Z).normalize();
+
+        /**
+         * The right direction of the camera.
+         *
+         * @type {Cartesian3}
+         */
+        this.right = right.clone();
+        this._right = right;
+        this._rightWC = right;
+
+        var up = right.cross(direction);
+
+        /**
+         * The up direction of the camera.
+         *
+         * @type {Cartesian3}
+         */
+        this.up = up.clone();
+        this._up = up;
+        this._upWC = up;
+
+        /**
+         * DOC_TBA
+         *
+         * @type {Frustum}
+         */
+        this.frustum = new PerspectiveFrustum();
+        this.frustum.fovy = CesiumMath.toRadians(60.0);
+        this.frustum.aspectRatio = canvas.clientWidth / canvas.clientHeight;
+        this.frustum.near = 0.01 * maxRadii;
+        this.frustum.far = 20.0 * maxRadii;
+
+        this._viewMatrix = undefined;
+        this._invViewMatrix = undefined;
+        this._updateViewMatrix();
+
+        this._planes = this.frustum.getPlanes(this._positionWC, this._directionWC, this._upWC);
+
+        this._canvas = canvas;
+        this._controllers = new CameraControllerCollection(this, canvas);
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof Camera
+     */
+    Camera.prototype.getControllers = function() {
+        return this._controllers;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof Camera
+     */
+    Camera.prototype.update = function() {
+        this._controllers.update();
+    };
+
+    /**
+     * Sets the camera position and orientation with an eye position, target, and up vector.
+     *
+     * @memberof Camera
+     *
+     * @param {Array} arguments If one parameter is passed to this function, it must have three
+     * properties with the names eye, target, and up; otherwise three arguments are expected which
+     * the same as the properties of one object and given in the order given above.
+     *
+     */
+    Camera.prototype.lookAt = function() {
+        var eye, target, up;
+        if (arguments.length === 1) {
+            var param = arguments[0];
+            if (param.eye && param.target && param.up) {
+                eye = param.eye;
+                target = param.target;
+                up = param.up;
+            } else {
+                return;
+            }
+        } else if (arguments.length === 3) {
+            eye = arguments[0];
+            target = arguments[1];
+            up = arguments[2];
+        } else {
+            return;
+        }
+
+        this.position = eye;
+        this.direction = target.subtract(eye).normalize();
+        this.up = up.normalize();
+        this.right = this.direction.cross(this.up);
+    };
+
+    /**
+     * Zooms to a cartographic extent on the centralBody. The camera will be looking straight down at the extent, with the up vector pointing toward local north.
+     *
+     * @memberof Camera
+     * @param {Ellipsoid} ellipsoid The ellipsoid to view.
+     * @param {double} west The west longitude of the extent.
+     * @param {double} south The south latitude of the extent.
+     * @param {double} east The east longitude of the extent.
+     * @param {double} north The north latitude of the extent.
+     *
+     */
+    Camera.prototype.viewExtent = function(ellipsoid, west, south, east, north) {
+        //
+        // Ensure we go from -180 to 180
+        //
+        west = CesiumMath.negativePiToPi(west);
+        east = CesiumMath.negativePiToPi(east);
+
+        // If we go across the International Date Line
+        if (west > east) {
+            east += CesiumMath.TWO_PI;
+        }
+
+        var lla = new Cartographic3(0.5 * (west + east), 0.5 * (north + south), 0.0);
+        var northVector = ellipsoid.toCartesian(new Cartographic3(lla.longitude, north, 0.0));
+        var eastVector = ellipsoid.toCartesian(new Cartographic3(east, lla.latitude, 0.0));
+        var centerVector = ellipsoid.toCartesian(lla);
+        var invTanHalfPerspectiveAngle = 1.0 / Math.tan(0.5 * this.frustum.fovy);
+        var screenViewDistanceX;
+        var screenViewDistanceY;
+        var tempVec;
+        if (this._canvas.clientWidth >= this._canvas.clientHeight) {
+            tempVec = eastVector.subtract(centerVector);
+            screenViewDistanceX = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle);
+            tempVec = northVector.subtract(centerVector);
+            screenViewDistanceY = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle * this._canvas.clientWidth / this._canvas.clientHeight);
+        } else {
+            tempVec = eastVector.subtract(centerVector);
+            screenViewDistanceX = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle * this._canvas.clientWidth / this._canvas.clientHeight);
+            tempVec = northVector.subtract(centerVector);
+            screenViewDistanceY = Math.sqrt(tempVec.dot(tempVec) * invTanHalfPerspectiveAngle);
+        }
+        lla.height += Math.max(screenViewDistanceX, screenViewDistanceY);
+
+        this.position = ellipsoid.toCartesian(lla);
+        this.direction = Cartesian3.ZERO.subtract(centerVector).normalize();
+        this.right = this.direction.cross(Cartesian3.UNIT_Z).normalize();
+        this.up = this.right.cross(this.direction);
+    };
+
+    Camera.prototype._updateViewMatrix = function() {
+        var r = this._right;
+        var u = this._up;
+        var d = this._direction;
+        var e = this._position;
+
+        var viewMatrix = new Matrix4( r.x,  r.y,  r.z, -r.dot(e),
+                                      u.x,  u.y,  u.z, -u.dot(e),
+                                     -d.x, -d.y, -d.z,  d.dot(e),
+                                      0.0,  0.0,  0.0,      1.0);
+        this._viewMatrix = viewMatrix.multiplyWithMatrix(this._invTransform);
+
+        this._invViewMatrix = this._viewMatrix.inverseTransformation();
+    };
+
+    Camera.prototype._update = function() {
+        var position = this._position;
+        var positionChanged = !position.equals(this.position);
+        if (positionChanged) {
+            position = this._position = this.position.clone();
+        }
+
+        var direction = this._direction;
+        var directionChanged = !direction.equals(this.direction);
+        if (directionChanged) {
+            direction = this._direction = this.direction.clone();
+        }
+
+        var up = this._up;
+        var upChanged = !up.equals(this.up);
+        if (upChanged) {
+            up = this._up = this.up.clone();
+        }
+
+        var right = this._right;
+        var rightChanged = !right.equals(this.right);
+        if (rightChanged) {
+            right = this._right = this.right.clone();
+        }
+
+        var transform = this._transform;
+        var transformChanged = !transform.equals(this.transform);
+        if (transformChanged) {
+            transform = this._transform = this.transform.clone();
+
+            this._invTransform = this._transform.inverseTransformation();
+        }
+
+        if (positionChanged || transformChanged) {
+            this._positionWC = transform.multiplyWithVector(new Cartesian4(position.x, position.y, position.z, 1.0)).getXYZ();
+        }
+
+        if (directionChanged || transformChanged) {
+            this._directionWC = transform.multiplyWithVector(new Cartesian4(direction.x, direction.y, direction.z, 0.0)).getXYZ();
+        }
+
+        if (upChanged || transformChanged) {
+            this._upWC = transform.multiplyWithVector(new Cartesian4(up.x, up.y, up.z, 0.0)).getXYZ();
+        }
+
+        if (rightChanged || transformChanged) {
+            this._rightWC = transform.multiplyWithVector(new Cartesian4(right.x, right.y, right.z, 0.0)).getXYZ();
+        }
+
+        if (positionChanged || directionChanged || upChanged || transformChanged) {
+            this._planes = this.frustum.getPlanes(this._positionWC, this._directionWC, this._upWC);
+        }
+
+        if (directionChanged || upChanged || rightChanged) {
+            var det = direction.dot(up.cross(right));
+            if (Math.abs(1.0 - det) > CesiumMath.EPSILON2) {
+                //orthonormalize axes
+                direction = this._direction = direction.normalize();
+                this.direction = direction.clone();
+
+                var invUpMag = 1.0 / up.magnitudeSquared();
+                var scalar = up.dot(direction) * invUpMag;
+                var w0 = direction.multiplyWithScalar(scalar);
+                up = this._up = up.subtract(w0).normalize();
+                this.up = up.clone();
+
+                right = this._right = direction.cross(up);
+                this.right = right.clone();
+            }
+        }
+
+        if (positionChanged || directionChanged || upChanged || rightChanged || transformChanged) {
+            this._updateViewMatrix();
+        }
+    };
+
+    /**
+     * DOC_TBA
+     *
+     * @memberof Camera
+     *
+     * @return {Matrix4} DOC_TBA
+     */
+    Camera.prototype.getInverseTransform = function() {
+        this._update();
+        return this._invTransform;
+    };
+
+    /**
+     * Returns the view matrix.
+     *
+     * @memberof Camera
+     *
+     * @return {Matrix4} The view matrix.
+     *
+     * @see UniformState#getView
+     * @see UniformState#setView
+     * @see agi_view
+     */
+    Camera.prototype.getViewMatrix = function() {
+        this._update();
+        return this._viewMatrix;
+    };
+
+    /**
+     * DOC_TBA
+     * @memberof Camera
+     */
+    Camera.prototype.getInverseViewMatrix = function() {
+        this._update();
+        return this._invViewMatrix;
+    };
+
+    /**
+     * The position of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getPositionWC = function() {
+        this._update();
+        return this._positionWC;
+    };
+
+    /**
+     * The view direction of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getDirectionWC = function() {
+        this._update();
+        return this._directionWC;
+    };
+
+    /**
+     * The up direction of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getUpWC = function() {
+        this._update();
+        return this._upWC;
+    };
+
+    /**
+     * The right direction of the camera in world coordinates.
+     *
+     * @type {Cartesian3}
+     */
+    Camera.prototype.getRightWC = function() {
+        this._update();
+        return this._rightWC;
+    };
+
+    Camera.prototype._getPickRayPerspective = function(windowPosition) {
+        var width = this._canvas.clientWidth;
+        var height = this._canvas.clientHeight;
+
+        var tanPhi = Math.tan(this.frustum.fovy * 0.5);
+        var tanTheta = this.frustum.aspectRatio * tanPhi;
+        var near = this.frustum.near;
+
+        var x = (2.0 / width) * windowPosition.x - 1.0;
+        var y = (2.0 / height) * (height - windowPosition.y) - 1.0;
+
+        var position = this.getPositionWC();
+        var nearCenter = position.add(this.getDirectionWC().multiplyWithScalar(near));
+        var xDir = this.getRightWC().multiplyWithScalar(x * near * tanTheta);
+        var yDir = this.getUpWC().multiplyWithScalar(y * near * tanPhi);
+        var direction = nearCenter.add(xDir).add(yDir).subtract(position).normalize();
+
+        return new Ray(position.clone(), direction);
+    };
+
+    Camera.prototype._getPickRayOrthographic = function(windowPosition) {
+        var width = this._canvas.clientWidth;
+        var height = this._canvas.clientHeight;
+
+        var x = (2.0 / width) * windowPosition.x - 1.0;
+        x *= (this.frustum.right - this.frustum.left) * 0.5;
+        var y = (2.0 / height) * (height - windowPosition.y) - 1.0;
+        y *= (this.frustum.top - this.frustum.bottom) * 0.5;
+
+        var position = this.position.clone();
+        position.x += x;
+        position.y += y;
+
+        return new Ray(position, this.getDirectionWC());
+    };
+
+    /**
+     * Create a ray from the camera position through the pixel at <code>windowPosition</code>
+     * in world coordinates.
+     *
+     * @memberof Camera
+     *
+     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
+     *
+     * @exception {DeveloperError} windowPosition is required.
+     *
+     * @return {Object} Returns the {@link Cartesian3} position and direction of the ray.
+     */
+    Camera.prototype.getPickRay = function(windowPosition) {
+        if (typeof windowPosition === 'undefined') {
+            throw new DeveloperError('windowPosition is required.');
+        }
+
+        var frustum = this.frustum;
+        if (typeof frustum.aspectRatio !== 'undefined' && typeof frustum.fovy !== 'undefined' && typeof frustum.near !== 'undefined') {
+            return this._getPickRayPerspective(windowPosition);
+        }
+
+        return this._getPickRayOrthographic(windowPosition);
+    };
+
+    /**
+     * Pick an ellipsoid in 3D mode.
+     *
+     * @memberof Camera
+     *
+     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
+     * @param {Ellipsoid} [ellipsoid=Ellipsoid.WGS84] The ellipsoid to pick.
+     *
+     * @exception {DeveloperError} windowPosition is required.
+     *
+     * @return {Cartesian3} If the ellipsoid was picked, returns the point on the surface of the ellipsoid.
+     * If the ellipsoid was not picked, returns undefined.
+     */
+    Camera.prototype.pickEllipsoid = function(windowPosition, ellipsoid) {
+        if (typeof windowPosition === 'undefined') {
+            throw new DeveloperError('windowPosition is required.');
+        }
+
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
+        var ray = this._getPickRayPerspective(windowPosition);
+        var intersection = IntersectionTests.rayEllipsoid(ray, ellipsoid);
+        if (!intersection) {
+            return undefined;
+        }
+
+        var iPt = ray.getPoint(intersection.start);
+        return iPt;
+    };
+
+    /**
+     * Pick the map in 2D mode.
+     *
+     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
+     * @param {DOC_TBA} projection DOC_TBA
+     *
+     * @exception {DeveloperError} windowPosition is required.
+     * @exception {DeveloperError} projection is required.
+     *
+     * @return {Cartesian3} If the map was picked, returns the point on the surface of the map.
+     * If the map was not picked, returns undefined.
+     */
+    Camera.prototype.pickMap2D = function(windowPosition, projection) {
+        if (typeof windowPosition === 'undefined') {
+            throw new DeveloperError('windowPosition is required.');
+        }
+
+        if (typeof projection === 'undefined') {
+            throw new DeveloperError('projection is required.');
+        }
+
+        var ray = this._getPickRayOrthographic(windowPosition);
+        var position = ray.origin;
+        position.z = 0.0;
+        var cart = projection.unproject(position);
+
+        if (cart.latitude < -CesiumMath.PI_OVER_TWO || cart.latitude > CesiumMath.PI_OVER_TWO ||
+                cart.longitude < - Math.PI || cart.longitude > Math.PI) {
+            return undefined;
+        }
+
+        return projection.getEllipsoid().toCartesian(cart);
+    };
+
+    /**
+     * Pick the map in Columbus View mode.
+     *
+     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
+     * @param {DOC_TBA} projection DOC_TBA
+     *
+     * @exception {DeveloperError} windowPosition is required.
+     * @exception {DeveloperError} projection is required.
+     *
+     * @return {Cartesian3} If the map was picked, returns the point on the surface of the map.
+     * If the map was not picked, returns undefined.
+     */
+    Camera.prototype.pickMapColumbusView = function(windowPosition, projection) {
+        if (typeof windowPosition === 'undefined') {
+            throw new DeveloperError('windowPosition is required.');
+        }
+
+        if (typeof projection === 'undefined') {
+            throw new DeveloperError('projection is required.');
+        }
+
+        var ray = this._getPickRayPerspective(windowPosition);
+        var scalar = -ray.origin.x / ray.direction.x;
+        var position = ray.getPoint(scalar);
+
+        var cart = projection.unproject(new Cartesian3(position.y, position.z, 0.0));
+
+        if (cart.latitude < -CesiumMath.PI_OVER_TWO || cart.latitude > CesiumMath.PI_OVER_TWO ||
+                cart.longitude < - Math.PI || cart.longitude > Math.PI) {
+            return undefined;
+        }
+
+        position = projection.getEllipsoid().toCartesian(cart);
+        return position;
+    };
+
+    /**
+     * Determines whether a bounding volume intersects with the frustum or not.
+     *
+     * @memberof Camera
+     *
+     * @param {Object} object The bounding volume whose intersection with the frustum is to be tested.
+     * @param {Function} planeIntersectTest The function that tests for intersections between a plane
+     * and the bounding volume type of object
+     *
+     * @return {Enumeration}  Intersect.OUTSIDE,
+     *                                 Intersect.INTERSECTING, or
+     *                                 Intersect.INSIDE.
+     */
+    Camera.prototype.getVisibility = function(object, planeIntersectTest) {
+        this._update();
+        var planes = this._planes;
+        var intersecting = false;
+        for ( var k = 0; k < planes.length; k++) {
+            var result = planeIntersectTest(object, planes[k]);
+            if (result === Intersect.OUTSIDE) {
+                return Intersect.OUTSIDE;
+            } else if (result === Intersect.INTERSECTING) {
+                intersecting = true;
+            }
+        }
+
+        return intersecting ? Intersect.INTERSECTING : Intersect.INSIDE;
+    };
+
+    /**
+     * Returns a duplicate of a Camera instance.
+     *
+     * @memberof Camera
+     *
+     * @return {Camera} A new copy of the Camera instance.
+     */
+    Camera.prototype.clone = function() {
+        var camera = new Camera(this._canvas);
+        camera.position = this.position.clone();
+        camera.direction = this.direction.clone();
+        camera.up = this.up.clone();
+        camera.right = this.right.clone();
+        camera.transform = this.transform.clone();
+        camera.frustum = this.frustum.clone();
+        return camera;
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof Camera
+     *
+     * @return {Boolean} <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
+     *
+     * @see Camera#destroy
+     */
+    Camera.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Removes keyboard listeners held by this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof Camera
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see Camera#isDestroyed
+     *
+     * @example
+     * camera = camera && camera.destroy();
+     */
+    Camera.prototype.destroy = function() {
+        this._controllers.destroy();
+        return destroyObject(this);
+    };
+
+    return Camera;
+});
+
+/*global define*/
 define('Scene/Scene',[
         '../Core/destroyObject',
         '../Core/EquidistantCylindricalProjection',
         '../Core/Ellipsoid',
+        '../Core/DeveloperError',
         '../Renderer/Context',
         './Camera',
         './CompositePrimitive',
@@ -43320,6 +52017,7 @@ define('Scene/Scene',[
         destroyObject,
         EquidistantCylindricalProjection,
         Ellipsoid,
+        DeveloperError,
         Context,
         Camera,
         CompositePrimitive,
@@ -43331,10 +52029,10 @@ define('Scene/Scene',[
     /**
      * DOC_TBA
      *
-     * @name Scene
+     * @alias Scene
      * @constructor
      */
-    function Scene(canvas) {
+    var Scene = function(canvas) {
         var context = new Context(canvas);
 
         this._sceneState = new SceneState();
@@ -43382,7 +52080,7 @@ define('Scene/Scene',[
          * @type Number
          */
         this.morphTime = 1.0;
-    }
+    };
 
     /**
      * DOC_TBA
@@ -43528,6 +52226,38 @@ define('Scene/Scene',[
     };
 
     /**
+     * Pick an ellipsoid or map in 3D mode.
+     *
+     * @memberof Scene
+     *
+     * @param {Cartesian2} windowPosition The x and y coordinates of a pixel.
+     * @param {Ellipsoid} [ellipsoid=Ellipsoid.WGS84] The ellipsoid to pick.
+     *
+     * @exception {DeveloperError} windowPosition is required.
+     *
+     * @return {Cartesian3} If the ellipsoid or map was picked, returns the point on the surface of the ellipsoid or map
+     * in world coordinates. If the ellipsoid or map was not picked, returns undefined.
+     */
+    Scene.prototype.pickEllipsoid = function(windowPosition, ellipsoid) {
+        if (typeof windowPosition === 'undefined') {
+            throw new DeveloperError('windowPosition is required.');
+        }
+
+        ellipsoid = ellipsoid || Ellipsoid.WGS84;
+
+        var p;
+        if (this.mode === SceneMode.SCENE3D) {
+            p = this._camera.pickEllipsoid(windowPosition, ellipsoid);
+        } else if (this.mode === SceneMode.SCENE2D) {
+            p = this._camera.pickMap2D(windowPosition, this.scene2D.projection);
+        } else if (this.mode === SceneMode.COLUMBUS_VIEW) {
+            p = this._camera.pickMapColumbusView(windowPosition, this.scene2D.projection);
+        }
+
+        return p;
+    };
+
+    /**
      * DOC_TBA
      * @memberof Scene
      */
@@ -43583,10 +52313,10 @@ define('Scene/SceneTransitioner',[
     /**
      * DOC_TBA
      *
-     * @name SceneTransitioner
+     * @alias SceneTransitioner
      * @constructor
      */
-    function SceneTransitioner(scene, ellipsoid) {
+    var SceneTransitioner = function(scene, ellipsoid) {
         this._scene = scene;
         this._ellipsoid = ellipsoid || Ellipsoid.WGS84;
         var canvas = scene.getCanvas();
@@ -43676,7 +52406,7 @@ define('Scene/SceneTransitioner',[
          * @type {Boolean}
          */
         this.endMorphOnMouseInput = true;
-    }
+    };
 
     //immediately set the morph time of all objects in the scene
     function setMorphTime(scene, morphTime) {
@@ -43741,12 +52471,12 @@ define('Scene/SceneTransitioner',[
             this._destroyMorphHandler();
 
             var camera = scene.getCamera();
-            var controllers = camera.getControllers();
-            controllers.removeAll();
-            controllers.add2D(this._ellipsoid);
-
             camera.frustum = this._camera2D.frustum.clone();
             camera.transform = this._camera2D.transform.clone();
+
+            var controllers = camera.getControllers();
+            controllers.removeAll();
+            controllers.add2D(scene.scene2D.projection);
 
             // TODO: Match incoming columbus-view or 3D position
             camera.position = this._camera2D.position.clone();
@@ -43806,8 +52536,7 @@ define('Scene/SceneTransitioner',[
             var camera = scene.getCamera();
             var controllers = camera.getControllers();
             controllers.removeAll();
-            controllers.addSpindle();
-            controllers.addFreeLook();
+            controllers.addCentralBody();
 
             camera.frustum = this._camera3D.frustum.clone();
             camera.transform = Matrix4.IDENTITY;
@@ -44498,7 +53227,7 @@ define('Scene/Label',[
     /**
      * DOC_TBA
      *
-     * @name Label
+     * @alias Label
      * @internalConstructor
      *
      * @see LabelCollection
@@ -44507,7 +53236,7 @@ define('Scene/Label',[
      *
      * @see <a href='http://www.whatwg.org/specs/web-apps/current-work/#2dcontext'>HTML canvas 2D context</a>
      */
-    function Label(labelTemplate, labelCollection) {
+    var Label = function(labelTemplate, labelCollection) {
         var l = labelTemplate || {};
         var show = (typeof l.show === 'undefined') ? true : l.show;
         var billboardCollection = labelCollection._getCollection();
@@ -44541,7 +53270,7 @@ define('Scene/Label',[
         this._billboards = undefined;
 
         this._createBillboards();
-    }
+    };
 
     /**
      * Returns true if this label will be shown.  Call {@link Label#setShow}
@@ -44674,10 +53403,9 @@ define('Scene/Label',[
 
     /**
      * DOC_TBA
+     * CSS font-family
      *
      * @memberof Label
-     *
-     * CSS font-family
      *
      * @see Label#getFont
      * @see Label#setFillColor
@@ -45112,7 +53840,7 @@ define('Scene/Label',[
         var self = this;
 
         var onCanvasCreated = function() {
-            self._setCreateTextureAtlas(true);
+            self._setUpdateTextureAtlas(true);
         };
 
         for (i = 0; i < length; i++) {
@@ -45294,8 +54022,8 @@ define('Scene/Label',[
         }
     };
 
-    Label.prototype._setCreateTextureAtlas = function(value) {
-        this._labelCollection._setCreateTextureAtlas(value);
+    Label.prototype._setUpdateTextureAtlas = function(value) {
+        this._labelCollection._setUpdateTextureAtlas(value);
     };
 
     return Label;
@@ -45307,6 +54035,7 @@ define('Scene/LabelCollection',[
         '../Core/Matrix4',
         '../Renderer/BufferUsage',
         '../Renderer/PixelFormat',
+        '../Renderer/TextureAtlas',
         './BillboardCollection',
         './Label'
     ], function(
@@ -45315,6 +54044,7 @@ define('Scene/LabelCollection',[
         Matrix4,
         BufferUsage,
         PixelFormat,
+        TextureAtlas,
         BillboardCollection,
         Label) {
     
@@ -45367,7 +54097,7 @@ define('Scene/LabelCollection',[
      * Labels are added and removed from the collection using {@link LabelCollection#add}
      * and {@link LabelCollection#remove}.
      *
-     * @name LabelCollection
+     * @alias LabelCollection
      * @constructor
      *
      * @performance For best performance, prefer a few collections, each with many labels, to
@@ -45394,11 +54124,11 @@ define('Scene/LabelCollection',[
      *   text : 'Another label'
      * });
      */
-    function LabelCollection() {
+    var LabelCollection = function() {
         this._billboardCollection = new BillboardCollection();
         this._labels = [];
         this._labelsRemoved = false;
-        this._createTextureAtlas = false;
+        this._updateTextureAtlas = false;
         this._canvasContainer = new CanvasContainer();
 
         /**
@@ -45456,14 +54186,14 @@ define('Scene/LabelCollection',[
          * <code>BufferUsage.DYNAMIC_DRAW</code>.
          */
         this.bufferUsage = BufferUsage.STATIC_DRAW;
-    }
+    };
 
     LabelCollection.prototype._getCollection = function() {
         return this._billboardCollection;
     };
 
-    LabelCollection.prototype._setCreateTextureAtlas = function(value) {
-        this._createTextureAtlas = value;
+    LabelCollection.prototype._setUpdateTextureAtlas = function(value) {
+        this._updateTextureAtlas = value;
     };
 
     /**
@@ -45478,7 +54208,7 @@ define('Scene/LabelCollection',[
      *
      * @performance Calling <code>add</code> is expected constant time.  However, when
      * {@link LabelCollection#update} is called, the collection's vertex buffer
-     * and texture atlas are rewritten; these operations are <code>O(n)</code> and also incur
+     * is rewritten; this operations is <code>O(n)</code> and also incurs
      * CPU to GPU overhead.  For best performance, add as many billboards as possible before
      * calling <code>update</code>.
      *
@@ -45587,7 +54317,7 @@ define('Scene/LabelCollection',[
         this._destroyLabels();
         this._labels = [];
         this._labelsRemoved = false;
-        this._createTextureAtlas = true;
+        this._updateTextureAtlas = true;
     };
 
     LabelCollection.prototype._removeLabels = function() {
@@ -45708,12 +54438,31 @@ define('Scene/LabelCollection',[
         this._billboardCollection.bufferUsage = this.bufferUsage;
         this._removeLabels();
 
-        if (this._createTextureAtlas) {
-            this._createTextureAtlas = false;
+        if (this._updateTextureAtlas) {
+            this._updateTextureAtlas = false;
 
-            // The previous texture atlas is implicitly destroyed by the billboard collection.
-            var textureAtlas = (this._labels.length > 0) ? context.createTextureAtlas(this._canvasContainer.getItems(), PixelFormat.RGBA, 1) : null;
-            this._billboardCollection.setTextureAtlas(textureAtlas);
+            //Determines which subset of images are new to the texture atlas.
+            var textureAtlas = this._billboardCollection.getTextureAtlas();
+            var images = this._canvasContainer.getItems();
+            var numImagesOld = (typeof textureAtlas !== 'undefined') ? textureAtlas.getNumberOfImages() : 0;
+            var numImagesNew = images.length;
+            var newImages = images.slice(numImagesOld);
+            var difference = numImagesNew - numImagesOld;
+
+            // First time creating texture atlas or removing images from the texture atlas.
+            if ((numImagesOld === 0 && numImagesNew > 0) || difference < 0) {
+                textureAtlas = textureAtlas && textureAtlas.destroy();
+                textureAtlas = context.createTextureAtlas({images : images});
+                this._billboardCollection.setTextureAtlas(textureAtlas);
+            }
+            // Adding one new image to the texture atlas.
+            else if (difference === 1) {
+                textureAtlas.addImage(newImages[0]);
+            }
+            // Adding multiple new images to the texture atlas.
+            else if (difference > 1) {
+                textureAtlas.addImages(newImages);
+            }
         }
 
         this._billboardCollection.update(context, sceneState);
@@ -45807,7 +54556,966 @@ define('Scene/LabelCollection',[
     return LabelCollection;
 });
 /*global define*/
-define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cache', 'Core/CachePolicy', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic2', 'Core/Cartographic3', 'Core/CatmullRomSpline', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/Enumeration', 'Core/EquidistantCylindricalProjection', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/FullScreen', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Jobs', 'Core/JulianDate', 'Core/LeapSecond', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MercatorProjection', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/Quaternion', 'Core/Queue', 'Core/Rectangle', 'Core/RuntimeError', 'Core/Shapes', 'Core/SunPosition', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/createGuid', 'Core/destroyObject', 'Core/isLeapYear', 'Core/jsonp', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/shallowEquals', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Scene/AnimationCollection', 'Scene/ArcGISTileProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsStyle', 'Scene/BingMapsTileProvider', 'Scene/BlobMaterial', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CheckerboardMaterial', 'Scene/ColorMaterial', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CompositeTileProvider', 'Scene/CustomSensorVolume', 'Scene/DiffuseMapMaterial', 'Scene/DistanceIntervalMaterial', 'Scene/DotMaterial', 'Scene/EulerSolver', 'Scene/FacetMaterial', 'Scene/GravityForce', 'Scene/HorizontalOrigin', 'Scene/HorizontalStripeMaterial', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/OpenStreetMapTileProvider', 'Scene/OrthographicFrustum', 'Scene/Particle', 'Scene/ParticleSystem', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneState', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileProvider', 'Scene/SolidColorTileProvider', 'Scene/SphericalRepulsionForce', 'Scene/SpringForce', 'Scene/Texture2DPool', 'Scene/TieDyeMaterial', 'Scene/Tile', 'Scene/TileState', 'Scene/VectorForce', 'Scene/VerticalOrigin', 'Scene/VerticalStripeMaterial', 'Scene/ViewportQuad', 'Scene/ViscousDrag', 'Scene/combineMaterials', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BlobMaterial', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSCommon', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSFilter', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSFilter', 'Shaders/CentralBodyVSPole', 'Shaders/CheckerboardMaterial', 'Shaders/ColorMaterial', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/DiffuseMapMaterial', 'Shaders/DistanceIntervalMaterial', 'Shaders/DotMaterial', 'Shaders/FacetMaterial', 'Shaders/GroundAtmosphere', 'Shaders/HorizontalStripeMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/TieDyeMaterial', 'Shaders/VerticalStripeMaterial', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'ThirdParty/Chain', 'ThirdParty/Tween', 'ThirdParty/measureText'], function (Core_AxisAlignedBoundingBox, Core_BoundingSphere, Core_BoxTessellator, Core_Cache, Core_CachePolicy, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic2, Core_Cartographic3, Core_CatmullRomSpline, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_Enumeration, Core_EquidistantCylindricalProjection, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_FullScreen, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Jobs, Core_JulianDate, Core_LeapSecond, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MercatorProjection, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Rectangle, Core_RuntimeError, Core_Shapes, Core_SunPosition, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_createGuid, Core_destroyObject, Core_isLeapYear, Core_jsonp, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_shallowEquals, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_Context, Renderer_CubeMap, Renderer_CullFace, Renderer_DepthFunction, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGISTileProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsStyle, Scene_BingMapsTileProvider, Scene_BlobMaterial, Scene_Camera, Scene_Camera2DController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CheckerboardMaterial, Scene_ColorMaterial, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CompositeTileProvider, Scene_CustomSensorVolume, Scene_DiffuseMapMaterial, Scene_DistanceIntervalMaterial, Scene_DotMaterial, Scene_EulerSolver, Scene_FacetMaterial, Scene_GravityForce, Scene_HorizontalOrigin, Scene_HorizontalStripeMaterial, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_OpenStreetMapTileProvider, Scene_OrthographicFrustum, Scene_Particle, Scene_ParticleSystem, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_Polygon, Scene_Polyline, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneState, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileProvider, Scene_SolidColorTileProvider, Scene_SphericalRepulsionForce, Scene_SpringForce, Scene_Texture2DPool, Scene_TieDyeMaterial, Scene_Tile, Scene_TileState, Scene_VectorForce, Scene_VerticalOrigin, Scene_VerticalStripeMaterial, Scene_ViewportQuad, Scene_ViscousDrag, Scene_combineMaterials, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BlobMaterial, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSCommon, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSFilter, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSFilter, Shaders_CentralBodyVSPole, Shaders_CheckerboardMaterial, Shaders_ColorMaterial, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_DiffuseMapMaterial, Shaders_DistanceIntervalMaterial, Shaders_DotMaterial, Shaders_FacetMaterial, Shaders_GroundAtmosphere, Shaders_HorizontalStripeMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_TieDyeMaterial, Shaders_VerticalStripeMaterial, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, ThirdParty_Chain, ThirdParty_Tween, ThirdParty_measureText) {
+define('DynamicScene/DynamicLabelVisualizer',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        '../Core/Color',
+        '../Core/Cartesian2',
+        '../Core/Cartesian3',
+        '../Scene/LabelCollection',
+        '../Scene/LabelStyle',
+        '../Scene/HorizontalOrigin',
+        '../Scene/VerticalOrigin'
+    ], function(
+        DeveloperError,
+        destroyObject,
+        Color,
+        Cartesian2,
+        Cartesian3,
+        LabelCollection,
+        LabelStyle,
+        HorizontalOrigin,
+        VerticalOrigin) {
+    
+
+    /**
+     * A DynamicObject visualizer which maps the DynamicLabel instance
+     * in DynamicObject.label to a Label primitive.
+     * @alias DynamicLabelVisualizer
+     * @constructor
+     *
+     * @param {Scene} scene The scene the primitives will be rendered in.
+     * @param {DynamicObjectCollection} [dynamicObjectCollection] The dynamicObjectCollection to visualize.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see DynamicLabel
+     * @see Scene
+     * @see DynamicObject
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection
+     * @see DynamicBillboardVisualizer
+     * @see DynamicConeVisualizer
+     * @see DynamicConeVisualizerUsingCustomSensorr
+     * @see DynamicPointVisualizer
+     * @see DynamicPolygonVisualizer
+     * @see DynamicPolylineVisualizer
+     * @see DynamicPyramidVisualizer
+     *
+     */
+    var DynamicLabelVisualizer = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+        this._scene = scene;
+        this._unusedIndexes = [];
+        this._dynamicObjectCollection = undefined;
+
+        var labelCollection = this._labelCollection = new LabelCollection();
+        scene.getPrimitives().add(labelCollection);
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Returns the scene being used by this visualizer.
+     *
+     * @returns {Scene} The scene being used by this visualizer.
+     */
+    DynamicLabelVisualizer.prototype.getScene = function() {
+        return this._scene;
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     *
+     * @returns {DynamicObjectCollection} The DynamicObjectCollection being visualized.
+     */
+    DynamicLabelVisualizer.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection to visualize.
+     *
+     * @param dynamicObjectCollection The DynamicObjectCollection to visualizer.
+     */
+    DynamicLabelVisualizer.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            if (typeof oldCollection !== 'undefined') {
+                oldCollection.objectsRemoved.removeEventListener(DynamicLabelVisualizer.prototype._onObjectsRemoved);
+                this.removeAllPrimitives();
+            }
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            if (typeof dynamicObjectCollection !== 'undefined') {
+                dynamicObjectCollection.objectsRemoved.addEventListener(DynamicLabelVisualizer.prototype._onObjectsRemoved, this);
+            }
+        }
+    };
+
+    /**
+     * Updates all of the primitives created by this visualizer to match their
+     * DynamicObject counterpart at the given time.
+     *
+     * @param {JulianDate} time The time to update to.
+     *
+     * @exception {DeveloperError} time is required.
+     */
+    DynamicLabelVisualizer.prototype.update = function(time) {
+        if (typeof time === 'undefined') {
+            throw new DeveloperError('time is requied.');
+        }
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = 0, len = dynamicObjects.length; i < len; i++) {
+                this._updateObject(time, dynamicObjects[i]);
+            }
+        }
+    };
+
+    /**
+     * Removes all primitives from the scene.
+     */
+    DynamicLabelVisualizer.prototype.removeAllPrimitives = function() {
+        this._unusedIndexes = [];
+        this._labelCollection.removeAll();
+        if (typeof this._dynamicObjectCollection !== 'undefined') {
+            var dynamicObjects = this._dynamicObjectCollection.getObjects();
+            for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+                dynamicObjects[i]._labelVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof DynamicLabelVisualizer
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see DynamicLabelVisualizer#destroy
+     */
+    DynamicLabelVisualizer.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof DynamicLabelVisualizer
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see DynamicLabelVisualizer#isDestroyed
+     *
+     * @example
+     * visualizer = visualizer && visualizer.destroy();
+     */
+    DynamicLabelVisualizer.prototype.destroy = function() {
+        this.removeAllPrimitives();
+        this._scene.getPrimitives().remove(this._labelCollection);
+        return destroyObject(this);
+    };
+
+    var position;
+    var fillColor;
+    var outlineColor;
+    var eyeOffset;
+    var pixelOffset;
+    DynamicLabelVisualizer.prototype._updateObject = function(time, dynamicObject) {
+        var dynamicLabel = dynamicObject.label;
+        if (typeof dynamicLabel === 'undefined') {
+            return;
+        }
+
+        var textProperty = dynamicLabel.text;
+        if (typeof textProperty === 'undefined') {
+            return;
+        }
+
+        var positionProperty = dynamicObject.position;
+        if (typeof positionProperty === 'undefined') {
+            return;
+        }
+
+        var label;
+        var showProperty = dynamicLabel.show;
+        var labelVisualizerIndex = dynamicObject._labelVisualizerIndex;
+        var show = dynamicObject.isAvailable(time) && (typeof showProperty === 'undefined' || showProperty.getValue(time));
+
+        if (!show) {
+            //don't bother creating or updating anything else
+            if (typeof labelVisualizerIndex !== 'undefined') {
+                label = this._labelCollection.get(labelVisualizerIndex);
+                label.setShow(false);
+                this._unusedIndexes.push(labelVisualizerIndex);
+                dynamicObject._labelVisualizerIndex = undefined;
+            }
+            return;
+        }
+
+        if (typeof labelVisualizerIndex === 'undefined') {
+            var unusedIndexes = this._unusedIndexes;
+            var length = unusedIndexes.length;
+            if (length > 0) {
+                labelVisualizerIndex = unusedIndexes.pop();
+                label = this._labelCollection.get(labelVisualizerIndex);
+            } else {
+                labelVisualizerIndex = this._labelCollection.getLength();
+                label = this._labelCollection.add();
+            }
+            dynamicObject._labelVisualizerIndex = labelVisualizerIndex;
+            label.dynamicObject = dynamicObject;
+
+            // CZML_TODO Determine official defaults
+            label.setText('');
+            label.setScale(1.0);
+            label.setFont('30px sans-serif');
+            label.setFillColor(Color.WHITE);
+            label.setOutlineColor(Color.BLACK);
+            label.setStyle(LabelStyle.FILL);
+            label.setPixelOffset(Cartesian2.ZERO);
+            label.setEyeOffset(Cartesian3.ZERO);
+            label.setHorizontalOrigin(HorizontalOrigin.CENTER);
+            label.setVerticalOrigin(VerticalOrigin.CENTER);
+        } else {
+            label = this._labelCollection.get(labelVisualizerIndex);
+        }
+
+        label.setShow(show);
+
+        var text = textProperty.getValue(time);
+        if (typeof text !== 'undefined') {
+            label.setText(text);
+        }
+
+        position = positionProperty.getValueCartesian(time, position);
+        if (typeof position !== 'undefined') {
+            label.setPosition(position);
+        }
+
+        var property = dynamicLabel.scale;
+        if (typeof property !== 'undefined') {
+            var scale = property.getValue(time);
+            if (typeof scale !== 'undefined') {
+                label.setScale(scale);
+            }
+        }
+
+        property = dynamicLabel.font;
+        if (typeof property !== 'undefined') {
+            var font = property.getValue(time);
+            if (typeof font !== 'undefined') {
+                label.setFont(font);
+            }
+        }
+
+        property = dynamicLabel.fillColor;
+        if (typeof property !== 'undefined') {
+            fillColor = property.getValue(time, fillColor);
+            if (typeof fillColor !== 'undefined') {
+                label.setFillColor(fillColor);
+            }
+        }
+
+        property = dynamicLabel.outlineColor;
+        if (typeof property !== 'undefined') {
+            outlineColor = property.getValue(time, outlineColor);
+            if (typeof outlineColor !== 'undefined') {
+                label.setOutlineColor(outlineColor);
+            }
+        }
+
+        property = dynamicLabel.style;
+        if (typeof property !== 'undefined') {
+            var style = property.getValue(time);
+            if (typeof style !== 'undefined') {
+                label.setStyle(style);
+            }
+        }
+
+        property = dynamicLabel.pixelOffset;
+        if (typeof property !== 'undefined') {
+            pixelOffset = property.getValue(time, pixelOffset);
+            if (typeof pixelOffset !== 'undefined') {
+                label.setPixelOffset(pixelOffset);
+            }
+        }
+
+        property = dynamicLabel.eyeOffset;
+        if (typeof property !== 'undefined') {
+            eyeOffset = property.getValue(time, eyeOffset);
+            if (typeof eyeOffset !== 'undefined') {
+                label.setEyeOffset(eyeOffset);
+            }
+        }
+
+        property = dynamicLabel.horizontalOrigin;
+        if (typeof property !== 'undefined') {
+            var horizontalOrigin = property.getValue(time);
+            if (typeof horizontalOrigin !== 'undefined') {
+                label.setHorizontalOrigin(horizontalOrigin);
+            }
+        }
+
+        property = dynamicLabel.verticalOrigin;
+        if (typeof property !== 'undefined') {
+            var verticalOrigin = property.getValue(time);
+            if (typeof verticalOrigin !== 'undefined') {
+                label.setVerticalOrigin(verticalOrigin);
+            }
+        }
+    };
+
+    DynamicLabelVisualizer.prototype._onObjectsRemoved = function(dynamicObjectCollection, dynamicObjects) {
+        var thisLabelCollection = this._labelCollection;
+        var thisUnusedIndexes = this._unusedIndexes;
+        for ( var i = dynamicObjects.length - 1; i > -1; i--) {
+            var dynamicObject = dynamicObjects[i];
+            var labelVisualizerIndex = dynamicObject._labelVisualizerIndex;
+            if (typeof labelVisualizerIndex !== 'undefined') {
+                var label = thisLabelCollection.get(labelVisualizerIndex);
+                label.setShow(false);
+                thisUnusedIndexes.push(labelVisualizerIndex);
+                dynamicObject._labelVisualizerIndex = undefined;
+            }
+        }
+    };
+
+    return DynamicLabelVisualizer;
+});
+/*global define*/
+define('DynamicScene/CzmlDefaults',[
+        './DynamicObject',
+        './DynamicBillboard',
+        './DynamicCone',
+        './DynamicLabel',
+        './DynamicPoint',
+        './DynamicPolygon',
+        './DynamicPolyline',
+        './DynamicPyramid',
+        './DynamicBillboardVisualizer',
+        './DynamicConeVisualizerUsingCustomSensor', //CZML_TODO Replace with './DynamicConeVisualizer', once ComplexConicSensor works.
+        './DynamicLabelVisualizer',
+        './DynamicPointVisualizer',
+        './DynamicPolygonVisualizer',
+        './DynamicPolylineVisualizer',
+        './DynamicPyramidVisualizer'
+       ], function(
+        DynamicObject,
+        DynamicBillboard,
+        DynamicCone,
+        DynamicLabel,
+        DynamicPoint,
+        DynamicPolygon,
+        DynamicPolyline,
+        DynamicPyramid,
+        DynamicBillboardVisualizer,
+        DynamicConeVisualizer,
+        DynamicLabelVisualizer,
+        DynamicPointVisualizer,
+        DynamicPolygonVisualizer,
+        DynamicPolylineVisualizer,
+        DynamicPyramidVisualizer) {
+    
+
+    /**
+     * Helper class which provides the default set of CZML processing methods
+     * needed to visualize the complete CZML standard.  There's no reason to
+     * access this class directly, as it just holds the defaults used by
+     * DynamicObjectCollection, CompositeDynamicObjectCollection, and VisualizerCollection.
+     *
+     * @exports CzmlDefaults
+     *
+     * @see DynamicObjectCollection
+     * @see CompositeDynamicObjectCollection
+     * @see VisualizerCollection#createCzmlDefaultsCollection
+     */
+    var CzmlDefaults = {
+        //Any change to updaters needs to be reflected in the DynamicObject constructor,
+        //which has the superset of all properties created by the various updaters.
+        /**
+         * The standard set of updaters for processing CZML.  This array is the default
+         * set of updater methods used by DynamicObjectCollection.
+         * @see DynamicObjectCollection
+         */
+        updaters : [DynamicBillboard.processCzmlPacket,
+                    DynamicCone.processCzmlPacket,
+                    DynamicLabel.processCzmlPacket,
+                    DynamicPoint.processCzmlPacket,
+                    DynamicPolygon.processCzmlPacket,
+                    DynamicPolyline.processCzmlPacket,
+                    DynamicPyramid.processCzmlPacket,
+                    DynamicObject.processCzmlPacketPosition,
+                    DynamicObject.processCzmlPacketOrientation,
+                    DynamicObject.processCzmlPacketVertexPositions,
+                    DynamicObject.processCzmlPacketAvailability],
+
+        /**
+         * The standard set of mergers for processing CZML.  This array is the default
+         * set of updater methods used by CompositeDynamicObjectCollection.
+         *
+         * @see CompositeDynamicObjectCollection
+         */
+        mergers : [DynamicBillboard.mergeProperties,
+                   DynamicCone.mergeProperties,
+                   DynamicLabel.mergeProperties,
+                   DynamicPoint.mergeProperties,
+                   DynamicPolygon.mergeProperties,
+                   DynamicPolyline.mergeProperties,
+                   DynamicPyramid.mergeProperties,
+                   DynamicObject.mergeProperties],
+
+       /**
+        * The standard set of cleaners for processing CZML.  This array is the default
+        * set of updater methods used by CompositeDynamicObjectCollection.
+        *
+        * @see CompositeDynamicObjectCollection
+        */
+        cleaners : [DynamicBillboard.undefineProperties,
+                    DynamicCone.undefineProperties,
+                    DynamicLabel.undefineProperties,
+                    DynamicPoint.undefineProperties,
+                    DynamicPolygon.undefineProperties,
+                    DynamicPolyline.undefineProperties,
+                    DynamicPyramid.undefineProperties,
+                    DynamicObject.undefineProperties],
+
+        /**
+         * Creates an array containing the standard CZML visualizers,
+         * configured for the provided scene.
+         *
+         * @param scene The scene being used for visualization.
+         * @returns {Array} The CZML standard visualizers.
+         * @see VisualizerCollection#createCzmlDefaultsCollection
+         */
+        createVisualizers : function(scene) {
+            return [new DynamicBillboardVisualizer(scene),
+                    new DynamicConeVisualizer(scene),
+                    new DynamicLabelVisualizer(scene),
+                    new DynamicPointVisualizer(scene),
+                    new DynamicPolygonVisualizer(scene),
+                    new DynamicPolylineVisualizer(scene),
+                    new DynamicPyramidVisualizer(scene)];
+        }
+    };
+
+    return CzmlDefaults;
+});
+/*global define*/
+define('DynamicScene/CompositeDynamicObjectCollection',[
+        '../Core/Event',
+        '../Core/Iso8601',
+        '../Core/TimeInterval',
+        '../Core/DeveloperError',
+        './DynamicObject',
+        './DynamicObjectCollection',
+        './CzmlDefaults'
+    ], function(
+        Event,
+        Iso8601,
+        TimeInterval,
+        DeveloperError,
+        DynamicObject,
+        DynamicObjectCollection,
+        CzmlDefaults) {
+    
+
+    /**
+     * Non-destructively composites multiple DynamicObjectCollection instances into a single collection.
+     * If a DynamicObject with the same ID exists in multiple collections, it is non-destructively
+     * merged into a single new object instance.  If an object has the same property in multiple
+     * collections, the property of the DynamicObject in the last collection of the list it
+     * belongs to is used.  CompositeDynamicObjectCollection can be used almost anywhere that a
+     * DynamicObjectCollection is used.
+     *
+     * @alias CompositeDynamicObjectCollection
+     * @constructor
+     *
+     * @param {Array} [collections] The initial list of DynamicObjectCollection instances to merge.
+     * @param {Array} [mergeFunctions] The list of CZML merge functions.
+     * @param {Array} [cleanFunctions] The list of CZML clean functions.
+     *
+     * @see DynamicObjectCollection
+     * @see DynamicObject
+     * @see CzmlDefaults
+     */
+    var CompositeDynamicObjectCollection = function(collections, mergeFunctions, cleanFunctions) {
+        this._hash = {};
+        this._array = [];
+        this._collections = [];
+
+        /**
+         * The array of functions which merge DynamicObject instances together.
+         */
+        this.mergeFunctions = typeof mergeFunctions === 'undefined' ? CzmlDefaults.mergers : mergeFunctions;
+
+        /**
+         * The array of functions which remove data from a DynamicObject instance.
+         */
+        this.cleanFunctions = typeof cleanFunctions === 'undefined' ? CzmlDefaults.cleaners : cleanFunctions;
+
+        /**
+         * An {@link Event} that is fired whenever DynamicObjects in the collection have properties added.
+         */
+        this.objectPropertiesChanged = new Event();
+
+        /**
+         * An {@link Event} that is fired whenever DynamicObjects are removed from the collection.
+         */
+        this.objectsRemoved = new Event();
+
+        this.setCollections(collections);
+    };
+
+    /**
+     * Computes the maximum availability of the DynamicObjects in the collection.
+     * If the collection contains a mix of infinitely available data and non-infinite data,
+     * It will return the interval pertaining to the non-infinite data only.  If all
+     * data is infinite, an infinite interval will be returned.
+     * @memberof CompositeDynamicObjectCollection
+     *
+     * @returns {TimeInterval} The availability of DynamicObjects in the collection.
+     */
+    CompositeDynamicObjectCollection.prototype.computeAvailability = function() {
+        var startTime = Iso8601.MAXIMUM_VALUE;
+        var stopTime = Iso8601.MINIMUM_VALUE;
+        var i;
+        var len;
+        var collection;
+        var collections = this._collections;
+        for (i = 0, len = collections.length; i < len; i++) {
+            collection = collections[i];
+            var availability = collection.computeAvailability();
+            if (availability.start.lessThan(startTime)) {
+                startTime = availability.start;
+            }
+            if (availability.stop.greaterThan(stopTime)) {
+                stopTime = availability.stop;
+            }
+        }
+        if (startTime !== Iso8601.MAXIMUM_VALUE && stopTime !== Iso8601.MINIMUM_VALUE) {
+            return new TimeInterval(startTime, stopTime, true, true);
+        }
+        return new TimeInterval(Iso8601.MINIMUM_VALUE, Iso8601.MAXIMUM_VALUE, true, true);
+    };
+
+    /**
+     * Returns a copy of the current array of collections being composited.  Changes to this
+     * array will have no affect, to change which collections are being used, call setCollections.
+     * @memberof CompositeDynamicObjectCollection
+     *
+     * @see CompositeDynamicObjectCollection#setCollections
+     */
+    CompositeDynamicObjectCollection.prototype.getCollections = function() {
+        return this._collections.slice(0);
+    };
+
+    /**
+     * Sets the array of collections to be composited.  Collections are composited
+     * last to first, so higher indices into the array take precedence over lower indices.
+     * @memberof CompositeDynamicObjectCollection
+     *
+     * @param {Array} collections The collections to be composited.
+     */
+    CompositeDynamicObjectCollection.prototype.setCollections = function(collections) {
+        collections = typeof collections !== 'undefined' ? collections : [];
+
+        var thisCollections = this._collections;
+        if (collections !== thisCollections) {
+            var collection;
+            var iCollection;
+
+            //Unsubscribe from old collections.
+            for (iCollection = thisCollections.length - 1; iCollection > -1; iCollection--) {
+                collection = thisCollections[iCollection];
+                collection.compositeCollection = undefined;
+                collection.objectPropertiesChanged.removeEventListener(CompositeDynamicObjectCollection.prototype._onObjectPropertiesChanged);
+            }
+
+            //Make a copy of the new collections.
+            thisCollections = this._collections = collections;
+
+            //Clear all existing objects and rebuild the colleciton.
+            this._clearObjects();
+            var thisMergeFunctions = this.mergeFunctions;
+            for (iCollection = thisCollections.length - 1; iCollection > -1; iCollection--) {
+                collection = thisCollections[iCollection];
+
+                //Subscribe to the new collection.
+                collection.compositeCollection = this;
+                collection.objectPropertiesChanged.addEventListener(CompositeDynamicObjectCollection.prototype._onObjectPropertiesChanged, this);
+
+                //Merge all of the existing objects.
+                var objects = collection.getObjects();
+                for ( var iObjects = objects.length - 1; iObjects > -1; iObjects--) {
+                    var object = objects[iObjects];
+                    var compositeObject = this._getOrCreateObject(object.id);
+                    for ( var iMergeFuncs = thisMergeFunctions.length - 1; iMergeFuncs > -1; iMergeFuncs--) {
+                        var mergeFunc = thisMergeFunctions[iMergeFuncs];
+                        mergeFunc(compositeObject, object);
+                    }
+                }
+            }
+        }
+    };
+
+    /**
+     * Gets an object with the specified id.
+     * @memberof CompositeDynamicObjectCollection
+     *
+     * @param {Object} id The id of the object to retrieve.
+     * @returns The DynamicObject with the provided id, or undefined if no such object exists.
+     *
+     * @exception {DeveloperError} id is required.
+     */
+    CompositeDynamicObjectCollection.prototype.getObject = function(id) {
+        if (typeof id === 'undefined') {
+            throw new DeveloperError('id is required.');
+        }
+        return this._hash[id];
+    };
+
+    /**
+     * Gets the array of DynamicObject instances in this composite collection.
+     * @memberof CompositeDynamicObjectCollection
+     *
+     * @returns {Array} the array of DynamicObject instances in this composite collection.
+     */
+    CompositeDynamicObjectCollection.prototype.getObjects = function() {
+        return this._array;
+    };
+
+    /**
+     * Clears all collections and DynamicObjects from this collection.
+     * @memberof CompositeDynamicObjectCollection
+     */
+    CompositeDynamicObjectCollection.prototype.clear = function() {
+        this.setCollections([]);
+    };
+
+    CompositeDynamicObjectCollection.prototype._getOrCreateObject = function(id) {
+        var obj = this._hash[id];
+        if (!obj) {
+            obj = new DynamicObject(id);
+            this._hash[id] = obj;
+            this._array.push(obj);
+        }
+        return obj;
+    };
+
+    CompositeDynamicObjectCollection.prototype._clearObjects = function() {
+        var removedObjects = this._array;
+        this._hash = {};
+        this._array = [];
+        if (removedObjects.length > 0) {
+            this.objectsRemoved.raiseEvent(this, removedObjects);
+        }
+    };
+
+    CompositeDynamicObjectCollection.prototype._onObjectPropertiesChanged = function(dynamicObjectCollection, updatedObjects) {
+        var thisMergeFunctions = this.mergeFunctions;
+        var thisCleanFunctions = this.cleanFunctions;
+        var thisCollections = this._collections;
+
+        var updatedObject, compositeObject, compositeObjects = [];
+        for ( var i = updatedObjects.length - 1; i > -1; i--) {
+            updatedObject = updatedObjects[i];
+            compositeObject = this.getObject(updatedObject.id);
+            if (typeof compositeObject !== 'undefined') {
+                for ( var iDeleteFuncs = thisCleanFunctions.length - 1; iDeleteFuncs > -1; iDeleteFuncs--) {
+                    var deleteFunc = thisCleanFunctions[iDeleteFuncs];
+                    deleteFunc(compositeObject);
+                }
+            } else {
+                compositeObject = this._getOrCreateObject(updatedObject.id);
+            }
+
+            compositeObjects.push(compositeObject);
+            for ( var iCollection = thisCollections.length - 1; iCollection > -1; iCollection--) {
+                var currentCollection = thisCollections[iCollection];
+                var objectToUpdate = currentCollection.getObject(updatedObject.id);
+                if (typeof objectToUpdate !== 'undefined') {
+                    for ( var iMergeFuncs = thisMergeFunctions.length - 1; iMergeFuncs > -1; iMergeFuncs--) {
+                        var mergeFunc = thisMergeFunctions[iMergeFuncs];
+                        mergeFunc(compositeObject, objectToUpdate);
+                    }
+                }
+            }
+        }
+        if (compositeObjects.length > 0) {
+            this.objectPropertiesChanged.raiseEvent(this, compositeObjects);
+        }
+    };
+
+    return CompositeDynamicObjectCollection;
+});
+/*global define*/
+define('DynamicScene/VisualizerCollection',[
+        '../Core/DeveloperError',
+        '../Core/destroyObject',
+        './CzmlDefaults'
+       ], function(
+         DeveloperError,
+         destroyObject,
+         CzmlDefaults) {
+    
+
+    /**
+     * A collection of visualizers which makes it easy to manage and
+     * update them in unison.
+     * @alias VisualizerCollection
+     * @constructor
+     *
+     * @param {Object} The array of visualizers to use.
+     * @param {DynamicObjectCollection} The objects to be visualized.
+     *
+     * @see CzmlDefaults#createVisualizers
+     */
+    var VisualizerCollection = function(visualizers, dynamicObjectCollection) {
+        this._visualizers = visualizers || [];
+        this._dynamicObjectCollection = undefined;
+        this.setDynamicObjectCollection(dynamicObjectCollection);
+    };
+
+    /**
+     * Creates a new VisualizerCollection which includes all standard visualizers.
+     *
+     * @memberof VisualizerCollection
+     *
+     * @param {Scene} The scene where visualization will take place.
+     * @param {DynamicObjectCollection} The objects to be visualized.
+     *
+     * @exception {DeveloperError} scene is required.
+     *
+     * @see CzmlDefaults#createVisualizers
+     */
+    VisualizerCollection.createCzmlStandardCollection = function(scene, dynamicObjectCollection) {
+        if (typeof scene === 'undefined') {
+            throw new DeveloperError('scene is required.');
+        }
+        return new VisualizerCollection(CzmlDefaults.createVisualizers(scene), dynamicObjectCollection);
+    };
+
+    /**
+     * Gets a copy of the array of visualizers in the collection.
+     * @returns {Array} the array of visualizers in the collection.
+     */
+    VisualizerCollection.prototype.getVisualizers = function() {
+        return this._visualizers.slice(0);
+    };
+
+    /**
+     * Sets the array of visualizers in the collection.
+     *
+     * @param {Array} visualizers The new array of visualizers.  This array can partially overlap with visualizers currently in the collection.
+     * @param {Boolean} destroyOldVisualizers If true, visualizers no longer in the collection will be destroyed.
+     */
+    VisualizerCollection.prototype.setVisualizers = function(visualizers, destroyOldVisualizers) {
+        destroyOldVisualizers = (typeof destroyOldVisualizers !== 'undefined') ? destroyOldVisualizers : true;
+
+        var i;
+        var thisVisualizers = this._visualizers;
+        if (destroyOldVisualizers) {
+            for (i = thisVisualizers.length - 1; i > -1; i--) {
+                var visualizer = thisVisualizers[i];
+                if (visualizers.indexOf(visualizer) === -1) {
+                    visualizer.destroy();
+                }
+            }
+        }
+
+        this._visualizers = visualizers || [];
+        var dynamicObjectCollection = this._dynamicObjectCollection;
+        for (i = visualizers.length - 1; i > -1; i--) {
+            visualizers[i].setDynamicObjectCollection(dynamicObjectCollection);
+        }
+    };
+
+    /**
+     * Gets the DynamicObjectCollection being visualized.
+     * @returns the DynamicObjectCollection being visualized
+     */
+    VisualizerCollection.prototype.getDynamicObjectCollection = function() {
+        return this._dynamicObjectCollection;
+    };
+
+    /**
+     * Sets the DynamicObjectCollection being visualized.
+     * @param {DynamicObjectCollection} dynamicObjectCollection the DynamicObjectCollection being visualized.
+     */
+    VisualizerCollection.prototype.setDynamicObjectCollection = function(dynamicObjectCollection) {
+        var oldCollection = this._dynamicObjectCollection;
+        if (oldCollection !== dynamicObjectCollection) {
+            this._dynamicObjectCollection = dynamicObjectCollection;
+            var visualizers = this._visualizers;
+            for ( var i = visualizers.length - 1; i > -1; i--) {
+                visualizers[i].setDynamicObjectCollection(dynamicObjectCollection);
+            }
+        }
+    };
+
+    /**
+     * Updates all visualizers to the provided time.
+     * @param {JulianDate} time The time to updated to.
+     */
+    VisualizerCollection.prototype.update = function(time) {
+        var visualizers = this._visualizers;
+        for ( var i = visualizers.length - 1; i > -1; i--) {
+            visualizers[i].update(time);
+        }
+    };
+
+    /**
+     * Removes all primitives from visualization.
+     */
+    VisualizerCollection.prototype.removeAllPrimitives = function() {
+        var visualizers = this._visualizers;
+        for ( var i = visualizers.length - 1; i > -1; i--) {
+            visualizers[i].removeAllPrimitives();
+        }
+    };
+
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     *
+     * @memberof VisualizerCollection
+     *
+     * @return {Boolean} True if this object was destroyed; otherwise, false.
+     *
+     * @see VisualizerCollection#destroy
+     */
+    VisualizerCollection.prototype.isDestroyed = function() {
+        return false;
+    };
+
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     *
+     * @memberof VisualizerCollection
+     *
+     * @return {undefined}
+     *
+     * @exception {DeveloperError} This object was destroyed, i.e., destroy() was called.
+     *
+     * @see VisualizerCollection#isDestroyed
+     *
+     * @example
+     * visualizerCollection = visualizerCollection && visualizerCollection.destroy();
+     */
+    VisualizerCollection.prototype.destroy = function(destroyVisualizers) {
+        destroyVisualizers = (typeof destroyVisualizers !== 'undefined') ? destroyVisualizers : true;
+        this.removeAllPrimitives();
+        if (destroyVisualizers) {
+            var visualizers = this._visualizers;
+            for ( var i = visualizers.length - 1; i > -1; i--) {
+                visualizers[i].destroy();
+            }
+        }
+        return destroyObject(this);
+    };
+
+    return VisualizerCollection;
+});
+/*global define*/
+define('DynamicScene/processCzml',[
+        '../Core/createGuid',
+        '../Core/DeveloperError',
+        './CzmlDefaults'
+       ], function(
+        createGuid,
+        DeveloperError,
+        CzmlDefaults) {
+    
+
+    function processCzmlPacket(packet, dynamicObjectCollection, updatedObjects, updatedObjectsHash, updaterFunctions) {
+        var objectId = packet.id;
+        if (typeof objectId === 'undefined') {
+            objectId = createGuid();
+        }
+
+        var object = dynamicObjectCollection.getOrCreateObject(objectId);
+        for ( var i = updaterFunctions.length - 1; i > -1; i--) {
+            if (updaterFunctions[i](object, packet, dynamicObjectCollection) && typeof updatedObjectsHash[objectId] === 'undefined') {
+                updatedObjectsHash[objectId] = true;
+                updatedObjects.push(object);
+            }
+        }
+    }
+
+    /**
+     * Processes the provided CZML, creating or updating DynamicObject instances for each
+     * corresponding CZML identifier.
+     * @exports processCzml
+     *
+     * @param {Object} czml The parsed CZML object to be processed.
+     * @param {DynamicObjectCollection} dynamicObjectCollection The collection to create or updated objects within.
+     * @param {String} [sourceUri] The uri of the file where the CZML originated from.  If provided, relative uri look-ups will use this as their base.
+     * @param {Array} [updaterFunctions=CzmlDefaults.updaters] The array of updated functions to use for processing.  If left undefined, all standard CZML data is processed.
+     *
+     * @exception {DeveloperError} czml is required.
+     * @exception {DeveloperError} dynamicObjectCollection is required.
+     *
+     * @returns An array containing all DynamicObject instances that were created or updated.
+     *
+     * @example
+     * var url = 'http://someUrl.com/myCzmlFile.czml';
+     * var dynamicObjectCollection = new DynamicObjectCollection();
+     * getJson(url).then(function(czml) {
+     *     processCzml(czml, dynamicObjectCollection, url);
+     * });
+     */
+    var processCzml = function(czml, dynamicObjectCollection, sourceUri, updaterFunctions) {
+        if (typeof czml === 'undefined') {
+            throw new DeveloperError('czml is required.');
+        }
+        if (typeof dynamicObjectCollection === 'undefined') {
+            throw new DeveloperError('dynamicObjectCollection is required.');
+        }
+
+        var updatedObjects = [];
+        var updatedObjectsHash = {};
+        updaterFunctions = typeof updaterFunctions !== 'undefined' ? updaterFunctions : CzmlDefaults.updaters;
+
+        if (Array.isArray(czml)) {
+            for ( var i = 0, len = czml.length; i < len; i++) {
+                processCzmlPacket(czml[i], dynamicObjectCollection, updatedObjects, updatedObjectsHash, updaterFunctions);
+            }
+        } else {
+            processCzmlPacket(czml, dynamicObjectCollection, updatedObjects, updatedObjectsHash, updaterFunctions);
+        }
+
+        if (updatedObjects.length > 0) {
+            dynamicObjectCollection.objectPropertiesChanged.raiseEvent(dynamicObjectCollection, updatedObjects);
+        }
+
+        return updatedObjects;
+    };
+
+    return processCzml;
+});
+/*global define*/
+define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/BoxTessellator', 'Core/Cache', 'Core/CachePolicy', 'Core/Cartesian2', 'Core/Cartesian3', 'Core/Cartesian4', 'Core/Cartographic2', 'Core/Cartographic3', 'Core/CatmullRomSpline', 'Core/Clock', 'Core/ClockRange', 'Core/ClockStep', 'Core/Color', 'Core/ComponentDatatype', 'Core/CubeMapEllipsoidTessellator', 'Core/DefaultProxy', 'Core/DeveloperError', 'Core/Ellipsoid', 'Core/EllipsoidTangentPlane', 'Core/Enumeration', 'Core/EquidistantCylindricalProjection', 'Core/Event', 'Core/EventHandler', 'Core/EventModifier', 'Core/Extent', 'Core/ExtentTessellator', 'Core/FAR', 'Core/FeatureDetection', 'Core/FullScreen', 'Core/HermitePolynomialApproximation', 'Core/HermiteSpline', 'Core/IndexDatatype', 'Core/Intersect', 'Core/IntersectionTests', 'Core/Iso8601', 'Core/Jobs', 'Core/JulianDate', 'Core/LagrangePolynomialApproximation', 'Core/LeapSecond', 'Core/LinearApproximation', 'Core/Math', 'Core/Matrix2', 'Core/Matrix3', 'Core/Matrix4', 'Core/MercatorProjection', 'Core/MeshFilters', 'Core/MouseEventType', 'Core/Occluder', 'Core/OrientationInterpolator', 'Core/PlaneTessellator', 'Core/PolygonPipeline', 'Core/PolylinePipeline', 'Core/PrimitiveType', 'Core/Quaternion', 'Core/Queue', 'Core/Ray', 'Core/Rectangle', 'Core/RuntimeError', 'Core/Shapes', 'Core/Spherical', 'Core/SunPosition', 'Core/TimeConstants', 'Core/TimeInterval', 'Core/TimeIntervalCollection', 'Core/TimeStandard', 'Core/Tipsify', 'Core/Transforms', 'Core/TridiagonalSystemSolver', 'Core/Visibility', 'Core/WindingOrder', 'Core/binarySearch', 'Core/clone', 'Core/combine', 'Core/createGuid', 'Core/destroyObject', 'Core/getImageFromUrl', 'Core/isLeapYear', 'Core/jsonp', 'Core/pointInsideTriangle2D', 'Core/requestAnimationFrame', 'Core/shallowEquals', 'DynamicScene/CompositeDynamicObjectCollection', 'DynamicScene/CzmlBoolean', 'DynamicScene/CzmlCartesian2', 'DynamicScene/CzmlCartesian3', 'DynamicScene/CzmlCartographic3', 'DynamicScene/CzmlColor', 'DynamicScene/CzmlDefaults', 'DynamicScene/CzmlHorizontalOrigin', 'DynamicScene/CzmlLabelStyle', 'DynamicScene/CzmlNumber', 'DynamicScene/CzmlString', 'DynamicScene/CzmlUnitCartesian3', 'DynamicScene/CzmlUnitQuaternion', 'DynamicScene/CzmlUnitSpherical', 'DynamicScene/CzmlVerticalOrigin', 'DynamicScene/DynamicBillboard', 'DynamicScene/DynamicBillboardVisualizer', 'DynamicScene/DynamicColorMaterial', 'DynamicScene/DynamicCone', 'DynamicScene/DynamicConeVisualizer', 'DynamicScene/DynamicConeVisualizerUsingCustomSensor', 'DynamicScene/DynamicDirectionsProperty', 'DynamicScene/DynamicImageMaterial', 'DynamicScene/DynamicLabel', 'DynamicScene/DynamicLabelVisualizer', 'DynamicScene/DynamicMaterialProperty', 'DynamicScene/DynamicObject', 'DynamicScene/DynamicObjectCollection', 'DynamicScene/DynamicPoint', 'DynamicScene/DynamicPointVisualizer', 'DynamicScene/DynamicPolygon', 'DynamicScene/DynamicPolygonVisualizer', 'DynamicScene/DynamicPolyline', 'DynamicScene/DynamicPolylineVisualizer', 'DynamicScene/DynamicPositionProperty', 'DynamicScene/DynamicProperty', 'DynamicScene/DynamicPyramid', 'DynamicScene/DynamicPyramidVisualizer', 'DynamicScene/DynamicVertexPositionsProperty', 'DynamicScene/ReferenceProperty', 'DynamicScene/VisualizerCollection', 'DynamicScene/processCzml', 'Renderer/BlendEquation', 'Renderer/BlendFunction', 'Renderer/BlendingState', 'Renderer/Buffer', 'Renderer/BufferUsage', 'Renderer/Context', 'Renderer/CubeMap', 'Renderer/CullFace', 'Renderer/DepthFunction', 'Renderer/Framebuffer', 'Renderer/MipmapHint', 'Renderer/PickFramebuffer', 'Renderer/PixelDatatype', 'Renderer/PixelFormat', 'Renderer/Renderbuffer', 'Renderer/RenderbufferFormat', 'Renderer/ShaderCache', 'Renderer/ShaderProgram', 'Renderer/StencilFunction', 'Renderer/StencilOperation', 'Renderer/Texture', 'Renderer/TextureAtlas', 'Renderer/TextureAtlasBuilder', 'Renderer/TextureMagnificationFilter', 'Renderer/TextureMinificationFilter', 'Renderer/TextureWrap', 'Renderer/UniformDatatype', 'Renderer/UniformState', 'Renderer/VertexArray', 'Renderer/VertexArrayFacade', 'Renderer/VertexLayout', 'Scene/AnimationCollection', 'Scene/ArcGISTileProvider', 'Scene/Billboard', 'Scene/BillboardCollection', 'Scene/BingMapsStyle', 'Scene/BingMapsTileProvider', 'Scene/BlobMaterial', 'Scene/Camera', 'Scene/Camera2DController', 'Scene/CameraCentralBodyController', 'Scene/CameraColumbusViewController', 'Scene/CameraControllerCollection', 'Scene/CameraEventHandler', 'Scene/CameraEventType', 'Scene/CameraFlightController', 'Scene/CameraFreeLookController', 'Scene/CameraHelpers', 'Scene/CameraSpindleController', 'Scene/CameraSpindleControllerMode', 'Scene/CentralBody', 'Scene/CheckerboardMaterial', 'Scene/ColorMaterial', 'Scene/ComplexConicSensorVolume', 'Scene/CompositePrimitive', 'Scene/CompositeTileProvider', 'Scene/CustomSensorVolume', 'Scene/DiffuseMapMaterial', 'Scene/DistanceIntervalMaterial', 'Scene/DotMaterial', 'Scene/EulerSolver', 'Scene/FacetMaterial', 'Scene/GravityForce', 'Scene/HorizontalOrigin', 'Scene/HorizontalStripeMaterial', 'Scene/Label', 'Scene/LabelCollection', 'Scene/LabelStyle', 'Scene/OpenStreetMapTileProvider', 'Scene/OrthographicFrustum', 'Scene/Particle', 'Scene/ParticleSystem', 'Scene/PerformanceDisplay', 'Scene/PerspectiveFrustum', 'Scene/Polygon', 'Scene/Polyline', 'Scene/Projections', 'Scene/RectangularPyramidSensorVolume', 'Scene/Scene', 'Scene/SceneMode', 'Scene/SceneState', 'Scene/SceneTransitioner', 'Scene/SensorVolumeCollection', 'Scene/SingleTileProvider', 'Scene/SolidColorTileProvider', 'Scene/SphericalRepulsionForce', 'Scene/SpringForce', 'Scene/Texture2DPool', 'Scene/TieDyeMaterial', 'Scene/Tile', 'Scene/TileState', 'Scene/VectorForce', 'Scene/VerticalOrigin', 'Scene/VerticalStripeMaterial', 'Scene/ViewportQuad', 'Scene/ViscousDrag', 'Scene/combineMaterials', 'Shaders/BillboardCollectionFS', 'Shaders/BillboardCollectionVS', 'Shaders/BlobMaterial', 'Shaders/BuiltinFunctions', 'Shaders/CentralBodyFS', 'Shaders/CentralBodyFSCommon', 'Shaders/CentralBodyFSDepth', 'Shaders/CentralBodyFSFilter', 'Shaders/CentralBodyFSPole', 'Shaders/CentralBodyVS', 'Shaders/CentralBodyVSDepth', 'Shaders/CentralBodyVSFilter', 'Shaders/CentralBodyVSPole', 'Shaders/CheckerboardMaterial', 'Shaders/ColorMaterial', 'Shaders/ComplexConicSensorVolumeFS', 'Shaders/ComplexConicSensorVolumeVS', 'Shaders/ConstructiveSolidGeometry', 'Shaders/CustomSensorVolumeFS', 'Shaders/CustomSensorVolumeVS', 'Shaders/DiffuseMapMaterial', 'Shaders/DistanceIntervalMaterial', 'Shaders/DotMaterial', 'Shaders/FacetMaterial', 'Shaders/GroundAtmosphere', 'Shaders/HorizontalStripeMaterial', 'Shaders/Noise', 'Shaders/PolygonFS', 'Shaders/PolygonFSPick', 'Shaders/PolygonVS', 'Shaders/PolygonVSPick', 'Shaders/PolylineFS', 'Shaders/PolylineVS', 'Shaders/Ray', 'Shaders/SensorVolume', 'Shaders/SkyAtmosphereFS', 'Shaders/SkyAtmosphereVS', 'Shaders/TieDyeMaterial', 'Shaders/VerticalStripeMaterial', 'Shaders/ViewportQuadFS', 'Shaders/ViewportQuadVS', 'Shaders/glslComments', 'ThirdParty/Chain', 'ThirdParty/Tween', 'ThirdParty/measureText'], function (Core_AxisAlignedBoundingBox, Core_BoundingSphere, Core_BoxTessellator, Core_Cache, Core_CachePolicy, Core_Cartesian2, Core_Cartesian3, Core_Cartesian4, Core_Cartographic2, Core_Cartographic3, Core_CatmullRomSpline, Core_Clock, Core_ClockRange, Core_ClockStep, Core_Color, Core_ComponentDatatype, Core_CubeMapEllipsoidTessellator, Core_DefaultProxy, Core_DeveloperError, Core_Ellipsoid, Core_EllipsoidTangentPlane, Core_Enumeration, Core_EquidistantCylindricalProjection, Core_Event, Core_EventHandler, Core_EventModifier, Core_Extent, Core_ExtentTessellator, Core_FAR, Core_FeatureDetection, Core_FullScreen, Core_HermitePolynomialApproximation, Core_HermiteSpline, Core_IndexDatatype, Core_Intersect, Core_IntersectionTests, Core_Iso8601, Core_Jobs, Core_JulianDate, Core_LagrangePolynomialApproximation, Core_LeapSecond, Core_LinearApproximation, Core_Math, Core_Matrix2, Core_Matrix3, Core_Matrix4, Core_MercatorProjection, Core_MeshFilters, Core_MouseEventType, Core_Occluder, Core_OrientationInterpolator, Core_PlaneTessellator, Core_PolygonPipeline, Core_PolylinePipeline, Core_PrimitiveType, Core_Quaternion, Core_Queue, Core_Ray, Core_Rectangle, Core_RuntimeError, Core_Shapes, Core_Spherical, Core_SunPosition, Core_TimeConstants, Core_TimeInterval, Core_TimeIntervalCollection, Core_TimeStandard, Core_Tipsify, Core_Transforms, Core_TridiagonalSystemSolver, Core_Visibility, Core_WindingOrder, Core_binarySearch, Core_clone, Core_combine, Core_createGuid, Core_destroyObject, Core_getImageFromUrl, Core_isLeapYear, Core_jsonp, Core_pointInsideTriangle2D, Core_requestAnimationFrame, Core_shallowEquals, DynamicScene_CompositeDynamicObjectCollection, DynamicScene_CzmlBoolean, DynamicScene_CzmlCartesian2, DynamicScene_CzmlCartesian3, DynamicScene_CzmlCartographic3, DynamicScene_CzmlColor, DynamicScene_CzmlDefaults, DynamicScene_CzmlHorizontalOrigin, DynamicScene_CzmlLabelStyle, DynamicScene_CzmlNumber, DynamicScene_CzmlString, DynamicScene_CzmlUnitCartesian3, DynamicScene_CzmlUnitQuaternion, DynamicScene_CzmlUnitSpherical, DynamicScene_CzmlVerticalOrigin, DynamicScene_DynamicBillboard, DynamicScene_DynamicBillboardVisualizer, DynamicScene_DynamicColorMaterial, DynamicScene_DynamicCone, DynamicScene_DynamicConeVisualizer, DynamicScene_DynamicConeVisualizerUsingCustomSensor, DynamicScene_DynamicDirectionsProperty, DynamicScene_DynamicImageMaterial, DynamicScene_DynamicLabel, DynamicScene_DynamicLabelVisualizer, DynamicScene_DynamicMaterialProperty, DynamicScene_DynamicObject, DynamicScene_DynamicObjectCollection, DynamicScene_DynamicPoint, DynamicScene_DynamicPointVisualizer, DynamicScene_DynamicPolygon, DynamicScene_DynamicPolygonVisualizer, DynamicScene_DynamicPolyline, DynamicScene_DynamicPolylineVisualizer, DynamicScene_DynamicPositionProperty, DynamicScene_DynamicProperty, DynamicScene_DynamicPyramid, DynamicScene_DynamicPyramidVisualizer, DynamicScene_DynamicVertexPositionsProperty, DynamicScene_ReferenceProperty, DynamicScene_VisualizerCollection, DynamicScene_processCzml, Renderer_BlendEquation, Renderer_BlendFunction, Renderer_BlendingState, Renderer_Buffer, Renderer_BufferUsage, Renderer_Context, Renderer_CubeMap, Renderer_CullFace, Renderer_DepthFunction, Renderer_Framebuffer, Renderer_MipmapHint, Renderer_PickFramebuffer, Renderer_PixelDatatype, Renderer_PixelFormat, Renderer_Renderbuffer, Renderer_RenderbufferFormat, Renderer_ShaderCache, Renderer_ShaderProgram, Renderer_StencilFunction, Renderer_StencilOperation, Renderer_Texture, Renderer_TextureAtlas, Renderer_TextureAtlasBuilder, Renderer_TextureMagnificationFilter, Renderer_TextureMinificationFilter, Renderer_TextureWrap, Renderer_UniformDatatype, Renderer_UniformState, Renderer_VertexArray, Renderer_VertexArrayFacade, Renderer_VertexLayout, Scene_AnimationCollection, Scene_ArcGISTileProvider, Scene_Billboard, Scene_BillboardCollection, Scene_BingMapsStyle, Scene_BingMapsTileProvider, Scene_BlobMaterial, Scene_Camera, Scene_Camera2DController, Scene_CameraCentralBodyController, Scene_CameraColumbusViewController, Scene_CameraControllerCollection, Scene_CameraEventHandler, Scene_CameraEventType, Scene_CameraFlightController, Scene_CameraFreeLookController, Scene_CameraHelpers, Scene_CameraSpindleController, Scene_CameraSpindleControllerMode, Scene_CentralBody, Scene_CheckerboardMaterial, Scene_ColorMaterial, Scene_ComplexConicSensorVolume, Scene_CompositePrimitive, Scene_CompositeTileProvider, Scene_CustomSensorVolume, Scene_DiffuseMapMaterial, Scene_DistanceIntervalMaterial, Scene_DotMaterial, Scene_EulerSolver, Scene_FacetMaterial, Scene_GravityForce, Scene_HorizontalOrigin, Scene_HorizontalStripeMaterial, Scene_Label, Scene_LabelCollection, Scene_LabelStyle, Scene_OpenStreetMapTileProvider, Scene_OrthographicFrustum, Scene_Particle, Scene_ParticleSystem, Scene_PerformanceDisplay, Scene_PerspectiveFrustum, Scene_Polygon, Scene_Polyline, Scene_Projections, Scene_RectangularPyramidSensorVolume, Scene_Scene, Scene_SceneMode, Scene_SceneState, Scene_SceneTransitioner, Scene_SensorVolumeCollection, Scene_SingleTileProvider, Scene_SolidColorTileProvider, Scene_SphericalRepulsionForce, Scene_SpringForce, Scene_Texture2DPool, Scene_TieDyeMaterial, Scene_Tile, Scene_TileState, Scene_VectorForce, Scene_VerticalOrigin, Scene_VerticalStripeMaterial, Scene_ViewportQuad, Scene_ViscousDrag, Scene_combineMaterials, Shaders_BillboardCollectionFS, Shaders_BillboardCollectionVS, Shaders_BlobMaterial, Shaders_BuiltinFunctions, Shaders_CentralBodyFS, Shaders_CentralBodyFSCommon, Shaders_CentralBodyFSDepth, Shaders_CentralBodyFSFilter, Shaders_CentralBodyFSPole, Shaders_CentralBodyVS, Shaders_CentralBodyVSDepth, Shaders_CentralBodyVSFilter, Shaders_CentralBodyVSPole, Shaders_CheckerboardMaterial, Shaders_ColorMaterial, Shaders_ComplexConicSensorVolumeFS, Shaders_ComplexConicSensorVolumeVS, Shaders_ConstructiveSolidGeometry, Shaders_CustomSensorVolumeFS, Shaders_CustomSensorVolumeVS, Shaders_DiffuseMapMaterial, Shaders_DistanceIntervalMaterial, Shaders_DotMaterial, Shaders_FacetMaterial, Shaders_GroundAtmosphere, Shaders_HorizontalStripeMaterial, Shaders_Noise, Shaders_PolygonFS, Shaders_PolygonFSPick, Shaders_PolygonVS, Shaders_PolygonVSPick, Shaders_PolylineFS, Shaders_PolylineVS, Shaders_Ray, Shaders_SensorVolume, Shaders_SkyAtmosphereFS, Shaders_SkyAtmosphereVS, Shaders_TieDyeMaterial, Shaders_VerticalStripeMaterial, Shaders_ViewportQuadFS, Shaders_ViewportQuadVS, Shaders_glslComments, ThirdParty_Chain, ThirdParty_Tween, ThirdParty_measureText) {
   
   var Cesium = { _shaders : {} };
   Cesium.AxisAlignedBoundingBox = Core_AxisAlignedBoundingBox;
@@ -45821,6 +55529,9 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.Cartographic2 = Core_Cartographic2;
   Cesium.Cartographic3 = Core_Cartographic3;
   Cesium.CatmullRomSpline = Core_CatmullRomSpline;
+  Cesium.Clock = Core_Clock;
+  Cesium.ClockRange = Core_ClockRange;
+  Cesium.ClockStep = Core_ClockStep;
   Cesium.Color = Core_Color;
   Cesium.ComponentDatatype = Core_ComponentDatatype;
   Cesium.CubeMapEllipsoidTessellator = Core_CubeMapEllipsoidTessellator;
@@ -45830,6 +55541,7 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.EllipsoidTangentPlane = Core_EllipsoidTangentPlane;
   Cesium.Enumeration = Core_Enumeration;
   Cesium.EquidistantCylindricalProjection = Core_EquidistantCylindricalProjection;
+  Cesium.Event = Core_Event;
   Cesium.EventHandler = Core_EventHandler;
   Cesium.EventModifier = Core_EventModifier;
   Cesium.Extent = Core_Extent;
@@ -45837,13 +55549,17 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.FAR = Core_FAR;
   Cesium.FeatureDetection = Core_FeatureDetection;
   Cesium.FullScreen = Core_FullScreen;
+  Cesium.HermitePolynomialApproximation = Core_HermitePolynomialApproximation;
   Cesium.HermiteSpline = Core_HermiteSpline;
   Cesium.IndexDatatype = Core_IndexDatatype;
   Cesium.Intersect = Core_Intersect;
   Cesium.IntersectionTests = Core_IntersectionTests;
+  Cesium.Iso8601 = Core_Iso8601;
   Cesium.Jobs = Core_Jobs;
   Cesium.JulianDate = Core_JulianDate;
+  Cesium.LagrangePolynomialApproximation = Core_LagrangePolynomialApproximation;
   Cesium.LeapSecond = Core_LeapSecond;
+  Cesium.LinearApproximation = Core_LinearApproximation;
   Cesium.Math = Core_Math;
   Cesium.Matrix2 = Core_Matrix2;
   Cesium.Matrix3 = Core_Matrix3;
@@ -45859,9 +55575,11 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.PrimitiveType = Core_PrimitiveType;
   Cesium.Quaternion = Core_Quaternion;
   Cesium.Queue = Core_Queue;
+  Cesium.Ray = Core_Ray;
   Cesium.Rectangle = Core_Rectangle;
   Cesium.RuntimeError = Core_RuntimeError;
   Cesium.Shapes = Core_Shapes;
+  Cesium.Spherical = Core_Spherical;
   Cesium.SunPosition = Core_SunPosition;
   Cesium.TimeConstants = Core_TimeConstants;
   Cesium.TimeInterval = Core_TimeInterval;
@@ -45877,11 +55595,54 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.combine = Core_combine;
   Cesium.createGuid = Core_createGuid;
   Cesium.destroyObject = Core_destroyObject;
+  Cesium.getImageFromUrl = Core_getImageFromUrl;
   Cesium.isLeapYear = Core_isLeapYear;
   Cesium.jsonp = Core_jsonp;
   Cesium.pointInsideTriangle2D = Core_pointInsideTriangle2D;
   Cesium.requestAnimationFrame = Core_requestAnimationFrame;
   Cesium.shallowEquals = Core_shallowEquals;
+  Cesium.CompositeDynamicObjectCollection = DynamicScene_CompositeDynamicObjectCollection;
+  Cesium.CzmlBoolean = DynamicScene_CzmlBoolean;
+  Cesium.CzmlCartesian2 = DynamicScene_CzmlCartesian2;
+  Cesium.CzmlCartesian3 = DynamicScene_CzmlCartesian3;
+  Cesium.CzmlCartographic3 = DynamicScene_CzmlCartographic3;
+  Cesium.CzmlColor = DynamicScene_CzmlColor;
+  Cesium.CzmlDefaults = DynamicScene_CzmlDefaults;
+  Cesium.CzmlHorizontalOrigin = DynamicScene_CzmlHorizontalOrigin;
+  Cesium.CzmlLabelStyle = DynamicScene_CzmlLabelStyle;
+  Cesium.CzmlNumber = DynamicScene_CzmlNumber;
+  Cesium.CzmlString = DynamicScene_CzmlString;
+  Cesium.CzmlUnitCartesian3 = DynamicScene_CzmlUnitCartesian3;
+  Cesium.CzmlUnitQuaternion = DynamicScene_CzmlUnitQuaternion;
+  Cesium.CzmlUnitSpherical = DynamicScene_CzmlUnitSpherical;
+  Cesium.CzmlVerticalOrigin = DynamicScene_CzmlVerticalOrigin;
+  Cesium.DynamicBillboard = DynamicScene_DynamicBillboard;
+  Cesium.DynamicBillboardVisualizer = DynamicScene_DynamicBillboardVisualizer;
+  Cesium.DynamicColorMaterial = DynamicScene_DynamicColorMaterial;
+  Cesium.DynamicCone = DynamicScene_DynamicCone;
+  Cesium.DynamicConeVisualizer = DynamicScene_DynamicConeVisualizer;
+  Cesium.DynamicConeVisualizerUsingCustomSensor = DynamicScene_DynamicConeVisualizerUsingCustomSensor;
+  Cesium.DynamicDirectionsProperty = DynamicScene_DynamicDirectionsProperty;
+  Cesium.DynamicImageMaterial = DynamicScene_DynamicImageMaterial;
+  Cesium.DynamicLabel = DynamicScene_DynamicLabel;
+  Cesium.DynamicLabelVisualizer = DynamicScene_DynamicLabelVisualizer;
+  Cesium.DynamicMaterialProperty = DynamicScene_DynamicMaterialProperty;
+  Cesium.DynamicObject = DynamicScene_DynamicObject;
+  Cesium.DynamicObjectCollection = DynamicScene_DynamicObjectCollection;
+  Cesium.DynamicPoint = DynamicScene_DynamicPoint;
+  Cesium.DynamicPointVisualizer = DynamicScene_DynamicPointVisualizer;
+  Cesium.DynamicPolygon = DynamicScene_DynamicPolygon;
+  Cesium.DynamicPolygonVisualizer = DynamicScene_DynamicPolygonVisualizer;
+  Cesium.DynamicPolyline = DynamicScene_DynamicPolyline;
+  Cesium.DynamicPolylineVisualizer = DynamicScene_DynamicPolylineVisualizer;
+  Cesium.DynamicPositionProperty = DynamicScene_DynamicPositionProperty;
+  Cesium.DynamicProperty = DynamicScene_DynamicProperty;
+  Cesium.DynamicPyramid = DynamicScene_DynamicPyramid;
+  Cesium.DynamicPyramidVisualizer = DynamicScene_DynamicPyramidVisualizer;
+  Cesium.DynamicVertexPositionsProperty = DynamicScene_DynamicVertexPositionsProperty;
+  Cesium.ReferenceProperty = DynamicScene_ReferenceProperty;
+  Cesium.VisualizerCollection = DynamicScene_VisualizerCollection;
+  Cesium.processCzml = DynamicScene_processCzml;
   Cesium.BlendEquation = Renderer_BlendEquation;
   Cesium.BlendFunction = Renderer_BlendFunction;
   Cesium.BlendingState = Renderer_BlendingState;
@@ -45904,6 +55665,7 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.StencilOperation = Renderer_StencilOperation;
   Cesium.Texture = Renderer_Texture;
   Cesium.TextureAtlas = Renderer_TextureAtlas;
+  Cesium.TextureAtlasBuilder = Renderer_TextureAtlasBuilder;
   Cesium.TextureMagnificationFilter = Renderer_TextureMagnificationFilter;
   Cesium.TextureMinificationFilter = Renderer_TextureMinificationFilter;
   Cesium.TextureWrap = Renderer_TextureWrap;
@@ -45921,6 +55683,7 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium.BlobMaterial = Scene_BlobMaterial;
   Cesium.Camera = Scene_Camera;
   Cesium.Camera2DController = Scene_Camera2DController;
+  Cesium.CameraCentralBodyController = Scene_CameraCentralBodyController;
   Cesium.CameraColumbusViewController = Scene_CameraColumbusViewController;
   Cesium.CameraControllerCollection = Scene_CameraControllerCollection;
   Cesium.CameraEventHandler = Scene_CameraEventHandler;
@@ -46018,6 +55781,7 @@ define('Cesium',['Core/AxisAlignedBoundingBox', 'Core/BoundingSphere', 'Core/Box
   Cesium._shaders.VerticalStripeMaterial = Shaders_VerticalStripeMaterial;
   Cesium._shaders.ViewportQuadFS = Shaders_ViewportQuadFS;
   Cesium._shaders.ViewportQuadVS = Shaders_ViewportQuadVS;
+  Cesium._shaders.glslComments = Shaders_glslComments;
   Cesium.Chain = ThirdParty_Chain;
   Cesium.Tween = ThirdParty_Tween;
   Cesium.measureText = ThirdParty_measureText;

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+		<meta http-equiv="X-UA-Compatible" content="chrome=1">  <!-- Use Chrome Frame in IE -->
+        <title>OpenLayers Views Example</title>
+        
+        <link rel="stylesheet" href="../../theme/default/style.css" type="text/css">
+        <link rel="stylesheet" href="../style.css" type="text/css">
+        <script type="text/javascript" src="../../lib/OpenLayers.js"></script>
+		<script type="text/javascript" src="Cesium.js"></script>
+        <script type="text/javascript" src="O2C.js"></script>
+		
+		<style type="text/css">
+	        html, body {
+	            height: 100%;
+	        }
+	        #map {
+	            width: 100%;
+	            height: 80%;
+	            border: 1px solid black;
+	        }
+	        .olPopup p { margin:0px; font-size: .9em;}
+	        .olPopup h2 { font-size:1.2em; }
+	    </style>
+		
+        <script type="text/javascript">
+            var lon = 5;
+            var lat = 40;
+            var zoom = 5;
+            var map, layer;
+
+            function init(){
+                layer = new OpenLayers.Layer.Bing({
+                    name: "Aerial",
+                    key: "AqTGBsziZHIJYYxgivLBf0hVdrAk9mWO5cQcb8Yux8sW5M8c8opEC2lZqKR1ZZXf",
+                    type: "Aerial"
+                });
+    
+                vlayer = new OpenLayers.Layer.Vector( "Editable" );
+                map = new OpenLayers.Globe( 'map', {
+                    controls: [
+                        new OpenLayers.Control.PanZoom(),
+                        new OpenLayers.Control.EditingToolbar(vlayer)
+                    ]
+                });
+                map.addLayers([layer, vlayer]);
+    
+                map.setCenter(new OpenLayers.LonLat(lon, lat), zoom);
+            }
+			
+			function toggleView(element) {
+				if (element.checked){
+				    if (element.value=="2D"){
+						map.do2DView();
+					} else if (element.value=="3D"){
+						map.do3DView();
+					} else {
+						map.doColumbusView();
+					}	
+				}
+            }
+        </script>
+    </head>
+    <body onload="init()">
+        <h1 id="title">OpenLayers Views Example</h1>
+
+        <div id="tags">
+            digitizing, point, line, linestring, polygon, editing
+        </div>
+
+        <p id="shortdesc">
+            Demonstrate polygon, polyline and point creation and editing tools.
+        </p>
+
+        <div id="panel"></div>
+        <div id="map" class="smallmap"></div>
+		<div id="viewtoggle">
+			<ul id="controlToggle">
+                <li>
+                    <input type="radio" name="view" value="2D" id="2DToggle" onclick="toggleView(this);" />
+                    <label for="noneToggle">2D View</label>
+                </li>
+                <li>
+                    <input type="radio" name="view" value="columbus" id="columbusToggle" onclick="toggleView(this);" />
+                    <label for="pointToggle">Columbus View</label>
+                </li>
+                <li>
+                    <input type="radio" name="view" value="3D" id="3DToggle" checked="checked" onclick="toggleView(this);" />
+                    <label for="lineToggle">3D View</label>
+                </li>
+            </ul>
+	    </div>
+
+        <div id="docs"></div>
+    </body>
+</html>
