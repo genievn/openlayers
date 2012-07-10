@@ -158,16 +158,6 @@ if (typeof OpenLayers !== 'undefined') {
                 Cesium.requestAnimationFrame(tick);
             }());
 
-            ///////////////////////////////////////////////////////////////////////////
-            // Example keyboard and Mouse handlers
-
-            var handler = new Cesium.EventHandler(this.canvas);
-
-            handler.setMouseAction(function(movement) {
-                /* ... */
-                // Use movement.startX, movement.startY, movement.endX, movement.endY
-            }, Cesium.MouseEventType.MOVE);
-
             document.oncontextmenu = function() {
                 return false;
             };
